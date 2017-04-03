@@ -26,7 +26,8 @@ import javafx.scene.layout.*;
 public class BanqueGUIversionONE extends Application {
     
     @Override
-    public void start(Stage primaryStage) throws IllegalAccessException {
+    public void start(Stage primaryStage) {
+    	try {
     	GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -80,6 +81,10 @@ public class BanqueGUIversionONE extends Application {
         primaryStage.setTitle("MaBanque!");
         primaryStage.setScene(scene);
         primaryStage.show();
+    	}
+    	catch (Exception e){
+    		System.err.println("something's wrong");
+    	}
     }
  public static void main(String[] args) {
         launch(args);
