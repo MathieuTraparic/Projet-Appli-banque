@@ -1,0 +1,9 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.view {
+	-fx-background-color: beige;
+}
+
+#title {
+	-fx-font: 15px Tahoma, sans-serif;
+	
+}
