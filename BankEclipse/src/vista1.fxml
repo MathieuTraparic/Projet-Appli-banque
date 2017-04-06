@@ -4,8 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?scenebuilder-stylesheet vista.css?>
 
-<StackPane fx:id="vista1" xmlns:fx="http://javafx.com/fxml" fx:controller="Vista1Controller">
+<AnchorPane fx:id="vista1" xmlns:fx="http://javafx.com/fxml" fx:controller="Vista1Controller">
   <children>
     <Button mnemonicParsing="false" onAction="#nextPane" text="Next Pane" />
   </children>
-</StackPane>
+</AnchorPane>
