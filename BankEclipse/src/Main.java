@@ -2,8 +2,11 @@
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,14 +18,20 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
-        stage.setTitle("Vista Viewer");
-
-        stage.setScene(
-            createScene(
-                loadMainPane()
-            )
-        );
-
+    	Parent root = FXMLLoader.load(getClass().getResource(
+                        VistaNavigator.LOGIN));
+    	stage.initModality(Modality.APPLICATION_MODAL);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.initOwner(stage.getScene().getWindow());
+        
+        stage.setTitle("Personnal Bank Account Manager");
+       // stage.setScene(
+        //    createScene(
+          //      loadMainPane()
+            //)
+        //);
+        
         stage.show();
     }
 
@@ -43,11 +52,9 @@ public class Main extends Application {
             )
         );
 
-        MainController mainController = loader.getController();
+        TemplateController mainController = loader.getController();
 
         VistaNavigator.setMainController(mainController);
-        VistaNavigator.loadVista(VistaNavigator.VISTA_1);
-
         return mainPane;
     }
 

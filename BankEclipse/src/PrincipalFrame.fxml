@@ -8,26 +8,25 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="960.0" text="Personnal Account Bank Manager" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="743.0">
+
+<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TemplateController">
+   <children>
+    <AnchorPane fx:id="vistaHolder" minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="879.0">
          <children>
-            <Button layoutX="209.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" />
-            <ComboBox layoutX="210.0" layoutY="81.0" prefHeight="25.0" prefWidth="187.0" promptText="Choose your bank" />
-            <TextField layoutX="366.0" layoutY="10.0" text="Welcome Title Name" />
-            <Button layoutX="297.0" layoutY="47.0" mnemonicParsing="false" text="Add an account" />
-            <TableView layoutX="415.0" layoutY="47.0" prefHeight="95.0" prefWidth="528.0">
+            <Button layoutX="171.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" />
+            <ComboBox layoutX="172.0" layoutY="81.0" prefHeight="25.0" prefWidth="187.0" promptText="Choose your bank" />
+            <TextField layoutX="328.0" layoutY="10.0" text="Welcome Title Name" />
+            <Button layoutX="259.0" layoutY="47.0" mnemonicParsing="false" text="Add an account" />
+            <TableView layoutX="377.0" layoutY="47.0" prefHeight="95.0" prefWidth="490.0">
               <columns>
                 <TableColumn prefWidth="413.0" text="Account name" />
                 <TableColumn minWidth="0.0" prefWidth="114.0" text="Total" />
               </columns>
             </TableView>
-            <BarChart layoutX="586.0" layoutY="186.0" prefHeight="272.0" prefWidth="354.0">
+            <BarChart layoutX="359.0" layoutY="184.0" prefHeight="272.0" prefWidth="354.0">
                <xAxis>
                   <CategoryAxis side="BOTTOM" />
                </xAxis>
@@ -35,29 +34,7 @@
                   <NumberAxis side="LEFT" />
                </yAxis>
             </BarChart>
-            <BarChart layoutX="209.0" layoutY="186.0" prefHeight="272.0" prefWidth="354.0">
-               <xAxis>
-                  <CategoryAxis side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis side="LEFT" />
-               </yAxis>
-            </BarChart>
-            <VBox layoutX="23.0" layoutY="47.0" prefHeight="203.0" prefWidth="152.0">
-               <children>
-                  <VBox prefHeight="128.0" prefWidth="152.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Main" />
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Transaction" />
-                        <Button layoutX="10.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Periodic transaction" />
-                        <Button layoutX="10.0" layoutY="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="RIB/IBAN" />
-                        <Button layoutX="10.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Budgeting" />
-                        <Button layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Advisor informations" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-            <ToggleButton layoutX="20.0" layoutY="483.0" mnemonicParsing="false" text="Deconnexion" />
-         </children></AnchorPane>
-  </content>
-</TitledPane>
+         </children>
+      </AnchorPane>
+   </children>
+</Pane>

@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TemplateController">
    <children>
     <AnchorPane fx:id="vistaHolder" minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="743.0">
          <children>
@@ -25,8 +24,8 @@
                   </VBox>
                </children>
             </VBox>
-            <ToggleButton layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Deconnexion" />
-            <AnchorPane fx:id="vistaHolder" layoutX="191.0" layoutY="35.0" prefHeight="402.0" prefWidth="538.0" />
+            <ToggleButton layoutX="23.0" layoutY="412.0" mnemonicParsing="false" onAction="#logoutButton" text="Log out" />
+            <AnchorPane layoutX="191.0" layoutY="35.0" prefHeight="402.0" prefWidth="538.0" />
          </children>
       </AnchorPane>
    </children>

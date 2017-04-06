@@ -16,19 +16,21 @@ public class VistaNavigator {
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
+	public static final String LOGIN = "loginFrame.fxml";
+	public static final String HOME = "PrincipalFrame.fxml";
     public static final String MAIN    = "Template.fxml";
     public static final String VISTA_1 = "vista1.fxml";
     public static final String VISTA_2 = "vista2.fxml";
 
     /** The main application layout controller. */
-    private static MainController mainController;
+    private static TemplateController mainController;
 
     /**
      * Stores the main controller for later use in navigation tasks.
      *
      * @param mainController the main application layout controller.
      */
-    public static void setMainController(MainController mainController) {
+    public static void setMainController(TemplateController mainController) {
         VistaNavigator.mainController = mainController;
     }
 
@@ -62,5 +64,4 @@ public class VistaNavigator {
             e.printStackTrace();
         }
     }
-
 }
