@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2017 at 06:59 AM
+-- Generation Time: Apr 06, 2017 at 07:13 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `banquedatabase`
+-- Database: `banquedatabase_v1`
 --
-CREATE DATABASE IF NOT EXISTS `banquedatabase` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `banquedatabase`;
+CREATE DATABASE IF NOT EXISTS `banquedatabase_v1` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `banquedatabase_v1`;
 
 -- --------------------------------------------------------
 
