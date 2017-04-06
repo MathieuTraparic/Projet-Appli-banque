@@ -22,8 +22,8 @@
     -fx-background-color: coral;
 }
 
-.button {
+/*.button { Poser problème avec la position des boutons à priori
     -fx-base: lightblue;
     -fx-font-size: 12px;
     -fx-alignment :left;
-}
+}*/

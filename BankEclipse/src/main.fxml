@@ -9,6 +9,6 @@
   <children>
     <Label fx:id="headerLabel" maxWidth="1.7976931348623157E308" text="Header" VBox.vgrow="NEVER" />
     <AnchorPane fx:id="mainHolder" VBox.vgrow="ALWAYS" />
-      <Label alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="©Devellopped by David, Lucien and Mathieu. All right reserved, 2017" textAlignment="RIGHT" VBox.vgrow="NEVER" />
+      <Label alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="©Developped by David, Lucien and Mathieu. All right reserved, 2017. " textAlignment="RIGHT" VBox.vgrow="NEVER" />
   </children>
 </VBox>
