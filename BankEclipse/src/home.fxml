@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TemplateController">
+<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeController">
    <children>
-    <AnchorPane fx:id="vistaHolder" minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="879.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="505.0" prefWidth="879.0">
          <children>
             <Button layoutX="171.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" />
             <ComboBox layoutX="172.0" layoutY="81.0" prefHeight="25.0" prefWidth="187.0" promptText="Choose your bank" />

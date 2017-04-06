@@ -2,10 +2,10 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class LoginFrameController {
+public class LoginController {
 
 	@FXML
 	void signInButton(ActionEvent event){
-		VistaNavigator.loadVista(VistaNavigator.HOME);
+		VistaNavigator.loadSubVista(VistaNavigator.HOME);
 	}
 }

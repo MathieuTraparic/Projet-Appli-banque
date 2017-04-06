@@ -16,21 +16,30 @@ public class VistaNavigator {
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
-	public static final String LOGIN = "loginFrame.fxml";
-	public static final String HOME = "PrincipalFrame.fxml";
-    public static final String MAIN    = "Template.fxml";
+	public static final String LOGIN = "login.fxml";
+	public static final String HOME = "home.fxml";
+    public static final String MAIN  = "main.fxml";
+    public static final String TEMPLATE = "template.fxml";
     public static final String VISTA_1 = "vista1.fxml";
     public static final String VISTA_2 = "vista2.fxml";
 
     /** The main application layout controller. */
-    private static TemplateController mainController;
+    private static MainController mainController;
+    //private static TemplateController templateController;
 
-    /**
+
+
+	/*public static void setTemplateController(TemplateController templateController) {
+		VistaNavigator.templateController = templateController;
+	}
+	*/
+
+	/**
      * Stores the main controller for later use in navigation tasks.
      *
      * @param mainController the main application layout controller.
      */
-    public static void setMainController(TemplateController mainController) {
+    public static void setMainController(MainController mainController) {
         VistaNavigator.mainController = mainController;
     }
 
@@ -64,4 +73,26 @@ public class VistaNavigator {
             e.printStackTrace();
         }
     }
+    
+    public static void loadSubVista(String fxml) {
+        try {
+            mainController.setVista(
+                (Node) FXMLLoader.load(
+                    VistaNavigator.class.getResource(
+                        VistaNavigator.TEMPLATE
+                    )
+                )
+            );
+            mainController.setSubVista(
+                    (Node) FXMLLoader.load(
+                        VistaNavigator.class.getResource(
+                        		fxml
+                        )
+                    )
+                );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

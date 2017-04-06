@@ -18,19 +18,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
+    	/*
     	Parent root = FXMLLoader.load(getClass().getResource(
                         VistaNavigator.LOGIN));
     	stage.initModality(Modality.APPLICATION_MODAL);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.initOwner(stage.getScene().getWindow());
+        */
         
         stage.setTitle("Personnal Bank Account Manager");
-       // stage.setScene(
-        //    createScene(
-          //      loadMainPane()
-            //)
-        //);
+        stage.setScene(
+            createScene(
+                loadMainPane()
+            )
+        );
         
         stage.show();
     }
@@ -52,9 +54,12 @@ public class Main extends Application {
             )
         );
 
-        TemplateController mainController = loader.getController();
-
+        MainController mainController = loader.getController();
+        //TemplateController templateController = loader.getController();
+        
         VistaNavigator.setMainController(mainController);
+        //VistaNavigator.setTemplateController(templateController);
+        VistaNavigator.loadVista(VistaNavigator.LOGIN);
         return mainPane;
     }
 
