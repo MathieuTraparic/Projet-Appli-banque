@@ -25,14 +25,14 @@ public class VistaNavigator {
 
     /** The main application layout controller. */
     private static MainController mainController;
-    //private static TemplateController templateController;
+    private static TemplateController templateController;
 
 
 
-	/*public static void setTemplateController(TemplateController templateController) {
+	public static void setTemplateController(TemplateController templateController) {
 		VistaNavigator.templateController = templateController;
 	}
-	*/
+	
 
 	/**
      * Stores the main controller for later use in navigation tasks.
@@ -76,14 +76,8 @@ public class VistaNavigator {
     
     public static void loadSubVista(String fxml) {
         try {
-            mainController.setVista(
-                (Node) FXMLLoader.load(
-                    VistaNavigator.class.getResource(
-                        VistaNavigator.TEMPLATE
-                    )
-                )
-            );
-            mainController.setSubVista(
+        	
+            templateController.setSubVista(
                     (Node) FXMLLoader.load(
                         VistaNavigator.class.getResource(
                         		fxml

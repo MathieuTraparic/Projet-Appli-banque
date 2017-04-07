@@ -55,11 +55,11 @@ public class Main extends Application {
         );
 
         MainController mainController = loader.getController();
-        //TemplateController templateController = loader.getController();
-        
         VistaNavigator.setMainController(mainController);
-        //VistaNavigator.setTemplateController(templateController);
+        
         VistaNavigator.loadVista(VistaNavigator.LOGIN);
+        
+        
         return mainPane;
     }
 
