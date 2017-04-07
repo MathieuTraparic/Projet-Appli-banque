@@ -34,3 +34,6 @@ https://gist.github.com/jewelsea/1926196
 
 tabPane
 http://bekwam.blogspot.fr/2014/10/tabbed-navigation-in-java-fx.html
+
+Stack Pane 
+https://blogs.oracle.com/acaicedo/entry/managing_multiple_screens_in_javafx1
