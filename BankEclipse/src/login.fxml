@@ -20,7 +20,7 @@
          </font>
       </Label>
 		<Button fx:id="subHolder" layoutX="447.0" layoutY="243.0" mnemonicParsing="false" onAction="#signInButton" text="Sign in" />
-		<Button layoutX="300.0" layoutY="243.0" mnemonicParsing="false" text="Sign up" />
+		<Button fx:id="subHolder" layoutX="300.0" layoutY="243.0" mnemonicParsing="false" onAction="#signUpButton" text="Sign up" />
       <GridPane layoutX="300.0" layoutY="175.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="62.0" />

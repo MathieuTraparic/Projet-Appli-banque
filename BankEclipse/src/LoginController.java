@@ -8,4 +8,11 @@ public class LoginController {
 	void signInButton(ActionEvent event){
 		VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 	}
+	
+	@FXML
+	void signUpButton(ActionEvent event){
+		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
+	}
+	
+
 }
