@@ -74,25 +74,5 @@ public class VistaNavigator {
         }
     }
     
-    public static void loadSubVista(String fxml) {
-        try {
-            mainController.setVista(
-                (Node) FXMLLoader.load(
-                    VistaNavigator.class.getResource(
-                        VistaNavigator.TEMPLATE
-                    )
-                )
-            );
-            mainController.setSubVista(
-                    (Node) FXMLLoader.load(
-                        VistaNavigator.class.getResource(
-                        		fxml
-                        )
-                    )
-                );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
 }

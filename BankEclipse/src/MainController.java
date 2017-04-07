@@ -15,9 +15,6 @@ public class MainController {
     @FXML
     protected Pane mainHolder;
     
-    /** Holder of a switchable vista. */
-    @FXML
-    protected Pane subHolder;
 
     /**
      * Replaces the vista displayed in the vista holder with a new vista.
@@ -28,14 +25,7 @@ public class MainController {
         mainHolder.getChildren().setAll(node);
     }
     
-    /**
-     * Replaces the vista displayed in the vista holder with a new vista.
-     *
-     * @param node the vista node to be swapped in.
-     */
-    public void setSubVista(Node node) {
-    	subHolder.getChildren().setAll(node);
-    }
+
     
 
 }

@@ -6,6 +6,6 @@ public class LoginController {
 
 	@FXML
 	void signInButton(ActionEvent event){
-		VistaNavigator.loadSubVista(VistaNavigator.HOME);
+		VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 	}
 }

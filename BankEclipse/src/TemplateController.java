@@ -8,9 +8,20 @@ public class TemplateController{
 	//TODO add all action on the menu buttons 
 	
 	@FXML
-	void logoutButton(ActionEvent event){
+	void handleLogoutButton(ActionEvent event){
 		VistaNavigator.loadVista(VistaNavigator.LOGIN);
 	}
+	
+	@FXML
+	void handleCancel(ActionEvent event){
+		//TODO
+	}
+	
+	@FXML
+	void handleSubmit(ActionEvent event){
+		//TODO
+	}
+	
 	
 	
 	
