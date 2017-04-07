@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?scenebuilder-stylesheet vista.css?>
 
-<VBox prefHeight="450.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="MainController">
+<VBox prefHeight="450.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="MainController">
   <children>
     <Label fx:id="headerLabel" maxWidth="1.7976931348623157E308" text="Header" VBox.vgrow="NEVER" />
-    <AnchorPane fx:id="vistaHolder" VBox.vgrow="ALWAYS" />
+    <AnchorPane fx:id="mainHolder" VBox.vgrow="ALWAYS" />
+      <Label alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="©Developped by David, Lucien and Mathieu. All right reserved, 2017. " textAlignment="RIGHT" VBox.vgrow="NEVER" />
   </children>
 </VBox>

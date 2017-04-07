@@ -5,28 +5,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-
-<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<Pane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TemplateController">
    <children>
-    <AnchorPane fx:id="vistaHolder" minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="743.0">
+    <AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: beige;">
          <children>
-            <VBox layoutX="23.0" layoutY="47.0" prefHeight="203.0" prefWidth="152.0">
+            <VBox layoutX="23.0" layoutY="47.0" prefWidth="127.0">
                <children>
-                  <VBox prefHeight="128.0" prefWidth="152.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Main" />
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Transaction" />
-                        <Button layoutX="10.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Periodic transaction" />
-                        <Button layoutX="10.0" layoutY="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="RIB/IBAN" />
-                        <Button layoutX="10.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Budgeting" />
-                        <Button layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Advisor informations" />
-                     </children>
-                  </VBox>
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#hanfdleHomeButton" prefHeight="0.0" prefWidth="127.0" text="Home" VBox.vgrow="NEVER" />
+                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="Transaction" VBox.vgrow="NEVER" />
+                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="Periodic transaction" VBox.vgrow="NEVER" />
+                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="RIB/IBAN" VBox.vgrow="NEVER" />
+                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="Budgeting" VBox.vgrow="NEVER" />
+                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="127.0" text="Advisor informations" VBox.vgrow="NEVER" />
                </children>
             </VBox>
-            <ToggleButton layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Deconnexion" />
-            <AnchorPane fx:id="vistaHolder" layoutX="191.0" layoutY="35.0" prefHeight="402.0" prefWidth="538.0" />
+            <ToggleButton layoutX="23.0" layoutY="412.0" mnemonicParsing="false" onAction="#logoutButton" text="Log out" />
+            <Pane fx:id="subHolder" layoutX="203.0" layoutY="48.0" prefHeight="403.0" prefWidth="598.0">
+               <children>
+                  <Text fx:id="textid" layoutX="108.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children></Pane>
          </children>
       </AnchorPane>
    </children>
