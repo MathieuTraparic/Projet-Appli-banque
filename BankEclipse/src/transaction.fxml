@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TransactionController">
+	<children>
+		<AnchorPane fx:id="vistaHolder" layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
+			<children>
+				<Button layoutX="190.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" />
+				<Button layoutX="284.0" layoutY="47.0" mnemonicParsing="false" text="Add an account" />
+				<ComboBox layoutX="429.0" layoutY="47.0" prefWidth="150.0" promptText="Choose your bank" />
+				<TableView layoutX="188.0" layoutY="88.0" prefHeight="108.0" prefWidth="595.0">
+					<columns>
+						<TableColumn prefWidth="463.0" text="Account list" />
+						<TableColumn prefWidth="131.0" text="Balance" />
+					</columns>
+				</TableView>
+            <Label layoutX="341.0" layoutY="20.0" text="Welcome Title Name">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+			</children>
+		</AnchorPane>
+	</children>
+</Pane>

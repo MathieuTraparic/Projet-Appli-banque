@@ -1,5 +1,6 @@
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -12,7 +13,8 @@ public class MainController {
 
     /** Holder of a switchable vista. */
     @FXML
-    private Pane vistaHolder;
+    protected Pane mainHolder;
+    
 
     /**
      * Replaces the vista displayed in the vista holder with a new vista.
@@ -20,7 +22,10 @@ public class MainController {
      * @param node the vista node to be swapped in.
      */
     public void setVista(Node node) {
-        vistaHolder.getChildren().setAll(node);
+        mainHolder.getChildren().setAll(node);
     }
+    
+
+    
 
 }

@@ -1,33 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 
-
-<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TemplateController">
    <children>
-    <AnchorPane fx:id="vistaHolder" minHeight="0.0" minWidth="0.0" prefHeight="451.0" prefWidth="743.0">
+      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab>
+          <graphic>
+                  <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Home" />
+               </graphic>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
+              <fx:include source="home.fxml"/>
+              </AnchorPane>
+            </content>
+               
+          </Tab>
+           <Tab>
+          <graphic>
+                  <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Transaction" />
+               </graphic>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
+              <fx:include source="transaction.fxml"/>
+              </AnchorPane>
+            </content>
+               
+          </Tab>
+            <Tab>
+          <graphic>
+                  <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Periodic" />
+               </graphic>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
+              <fx:include source="periodic.fxml"/>
+              </AnchorPane>
+            </content>
+               
+          </Tab>
+            <Tab>
+          <graphic>
+                  <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="RIB" />
+               </graphic>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
+              <fx:include source="RIB.fxml"/>
+              </AnchorPane>
+            </content>
+               
+          </Tab>
+            <Tab>
+          <graphic>
+                  <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Advisor" />
+               </graphic>
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
+              <fx:include source="advisor.fxml"/>
+              </AnchorPane>
+            </content>
+               
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Button layoutX="28.0" layoutY="394.0" mnemonicParsing="false" onAction="#handleLogoutButton" text="logout" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+      <HBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <VBox layoutX="23.0" layoutY="47.0" prefHeight="203.0" prefWidth="152.0">
-               <children>
-                  <VBox prefHeight="128.0" prefWidth="152.0">
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Main" />
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Transaction" />
-                        <Button layoutX="10.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Periodic transaction" />
-                        <Button layoutX="10.0" layoutY="60.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="RIB/IBAN" />
-                        <Button layoutX="10.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Budgeting" />
-                        <Button layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="154.0" text="Advisor informations" />
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-            <ToggleButton layoutX="23.0" layoutY="412.0" mnemonicParsing="false" text="Deconnexion" />
-            <AnchorPane fx:id="vistaHolder" layoutX="191.0" layoutY="35.0" prefHeight="402.0" prefWidth="538.0" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="cancel" />
+            <Button mnemonicParsing="false" onAction="#handleSubmit" text="submit" />
          </children>
-      </AnchorPane>
+      </HBox>
    </children>
-</Pane>
+</AnchorPane>
