@@ -17,11 +17,12 @@ public class VistaNavigator {
      * Convenience constants for fxml layouts managed by the navigator.
      */
 	public static final String LOGIN = "login.fxml";
+    public static final String MAIN  = "main.fxml";
 	public static final String CREATE_USER_1 = "createUser_1.fxml";
 	public static final String CREATE_USER_2 = "createUser_2.fxml";
 	public static final String HOME = "home.fxml";
-    public static final String MAIN  = "main.fxml";
     public static final String TEMPLATE = "template.fxml";
+    
     //public static final String VISTA_1 = "vista1.fxml";
     //public static final String VISTA_2 = "vista2.fxml";
 

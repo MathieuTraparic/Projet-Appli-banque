@@ -6,4 +6,8 @@ public class CreateUserController {
 	void nextStepButton(ActionEvent event){
 		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);
 	}
+	@FXML
+	void cancelButton(ActionEvent event){
+		VistaNavigator.loadVista(VistaNavigator.LOGIN);
+	}
 }
