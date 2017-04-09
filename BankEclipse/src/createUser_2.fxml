@@ -20,8 +20,8 @@
             <Font size="20.0" />
          </font>
       </Label>
-		<Button fx:id="subHolder" layoutX="456.0" layoutY="383.0" mnemonicParsing="false" onAction="#nextStepButton" text="Nest step" />
-		<Button layoutX="286.0" layoutY="383.0" mnemonicParsing="false" text="Cancel" onAction="#cancelButton" />
+		<Button fx:id="subHolder" layoutX="533.0" layoutY="383.0" mnemonicParsing="false" onAction="#signInButton" text="Sign In!" />
+		<Button layoutX="286.0" layoutY="383.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <GridPane alignment="CENTER" layoutX="206.0" layoutY="97.0" prefHeight="257.0" prefWidth="442.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="117.0" />
@@ -51,5 +51,6 @@
          </font>
       </Label>
       <Label fx:id="createUser" layoutX="695.0" layoutY="388.0" text="2/2" />
+      <Button layoutX="436.0" layoutY="383.0" mnemonicParsing="false" text="Previous"  onAction="#previousButton"/>
 	</children>
 </Pane>
