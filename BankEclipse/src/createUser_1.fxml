@@ -15,24 +15,19 @@
 	<children>
 		<AnchorPane>
 		</AnchorPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="14.0" prefHeight="25.0" prefWidth="434.0" text="Welcome in Personal Bank Account Manager" textAlignment="CENTER" textFill="#16750b">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-		<Button fx:id="subHolder" layoutX="456.0" layoutY="383.0" mnemonicParsing="false" onAction="#nextStepButton" text="Nest step" />
-		<Button layoutX="286.0" layoutY="383.0" mnemonicParsing="false" text="Cancel" onAction="#cancelButton" />
-      <GridPane alignment="CENTER" layoutX="206.0" layoutY="97.0" prefHeight="257.0" prefWidth="442.0">
+		<Button fx:id="subHolder" layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Nest step" />
+		<Button layoutX="184.0" layoutY="376.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+      <GridPane alignment="CENTER" layoutX="179.0" layoutY="125.0" prefHeight="200.0" prefWidth="442.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="117.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="526.0" minWidth="0.0" prefWidth="325.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints />
-          <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="52.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+          <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="39.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="New login" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
@@ -50,6 +45,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="createUser" layoutX="695.0" layoutY="388.0" text="1/2" />
+      <Label fx:id="createUser" layoutX="747.0" layoutY="409.0" text="1/2" />
 	</children>
 </Pane>
