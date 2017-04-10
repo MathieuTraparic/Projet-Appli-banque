@@ -30,7 +30,6 @@ public class VistaNavigator {
 
 
 
-	*/
 
 	/**
      * Stores the main controller for later use in navigation tasks.
