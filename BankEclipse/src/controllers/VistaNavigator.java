@@ -1,8 +1,9 @@
+package controllers;
+
 
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-
 import java.io.IOException;
 
 /**
@@ -16,25 +17,19 @@ public class VistaNavigator {
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
-	public static final String LOGIN = "login.fxml";
-    public static final String MAIN  = "main.fxml";
-	public static final String CREATE_USER_1 = "createUser_1.fxml";
-	public static final String CREATE_USER_2 = "createUser_2.fxml";
-	public static final String HOME = "home.fxml";
-    public static final String TEMPLATE = "template.fxml";
+	public static final String LOGIN = "/viewFxml/login.fxml";
+    public static final String MAIN  = "/viewFxml/main.fxml";
+	public static final String CREATE_USER_1 = "/viewFxml/createUser_1.fxml";
+	public static final String CREATE_USER_2 = "/viewFxml/createUser_2.fxml";
+	public static final String HOME = "/viewFxml/home.fxml";
+    public static final String TEMPLATE = "/viewFxml/template.fxml";
     
-    //public static final String VISTA_1 = "vista1.fxml";
-    //public static final String VISTA_2 = "vista2.fxml";
 
     /** The main application layout controller. */
     private static MainController mainController;
-    //private static TemplateController templateController;
 
 
 
-	/*public static void setTemplateController(TemplateController templateController) {
-		VistaNavigator.templateController = templateController;
-	}
 	*/
 
 	/**
@@ -73,7 +68,7 @@ public class VistaNavigator {
                 )
             );
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Vista loading failed : "+ e);
         }
     }
     
