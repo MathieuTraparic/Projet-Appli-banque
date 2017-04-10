@@ -2,18 +2,21 @@ package model;
 
 public class Category {
 	
-	private String wording;
+	private String categoryDescription;
 
-	public Category(String wording) {
+	public Category(String categoryDescription) {
 
-		checkWording(wording);
+		checkCategoryDescription(categoryDescription);
 		
-		this.wording = wording;
+		this.categoryDescription = categoryDescription;
 	}
 	
-	public void checkWording(String wording){
-		if (wording == null){
-			throw new NullPointerException("Description cannot be null");
+	public void checkCategoryDescription(String categoryDescription){
+		if (categoryDescription == null){
+			throw new NullPointerException("Description of the category cannot be null");
+		}
+		if (categoryDescription.isEmpty()){
+			throw new IllegalArgumentException("Description of the category cannot be empty");
 		}
 	}
 	
