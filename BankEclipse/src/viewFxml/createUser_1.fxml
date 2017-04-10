@@ -15,7 +15,7 @@
 	<children>
 		<AnchorPane>
 		</AnchorPane>
-		<Button fx:id="subHolder" layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Nest step" />
+		<Button fx:id="subHolder" layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Next step" />
 		<Button layoutX="184.0" layoutY="376.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <GridPane alignment="CENTER" layoutX="179.0" layoutY="125.0" prefHeight="200.0" prefWidth="442.0">
         <columnConstraints>
