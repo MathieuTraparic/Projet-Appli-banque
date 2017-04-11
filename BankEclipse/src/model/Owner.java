@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Date;
+import util.Validator;
 
 public class Owner {
 	private String name;
@@ -35,32 +36,34 @@ public class Owner {
 	}
 
 	public static void check_name(String name) throws IllegalArgumentException {
-		if (name.length()==0) {
+		if (name.isEmpty()) {
 			throw new IllegalArgumentException("name cannot be empty");
 		}
 	}
 
 	public static void check_firstName(String firstName) throws IllegalArgumentException {
-			if (firstName.length()==0) {
+			if (firstName.isEmpty()) {
 				throw new IllegalArgumentException("firstName cannot be empty");
 			}
 	}
 
 	public static void check_login(String login) throws IllegalArgumentException {
-		if (login.length() == 0) {
+		if (login.isEmpty()) {
 			throw new IllegalArgumentException("login cannot be empty");
 		}
 	}
 	
 	public static void check_pswd(String pswd) throws IllegalArgumentException {
-		if (pswd.length() == 0) {
+		if (pswd.isEmpty()) {
 			throw new IllegalArgumentException("pswd cannot be empty");
 		}
 	}
 	
 	public static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
-		if (phoneNumber.length() == 0) {
+		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("phoneNumber cannot be empty");
+		}else if(!Validator.isValidPhoneNumber(phoneNumber)){
+			throw new IllegalArgumentException("Phone number must be a valid phone number");
 		}
 	}
 
