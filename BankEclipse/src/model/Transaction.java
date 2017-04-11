@@ -21,7 +21,8 @@ public class Transaction {
 	private Double value;
 	private Date date;
 
-	public Transaction(String description, String type, Double value, Date date) {
+	public Transaction(String description, String type, 
+			Double value, Date date) {
 
 		checkValue(value);
 		checkDate(date);
@@ -29,7 +30,7 @@ public class Transaction {
 		checkDescription(description);
 
 		this.description = description;
-		this.type = type;
+		this.type = type; //pass the test without being in the types arraylist
 		this.value = value;
 		this.date = date;
 	}

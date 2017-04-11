@@ -36,7 +36,7 @@ public class PeriodicTransaction {
 	public static void checkEndDateTransaction(Date endDateTransaction) throws IllegalArgumentException{
 		if (endDateTransaction == null) {
 			throw new NullPointerException("The date cannot be null");
-		}
+		} //TODO cannot be in the past ?
 	}
 
 	public static void checkdayNumberDefiningPeriodicity(int numberDefiningPeriodicity) throws IllegalArgumentException {

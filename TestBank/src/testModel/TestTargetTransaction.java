@@ -18,7 +18,7 @@ public class TestTargetTransaction {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void test_ValidTargetTransactionIBAN() {
-		TargetTransaction target = new TargetTransaction("235423673567","bar");
+		TargetTransaction target = new TargetTransaction("235qsd423673567","bar");
 	}
 }
 
