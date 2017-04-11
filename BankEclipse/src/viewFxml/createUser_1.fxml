@@ -15,7 +15,7 @@
 	<children>
 		<AnchorPane>
 		</AnchorPane>
-		<Button fx:id="subHolder" layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Next step" />
+		<Button layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Next step" />
 		<Button layoutX="184.0" layoutY="376.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
       <GridPane alignment="CENTER" layoutX="179.0" layoutY="125.0" prefHeight="200.0" prefWidth="442.0">
         <columnConstraints>
@@ -32,12 +32,12 @@
          <children>
             <Label text="New login" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Password" GridPane.rowIndex="2" />
-      				<TextField prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      				<TextField fx:id="newLogin" prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label prefHeight="58.0" prefWidth="95.0" text="Password confirmation" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="3" />
             <Label text="Email" GridPane.rowIndex="4" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="newPasswordConfirmation" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="59.0" prefHeight="25.0" prefWidth="434.0" text="First step: Create your new user account" textAlignment="CENTER" textFill="#0c0d0c">
@@ -45,6 +45,6 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="createUser" layoutX="747.0" layoutY="409.0" text="1/2" />
+      <Label layoutX="747.0" layoutY="409.0" text="1/2" />
 	</children>
 </Pane>

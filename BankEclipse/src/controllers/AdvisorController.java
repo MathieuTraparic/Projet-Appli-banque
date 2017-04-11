@@ -14,7 +14,7 @@ public class AdvisorController {
 	
 	@FXML
 	void chooseAdvisorBank(ActionEvent event){
-		
+		//TODO choose the bank link to an account and advisor
 	}
 	
 	

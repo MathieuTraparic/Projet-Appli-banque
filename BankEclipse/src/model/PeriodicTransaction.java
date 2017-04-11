@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PeriodicTransaction {
-	private Date endDateTransaction;
+	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private String frequencyUnit;
 
@@ -14,21 +14,21 @@ public class PeriodicTransaction {
 	@SuppressWarnings("serial")
 	private static ArrayList<String> FREQUENCIES = new ArrayList<String>() {
 		{
-			add("Hebdomaidaire");
-			add("Mensuelle");
-			add("Trimestrielle");
-			add("Anuelle");
+			add("HEBDOMADAIRE");
+			add("MENSUELLE");
+			add("TRIMESTRIELLE");
+			add("ANUELLE");
 		}
 	};
 
-	public PeriodicTransaction(Date endDateTransaction, int numberDefiningPeriodicity, String frequencyUnit) {
+	public PeriodicTransaction(Date endDate, int numberDefiningPeriodicity, String frequencyUnit) {
 		//TODO update FREQENCIES from DB
 
 		checkdayNumberDefiningPeriodicity(numberDefiningPeriodicity);
-		checkEndDateTransaction(endDateTransaction);
+		checkEndDateTransaction(endDate);
 		checkFrequencyUnit(frequencyUnit);
 
-		this.endDateTransaction = endDateTransaction;
+		this.endDate = endDate;
 		this.numberDefiningPeriodicity = numberDefiningPeriodicity;
 		this.frequencyUnit = frequencyUnit;
 	}
