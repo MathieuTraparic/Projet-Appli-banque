@@ -32,7 +32,7 @@ public class Main extends Application {
             createScene(
                 loadMainPane()
             )
-        );
+        );  
         
         stage.show();
     }
