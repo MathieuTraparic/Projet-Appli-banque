@@ -16,7 +16,7 @@
 	<children>
 		<AnchorPane layoutX="4.0" layoutY="8.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
 			<children>
-				<Button layoutX="497.0" layoutY="376.0" mnemonicParsing="false" onAction="#ApplyAdvisorChange" text="Apply advisor information changes" />
+				<Button layoutX="497.0" layoutY="376.0" mnemonicParsing="false" onAction="#applyAdvisorChange" text="Apply advisor information changes" />
             <Label layoutX="278.0" layoutY="42.0" text="Advisor information">
                <font>
                   <Font size="31.0" />
@@ -50,7 +50,7 @@
                   <DatePicker fx:id="assignmentDate" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
             </GridPane>
-            <ComboBox layoutX="33.0" layoutY="27.0" onAction="#AdvisorBank" prefWidth="150.0" promptText="Advisor Bank" />
+            <ComboBox layoutX="33.0" layoutY="27.0" onAction="#chooseAdvisorBank" prefWidth="150.0" promptText="Advisor Bank" />
 			</children>
 		</AnchorPane>
 	</children>
