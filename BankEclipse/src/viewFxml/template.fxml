@@ -2,22 +2,44 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TemplateController">
+<AnchorPane prefHeight="378.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TemplateController">
    <children>
-      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TabPane layoutY="25.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="323.0" prefWidth="600.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
         <tabs>
           <Tab>
           <graphic>
                   <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Home" />
                </graphic>
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
-              <fx:include source="home.fxml"/>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+              <fx:include source="home.fxml" />
               </AnchorPane>
             </content>
                
@@ -27,8 +49,8 @@
                   <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Transaction" />
                </graphic>
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
-              <fx:include source="transaction.fxml"/>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+              <fx:include source="transaction.fxml" />
               </AnchorPane>
             </content>
                
@@ -38,8 +60,8 @@
                   <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Periodic" />
                </graphic>
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
-              <fx:include source="periodic.fxml"/>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+              <fx:include source="periodic.fxml" />
               </AnchorPane>
             </content>
                
@@ -49,8 +71,8 @@
                   <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="RIB" />
                </graphic>
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
-              <fx:include source="RIB.fxml"/>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+              <fx:include source="RIB.fxml" />
               </AnchorPane>
             </content>
                
@@ -60,16 +82,16 @@
                   <Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Advisor" />
                </graphic>
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0" >
-              <fx:include source="advisor.fxml"/>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+              <fx:include source="advisor.fxml" />
               </AnchorPane>
             </content>
                
           </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="28.0" layoutY="394.0" mnemonicParsing="false" onAction="#handleLogoutButton" text="logout" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
-      <HBox spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+      <Button layoutX="10.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleLogoutButton" text="logout" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="10.0" />
+      <HBox prefWidth="113.0" spacing="10.0" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#handleCancel" text="cancel" />
             <Button mnemonicParsing="false" onAction="#handleSubmit" text="submit" />
