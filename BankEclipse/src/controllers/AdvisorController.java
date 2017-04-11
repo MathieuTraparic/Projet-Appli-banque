@@ -2,17 +2,35 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 
 public class AdvisorController {
 
 	@FXML
-	void ApplyAdvisorChange(ActionEvent event){
+	void applyAdvisorChange(ActionEvent event){
 		
 	}
 	
 	@FXML
-	void AdvisorBank(ActionEvent event){
+	void chooseAdvisorBank(ActionEvent event){
 		
 	}
+	
+	
+	@FXML
+	private TextField name;
+	
+	@FXML
+	private TextField firstName;
+	
+	@FXML
+	private TextField phoneNumber;
+	
+	@FXML
+	private TextField email;
+	
+	@FXML
+	private DatePicker assignmentDate;
 	
 }
