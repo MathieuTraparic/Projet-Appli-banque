@@ -72,6 +72,7 @@ public class TestValidator {
 		assertTrue(Validator.isValidName("Jean-paul"));
 		assertTrue(Validator.isValidName("del patchi"));
 		assertTrue(Validator.isValidName("père noël"));
+		assertTrue(Validator.isValidName("l'af"));
 		
 		
 		assertFalse(Validator.isValidName("qwe.dw"));
@@ -88,7 +89,7 @@ public class TestValidator {
 	public final void testIsValidIban() {
 		assertTrue(Validator.isValidIban("FR1420041010050500013M02606"));
 		assertTrue(Validator.isValidIban(" FR14 2004 1010 0505 0001 3M02 606 "));
-		
+		assertTrue(Validator.isValidIban("GB29 NWBK 6016 1331 9268 19"));
 		
 		assertFalse(Validator.isValidIban("FR13200410100440013M00006"));
 	}

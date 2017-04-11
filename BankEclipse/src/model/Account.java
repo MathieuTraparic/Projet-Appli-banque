@@ -36,6 +36,9 @@ public class Account {
 	
 	public Account(String number, String description, double initialBalance,
 			 double overdraft, Double threshold, String countryCode, String type){
+		
+		//TODO update methode for the ArrayListes
+		
 		check_number(number);
 		check_description(description);
 		check_countryCode(countryCode);
@@ -53,16 +56,10 @@ public class Account {
 	
 	
 	public String getAccountNumber(){
-		if(this.number.length()==0){
-			throw new IllegalArgumentException("Account number can't be empty");
-		}
 		return this.number;
 	}
-	
+
 	public String getAccountDescription(){
-		if(this.description.length()==0){
-			throw new IllegalArgumentException("Account number can't be empty");
-		}
 		return this.description;
 	}
 	

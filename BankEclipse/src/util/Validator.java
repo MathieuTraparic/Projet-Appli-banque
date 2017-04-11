@@ -32,15 +32,15 @@ public class Validator {
 	}
 	
 	/**
-	 * @param phoneNumber
+	 * @param name
 	 * @return true is name contains only letters, spaces and dashes
 	 * 
 	 *    
 	 */
-	public static boolean isValidName(String phoneNumber) {
-		String ePattern = "^([A-Za-zÀ-ÿ]| |-)*$";
+	public static boolean isValidName(String name) {
+		String ePattern = "^([A-Za-zÀ-ÿ]| |-|')*$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-		java.util.regex.Matcher m = p.matcher(phoneNumber);
+		java.util.regex.Matcher m = p.matcher(name);
 		return m.matches();
 	}
 
