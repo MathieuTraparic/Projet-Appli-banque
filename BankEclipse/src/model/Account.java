@@ -5,26 +5,50 @@ public class Account {
 	private String description;
 	private Double initialBalance;
 	private int overdraft;
-	private Double alertThreshold;
+	private Double alertThreshold;	
+	private String countryCode;
+	private String type;
 	
-	public Account(String number, String description,Double initialBalance, int overdraft, Double threshold){
-		if(number.equals(null)){
-			throw new NullPointerException ("The account number can't be null");
+	/**
+	 * @author user
+	 *To be fetched from DB before constructor
+	 */
+	private static enum COUNTRYCODE {FR,CH};
+	
+	/**
+	 * @author user
+	 *To be fetched from DB before constructor
+	 */
+	private static enum TYPE {EPARGNE,COMPTE_COURANT};
+	
+	public Account(String number, String description,Double initialBalance,
+			int overdraft, Double threshold, String countryCode, String type){
+		if(number.isEmpty()){
+			throw new IllegalArgumentException("The account number can't be empty");
 		}
-		if(description.equals(null)){
-			throw new NullPointerException ("The account description can't be null");
+		if(description.isEmpty()){
+			throw new IllegalArgumentException ("The account description can't be empty");
 		}
 		if(initialBalance == null){
 			throw new NullPointerException ("The initial balance can't be null");
 		}
 		if(threshold == null){
-			throw new NullPointerException ("The initial balance can't be null");
+			throw new NullPointerException ("The threshold can't be null");
 		}
+		if (countryCode.isEmpty()){
+			throw new IllegalArgumentException ("The country code can't be empty");
+		}
+		if (type.isEmpty()){
+			throw new IllegalArgumentException ("The account type can't be empty");
+		}
+		
 		
 		this.number = number;
 		this.initialBalance = initialBalance;
 		this.overdraft = overdraft;
 		this.alertThreshold = threshold;
+		this.countryCode = countryCode;
+		this.type = type;
 	}
 	
 	public String getAccountNumber(){
