@@ -1,6 +1,8 @@
 package testModel;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
@@ -40,5 +42,12 @@ public class TestOwner {
 	public void test_NullOwnerPswd() {
 		Owner owner = new Owner("foo","bar", "0612121212",dat,"lol", null, add);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)	
+	public void test_OwnerBirthday() {
+		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+1, Calendar.MARCH, Calendar.THURSDAY, 12, 31, 15);
+		Owner owner = new Owner("foo","bar", "0612121212", cal.getTime(),"lol", "ll", add);
+	}
+	
 
 }

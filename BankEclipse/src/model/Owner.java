@@ -19,6 +19,7 @@ public class Owner {
 		check_name(name);
 		check_phoneNumber(phoneNumber);
 		check_pswd(pswd);
+		check_birthday(birthday);
 	
 		
 		this.name = name;
@@ -60,6 +61,12 @@ public class Owner {
 			throw new IllegalArgumentException("phoneNumber cannot be empty");
 		} if(!Validator.isValidPhoneNumber(phoneNumber)){
 			throw new IllegalArgumentException("Phone number must be a valid phone number");
+		}
+	}
+	
+	public static void check_birthday(Date birthday) throws IllegalArgumentException {
+		if (birthday.after(new Date())) {
+			throw new IllegalArgumentException("The birthday date cannot be in the future");
 		}
 	}
 
