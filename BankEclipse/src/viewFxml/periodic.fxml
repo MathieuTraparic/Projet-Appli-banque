@@ -11,7 +11,7 @@
 
 <Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PeriodicController">
 	<children>
-		<AnchorPane fx:id="vistaHolder" layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
+		<AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
 			<children>
 				<Button layoutX="190.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" />
 				<Button layoutX="284.0" layoutY="47.0" mnemonicParsing="false" text="Add an account" />
