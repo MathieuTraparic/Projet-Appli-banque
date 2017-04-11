@@ -40,7 +40,7 @@ public class TestOwner {
 	
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerPswd() {
-		Owner owner = new Owner("foo","bar", "0612121212",dat,"lol", null, add);
+		Owner owner = new Owner("foo","bar", "0612-12-12-12",dat,"lol", null, add);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)	
