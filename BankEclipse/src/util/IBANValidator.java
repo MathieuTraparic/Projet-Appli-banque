@@ -1,3 +1,7 @@
+/*
+ * Author can be found here: https://gist.github.com/DandyDev/5394643
+ */
+
 package util;
 
 import java.math.BigInteger;

@@ -13,7 +13,7 @@
 
 <Pane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdvisorController">
 	<children>
-		<AnchorPane fx:id="vistaHolder" layoutX="4.0" layoutY="8.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
+		<AnchorPane layoutX="4.0" layoutY="8.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
 			<children>
 				<Button layoutX="497.0" layoutY="376.0" mnemonicParsing="false" onAction="#ApplyAdvisorChange" text="Apply advisor information changes" />
             <Label layoutX="278.0" layoutY="42.0" text="Advisor information">
