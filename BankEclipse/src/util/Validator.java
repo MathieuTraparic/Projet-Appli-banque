@@ -18,16 +18,16 @@ public class Validator {
 	}
 
 	/**
-	 * @param phoneNumber
+	 * @param name
 	 * @return true is the phoneNumber is valid
 	 * 
 	 *    match the phone number against a regex, only accept french number
 	 *    for now
 	 */
-	public static boolean isValidPhoneNumber(String phoneNumber) {
-		String ePattern = "^(//+[1-9]{2}|00[1-9]{2}|0[1-9])([0-9]( |-)?){8}$";
+	public static boolean isValidPhoneNumber(String name) {
+		String ePattern = "^((\\+|00)[1-9]{2}|0)(( |-)?[0-9])(( |-)?[0-9]){8}$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-		java.util.regex.Matcher m = p.matcher(phoneNumber);
+		java.util.regex.Matcher m = p.matcher(name);
 		return m.matches();
 	}
 	
@@ -38,14 +38,14 @@ public class Validator {
 	 *    
 	 */
 	public static boolean isValidName(String phoneNumber) {
-		String ePattern = "^([A-zÀ-ÿ]| |-)*$";
+		String ePattern = "^([A-Za-zÀ-ÿ]| |-)*$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
 		java.util.regex.Matcher m = p.matcher(phoneNumber);
 		return m.matches();
 	}
 
 	public static boolean isValidIban(String iban) {
-		throw new UnsupportedOperationException("unimplemented");
+		return IBANValidator.ibanTest(iban);
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Author can be found here: https://gist.github.com/DandyDev/5394643
+ * Based on : https://gist.github.com/DandyDev/5394643
  */
 
 package util;
@@ -13,7 +13,14 @@ public final class IBANValidator {
 	public static final BigInteger IBANNUMBER_MAGIC_NUMBER = new BigInteger("97");
 
 	public static boolean ibanTest(String accountNumber) {
-		String newAccountNumber = accountNumber.trim();
+		
+		String[] tab =accountNumber.split("(-| )");
+		StringBuilder bl = new StringBuilder();
+		for (String str : tab) {
+			bl.append(str);
+		}
+		String newAccountNumber = bl.toString();
+		
 
 		// Check that the total IBAN length is correct as per the country. If
 		// not, the IBAN is invalid. We could also check
