@@ -56,16 +56,10 @@ public class Account {
 	
 	
 	public String getAccountNumber(){
-		if(this.number.length()==0){
-			throw new IllegalArgumentException("Account number can't be empty");
-		}
 		return this.number;
 	}
-	
+
 	public String getAccountDescription(){
-		if(this.description.length()==0){
-			throw new IllegalArgumentException("Account number can't be empty");
-		}
 		return this.description;
 	}
 	
