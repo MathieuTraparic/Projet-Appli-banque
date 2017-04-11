@@ -1,21 +1,15 @@
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 import util.Validator;
 
 public class Owner {
 	private String name;
 	private String firstName;
-	
-	
-	//java.sql or java.util ?
 	private Date birthday;
 	private String login;
 	private String pswd;
-	
-	//probably useless ?
-	private String phoneNumber;
-	
+	private String phoneNumber;	
 	private Address address;
 	
 
@@ -25,6 +19,7 @@ public class Owner {
 		check_name(name);
 		check_phoneNumber(phoneNumber);
 		check_pswd(pswd);
+	
 		
 		this.name = name;
 		this.firstName = firstName;
@@ -58,11 +53,12 @@ public class Owner {
 			throw new IllegalArgumentException("pswd cannot be empty");
 		}
 	}
+
 	
 	public static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("phoneNumber cannot be empty");
-		}else if(!Validator.isValidPhoneNumber(phoneNumber)){
+		} if(!Validator.isValidPhoneNumber(phoneNumber)){
 			throw new IllegalArgumentException("Phone number must be a valid phone number");
 		}
 	}
