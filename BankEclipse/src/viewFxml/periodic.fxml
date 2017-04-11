@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
 
 <Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PeriodicController">
 	<children>
 		<AnchorPane fx:id="vistaHolder" layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
-			<children>
-				<Button layoutX="190.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" />
-				<Button layoutX="284.0" layoutY="47.0" mnemonicParsing="false" text="Add an account" />
-				<ComboBox layoutX="429.0" layoutY="47.0" prefWidth="150.0" promptText="Choose your bank" />
-				<TableView layoutX="188.0" layoutY="88.0" prefHeight="108.0" prefWidth="595.0">
-					<columns>
-						<TableColumn prefWidth="463.0" text="Account list" />
-						<TableColumn prefWidth="131.0" text="Balance" />
-					</columns>
-				</TableView>
-            <Label layoutX="341.0" layoutY="20.0" text="Welcome Title Name">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-			</children>
+         <children>
+            <ComboBox layoutY="14.0" prefWidth="150.0" promptText="Select your bank" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="14.0" />
+            <ComboBox layoutX="177.0" layoutY="14.0" prefWidth="150.0" promptText="Select your account" AnchorPane.topAnchor="14.0" />
+            <ComboBox layoutX="505.0" layoutY="14.0" prefHeight="25.0" prefWidth="322.0" promptText="Select the recipient account" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0" />
+            <Label layoutX="14.0" layoutY="64.0" text="Balance" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="64.0" />
+            <TextField layoutX="70.0" layoutY="60.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="60.0" />
+            <Label layoutX="529.0" layoutY="64.0" text="Value" AnchorPane.rightAnchor="241.0" AnchorPane.topAnchor="64.0" />
+            <TextField layoutX="570.0" layoutY="60.0" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="60.0" />
+            <Label layoutX="14.0" layoutY="114.0" text="Effective date" AnchorPane.leftAnchor="14.0" />
+            <DatePicker layoutX="90.0" layoutY="110.0" AnchorPane.leftAnchor="90.0" />
+            <CheckBox layoutX="364.0" layoutY="114.0" mnemonicParsing="false" text="Periodic" AnchorPane.topAnchor="114.0" />
+            <Label layoutX="444.0" layoutY="114.0" text="End date" AnchorPane.rightAnchor="309.0" />
+            <DatePicker layoutX="496.0" layoutY="110.0" prefHeight="25.0" prefWidth="138.0" AnchorPane.rightAnchor="166.0" />
+            <ComboBox layoutX="650.0" layoutY="110.0" prefHeight="25.0" prefWidth="129.0" promptText="Frequency" />
+            <Label layoutX="14.0" layoutY="154.0" text="Comments" AnchorPane.leftAnchor="14.0" />
+            <TextField layoutX="11.0" layoutY="177.0" prefHeight="25.0" prefWidth="779.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="10.0" />
+            <Button layoutX="731.0" layoutY="213.0" mnemonicParsing="false" text="Confirm" AnchorPane.rightAnchor="10.0" />
+            <TableView layoutX="12.0" layoutY="264.0" prefHeight="174.0" prefWidth="779.0">
+              <columns>
+                <TableColumn prefWidth="577.0" text="Description" />
+                <TableColumn prefWidth="110.0" text="End date" />
+                  <TableColumn prefWidth="91.0" text="Value" />
+              </columns>
+            </TableView>
+         </children>
 		</AnchorPane>
 	</children>
 </Pane>
