@@ -36,6 +36,9 @@ public class Account {
 	
 	public Account(String number, String description,double initialBalance,
 			 double overdraft, Double threshold, String countryCode, String type){
+		
+		//TODO update methode for the ArrayListes
+		
 		check_number(number);
 		check_description(description);
 		check_countryCode(countryCode);

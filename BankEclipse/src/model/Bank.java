@@ -1,10 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Bank {
 	private String bankName;
 	private String bankCode;
+
+	
 	
 	public Bank(String bankName, String bankCode) {
+		
+		//TODO update methode for the ArrayListes
 		
 		checkBankCode(bankCode);
 		checkBankName(bankName);
