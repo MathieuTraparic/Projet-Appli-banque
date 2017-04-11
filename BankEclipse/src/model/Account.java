@@ -41,19 +41,12 @@ public class Account {
 		if(description.isEmpty()){
 			throw new IllegalArgumentException ("The account description can't be empty");
 		}
-		if(initialBalance == null){
-			throw new NullPointerException ("The initial balance can't be null");
-		}
-		if(threshold == null){
-			throw new NullPointerException ("The threshold can't be null");
-		}
 		if (countryCode.isEmpty()){
 			throw new IllegalArgumentException ("The country code can't be empty");
 		}
 		if (type.isEmpty()){
 			throw new IllegalArgumentException ("The account type can't be empty");
 		}
-		
 		
 		this.number = number;
 		this.initialBalance = initialBalance;
@@ -62,6 +55,7 @@ public class Account {
 		this.countryCode = countryCode;
 		this.type = type;
 	}
+	
 	
 	public String getAccountNumber(){
 		if(this.number.length()==0){
@@ -75,5 +69,17 @@ public class Account {
 			throw new IllegalArgumentException("Account number can't be empty");
 		}
 		return this.description;
+	}
+	
+	public Double getInitialBalance(){
+		return this.initialBalance;
+	}
+	
+	public int getOverdraft(){
+		return this.overdraft;
+	}
+	
+	public Double getAlertThreshold(){
+		return this.alertThreshold;
 	}
 }
