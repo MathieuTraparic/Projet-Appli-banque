@@ -19,18 +19,18 @@ public class Address {
 	}
 	
 	public static void check_line1(String line1) throws IllegalArgumentException {
-		if (line1.length()==0) {
+		if (line1.isEmpty()) {
 			throw new IllegalArgumentException("line1 cannot be empty");
 		}
 	}
 
 	public static void check_zip(String zip) throws IllegalArgumentException {
-		if (zip.length()==0 || zip.length()>50) {
+		if (zip.isEmpty() || zip.length()>50) {
 			throw new IllegalArgumentException("zip must be valid");
 		}
 	}
 	public static void check_city(String city) throws IllegalArgumentException {
-		if (city.length()==0) {
+		if (city.isEmpty()) {
 			throw new IllegalArgumentException("city cannot be empty");
 		}
 	}

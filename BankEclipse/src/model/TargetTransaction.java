@@ -1,5 +1,7 @@
 package model;
 
+import util.Validator;
+
 public class TargetTransaction {
 	
 	private String summary;
@@ -14,27 +16,20 @@ public class TargetTransaction {
 		this.iban = iban;
 	}
 	
-	public void checkIban(String iban){
-		if (iban == null){
-			throw new NullPointerException("IBAN cannot be null");
-		}
+	public static void checkIban(String iban) throws IllegalArgumentException{
+
 		
 		if (iban.isEmpty()){
 			throw new IllegalArgumentException("IBAN must be filled with valid number");
 		}
 		
-		/*
-		 * TODO: check if IBAN.length is at least > of 10 characters? 
-		 */
-		if (iban.length()<10){
+		if (!Validator.isValidIban(iban)){
 			throw new IllegalArgumentException("IBAN must be filled with valid number");
 		}
 	}
 	
-	public void checkSummary(String summary){
-		if (summary == null){
-			throw new NullPointerException("Summary cannot be null");
-		}
+	public static void checkSummary(String summary) throws IllegalArgumentException{
+
 		if (summary.isEmpty()){
 			throw new IllegalArgumentException("Summary must be filled with the name of the target transaction");
 		}
