@@ -23,6 +23,7 @@ public class VistaNavigator {
 	public static final String CREATE_USER_2 = "/viewFxml/createUser_2.fxml";
 	public static final String HOME = "/viewFxml/home.fxml";
     public static final String TEMPLATE = "/viewFxml/template.fxml";
+    public static final String ADD_BANK = "/viewFxml/addBank.fxml";
     
 
     /** The main application layout controller. */

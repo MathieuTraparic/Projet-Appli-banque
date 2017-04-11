@@ -16,10 +16,10 @@
 	<children>
 		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="807.0">
 			<children>
-				<Button layoutX="10.0" layoutY="47.0" mnemonicParsing="false" text="Add a bank" AnchorPane.leftAnchor="10.0" />
-				<Button layoutX="104.0" layoutY="47.0" mnemonicParsing="false" text="Add an account" AnchorPane.leftAnchor="104.0" />
-				<ComboBox layoutX="223.0" layoutY="47.0" prefWidth="150.0" promptText="Choose your bank" AnchorPane.leftAnchor="223.0" />
-				<TableView layoutX="188.0" layoutY="88.0" prefHeight="108.0" prefWidth="790.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="7.0">
+				<Button fx:id="addBankHome" layoutX="10.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddBankHome" text="Add a bank" AnchorPane.leftAnchor="10.0" />
+				<Button fx:id="addAccountHome" layoutX="207.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddAccountHome" text="Add an account" AnchorPane.leftAnchor="207.0" />
+				<ComboBox fx:id="bankChoiceHomes" layoutX="323.0" layoutY="47.0" onAction="#handleBankChoiceHome" prefWidth="150.0" promptText="Choose your bank" AnchorPane.leftAnchor="323.0" />
+				<TableView fx:id="accountListHome" layoutX="188.0" layoutY="88.0" prefHeight="108.0" prefWidth="790.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="7.0">
 					<columns>
 						<TableColumn prefWidth="657.0" text="Account list" />
 						<TableColumn prefWidth="132.0" text="Balance" />
@@ -30,7 +30,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <BarChart layoutX="23.0" layoutY="205.0" prefHeight="240.0" prefWidth="315.0">
+            <BarChart fx:id="barChartHome" layoutX="23.0" layoutY="205.0" prefHeight="240.0" prefWidth="315.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -38,6 +38,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
+            <Button fx:id="addAgencyHome" layoutX="100.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddAgencyHome" text="Add an agency" />
 			</children>
 		</AnchorPane>
 	</children>
