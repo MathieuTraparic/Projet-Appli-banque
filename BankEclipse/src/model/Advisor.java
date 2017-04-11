@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import util.Validator;
 
 public class Advisor {
 	private String name;
@@ -45,7 +46,7 @@ public class Advisor {
 	public static void check_email(String email) throws IllegalArgumentException {
 		if (email.isEmpty()) {
 			throw new IllegalArgumentException("Email cannot be empty");
-		} else if (!isValidEmailAddress(email)) {
+		} else if (!Validator.isValidEmailAddress(email)) {
 			throw new IllegalArgumentException("Email must be a valid email address");
 		}
 
@@ -54,29 +55,10 @@ public class Advisor {
 	public static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("Phone number cannot be empty");
-		}else if(isValidPhoneNumber(phoneNumber)){
+		}else if(!Validator.isValidPhoneNumber(phoneNumber)){
 			throw new IllegalArgumentException("Phone number must be a valid French phone number composed of 10 digits");
 		}
 	}
 
-	public static boolean isValidEmailAddress(String email) {
-		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-		java.util.regex.Matcher m = p.matcher(email);
-		return m.matches();
-	}
-	
-	/**
-	 * @param phoneNumber
-	 * @return true is the phoneNumber is valid
-	 * 
-	 * match the phone number against a regex, only accept french number for now
-	 */
-	public static boolean isValidPhoneNumber(String phoneNumber){
-		String ePattern = "^0([0-9] ?){9}$";
-		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-		java.util.regex.Matcher m = p.matcher(phoneNumber);
-		return m.matches();
-	}
 
 }

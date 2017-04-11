@@ -13,19 +13,15 @@ public class Bank {
 		this.bankCode = bankCode;
 	}
 	
-	public void checkBankName(String bankName){
-		if (bankName==null){
-			throw new NullPointerException("The name of the bank cannot be null");
-		}
+	public static void checkBankName(String bankName) throws IllegalArgumentException {
+
 		if (bankName.isEmpty()){
 			throw new IllegalArgumentException("The name of the bank cannot be empty");
 		}
 	}
 	
-	public void checkBankCode(String bankCode){
-		if (bankCode==null){
-			throw new NullPointerException("The code of the bank cannot be null");
-		}
+	public static void checkBankCode(String bankCode) throws IllegalArgumentException {
+
 		if (bankCode.isEmpty()){
 			throw new IllegalArgumentException("The code of the bank cannot be empty");
 		}
