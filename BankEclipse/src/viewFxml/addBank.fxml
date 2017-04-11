@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="199.0" prefWidth="281.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.102" fx:controller="controllers.AddAgencyController">
+<AnchorPane prefHeight="199.0" prefWidth="281.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.102" fx:controller="controllers.AddBankController">
    <children>
       <Label layoutX="105.0" layoutY="14.0" text="Add a bank" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="105.0" AnchorPane.topAnchor="14.0">
          <font>
@@ -28,12 +28,12 @@
         </rowConstraints>
          <children>
             <Label text="Bank name" />
-            <Label text="Code bank" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Bank code" GridPane.rowIndex="1" />
+            <TextField fx:id="bankName" GridPane.columnIndex="1" />
+            <TextField fx:id="bankCode" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Button fx:id="addBankCancel" cancelButton="true" layoutX="41.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddAgencyCancel" text="Cancel" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="41.0" />
-      <Button fx:id="addBankSubmit" layoutX="187.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddAgencySubmit" text="Submit" AnchorPane.bottomAnchor="47.0" AnchorPane.rightAnchor="40.0" />
+      <Button fx:id="addBankCancel" cancelButton="true" layoutX="41.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddBankCancel" text="Cancel" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="41.0" />
+      <Button fx:id="addBankSubmit" layoutX="187.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddBankSubmit" text="Submit" AnchorPane.bottomAnchor="47.0" AnchorPane.rightAnchor="40.0" />
    </children>
 </AnchorPane>

@@ -34,7 +34,7 @@ public class Account {
 		}
 	};
 	
-	public Account(String number, String description,double initialBalance,
+	public Account(String number, String description, double initialBalance,
 			 double overdraft, Double threshold, String countryCode, String type){
 		check_number(number);
 		check_description(description);

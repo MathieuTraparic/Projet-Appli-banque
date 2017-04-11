@@ -3,11 +3,14 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Agency;
 
 public class AddAgencyController {
 	
-	public Button addAgencyCancel; 
+	public Button addAgencyCancel;
+	public TextField agencyName, agencyCode;
 	
 	@FXML
 	void handleAddAgencyCancel(ActionEvent event) {
@@ -17,6 +20,6 @@ public class AddAgencyController {
 
 	@FXML
 	void handleAddAgencySubmit(ActionEvent event){
-		//TODO
+		Agency agency = new Agency(agencyName.getText(),agencyCode.getText());
 	}
 }

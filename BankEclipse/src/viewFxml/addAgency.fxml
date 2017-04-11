@@ -27,9 +27,9 @@
         </rowConstraints>
          <children>
             <Label text="Agency name" />
-            <Label text="Code counter" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Agency code" GridPane.rowIndex="1" />
+            <TextField id:fx="agencyName" GridPane.columnIndex="1" />
+            <TextField id:fx="agencyCode" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <Button fx:id="addAgencyCancel" cancelButton="true" layoutX="41.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddAgencyCancel" text="Cancel" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="41.0" />
