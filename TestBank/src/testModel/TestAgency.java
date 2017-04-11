@@ -1,14 +1,19 @@
 package testModel;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import model.Agency;
 
 public class TestAgency {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
+	@Test(expected = NullPointerException.class)
+	public void test_NullAgencyName() {
+		Agency agency = new Agency(null,"bar");
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void test_NullCounterCodes() {
+		Agency agency = new Agency("bar",null);
 	}
 
 }
