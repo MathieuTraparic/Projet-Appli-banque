@@ -30,16 +30,6 @@ public class HomeController {
 	}
 
 	@FXML
-	void handleAddAccountHome(ActionEvent event) {
-		// TODO
-	}
-
-	@FXML
-	void handleBankChoiceHome(ActionEvent event) {
-		// TODO
-	}
-
-	@FXML
 	void handleAddAgencyHome(ActionEvent event) throws IOException {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addAgency.fxml"));
@@ -52,5 +42,25 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@FXML
+	void handleAddAccountHome(ActionEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addAccount.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(root1));
+			stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+			stage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	void handleBankChoiceHome(ActionEvent event) {
+		// TODO
 	}
 }
