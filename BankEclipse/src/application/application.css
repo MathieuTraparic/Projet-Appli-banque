@@ -4,23 +4,14 @@
  *   Ensure that your build system copies this file to your build output directory.
  */
 
-#headerLabel {
-    -fx-background-color: steelblue;
-    -fx-text-fill: white;
-    -fx-padding: 5px;
+
+
+*{
+	/*-fx-background-color: beige;
+	 * 
+	 */
 }
 
-#vistaHolder {
-    -fx-background-color: lightgrey;
-}
-
-#vista1 {
-    -fx-background-color: aliceblue;
-}
-
-#vista2 {
-    -fx-background-color: coral;
-}
 
 /*.button { Poser problème avec la position des boutons à priori
     -fx-base: lightblue;

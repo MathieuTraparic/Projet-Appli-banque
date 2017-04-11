@@ -1,63 +1,67 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Transaction {
-	
-	private String transactionTypeDescription;
-	private String transactionDescription;
-	private Double transactionValue;
-	private Date transactionDate;
-	private String transactionType;
 
-	public Transaction(String transactionDescription, String transactionTypeDescription,
-						Double transactionValue, Date transactionDate, String transactionType) {
+	private String type;
+	/**
+	 * To be fetched from DB BEFORE first instance is created
+	 */
+	@SuppressWarnings("serial")
+	private static ArrayList<String> TYPES = new ArrayList<String>() {
+		{
+			add("Virement");
+			add("Retrait");
+		}
+	};
 
-		checkTransactionTypeDescription(transactionTypeDescription);
-		checkTransactionValue(transactionValue);
-		checkTransactionDate(transactionDate);
-		checkTransactionType(transactionType);
-		checkTransactionDescription(transactionDescription);
-		
-		
-		this.transactionDescription = transactionDescription;
-		this.transactionTypeDescription = transactionTypeDescription;
-		this.transactionValue = transactionValue;
-		this.transactionDate=transactionDate;
-		this.transactionType=transactionType;
+	private String description;
+	private Double value;
+	private Date date;
+
+	public Transaction(String description, String type, Double value, Date date) {
+
+		checkValue(value);
+		checkDate(date);
+		checkType(type);
+		checkDescription(description);
+
+		this.description = description;
+		this.type = type;
+		this.value = value;
+		this.date = date;
 	}
-	
-	public void checkTransactionTypeDescription(String transactionTypeDescription){
-		if (transactionTypeDescription == null){
-			throw new NullPointerException("The Description of the transaction type cannot be null");
+
+	public static void checkDescription(String description) throws IllegalArgumentException {
+		if (description.isEmpty()) {
+			throw new IllegalArgumentException("The description of the transaction cannot be empty");
 		}
 	}
-	
-	public void checkTransactionDescription(String transactionDescription){
-		if (transactionDescription == null){
-			throw new NullPointerException("The description of the transaction cannot be null");
-		}
-	}
-	
-	public void checkTransactionValue(Double transactionValue){
-		if (transactionValue == null){
+
+	public static void checkValue(Double value) throws IllegalArgumentException {
+		if (value == null) {
 			throw new NullPointerException("The value of the transaction cannot be null");
 		}
-		if (transactionValue == 0){
-			throw new IllegalArgumentException("The value of the transaction cannot be 0, it must be positive or negative");
+		if (value == 0) {
+			throw new IllegalArgumentException(
+					"The value of the transaction cannot be 0, it must be positive or negative");
 		}
 	}
-	
-	public void checkTransactionDate(Date transactionDate){
-		if (transactionDate == null){
+
+	public static void checkDate(Date transactionDate) throws NullPointerException {
+		if (transactionDate == null) {
 			throw new NullPointerException("The date of the transaction cannot be null");
 		}
 
 	}
-	
-	public void checkTransactionType (String transactionType){
-		if (transactionType == null){
+
+	public static void checkType (String type)throws IllegalArgumentException{
+		if (type == null){
 			throw new NullPointerException("The type of the transaction cannot be null");
+		}else if(TYPES.contains(type)){
+			throw new IllegalArgumentException("The type of the transaction must be an existing type");
 		}
 	}
 
