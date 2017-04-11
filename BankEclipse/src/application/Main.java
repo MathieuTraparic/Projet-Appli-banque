@@ -1,6 +1,7 @@
+package application;
 
 
-import java.io.BufferedInputStream;
+
 import java.io.IOException;
 
 import controllers.MainController;
@@ -75,7 +76,7 @@ public class Main extends Application {
         );
 
         scene.getStylesheets().setAll(
-            getClass().getResource("vista.css").toExternalForm()
+            getClass().getResource("application.css").toExternalForm()
         );
 
         return scene;
