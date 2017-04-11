@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Date;
+
+
 import util.Validator;
 
 public class Advisor {
@@ -59,6 +61,5 @@ public class Advisor {
 			throw new IllegalArgumentException("Phone number must be a valid French phone number composed of 10 digits");
 		}
 	}
-
-
+	
 }
