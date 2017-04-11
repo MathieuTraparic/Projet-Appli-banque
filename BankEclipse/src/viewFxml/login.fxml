@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainHolder" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
+<Pane prefHeight="450.0" prefWidth="800.0"  xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
 	<children>
 		<AnchorPane>
 		</AnchorPane>
@@ -20,8 +20,8 @@
             <Font size="20.0" />
          </font>
       </Label>
-		<Button fx:id="subHolder" layoutX="447.0" layoutY="243.0" mnemonicParsing="false" onAction="#signInButton" text="Sign in" />
-		<Button fx:id="subHolder" layoutX="300.0" layoutY="243.0" mnemonicParsing="false" onAction="#signUpButton" text="Sign up" />
+		<Button layoutX="447.0" layoutY="243.0" mnemonicParsing="false" onAction="#signInButton" text="Sign in" />
+		<Button layoutX="300.0" layoutY="243.0" mnemonicParsing="false" onAction="#signUpButton" text="Sign up" />
       <GridPane layoutX="300.0" layoutY="175.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="62.0" />

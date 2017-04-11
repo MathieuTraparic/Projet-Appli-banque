@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Account {
 	private String number;
 	private String description;
@@ -13,13 +15,23 @@ public class Account {
 	 * @author user
 	 *To be fetched from DB before constructor
 	 */
-	private static enum COUNTRYCODE {FR,CH};
+	private static ArrayList<String> COUNTRYCODE = new ArrayList<String>(){
+		{
+			add("FR");
+			add("CH");
+		}
+	};
 	
 	/**
 	 * @author user
 	 *To be fetched from DB before constructor
 	 */
-	private static enum TYPE {EPARGNE,COMPTE_COURANT};
+	private static ArrayList<String> TYPE = new ArrayList<String>(){
+		{
+			add("EPARGNE");
+			add("COMPTE_COURANT");
+		}
+	};
 	
 	public Account(String number, String description,Double initialBalance,
 			int overdraft, Double threshold, String countryCode, String type){
