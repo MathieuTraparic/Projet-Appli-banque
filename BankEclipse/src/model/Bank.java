@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import util.Formater;
+import util.Validator;
 
 public class Bank {
 	private String bankName;
@@ -21,18 +22,25 @@ public class Bank {
 		this.bankCode = Formater.removeUsualSeparators(bankCode);
 	}
 	
-	public static void checkBankName(String bankName) throws IllegalArgumentException {
-
+	public static boolean isValidName(String name){
+		return Validator.isValidName(name);
+	}
+	
+	private static void checkBankName(String bankName) throws IllegalArgumentException {
 		if (bankName.isEmpty()){
 			throw new IllegalArgumentException("The name of the bank cannot be empty");
 		}
+		else if(!isValidName(bankName)){
+			throw new IllegalArgumentException("The bank name is incorrect");
+		}
 	}
 	
-	public static void checkBankCode(String bankCode) throws IllegalArgumentException {
-
+	private static void checkBankCode(String bankCode) throws IllegalArgumentException {
 		if (bankCode.isEmpty()){
 			throw new IllegalArgumentException("The code of the bank cannot be empty");
 		}
+		else if(!isValidName(bankCode)){
+			throw new IllegalArgumentException("The bank name is incorrect");
+		}
 	}
-
 }
