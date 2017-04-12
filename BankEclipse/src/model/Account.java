@@ -44,8 +44,7 @@ public class Account {
 		check_description(description);
 		check_countryCode(countryCode);
 		check_type(type);
-		
-		
+		check_overdraft(overdraft);
 		
 		this.number = number;
 		this.initialBalance = initialBalance;
