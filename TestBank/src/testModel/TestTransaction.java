@@ -43,7 +43,7 @@ public class TestTransaction {
 	 */	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_TransactionValue() {
-		Transaction transaction = new Transaction("bar","VIREMENT", 0d, date);
+		Transaction transaction = new Transaction("bar","VIREMENT", 0, date);
 	}
 	
 	/**
