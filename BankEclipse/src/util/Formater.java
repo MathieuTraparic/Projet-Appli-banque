@@ -11,6 +11,13 @@ package util;
  */
 public class Formater {
 
+	/**
+	 * private constructor because it shouldn't have to be instanciated
+	 */
+	private Formater() {
+		super();
+	}
+
 	private static final String[] USUAL_SEP = new String[] { " ", "-", ",", "." };
 
 	/**
