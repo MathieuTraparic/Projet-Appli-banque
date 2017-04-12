@@ -24,7 +24,7 @@ public class Transaction {
 	private Date date;
 
 	public Transaction(String description, String type, 
-			Double value, Date date) {
+			double value, Date date) {
 
 		checkValue(value);
 		checkDate(date);
@@ -37,35 +37,41 @@ public class Transaction {
 		this.date = date;
 	}
 
-	public static void checkDescription(String description) throws IllegalArgumentException {
+	private static void checkDescription(String description) throws IllegalArgumentException {
 		if (description.isEmpty()) {
 			throw new IllegalArgumentException("The description of the transaction cannot be empty");
 		}
 	}
 
-	public static void checkValue(Double value) throws IllegalArgumentException {
-		if (value == null) {
-			throw new NullPointerException("The value of the transaction cannot be null");
-		}
-		if (value == 0) {
+	private static void checkValue(double value) throws IllegalArgumentException {
+
+		if (isValidValue(value)) {
 			throw new IllegalArgumentException(
 					"The value of the transaction cannot be 0, it must be positive or negative");
 		}
 	}
+	
+	public static boolean isValidValue(double value){
+		return (value !=0);
+	}
 
-	public static void checkDate(Date transactionDate) throws NullPointerException {
+	private static void checkDate(Date transactionDate) throws NullPointerException {
 		if (transactionDate == null) {
 			throw new NullPointerException("The date of the transaction cannot be null");
 		}
 
 	}
 
-	public static void checkType (String type)throws IllegalArgumentException{
+	private static void checkType (String type)throws IllegalArgumentException{
 		if (type == null){
 			throw new NullPointerException("The type of the transaction cannot be null");
-		}else if(!TYPES.contains(type)){
+		}else if(isValidType(type)){
 			throw new IllegalArgumentException("The type of the transaction must be an existing type");
 		}
+	}
+	
+	public static boolean isValidType(String type){
+		return (TYPES.contains(type));
 	}
 
 }

@@ -17,19 +17,20 @@ public class TargetTransaction {
 		this.iban = Formater.removeUsualSeparators(iban);
 	}
 	
-	public static void checkIban(String iban) throws IllegalArgumentException{
-
-		
+	private static void checkIban(String iban) throws IllegalArgumentException{
 		if (iban.isEmpty()){
 			throw new IllegalArgumentException("IBAN must be filled with valid number");
 		}
-		
-		if (!Validator.isValidIban(iban)){
+		if (!isValid(iban)){
 			throw new IllegalArgumentException("IBAN must be filled with valid number");
 		}
 	}
 	
-	public static void checkSummary(String summary) throws IllegalArgumentException{
+	public static boolean isValid(String iban){
+		return (Validator.isValidIban(iban));
+	}
+	
+	private static void checkSummary(String summary) throws IllegalArgumentException{
 
 		if (summary.isEmpty()){
 			throw new IllegalArgumentException("Summary must be filled with the name of the target transaction");
