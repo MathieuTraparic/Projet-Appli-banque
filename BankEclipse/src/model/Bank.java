@@ -1,29 +1,28 @@
 package model;
 
-import java.util.ArrayList;
 
 import util.Formater;
 
 public class Bank {
-	private String bankName;
+	private String name;
 	private String bankCode;
 
 	
 	
-	public Bank(String bankName, String bankCode) {
+	public Bank(String name, String bankCode) {
 		
 		//TODO update methode for the ArrayListes
 		
 		checkBankCode(bankCode);
-		checkBankName(bankName);
+		checkName(name);
 		
-		this.bankName = Formater.formatNameCase(bankName);
+		this.name = Formater.formatNameCase(name);
 		this.bankCode = Formater.removeUsualSeparators(bankCode);
 	}
 	
-	public static void checkBankName(String bankName) throws IllegalArgumentException {
+	public static void checkName(String name) throws IllegalArgumentException {
 
-		if (bankName.isEmpty()){
+		if (name.isEmpty()){
 			throw new IllegalArgumentException("The name of the bank cannot be empty");
 		}
 	}

@@ -3,20 +3,20 @@ package model;
 import util.Formater;
 
 public class Agency {
-	private String agencyName;
+	private String name;
 	private String counterCode;
 
 	public Agency(String agencyName, String counterCode) {
 
 		chekCounterCode(counterCode);
-		checkAgencyName(agencyName);
+		checkName(agencyName);
 
 		this.counterCode = Formater.removeUsualSeparators(counterCode);
-		this.agencyName = Formater.formatNameCase(agencyName);
+		this.name = Formater.formatNameCase(agencyName);
 	}
 
-	public static void checkAgencyName(String agencyName) throws IllegalArgumentException {
-		if (agencyName.isEmpty()) {
+	public static void checkName(String name) throws IllegalArgumentException {
+		if (name.isEmpty()) {
 			throw new IllegalArgumentException("The name of the agency cannot be empty");
 		}
 	}
