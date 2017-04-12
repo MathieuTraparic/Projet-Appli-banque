@@ -43,8 +43,8 @@
             <TextField fx:id="addAccountInitBalance" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="addAccountOverdraft" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="addAccountThreshold" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="addAccountCountryCode" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="addAccountType" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ChoiceBox fx:id="addAccountCountryCode" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="addAccountType" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <Button fx:id="addAccountCancel" cancelButton="true" layoutX="25.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddAccountCancel" text="Cancel" AnchorPane.bottomAnchor="47.0" />
