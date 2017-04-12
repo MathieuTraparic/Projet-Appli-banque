@@ -19,7 +19,7 @@ public class TestTransaction {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullTransactionDescription() {
-		Transaction transaction = new Transaction(null,"Virement",1254d,date);
+		Transaction transaction = new Transaction(null,"VIREMENT",1254d,date);
 	}
 	/**
 	 * testing if the type is null

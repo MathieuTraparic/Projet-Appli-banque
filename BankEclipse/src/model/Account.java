@@ -85,19 +85,19 @@ public class Account {
 		return COUNTRYCODES;
 	}
 	
-	public static void check_number(String number) throws IllegalArgumentException {
+	private static void check_number(String number) throws IllegalArgumentException {
 		if(number.isEmpty()){
 			throw new IllegalArgumentException("The account number cannot be empty");
 		}
 	}
 	
-	public static void check_description(String description) throws IllegalArgumentException {
+	private static void check_description(String description) throws IllegalArgumentException {
 		if(description.isEmpty()){
 			throw new IllegalArgumentException ("The account description can't be empty");
 		}
 	}
 	
-	public static void check_countryCode(String countryCode) throws IllegalArgumentException {
+	private static void check_countryCode(String countryCode) throws IllegalArgumentException {
 		if (countryCode.isEmpty()){
 			throw new IllegalArgumentException ("The country code can't be empty");
 		}else if(!COUNTRYCODES.contains(countryCode)){
@@ -105,7 +105,7 @@ public class Account {
 		}
 	}
 	
-	public static void check_type(String type) throws IllegalArgumentException {
+	private static void check_type(String type) throws IllegalArgumentException {
 		if (type.isEmpty()){
 			throw new IllegalArgumentException ("The account type can't be empty");
 		}else if(!TYPES.contains(type)){
@@ -113,10 +113,18 @@ public class Account {
 		}
 	}
 	
-	public static void check_overdraft(double overdraft) throws IllegalArgumentException {
-		if(overdraft>0){
+	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
+		if(isValidOverdraft(overdraft)){
 			throw new IllegalArgumentException ("Authorised overdraft cannot be positive");
 		}
+	}
+	
+	public static boolean isValidOverdraft(double overdraft){
+		return overdraft<=0;
+	}
+	
+	public static boolean isValidType(double overdraft){
+		return overdraft<=0;
 	}
 	
 	
