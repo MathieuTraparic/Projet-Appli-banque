@@ -19,7 +19,7 @@ public class AddAccountController implements Initializable {
 	public TextField addAccountNumber, addAccountDescription;
 	public TextField addAccountInitBalance, addAccountOverdraft;
 	public TextField addAccountThreshold;
-	public static ComboBox<String> addAccountType;
+	public ComboBox<String> addAccountType;
 	public ComboBox<String> addAccountCountryCode;
 
 	
@@ -44,6 +44,14 @@ public class AddAccountController implements Initializable {
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		addAccountType.getItems().setAll("type1","type2");
+		for (String l : Account.getCountryCode()) {
+			addAccountCountryCode.getItems().add(l);	
+		}
+		addAccountCountryCode.getItems().add("OTHER");
+		
+		for (String l : Account.getTypes()) {
+			addAccountType.getItems().add(l);	
+		}
+		addAccountType.getItems().add("OTHER");
 	}
 }
