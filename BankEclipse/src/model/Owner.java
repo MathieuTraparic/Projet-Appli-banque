@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Date;
+
+import util.Formater;
 import util.Validator;
 
 public class Owner {
@@ -22,9 +24,9 @@ public class Owner {
 		check_birthday(birthday);
 	
 		
-		this.name = name;
-		this.firstName = firstName;
-		this.phoneNumber = phoneNumber;
+		this.name = Formater.formatNameCase(name);
+		this.firstName = Formater.formatNameCase(firstName);
+		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
 		this.birthday = birthday;
 		this.login = login;
 		this.pswd = pswd;

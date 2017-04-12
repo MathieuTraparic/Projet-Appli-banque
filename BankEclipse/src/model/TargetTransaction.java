@@ -1,5 +1,6 @@
 package model;
 
+import util.Formater;
 import util.Validator;
 
 public class TargetTransaction {
@@ -12,8 +13,8 @@ public class TargetTransaction {
 		checkIban(iban);
 		checkSummary(summary);
 		
-		this.summary = summary;
-		this.iban = iban;
+		this.summary = Formater.formatNameCase(summary);
+		this.iban = Formater.removeUsualSeparators(iban);
 	}
 	
 	public static void checkIban(String iban) throws IllegalArgumentException{

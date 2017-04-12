@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import util.Formater;
+
 public class Bank {
 	private String bankName;
 	private String bankCode;
@@ -15,8 +17,8 @@ public class Bank {
 		checkBankCode(bankCode);
 		checkBankName(bankName);
 		
-		this.bankName = bankName;
-		this.bankCode = bankCode;
+		this.bankName = Formater.formatNameCase(bankName);
+		this.bankCode = Formater.removeUsualSeparators(bankCode);
 	}
 	
 	public static void checkBankName(String bankName) throws IllegalArgumentException {

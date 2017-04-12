@@ -1,5 +1,7 @@
 package model;
 
+import util.Formater;
+
 public class Address {
 	private String line1;
 	private String line2=null;
@@ -14,8 +16,8 @@ public class Address {
 		
 		this.line1 = line1;
 		this.line2 = line2;
-		this.zip = zip;
-		this.city = city;
+		this.zip = Formater.removeUsualSeparators(zip);
+		this.city = Formater.formatNameCase(city);
 	}
 	
 	public static void check_line1(String line1) throws IllegalArgumentException {
