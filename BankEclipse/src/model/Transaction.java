@@ -65,7 +65,7 @@ public class Transaction {
 	private static void checkType (String type)throws IllegalArgumentException{
 		if (type == null){
 			throw new NullPointerException("The type of the transaction cannot be null");
-		}else if(isValidType(type)){
+		}else if(!isValidType(type)){
 			throw new IllegalArgumentException("The type of the transaction must be an existing type");
 		}
 	}

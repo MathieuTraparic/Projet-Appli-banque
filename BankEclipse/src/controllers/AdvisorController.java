@@ -19,7 +19,16 @@ public class AdvisorController {
 	
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
-
+		
+		String err="";
+		
+		if (!Advisor.isValidName(name.getText())){
+			err+="Name is incorrect, must contains only letters and/or spaces, dashes, apostrophe";
+		}
+		else if (!Advisor.isValidFirstName(firstName.getText())){
+			
+		}
+		
 		Calendar cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
 				assignmentDate.getValue().getMonthValue(), 
 				assignmentDate.getValue().getDayOfMonth(), 0, 0);
