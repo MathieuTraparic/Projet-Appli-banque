@@ -10,7 +10,7 @@ import model.Bank;
 
 public class AddBankController {
 	
-	public Button addBankCancel;
+	public Button addBankCancel, addBankSubmit;
 	public TextField bankName, bankCode;
 
 	@FXML
@@ -22,5 +22,7 @@ public class AddBankController {
 	@FXML
 	void handleAddBankSubmit(ActionEvent event){
 		Bank  bank = new Bank(bankName.getText(), bankCode.getText());
+		Stage stage = (Stage) addBankSubmit.getScene().getWindow();
+		stage.close();
 	}
 }

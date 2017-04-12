@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 
+
 public class Account {
 	private String number;
 	private String description;
@@ -43,8 +44,7 @@ public class Account {
 		check_description(description);
 		check_countryCode(countryCode);
 		check_type(type);
-		
-		
+		check_overdraft(overdraft);
 		
 		this.number = number;
 		this.initialBalance = initialBalance;
@@ -73,6 +73,14 @@ public class Account {
 	
 	public double getAlertThreshold(){
 		return this.alertThreshold.doubleValue();
+	}
+	
+	public static Iterable<String> getTypes() {
+		return TYPES;
+	}
+	
+	public static Iterable<String> getCountryCode() {
+		return COUNTRYCODES;
 	}
 	
 	public static void check_number(String number) throws IllegalArgumentException {
