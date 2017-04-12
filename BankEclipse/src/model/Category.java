@@ -4,42 +4,37 @@ import util.Formater;
 
 public class Category {
 
-	private String categoryDescription;
-	private String parentCategory=null;
+	private String description;
+	private Category parentCategory;
 
-	public Category(String categoryDescription) {
+	public Category(String description) {
 
-		checkCategoryDescription(categoryDescription);
+		checkdescription(description);
 		
-		this.categoryDescription = Formater.formatNameCase(categoryDescription);
+		this.description = Formater.formatNameCase(description);
+		this.parentCategory = null;
 		
 	}
 	
-	public Category(String categoryDescription, String parentCategory) {
+	public Category(String description, Category parentCategory) {
 
-		checkCategoryDescription(categoryDescription);
-		checkParentCategory(parentCategory);
+		checkdescription(description);
 
-		this.categoryDescription = categoryDescription;
+		this.description = description;
 		this.parentCategory = parentCategory;
 	}
 
-	public static void checkCategoryDescription(String categoryDescription) throws IllegalArgumentException {
-		if (categoryDescription.isEmpty()) {
+	public static void checkdescription(String description) throws IllegalArgumentException {
+		if (description.isEmpty()) {
 			throw new IllegalArgumentException("Description of the category cannot be empty");
 		}
 	}
 	
-	public static void checkParentCategory(String parentCategory) throws IllegalArgumentException {
-		if (parentCategory.isEmpty()) {
-			throw new IllegalArgumentException("The parent category cannot be empty");
-		}
-	}
 	
-	public static void checkCategoryDescriptionDiffParentCategory(String categoryDescription, String parentCategory) throws IllegalArgumentException {
+	/*public static void checkCategoryDescriptionDiffParentCategory(String categoryDescription, String parentCategory) throws IllegalArgumentException {
 		if (parentCategory.equals(categoryDescription)) {
 			throw new IllegalArgumentException("The parent category and the new category cannot be the same");
 		}
-	}
+	}*/
 
 }

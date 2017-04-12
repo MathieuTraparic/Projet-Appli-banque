@@ -36,7 +36,14 @@ public class Owner {
 	public static void check_name(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
 			throw new IllegalArgumentException("name cannot be empty");
+		}if (!isValidName(name)){
+			throw new IllegalArgumentException("name cannot be empty");
 		}
+	}
+
+	private static boolean isValidName(String name2) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public static void check_firstName(String firstName) throws IllegalArgumentException {
