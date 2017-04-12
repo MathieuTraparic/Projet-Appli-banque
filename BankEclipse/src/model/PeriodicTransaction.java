@@ -50,6 +50,9 @@ public class PeriodicTransaction {
 		if (frequencyUnit.isEmpty()) {
 			throw new IllegalArgumentException("The unit of periodicity cannot be empty");
 		}
+		else if(!FREQUENCIES.contains(frequencyUnit)){
+			throw new IllegalArgumentException("The frequency of the periodic transaction must be an existing type");
+		}
 	}
 
 }

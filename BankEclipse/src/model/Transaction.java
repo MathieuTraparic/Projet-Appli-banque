@@ -12,8 +12,8 @@ public class Transaction {
 	@SuppressWarnings("serial")
 	private static ArrayList<String> TYPES = new ArrayList<String>() {
 		{
-			add("Virement");
-			add("Retrait");
+			add("VIREMENT");
+			add("RETRAIT");
 		}
 	};
 
@@ -61,7 +61,7 @@ public class Transaction {
 	public static void checkType (String type)throws IllegalArgumentException{
 		if (type == null){
 			throw new NullPointerException("The type of the transaction cannot be null");
-		}else if(TYPES.contains(type)){
+		}else if(!TYPES.contains(type)){
 			throw new IllegalArgumentException("The type of the transaction must be an existing type");
 		}
 	}
