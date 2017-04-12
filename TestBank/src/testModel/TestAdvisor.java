@@ -58,7 +58,7 @@ public class TestAdvisor {
 	/**
 	 * testing if phone number is null
 	 */
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_NullAdvisorPhoneNumber() {
 		Advisor advisor = new Advisor("bar","bar",null,"bar", date);
 	}
