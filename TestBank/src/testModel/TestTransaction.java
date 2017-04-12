@@ -28,14 +28,7 @@ public class TestTransaction {
 	public void test_NullTransactionType() {
 		Transaction transaction = new Transaction("bar", null,1254d,date);
 	}
-	
-	/**
-	 * testing if the value is null
-	 */
-	@Test(expected = NullPointerException.class)
-	public void test_NullTransactionValue() {
-		Transaction transaction = new Transaction("bar","VIREMENT", null, date);
-	}
+
 	
 	/**
 	 * testing if the description is empty
