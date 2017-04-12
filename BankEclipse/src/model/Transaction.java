@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import util.Formater;
+
 public class Transaction {
 
 	private String type;
@@ -30,7 +32,7 @@ public class Transaction {
 		checkDescription(description);
 
 		this.description = description;
-		this.type = type; //pass the test without being in the types arraylist
+		this.type = Formater.formatNameCase(type);
 		this.value = value;
 		this.date = date;
 	}

@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import util.Formater;
+
 
 
 public class Account {
@@ -46,7 +48,7 @@ public class Account {
 		check_type(type);
 		check_overdraft(overdraft);
 		
-		this.number = number;
+		this.number = Formater.removeUsualSeparators(number);
 		this.initialBalance = initialBalance;
 		this.overdraft = overdraft;
 		this.alertThreshold = threshold;

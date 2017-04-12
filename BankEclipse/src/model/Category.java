@@ -1,5 +1,7 @@
 package model;
 
+import util.Formater;
+
 public class Category {
 
 	private String categoryDescription;
@@ -9,7 +11,7 @@ public class Category {
 
 		checkCategoryDescription(categoryDescription);
 		
-		this.categoryDescription = categoryDescription;
+		this.categoryDescription = Formater.formatNameCase(categoryDescription);
 		
 	}
 	

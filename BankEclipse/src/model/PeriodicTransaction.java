@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import util.Formater;
+
 public class PeriodicTransaction {
 	private Date endDate;
 	private int numberDefiningPeriodicity;
@@ -30,7 +32,7 @@ public class PeriodicTransaction {
 
 		this.endDate = endDate;
 		this.numberDefiningPeriodicity = numberDefiningPeriodicity;
-		this.frequencyUnit = frequencyUnit;
+		this.frequencyUnit = Formater.formatNameCase(frequencyUnit);
 	}
 
 	public static void checkEndDateTransaction(Date endDateTransaction) throws IllegalArgumentException{

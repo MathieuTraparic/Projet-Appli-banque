@@ -1,5 +1,7 @@
 package model;
 
+import util.Formater;
+
 public class Agency {
 	private String agencyName;
 	private String counterCode;
@@ -9,8 +11,8 @@ public class Agency {
 		chekCounterCode(counterCode);
 		checkAgencyName(agencyName);
 
-		this.counterCode = counterCode;
-		this.agencyName = agencyName;
+		this.counterCode = Formater.removeUsualSeparators(counterCode);
+		this.agencyName = Formater.formatNameCase(agencyName);
 	}
 
 	public static void checkAgencyName(String agencyName) throws IllegalArgumentException {

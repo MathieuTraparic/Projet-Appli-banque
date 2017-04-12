@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-
+import util.Formater;
 import util.Validator;
 
 public class Advisor {
@@ -20,10 +20,10 @@ public class Advisor {
 		check_assignmentDate(assignmentDate);
 		check_phoneNumber(phoneNumber);
 
-		this.name = name;
-		this.firstName = firstName;
-		this.phoneNumber = phoneNumber;
-		this.email = email;
+		this.name = Formater.formatNameCase(name);
+		this.firstName = Formater.formatNameCase(firstName);
+		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
+		this.email = Formater.removeUsualSeparators(email);
 		this.assignmentDate = assignmentDate;
 	}
 
