@@ -16,46 +16,35 @@ public class HomeController {
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addBank.fxml"));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(root1));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addBank.fxml"));
+		Parent root1 = (Parent) fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(root1));
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.show();
 	}
 
 	@FXML
 	void handleAddAgencyHome(ActionEvent event) throws IOException {
-		//try {
-			FXMLLoader fxmlLoader = new FXMLLoader(new URL(HomeController.class.getResource("/viewFxml/addAccount.fxml").toExternalForm()));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(root1));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.show();
-		/*} catch (Exception e) {
-		 *	e.printStackTrace();
-		}*/
+		FXMLLoader fxmlLoader = new FXMLLoader(
+				new URL(HomeController.class.getResource("/viewFxml/addAccount.fxml").toExternalForm()));
+		Parent root1 = (Parent) fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(root1));
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.show();
 	}
-	
+
 	@FXML
-	void handleAddAccountHome(ActionEvent event) {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addAccount.fxml"));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(root1));
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	void handleAddAccountHome(ActionEvent event) throws IOException{
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addAccount.fxml"));
+		Parent root1 = (Parent) fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(root1));
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.show();
 	}
-	
+
 	@FXML
 	void handleBankChoiceHome(ActionEvent event) {
 		// TODO
