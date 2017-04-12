@@ -7,7 +7,6 @@ import util.Formater;
 
 public class Transaction {
 
-	private String type;
 	/**
 	 * To be fetched from DB BEFORE first instance is created
 	 */
@@ -19,12 +18,12 @@ public class Transaction {
 		}
 	};
 
+	private String type;
 	private String description;
 	private Double value;
 	private Date date;
 
-	public Transaction(String description, String type, 
-			double value, Date date) {
+	public Transaction(String description, String type, double value, Date date) {
 
 		checkValue(value);
 		checkDate(date);
@@ -44,15 +43,14 @@ public class Transaction {
 	}
 
 	private static void checkValue(double value) throws IllegalArgumentException {
-
-		if (isValidValue(value)) {
+		if (!isValidValue(value)) {
 			throw new IllegalArgumentException(
 					"The value of the transaction cannot be 0, it must be positive or negative");
 		}
 	}
-	
-	public static boolean isValidValue(double value){
-		return (value !=0);
+
+	public static boolean isValidValue(double value) {
+		return (0 != Double.compare(value, 0));
 	}
 
 	private static void checkDate(Date transactionDate) throws NullPointerException {
@@ -62,15 +60,15 @@ public class Transaction {
 
 	}
 
-	private static void checkType (String type)throws IllegalArgumentException{
-		if (type == null){
+	private static void checkType(String type) throws IllegalArgumentException {
+		if (type == null) {
 			throw new NullPointerException("The type of the transaction cannot be null");
-		}else if(!isValidType(type)){
+		} else if (!isValidType(type)) {
 			throw new IllegalArgumentException("The type of the transaction must be an existing type");
 		}
 	}
-	
-	public static boolean isValidType(String type){
+
+	public static boolean isValidType(String type) {
 		return (TYPES.contains(type));
 	}
 
