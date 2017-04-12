@@ -114,7 +114,7 @@ public class Account {
 	}
 	
 	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
-		if(isValidOverdraft(overdraft)){
+		if(!isValidOverdraft(overdraft)){
 			throw new IllegalArgumentException ("Authorised overdraft cannot be positive");
 		}
 	}

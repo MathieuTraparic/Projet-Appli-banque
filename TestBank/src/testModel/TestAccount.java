@@ -97,7 +97,7 @@ public class TestAccount {
 	*/
 	@Test(expected = IllegalArgumentException.class)
 	public void test_ValueOfAccountOverdraft() {
-		account = new Account("NA", "Comment",1000d, 150d, 0d,"FR", "EPARGNE");
+		account = new Account("NA", "Comment",1000d, 150.0, 0d,"FR", "EPARGNE");
 	}
 	
 	

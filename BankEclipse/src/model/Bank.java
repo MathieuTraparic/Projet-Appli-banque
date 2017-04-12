@@ -1,37 +1,46 @@
 package model;
 
+import java.util.ArrayList;
 
 import util.Formater;
+import util.Validator;
 
 public class Bank {
-	private String name;
+	private String bankName;
 	private String bankCode;
 
 	
 	
-	public Bank(String name, String bankCode) {
+	public Bank(String bankName, String bankCode) {
 		
 		//TODO update methode for the ArrayListes
 		
 		checkBankCode(bankCode);
-		checkName(name);
+		checkBankName(bankName);
 		
-		this.name = Formater.formatNameCase(name);
+		this.bankName = Formater.formatNameCase(bankName);
 		this.bankCode = Formater.removeUsualSeparators(bankCode);
 	}
 	
-	public static void checkName(String name) throws IllegalArgumentException {
-
-		if (name.isEmpty()){
+	public static boolean isValidName(String name){
+		return Validator.isValidName(name);
+	}
+	
+	private static void checkBankName(String bankName) throws IllegalArgumentException {
+		if (bankName.isEmpty()){
 			throw new IllegalArgumentException("The name of the bank cannot be empty");
+		}
+		else if(!isValidName(bankName)){
+			throw new IllegalArgumentException("The bank name is incorrect");
 		}
 	}
 	
-	public static void checkBankCode(String bankCode) throws IllegalArgumentException {
-
+	private static void checkBankCode(String bankCode) throws IllegalArgumentException {
 		if (bankCode.isEmpty()){
 			throw new IllegalArgumentException("The code of the bank cannot be empty");
 		}
+		else if(!isValidName(bankCode)){
+			throw new IllegalArgumentException("The bank name is incorrect");
+		}
 	}
-
 }

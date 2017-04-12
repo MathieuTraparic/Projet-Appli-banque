@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -23,7 +22,6 @@ public class HomeController {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 			stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -32,17 +30,16 @@ public class HomeController {
 
 	@FXML
 	void handleAddAgencyHome(ActionEvent event) throws IOException {
-		try {
+		//try {
 			FXMLLoader fxmlLoader = new FXMLLoader(new URL(HomeController.class.getResource("/viewFxml/addAccount.fxml").toExternalForm()));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 			stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/*} catch (Exception e) {
+		 *	e.printStackTrace();
+		}*/
 	}
 	
 	@FXML
@@ -53,7 +50,6 @@ public class HomeController {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
 			stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initStyle(StageStyle.UNDECORATED);
 			stage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
