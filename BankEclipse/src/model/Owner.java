@@ -33,7 +33,7 @@ public class Owner {
 		this.address = address;
 	}
 
-	public static void check_name(String name) throws IllegalArgumentException {
+	private static void check_name(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
 			throw new IllegalArgumentException("name cannot be empty");
 		}if (!isValidName(name)){
@@ -41,42 +41,56 @@ public class Owner {
 		}
 	}
 
-	private static boolean isValidName(String name2) {
-		// TODO Auto-generated method stub
-		return false;
+	public static boolean isValidName(String name) {
+		return Validator.isValidName(name);
 	}
 
-	public static void check_firstName(String firstName) throws IllegalArgumentException {
+	private static void check_firstName(String firstName) throws IllegalArgumentException {
 			if (firstName.isEmpty()) {
 				throw new IllegalArgumentException("firstName cannot be empty");
 			}
 	}
 
-	public static void check_login(String login) throws IllegalArgumentException {
+	private static void check_login(String login) throws IllegalArgumentException {
 		if (login.isEmpty()) {
 			throw new IllegalArgumentException("login cannot be empty");
 		}
 	}
 	
-	public static void check_pswd(String pswd) throws IllegalArgumentException {
+	private static void check_pswd(String pswd) throws IllegalArgumentException {
 		if (pswd.isEmpty()) {
 			throw new IllegalArgumentException("pswd cannot be empty");
+		}else if(!isValidPswd(pswd)){
+			throw new IllegalArgumentException("pswd must be valid");
 		}
 	}
 
 	
-	public static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
+	public static boolean isValidPswd(String pswd) {
+		//TODO must not be in clear at that point !
+		return true;
+	}
+
+	private static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("phoneNumber cannot be empty");
-		} if(!Validator.isValidPhoneNumber(phoneNumber)){
+		} if(!isValidPhoneNumber(phoneNumber)){
 			throw new IllegalArgumentException("Phone number must be a valid phone number");
 		}
 	}
 	
-	public static void check_birthday(Date birthday) throws IllegalArgumentException {
-		if (birthday.after(new Date())) {
+	public static boolean isValidPhoneNumber(String phoneNumber){
+		return Validator.isValidPhoneNumber(phoneNumber);
+	}
+	
+	private static void check_birthday(Date birthday) throws IllegalArgumentException {
+		if (!isValidBirthday(birthday)) {
 			throw new IllegalArgumentException("The birthday date cannot be in the future");
 		}
+	}
+	
+	public static boolean isValidBirthday(Date date){
+		return date.before(new Date());
 	}
 
 
