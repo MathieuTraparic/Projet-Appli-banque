@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +33,7 @@ public class HomeController {
 	@FXML
 	void handleAddAgencyHome(ActionEvent event) throws IOException {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addAgency.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(new URL(HomeController.class.getResource("/viewFxml/addAccount.fxml").toExternalForm()));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root1));
