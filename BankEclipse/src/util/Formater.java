@@ -12,7 +12,7 @@ package util;
 public class Formater {
 
 	/**
-	 * private constructor because it shouldn't have to be instanciated
+	 * private constructor because it shouldn't have to be instantiated
 	 */
 	private Formater() {
 		super();

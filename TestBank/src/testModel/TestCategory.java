@@ -5,7 +5,7 @@ import org.junit.Test;
 import model.Category;;
 
 public class TestCategory {
-	
+
 	/**
 	 * testing if the Category name is null
 	 */
@@ -13,13 +13,13 @@ public class TestCategory {
 	public void test_NullCategoryName() {
 		Category category = new Category(null);
 	}
-	
+
 	/**
 	 * testing if the Category name of the parent category is the same
 	 */
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void test_CategoryDescriptionSameAsParentCategory() {
-		Category category = new Category("hello","hello");
+		Category category = new Category("hello", new Category("hello"));
 	}
-	
+
 }

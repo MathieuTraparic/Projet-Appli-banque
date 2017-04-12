@@ -5,36 +5,45 @@ import util.Formater;
 public class Category {
 
 	private String description;
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public Category getParentCategory() {
+		return this.parentCategory;
+	}
+
 	private Category parentCategory;
 
-	public Category(String description) {
-
+	private void init(String description) {
 		checkdescription(description);
-		
+
 		this.description = Formater.formatNameCase(description);
 		this.parentCategory = null;
-		
 	}
-	
+
+	public Category(String description) {
+		init(description);
+	}
+
 	public Category(String description, Category parentCategory) {
-
-		checkdescription(description);
-
-		this.description = description;
+		init(description);
+		checkDiffParentCategory(this.description, parentCategory);
 		this.parentCategory = parentCategory;
 	}
 
-	public static void checkdescription(String description) throws IllegalArgumentException {
+	private static void checkdescription(String description) throws IllegalArgumentException {
 		if (description.isEmpty()) {
 			throw new IllegalArgumentException("Description of the category cannot be empty");
 		}
 	}
-	
-	
-	/*public static void checkCategoryDescriptionDiffParentCategory(String categoryDescription, String parentCategory) throws IllegalArgumentException {
-		if (parentCategory.equals(categoryDescription)) {
+
+	private static void checkDiffParentCategory(String description, Category parentCategory)
+			throws IllegalArgumentException {
+		if (parentCategory.getDescription().equals(description)) {
 			throw new IllegalArgumentException("The parent category and the new category cannot be the same");
 		}
-	}*/
+	}
 
 }
