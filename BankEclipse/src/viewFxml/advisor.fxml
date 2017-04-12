@@ -35,10 +35,11 @@
                   <RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="36.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="13.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="67.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label prefHeight="21.0" prefWidth="77.0" text="Name" />
@@ -53,10 +54,11 @@
                   <Label prefHeight="31.0" prefWidth="180.0" text="Date of assignment" GridPane.rowIndex="10" />
                   <ComboBox prefHeight="31.0" prefWidth="325.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <DatePicker fx:id="assignmentDate" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                  <Label fx:id="invalidName" prefHeight="21.0" prefWidth="323.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="invalidFirstName" prefHeight="21.0" prefWidth="324.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="invalidNumber" prefHeight="21.0" prefWidth="295.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Label fx:id="invalidEmail" prefHeight="21.0" prefWidth="324.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Label fx:id="invalidName" prefHeight="21.0" prefWidth="323.0" text="Name is incorrect, must contains only letters and/or spaces, dashes, apostrophe" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="invalidFirstName" prefHeight="21.0" prefWidth="324.0" text="First name is incorrect, must contains only letters and/or spaces, dashes, apostrophe" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="invalidNumber" prefHeight="21.0" prefWidth="295.0" text="Phone number must be a valid French phone number composed of 10 digits" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label fx:id="invalidDate" prefHeight="21.0" prefWidth="324.0" text="The date cannot be in the future" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                  <Label fx:id="invalidEmail" prefHeight="21.0" prefWidth="324.0" text="Email must be a valid email address" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                </children>
             </GridPane>
             <ComboBox layoutX="24.0" layoutY="28.0" onAction="#chooseAdvisorBank" prefWidth="150.0" promptText="Advisor Bank" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="626.0" AnchorPane.topAnchor="28.0" />

@@ -3,12 +3,15 @@ package controllers;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Advisor;
+import util.Utils;
 
 public class AdvisorController {
 	
@@ -21,35 +24,41 @@ public class AdvisorController {
 	public Label invalidFirstName;
 	public Label invalidNumber;
 	public Label invalidEmail;
+	public Label invalidDate;
 	
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
 		
-		Calendar cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
-				assignmentDate.getValue().getMonthValue(), 
-				assignmentDate.getValue().getDayOfMonth(), 0, 0);
+		Utils.settingLabelsInvisible(invalidDate,invalidEmail,invalidFirstName,invalidName,invalidNumber);
+
 		
 		if (!Advisor.isValidName(name.getText())){
-			invalidName.setText("Name is incorrect, must contains only letters and/or spaces, dashes, apostrophe");
+			invalidName.setVisible(true);
 		}
 		else if (!Advisor.isValidFirstName(firstName.getText())){
-			invalidFirstName.setText("First name is incorrect, must contains only letters and/or spaces, dashes, apostrophe");
+			invalidFirstName.setVisible(true);
 		}
 		else if (!Advisor.isValidPhoneNumber(phoneNumber.getText())){
-			invalidNumber.setText("Phone number must be a valid French phone number composed of 10 digits");
+			invalidNumber.setVisible(true);
 		}
 		else if (!Advisor.isValidEmail(email.getText())){
-			invalidEmail.setText("Email must be a valid email address");
+			invalidEmail.setVisible(true);
 		}
 		else if (!Advisor.isValidAssignmentDate(cal.getTime())){
-			invalidEmail.setText("Email must be a valid email address");
+			invalidDate.setVisible(true);
 		}
 		else{		
+		Calendar cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
+					assignmentDate.getValue().getMonthValue(), 
+					assignmentDate.getValue().getDayOfMonth(), 0, 0, 0);
 		Advisor advisor = new Advisor(name.getText(), 
 						firstName.getText(), phoneNumber.getText(), email.getText(),
 						cal.getTime());
 		}
+		
+		
 	}
+
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) {
