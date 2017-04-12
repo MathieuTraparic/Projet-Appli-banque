@@ -40,6 +40,9 @@ public class Address {
 	public static boolean isValidZip(String zip){
 		return zip.length()<=50;
 	}
+
+	
+	
 	
 	
 	
