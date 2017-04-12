@@ -35,26 +35,34 @@ public class PeriodicTransaction {
 		this.frequencyUnit = Formater.formatNameCase(frequencyUnit);
 	}
 
-	public static void checkEndDateTransaction(Date endDateTransaction) throws IllegalArgumentException{
+	private static void checkEndDateTransaction(Date endDateTransaction) throws IllegalArgumentException{
 		if (endDateTransaction == null) {
 			throw new NullPointerException("The date cannot be null");
-		} //TODO cannot be in the past ?
+		}
 	}
-
-	public static void checkdayNumberDefiningPeriodicity(int numberDefiningPeriodicity) throws IllegalArgumentException {
-		if (numberDefiningPeriodicity <= 0) {
+	
+	private static void checkdayNumberDefiningPeriodicity(int numberDefiningPeriodicity) throws IllegalArgumentException {
+		if (!isValidNumberDefiningPeriodicity(numberDefiningPeriodicity)) {
 			throw new IllegalArgumentException(
 					"The number which defines the periodicity between each periodic transaction must be superior to 0");
 		}
 	}
+	
+	public static boolean isValidNumberDefiningPeriodicity(int numberDefiningPeriodicity){
+		return (numberDefiningPeriodicity >= 0);
+	}
 
-	public static void checkFrequencyUnit(String frequencyUnit) throws IllegalArgumentException{
+	private static void checkFrequencyUnit(String frequencyUnit) throws IllegalArgumentException{
 		if (frequencyUnit.isEmpty()) {
 			throw new IllegalArgumentException("The unit of periodicity cannot be empty");
 		}
-		else if(!FREQUENCIES.contains(frequencyUnit)){
+		else if(!isValidFrequencyUnit(frequencyUnit)){
 			throw new IllegalArgumentException("The frequency of the periodic transaction must be an existing type");
 		}
+	}
+	
+	public static boolean isValidFrequencyUnit(String frequencyUnit){
+		return (FREQUENCIES.contains(frequencyUnit));
 	}
 
 }
