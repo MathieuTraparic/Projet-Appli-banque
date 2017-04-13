@@ -11,38 +11,23 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.PopWindow;
 
 public class HomeController {
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addBank.fxml"));
-		Parent root1 = (Parent) fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(root1));
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.show();
+		PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml",false);
 	}
 
 	@FXML
 	void handleAddAgencyHome(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(
-				new URL(HomeController.class.getResource("/viewFxml/addAccount.fxml").toExternalForm()));
-		Parent root1 = (Parent) fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(root1));
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.show();
+		PopWindow addAgencyPop = new PopWindow("/viewFxml/addAgency.fxml",false);
 	}
 
 	@FXML
 	void handleAddAccountHome(ActionEvent event) throws IOException{
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/viewFxml/addAccount.fxml"));
-		Parent root1 = (Parent) fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(root1));
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.show();
+		PopWindow addAccountPop = new PopWindow("/viewFxml/addAccount.fxml",true);
 	}
 
 	@FXML
