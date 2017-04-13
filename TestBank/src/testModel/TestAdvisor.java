@@ -92,8 +92,25 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)	
 	public void test_AdvisorAssignmentDate() {
-		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+1, Calendar.MARCH, Calendar.THURSDAY, 12, 31, 15);
-		Advisor advisor = new Advisor("bar","bar","0612121212","dfgdfg", cal.getTime());
+		Calendar cal = new GregorianCalendar(2017, Calendar.APRIL,24, 12, 31, 15);
+		Advisor advisor = new Advisor("bar","bar","0612121212","machin@truc.com", cal.getTime());
 	}
+	
+	/**
+	 * testing if the assignment date of the new advisor is in the future
+	 */
+	@Test
+	public void test_isValidAssignmentDate() {
+		
+	
+		Calendar cal = new GregorianCalendar(2017, Calendar.MARCH, 12, 12, 31, 15);
+		assertTrue(Advisor.isValidAssignmentDate(cal.getTime()));
+		 cal = new GregorianCalendar(2017, Calendar.APRIL, 12, 12, 31, 15);
+		assertTrue(Advisor.isValidAssignmentDate(cal.getTime()));
+		
+		 cal = new GregorianCalendar(2017, Calendar.APRIL, 14, 12, 31, 15);
+			assertFalse(Advisor.isValidAssignmentDate(cal.getTime()));
+	}
+	
 
 }
