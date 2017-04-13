@@ -81,8 +81,6 @@ public class AdvisorController implements Initializable {
 			} else {
 				cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
 						assignmentDate.getValue().getMonthValue()-1, assignmentDate.getValue().getDayOfMonth(), 0, 0, 0);
-				System.out.println(cal.getTime().toString());
-				System.out.println(Calendar.getInstance().getTime());
 				if (!Advisor.isValidAssignmentDate(cal.getTime())) {
 					invalidDate.setVisible(true);
 				}
