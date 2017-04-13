@@ -16,7 +16,8 @@ public class TransactionController {
 	
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
-		PopWindow addTransactionPop = new PopWindow("/viewFxml/addTransaction.fxml",true);
+		PopWindow addTransactionPop = new PopWindow("/viewFxml/addTransaction.fxml",true, 
+				this.getClass());
 	}
 	
 }

@@ -34,8 +34,8 @@
          <children>
             <Label text="Login" />
             <Label text="Password" GridPane.rowIndex="1" />
-      				<TextField prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      				<TextField fx:id="login" prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" />
+            <PasswordField fx:id="Pswd" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
 	</children>
