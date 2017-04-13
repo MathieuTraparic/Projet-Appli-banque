@@ -10,18 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import util.PopWindow;
 
 public class TransactionController {
 	
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(
-				new URL(TransactionController.class.getResource("/viewFxml/addTransaction.fxml").toExternalForm()));
-		Parent root1 = (Parent) fxmlLoader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(root1));
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.show();
+		PopWindow addTransactionPop = new PopWindow("/viewFxml/addTransaction.fxml",true);
 	}
 	
 }
