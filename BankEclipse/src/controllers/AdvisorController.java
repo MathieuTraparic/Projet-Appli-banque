@@ -40,29 +40,40 @@ public class AdvisorController implements Initializable{
 		
 		Utils.settingLabelsInvisible(invalidDate,invalidEmail,invalidFirstName,invalidName,invalidNumber);
 		
+		Calendar cal;
 		
+		if (assignmentDate!=null ){
+			cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
+					assignmentDate.getValue().getMonthValue(), 
+					assignmentDate.getValue().getDayOfMonth(), 0, 0, 0);
+			if (!Advisor.isValidAssignmentDate(cal.getTime())){
+				invalidDate.setVisible(true);
+			}
+		}
+		else {
+			invalidDate.setVisible(true);
+
+		}
 		if (!Advisor.isValidName(name.getText())){
 			invalidName.setVisible(true);
 		}
-		else if (!Advisor.isValidFirstName(firstName.getText())){
+		if (!Advisor.isValidFirstName(firstName.getText())){
 			invalidFirstName.setVisible(true);
 		}
-		else if (!Advisor.isValidPhoneNumber(phoneNumber.getText())){
+		if (!Advisor.isValidPhoneNumber(phoneNumber.getText())){
 			invalidNumber.setVisible(true);
 		}
-		else if (!Advisor.isValidEmail(email.getText())){
+		if (!Advisor.isValidEmail(email.getText())){
 			invalidEmail.setVisible(true);
 		}
-		/*else if (!Advisor.isValidAssignmentDate(cal.getTime())){
-		*	invalidDate.setVisible(true);}
-		*/
+		
 		else{		
-		Calendar cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
+			cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
 					assignmentDate.getValue().getMonthValue(), 
 					assignmentDate.getValue().getDayOfMonth(), 0, 0, 0);
-		Advisor advisor = new Advisor(name.getText(), 
-						firstName.getText(), phoneNumber.getText(), email.getText(),
-						cal.getInstance().getTime());
+			Advisor advisor = new Advisor(name.getText(), 
+							firstName.getText(), phoneNumber.getText(), email.getText(),
+							cal.getTime());
 		}
 	
 	}
