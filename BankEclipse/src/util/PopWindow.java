@@ -14,25 +14,28 @@ public class PopWindow {
 
 	private String fxmlLocation;
 	private boolean combo;
-	
-	public PopWindow(String fxmlLocation, boolean combo) throws IOException{
-		this.fxmlLocation = fxmlLocation;
-		this.combo = combo;
-		popWindow(fxmlLocation, combo);
-	}
+	private Class<?> callingclass;
 	
 	/**
 	 * 
-	 * @param fxmlLocation : acces of the fxml file
-	 * @param combo : boolean for the presence of combo box in popup
+	 * @param fxmlLocation : path of the fxml file
+	 * @param combo : a boolean for the presence or not of combobox in the popup
 	 * @throws IOException
 	 */
 	
-	private void popWindow(String fxmlLocation, boolean combo) throws IOException{
+	public PopWindow(String fxmlLocation, boolean combo, Class<?> callingclass) throws IOException{
+		this.fxmlLocation = fxmlLocation;
+		this.combo = combo;
+		this.callingclass = callingclass;
+		
+		popWindow(fxmlLocation, combo, callingclass);
+	}
+	
+	private void popWindow(String fxmlLocation, boolean combo, Class<?> callingclass) throws IOException{
 		FXMLLoader fxmlLoader;
 		if(combo){
 			fxmlLoader = new FXMLLoader(
-					new URL(TransactionController.class.getResource(fxmlLocation).toExternalForm()));
+					new URL(callingclass.getResource(fxmlLocation).toExternalForm()));
 		}
 		else{
 			fxmlLoader = new FXMLLoader(getClass().getResource(fxmlLocation));
