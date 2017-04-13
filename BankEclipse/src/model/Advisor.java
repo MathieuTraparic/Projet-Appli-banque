@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+import javafx.scene.control.ComboBox;
 import jdk.internal.org.objectweb.asm.util.CheckFieldAdapter;
 import util.Formater;
 import util.Validator;

@@ -1,10 +1,19 @@
 package model;
 
+import java.util.ArrayList;
+
 import util.Formater;
 
 public class Agency {
 	private String name;
 	private String counterCode;
+	
+	private static ArrayList<String> AGENCY = new ArrayList<String>(){
+		{
+			add("LI");
+			add("LO");
+		}
+	};
 
 	public Agency(String agencyName, String counterCode) {
 
@@ -25,5 +34,9 @@ public class Agency {
 		if (counterCode.isEmpty()) {
 			throw new IllegalArgumentException("The countercode cannot be empty");
 		}
+	}
+	
+	public static Iterable<String> getAgency() {
+		return AGENCY;
 	}
 }

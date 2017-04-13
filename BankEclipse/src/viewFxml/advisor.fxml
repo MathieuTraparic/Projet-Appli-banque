@@ -52,7 +52,7 @@
                   <TextField fx:id="phoneNumber" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <Label prefHeight="31.0" prefWidth="180.0" text="Date of assignment" GridPane.rowIndex="10" />
-                  <ComboBox prefHeight="31.0" prefWidth="325.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <ComboBox fx:id="agency" prefHeight="31.0" prefWidth="325.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                   <DatePicker fx:id="assignmentDate" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                   <Label fx:id="invalidName" prefHeight="21.0" prefWidth="323.0" text="Name is incorrect, must contains only letters and/or spaces, dashes, apostrophe" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label fx:id="invalidFirstName" prefHeight="21.0" prefWidth="324.0" text="First name is incorrect, must contains only letters and/or spaces, dashes, apostrophe" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -61,7 +61,7 @@
                   <Label fx:id="invalidEmail" prefHeight="21.0" prefWidth="324.0" text="Email must be a valid email address" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                </children>
             </GridPane>
-            <ComboBox layoutX="24.0" layoutY="28.0" onAction="#chooseAdvisorBank" prefWidth="150.0" promptText="Advisor Bank" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="626.0" AnchorPane.topAnchor="28.0" />
+            <ComboBox fx:id="bank" layoutX="24.0" layoutY="28.0" onAction="#chooseAdvisorBank" prefWidth="150.0" promptText="Advisor Bank" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="626.0" AnchorPane.topAnchor="28.0" />
 			</children>
 		</AnchorPane>
 	</children>

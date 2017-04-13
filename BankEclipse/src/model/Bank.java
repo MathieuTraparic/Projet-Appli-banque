@@ -9,6 +9,13 @@ import util.Validator;
 public class Bank {
 	private String bankName;
 	private String bankCode;
+	
+	private static ArrayList<String> BANK = new ArrayList<String>(){
+		{
+			add("j");
+			add("h");
+		}
+	};
 
 	
 	
@@ -43,5 +50,10 @@ public class Bank {
 		else if(!isValidName(bankCode)){
 			throw new IllegalArgumentException("The bank name is incorrect");
 		}
+	}
+	
+	
+	public static Iterable<String> getBank() {
+		return BANK;
 	}
 }
