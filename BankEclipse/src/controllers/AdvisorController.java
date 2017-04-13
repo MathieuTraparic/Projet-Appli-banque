@@ -121,20 +121,20 @@ public class AdvisorController implements Initializable {
 			bank.getItems().add(l);
 		}
 		bank.getItems().add("OTHER");
+		
+		applyButton.setDisable(true);
+		agency.setDisable(true);
+		assignmentDate.setDisable(true);
+		name.setDisable(true);
+		firstName.setDisable(true);
+		phoneNumber.setDisable(true);
+		email.setDisable(true);
 
 	}
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) {
-		if (bank.getValue() == null) {
-			applyButton.setDisable(true);
-			agency.setDisable(true);
-			assignmentDate.setDisable(true);
-			name.setDisable(true);
-			firstName.setDisable(true);
-			phoneNumber.setDisable(true);
-			email.setDisable(true);
-		} else {
+		if (bank.getValue() != null) {
 			applyButton.setDisable(false);
 			agency.setDisable(false);
 			assignmentDate.setDisable(false);
