@@ -37,3 +37,6 @@ http://bekwam.blogspot.fr/2014/10/tabbed-navigation-in-java-fx.html
 
 Stack Pane 
 https://blogs.oracle.com/acaicedo/entry/managing_multiple_screens_in_javafx1
+
+Discord :
+https://discord.gg/sc9rG
