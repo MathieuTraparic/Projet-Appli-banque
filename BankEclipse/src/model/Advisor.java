@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javafx.scene.control.ComboBox;
@@ -62,7 +63,8 @@ public class Advisor {
 	}
 	
 	public static boolean isValidAssignmentDate(Date assignmentDate){
-		return (assignmentDate.before(new Date()));
+		Calendar cal = Calendar.getInstance();
+		return (assignmentDate.before(cal.getTime()));
 	}
 
 	private static void check_email(String email) throws IllegalArgumentException {
@@ -80,7 +82,7 @@ public class Advisor {
 	private static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("Phone number cannot be empty");
-		}else if(isValidPhoneNumber(phoneNumber)){
+		}else if(!isValidPhoneNumber(phoneNumber)){
 			throw new IllegalArgumentException("Phone number must be a valid French phone number composed of 10 digits");
 		}
 	}
