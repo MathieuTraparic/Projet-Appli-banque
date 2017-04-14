@@ -15,12 +15,12 @@ import model.Account;
 
 public class AddAccountController implements Initializable {
 
-	public Button addAccountCancel, addAccountSubmit;
-	public TextField addAccountNumber, addAccountDescription;
-	public TextField addAccountInitBalance, addAccountOverdraft;
-	public TextField addAccountThreshold;
-	public ComboBox<String> addAccountType;
-	public ComboBox<String> addAccountCountryCode;
+	@FXML public Button addAccountCancel, addAccountSubmit;
+	@FXML public TextField addAccountNumber, addAccountDescription;
+	@FXML public TextField addAccountInitBalance, addAccountOverdraft;
+	@FXML public TextField addAccountThreshold;
+	@FXML public ComboBox<String> addAccountType;
+	@FXML public ComboBox<String> addAccountCountryCode;
 
 	
 	@FXML

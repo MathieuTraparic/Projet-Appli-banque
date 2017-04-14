@@ -6,12 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Account;
@@ -19,10 +21,12 @@ import model.Transaction;
 
 public class AddTransactionController implements Initializable{
 	
-	public Button transactionCancel, transactionSubmit;
-	public TextField description, value, date;
-	public Label descriptionError, typeError, valueError, dateError;
-	public ComboBox<String> type;
+	@FXML public Button transactionCancel, transactionSubmit;
+	@FXML public TextField description, value, date;
+	@FXML public Label descriptionError, typeError, valueError, dateError;
+	@FXML public ComboBox<String> type;
+	@FXML public TableView<Transaction> addTransaction;
+	@FXML private ObservableList<Transaction> data;
 	
 	@FXML
 	void handleTransactionCancel(ActionEvent event){
@@ -48,7 +52,8 @@ public class AddTransactionController implements Initializable{
 		}else{
 			try {
 				Date dt = dateParser.parse(d);
-				Transaction transaction = new Transaction(des,type.getAccessibleText(),Double.parseDouble(val),dt);
+				data.add(new Transaction(des,type.getValue(),Double.parseDouble(val),dt));
+				addTransaction.setItems(data);
 				Stage stage = (Stage) transactionCancel.getScene().getWindow();
 				stage.close();
 			} catch ( ParseException e ) {
@@ -59,6 +64,13 @@ public class AddTransactionController implements Initializable{
 	
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		type.getItems().setAll("Money", "Card","Bill", "Transaction");
+		for (String l : Transaction.getTypes()) {
+			type.getItems().add(l);	
+		}
+		type.getItems().add("OTHER");
+	}
+	
+	public Transaction getTransaction(){
+		return new Transaction(this.des,type.getValue(),Double.parseDouble(this.val),this.dt);
 	}
 }

@@ -9,8 +9,8 @@ import model.Agency;
 
 public class AddAgencyController {
 	
-	public Button addAgencyCancel, addAgencySubmit;
-	public TextField agencyName, agencyCode;
+	@FXML public Button addAgencyCancel, addAgencySubmit;
+	@FXML public TextField agencyName, agencyCode;
 	
 	@FXML
 	void handleAddAgencyCancel(ActionEvent event) {

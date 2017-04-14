@@ -13,8 +13,10 @@ public class Transaction {
 	@SuppressWarnings("serial")
 	private static ArrayList<String> TYPES = new ArrayList<String>() {
 		{
-			add("VIREMENT");
+			add("TRANSACTION");
 			add("RETRAIT");
+			add("MONEY");
+			add("BILL");
 		}
 	};
 
@@ -70,6 +72,9 @@ public class Transaction {
 
 	public static boolean isValidType(String type) {
 		return (TYPES.contains(type));
+	}
+	public static Iterable<String> getTypes() {
+		return TYPES;
 	}
 
 }

@@ -10,9 +10,9 @@ import model.Bank;
 
 public class AddBankController {
 
-	public Button addBankCancel, addBankSubmit;
-	public TextField bankName, bankCode;
-	public Label bankNameError, bankCodeError;
+	@FXML public Button addBankCancel, addBankSubmit;
+	@FXML public TextField bankName, bankCode;
+	@FXML public Label bankNameError, bankCodeError;
 
 	@FXML
 	void handleAddBankCancel(ActionEvent event) {
