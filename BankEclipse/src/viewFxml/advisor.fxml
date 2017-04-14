@@ -65,6 +65,6 @@
             <ComboBox fx:id="bank" layoutX="24.0" layoutY="28.0" onAction="#chooseAdvisorBank" prefWidth="150.0" promptText="Advisor Bank" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="626.0" AnchorPane.topAnchor="28.0" />
 			</children>
 		</AnchorPane>
-      <Label fx:id="invalidBank" layoutX="10.0" layoutY="10.0" prefHeight="21.0" prefWidth="323.0" text="Choose your bank first!" visible="false" />
+      <!-- <Label fx:id="invalidBank" layoutX="10.0" layoutY="10.0" prefHeight="21.0" prefWidth="323.0" text="Choose your bank first!" visible="false" /> -->
 	</children>
 </Pane>
