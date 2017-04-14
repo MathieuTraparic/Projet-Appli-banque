@@ -1,5 +1,6 @@
 package controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
+import util.PopWindow;
 
 public class AdvisorController implements Initializable {
 
@@ -138,11 +140,15 @@ public class AdvisorController implements Initializable {
 	}
 
 	@FXML
-	void chooseAdvisorBank(ActionEvent event) {
+	void chooseAdvisorBank(ActionEvent event) throws IOException {
 		if (bank.getValue() != null) {
 			this.secondaryFields.forEach(item -> item.setDisable(false));
 		}
-		// TODO choose the bank link to an account and advisor
+		if (bank.getValue().toString() == "OTHER") {
+			//TODO refactor
+			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml",false,this.getClass());
+			//TODO get the new bank and add it to the ComboBox
+		}
 	}
 
 }
