@@ -24,6 +24,8 @@ public class VistaNavigator {
 	public static final String HOME = "/viewFxml/home.fxml";
     public static final String TEMPLATE = "/viewFxml/template.fxml";
     public static final String ADD_BANK = "/viewFxml/addBank.fxml";
+    public static final String ADD_AGENCY = "/viewFxml/addAgency.fxml";
+    public static final String ADD_ACCOUNT = "/viewFxml/addAccount.fxml";
     
 
     /** The main application layout controller. */
