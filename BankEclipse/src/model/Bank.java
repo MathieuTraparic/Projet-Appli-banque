@@ -1,9 +1,13 @@
 
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -13,7 +17,9 @@ import util.Validator;
 @Entity
 @Table(name="bank")
 @NamedQuery(name = "Bank.findAll", query = "SELECT t FROM Bank t")
-public class Bank {
+public class Bank implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private String bankName;
 	private String bankCode;
 	
@@ -23,7 +29,10 @@ public class Bank {
 			add("h");
 		}
 	};
-
+	
+	private Bank(){
+		
+	}
 	
 	
 	public Bank(String bankName, String bankCode) {
@@ -35,6 +44,16 @@ public class Bank {
 		
 		this.bankName = Formater.formatNameCase(bankName);
 		this.bankCode = Formater.removeUsualSeparators(bankCode);
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public static boolean isValidName(String name){

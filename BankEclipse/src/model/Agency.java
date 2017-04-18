@@ -1,8 +1,12 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -11,7 +15,9 @@ import util.Formater;
 @Entity
 @Table(name="agency")
 @NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
-public class Agency {
+public class Agency  implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private String name;
 	private String counterCode;
 	
@@ -21,6 +27,10 @@ public class Agency {
 			add("LO");
 		}
 	};
+	
+	private Agency(){
+		
+	}
 
 	public Agency(String agencyName, String counterCode) {
 
@@ -29,6 +39,16 @@ public class Agency {
 
 		this.counterCode = Formater.removeUsualSeparators(counterCode);
 		this.name = Formater.formatNameCase(agencyName);
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public static void checkName(String name) throws IllegalArgumentException {

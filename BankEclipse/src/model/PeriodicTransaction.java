@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,7 +18,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="periodictransaction")
 @NamedQuery(name = "PeriodicTransaction.findAll", query = "SELECT t FROM PeriodicTransaction t")
-public class PeriodicTransaction {
+public class PeriodicTransaction implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private Frequency frequency;

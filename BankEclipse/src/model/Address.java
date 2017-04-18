@@ -25,8 +25,8 @@ public class Address implements Serializable{
 	private Integer id;
 	
 	private Address(){
-		
 	}
+	
 	public Address(String line1, String line2) {
 		
 		check_line1(line1);
