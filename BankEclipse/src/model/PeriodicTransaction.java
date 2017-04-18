@@ -9,12 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 
 @Entity
-@NamedQuery(name = "periodictransaction.findAll", query = "SELECT c FROM periodictransaction c")
+@Table(name="periodictransaction")
+@NamedQuery(name = "PeriodicTransaction.findAll", query = "SELECT t FROM PeriodicTransaction t")
 public class PeriodicTransaction {
 	private Date endDate;
 	private int numberDefiningPeriodicity;

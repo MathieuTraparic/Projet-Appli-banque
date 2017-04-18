@@ -1,8 +1,15 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import util.Formater;
 import util.Validator;
 
+@Entity
+@Table(name="targettransaction")
+@NamedQuery(name = "TargetTransaction.findAll", query = "SELECT t FROM TargetTransaction t")
 public class TargetTransaction {
 	
 	private String summary;

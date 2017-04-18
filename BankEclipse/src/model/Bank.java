@@ -3,9 +3,16 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import util.Formater;
 import util.Validator;
 
+@Entity
+@Table(name="bank")
+@NamedQuery(name = "Bank.findAll", query = "SELECT t FROM Bank t")
 public class Bank {
 	private String bankName;
 	private String bankCode;

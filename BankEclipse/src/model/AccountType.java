@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "accounttype")
-@NamedQuery(name = "accounttype.findAll", query = "SELECT a FROM accounttype a")
+@NamedQuery(name = "AccountType.findAll", query = "SELECT b FROM AccountType b")
 public class AccountType implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;

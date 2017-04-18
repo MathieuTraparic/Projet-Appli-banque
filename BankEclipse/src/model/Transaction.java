@@ -3,8 +3,15 @@
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import util.Formater;
 
+@Entity
+@Table(name="Transaction")
+@NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transaction t")
 public class Transaction {
 
 	/**

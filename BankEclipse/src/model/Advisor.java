@@ -1,13 +1,21 @@
 package model;
 
 import java.util.Calendar;
+
 import java.util.Date;
 
-import javafx.scene.control.ComboBox;
-import jdk.internal.org.objectweb.asm.util.CheckFieldAdapter;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+
 import util.Formater;
 import util.Validator;
 
+
+@Entity
+@Table(name = "advisor")
+@NamedQuery(name = "Advisor.findAll", query = "SELECT t FROM Advisor t")
 public class Advisor {
 	private String name;
 	private String firstName;
@@ -33,26 +41,26 @@ public class Advisor {
 	private static void checkName(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
 			throw new IllegalArgumentException("Name cannot be empty");
-		}
-		else if (!isValidName(name)){
-			throw new IllegalArgumentException("Name is incorrect, must contains only letters and/or spaces, dashes, apostrophe");
+		} else if (!isValidName(name)) {
+			throw new IllegalArgumentException(
+					"Name is incorrect, must contains only letters and/or spaces, dashes, apostrophe");
 		}
 	}
-	
-	public static boolean isValidName(String name){
+
+	public static boolean isValidName(String name) {
 		return Validator.isValidName(name);
 	}
 
 	private static void chekFirstName(String firstname) throws IllegalArgumentException {
 		if (firstname.isEmpty()) {
 			throw new IllegalArgumentException("First name cannot be empty");
-		}
-		else if (!isValidFirstName(firstname)){
-			throw new IllegalArgumentException("First name is incorrect, must contains only letters and/or spaces, dashes, apostrophe");
+		} else if (!isValidFirstName(firstname)) {
+			throw new IllegalArgumentException(
+					"First name is incorrect, must contains only letters and/or spaces, dashes, apostrophe");
 		}
 	}
-	
-	public static boolean isValidFirstName(String firstname){
+
+	public static boolean isValidFirstName(String firstname) {
 		return Validator.isValidName(firstname);
 	}
 
@@ -61,8 +69,8 @@ public class Advisor {
 			throw new IllegalArgumentException("Assignment date cannot be in the future");
 		}
 	}
-	
-	public static boolean isValidAssignmentDate(Date assignmentDate){
+
+	public static boolean isValidAssignmentDate(Date assignmentDate) {
 		Calendar cal = Calendar.getInstance();
 		return (assignmentDate.before(cal.getTime()));
 	}
@@ -74,20 +82,21 @@ public class Advisor {
 			throw new IllegalArgumentException("Email must be a valid email address");
 		}
 	}
-	
-	public static boolean isValidEmail(String email){
+
+	public static boolean isValidEmail(String email) {
 		return Validator.isValidEmailAddress(email);
 	}
 
 	private static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("Phone number cannot be empty");
-		}else if(!isValidPhoneNumber(phoneNumber)){
-			throw new IllegalArgumentException("Phone number must be a valid French phone number composed of 10 digits");
+		} else if (!isValidPhoneNumber(phoneNumber)) {
+			throw new IllegalArgumentException(
+					"Phone number must be a valid French phone number composed of 10 digits");
 		}
 	}
-	
-	public static boolean isValidPhoneNumber(String phoneNumber){
+
+	public static boolean isValidPhoneNumber(String phoneNumber) {
 		return Validator.isValidPhoneNumber(phoneNumber);
 	}
 }

@@ -22,7 +22,7 @@ import util.Formater;
 import util.Validator;
 
 @Entity
-@Table(name = "Owner")
+@Table(name = "owner")
 @NamedQuery(name = "Owner.findAll", query = "SELECT t FROM Owner t")
 public class Owner implements Serializable {
 

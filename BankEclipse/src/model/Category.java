@@ -1,7 +1,14 @@
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import util.Formater;
 
+@Entity
+@Table(name="category")
+@NamedQuery(name = "Category.findAll", query = "SELECT t FROM Category t")
 public class Category {
 
 	private String description;

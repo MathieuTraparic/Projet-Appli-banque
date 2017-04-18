@@ -2,8 +2,15 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import util.Formater;
 
+@Entity
+@Table(name="agency")
+@NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
 public class Agency {
 	private String name;
 	private String counterCode;

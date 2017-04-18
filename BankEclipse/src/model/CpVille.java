@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import util.Formater;
 
@@ -15,7 +16,8 @@ import util.Formater;
  * 
  */
 @Entity
-@NamedQuery(name = "cpville.findAll", query = "SELECT c FROM cpville c")
+@Table(name="cpville")
+@NamedQuery(name = "CpVille.findAll", query = "SELECT t FROM CpVille t")
 public class CpVille implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;

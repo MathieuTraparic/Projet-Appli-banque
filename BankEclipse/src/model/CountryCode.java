@@ -8,7 +8,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name = "countrycode.findAll", query = "SELECT c FROM countrycode c")
+@Table(name="countrycode")
+@NamedQuery(name = "CountryCode.findAll", query = "SELECT t FROM CountryCode t")
 public class CountryCode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;

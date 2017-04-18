@@ -9,7 +9,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="transactiontype.findAll", query="SELECT t FROM transactiontype t")
+@Table(name="transactiontype")
+@NamedQuery(name = "TransactionType.findAll", query = "SELECT t FROM TransactionType t")
 public class TransactionType implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
