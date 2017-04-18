@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import java.io.IOException;
 
+import javax.persistence.EntityManagerFactory;
+
 /**
  * Utility class for controlling navigation between vistas.
  *
@@ -30,9 +32,19 @@ public class VistaNavigator {
 
     /** The main application layout controller. */
     private static MainController mainController;
+    
+    private static EntityManagerFactory emf;
 
 
 
+
+	public static void setEmf(EntityManagerFactory emf) {
+		VistaNavigator.emf = emf;
+	}
+
+	public static EntityManagerFactory getEmf() {
+		return emf;
+	}
 
 	/**
      * Stores the main controller for later use in navigation tasks.

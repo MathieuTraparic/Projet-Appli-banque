@@ -4,6 +4,8 @@ package application;
 
 import java.io.IOException;
 
+import javax.persistence.Persistence;
+
 import controllers.MainController;
 import controllers.VistaNavigator;
 import javafx.application.Application;
@@ -27,7 +29,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.initOwner(stage.getScene().getWindow());
         */
-        
+    	VistaNavigator.setEmf(Persistence.createEntityManagerFactory("Bank")); 
         stage.setTitle("Personnal Bank Account Manager");
         stage.setScene(
             createScene(
@@ -85,4 +87,11 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+	@Override
+	public void stop() throws Exception {
+		VistaNavigator.getEmf().close();
+		super.stop();
+	}
+    
 }
