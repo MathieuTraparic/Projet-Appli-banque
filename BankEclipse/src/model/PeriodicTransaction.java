@@ -3,9 +3,15 @@ package model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import util.Formater;
 
 @Entity
 @NamedQuery(name = "PeriodicTransaction.findAll", query = "SELECT c FROM PeriodicTransaction c")
@@ -13,8 +19,12 @@ public class PeriodicTransaction {
 	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private Frequency frequency;
+	private Integer id;
 	
 	
+
+	private PeriodicTransaction() {
+	}
 
 	public PeriodicTransaction(Date endDate, int numberDefiningPeriodicity, Frequency f) {
 		//TODO update FREQENCIES from DB
@@ -61,9 +71,37 @@ public class PeriodicTransaction {
 		// TODO Auto-generated method stub
 		
 	}
-
+	@ManyToOne
+	@JoinColumn(name="idFreq")
 	public Frequency getFrequency() {
 		return this.frequency;
+	}
+	
+	@Temporal(TemporalType.DATE)
+	public Date getEndDate() {
+		return this.endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public int getNumberDefiningPeriodicity() {
+		return this.numberDefiningPeriodicity;
+	}
+
+	public void setNumberDefiningPeriodicity(int numberDefiningPeriodicity) {
+		this.numberDefiningPeriodicity = numberDefiningPeriodicity;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }
