@@ -70,7 +70,7 @@ public class AddTransactionController implements Initializable{
 		type.getItems().add("OTHER");
 	}
 	
-	public Transaction getTransaction(){
+	/*public Transaction getTransaction(){
 		return new Transaction(this.des,type.getValue(),Double.parseDouble(this.val),this.dt);
-	}
+	}*/
 }

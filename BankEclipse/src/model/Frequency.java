@@ -15,7 +15,7 @@ public class Frequency implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String unit;
-	private List<Periodictransaction> periodictransactions;
+	private List<PeriodicTransaction> periodictransactions;
 
 	public Frequency() {
 	}
@@ -43,22 +43,22 @@ public class Frequency implements Serializable {
 
 	//bi-directional many-to-one association to Periodictransaction
 	@OneToMany(mappedBy="frequency")
-	public List<Periodictransaction> getPeriodictransactions() {
+	public List<PeriodicTransaction> getPeriodictransactions() {
 		return this.periodictransactions;
 	}
 
-	public void setPeriodictransactions(List<Periodictransaction> periodictransactions) {
+	public void setPeriodictransactions(List<PeriodicTransaction> periodictransactions) {
 		this.periodictransactions = periodictransactions;
 	}
 
-	public Periodictransaction addPeriodictransaction(Periodictransaction periodictransaction) {
+	public PeriodicTransaction addPeriodictransaction(PeriodicTransaction periodictransaction) {
 		getPeriodictransactions().add(periodictransaction);
 		periodictransaction.setFrequency(this);
 
 		return periodictransaction;
 	}
 
-	public Periodictransaction removePeriodictransaction(Periodictransaction periodictransaction) {
+	public PeriodicTransaction removePeriodictransaction(PeriodicTransaction periodictransaction) {
 		getPeriodictransactions().remove(periodictransaction);
 		periodictransaction.setFrequency(null);
 
