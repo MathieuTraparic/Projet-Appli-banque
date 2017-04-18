@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -24,43 +26,22 @@ public class Account implements Serializable {
 	private double initialBalance;
 	private double overdraft;
 	private Double alertThreshold;	
-	private String countryCode;
+	private CountryCode countryCode;
 	private String type;
 	
-	/**
-	 * @author user
-	 *To be fetched from DB before constructor
-	 */
-	private static ArrayList<String> COUNTRYCODES = new ArrayList<String>(){
-		{
-			add("FR");
-			add("CH");
-		}
-	};
-	
-	/**
-	 * @author user
-	 *To be fetched from DB before constructor
-	 */
-	private static ArrayList<String> TYPES = new ArrayList<String>(){
-		{
-			add("EPARGNE");
-			add("COMPTE_COURANT");
-		}
-	};
 	
 	private Account(){
 		
 	}
 	
 	public Account(String number, String description, double initialBalance,
-			 double overdraft, Double threshold, String countryCode, String type){
+			 double overdraft, Double threshold, String type){
 		
 		//TODO update methode for the ArrayListes
 		
 		check_number(number);
 		check_description(description);
-		check_countryCode(countryCode);
+		
 		check_type(type);
 		check_overdraft(overdraft);
 		
@@ -68,7 +49,7 @@ public class Account implements Serializable {
 		this.initialBalance = initialBalance;
 		this.overdraft = overdraft;
 		this.alertThreshold = threshold;
-		this.countryCode = countryCode;
+
 		this.type = type;
 	}
 	
@@ -93,13 +74,6 @@ public class Account implements Serializable {
 		return this.alertThreshold.doubleValue();
 	}
 	
-	public static Iterable<String> getTypes() {
-		return TYPES;
-	}
-	
-	public static Iterable<String> getCountryCode() {
-		return COUNTRYCODES;
-	}
 	
 	private static void check_number(String number) throws IllegalArgumentException {
 		if(number.isEmpty()){
@@ -113,19 +87,11 @@ public class Account implements Serializable {
 		}
 	}
 	
-	private static void check_countryCode(String countryCode) throws IllegalArgumentException {
-		if (countryCode.isEmpty()){
-			throw new IllegalArgumentException ("The country code can't be empty");
-		}else if(!COUNTRYCODES.contains(countryCode)){
-			throw new IllegalArgumentException ("The country code must be an existing country code");
-		}
-	}
+
 	
 	private static void check_type(String type) throws IllegalArgumentException {
 		if (type.isEmpty()){
 			throw new IllegalArgumentException ("The account type can't be empty");
-		}else if(!TYPES.contains(type)){
-			throw new IllegalArgumentException ("The account type must be an existing account type");
 		}
 	}
 	
@@ -199,8 +165,13 @@ public class Account implements Serializable {
 		this.alertThreshold = alertThreshold;
 	}
 
+	@ManyToOne
+	@JoinColumn(name ="idcountrycode")
+	public CountryCode getCountryCode() {
+		return countryCode;
+	}
 
-	public void setCountryCode(String countryCode) {
+	public void setCountryCode(CountryCode countryCode) {
 		this.countryCode = countryCode;
 	}
 	
