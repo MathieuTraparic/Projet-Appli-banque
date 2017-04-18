@@ -1,27 +1,58 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+
+import util.Formater;
 
 /**
  * The persistent class for the cpville database table.
  * 
  */
 @Entity
-@NamedQuery(name="Cpville.findAll", query="SELECT c FROM Cpville c")
+@NamedQuery(name = "Cpville.findAll", query = "SELECT c FROM Cpville c")
 public class Cpville implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private String cp;
-	private String ville;
+	private String zip;
+	private String city;
 
-	public Cpville() {
+	private Cpville() {
 	}
 
+	public Cpville(int id, String zip, String city) {
+
+		check_city(city);
+		check_zip(zip);
+
+		this.id = id;
+		this.zip = Formater.removeUsualSeparators(zip);
+		this.city = Formater.formatNameCase(city);
+	}
+
+	private static void check_zip(String zip) throws IllegalArgumentException {
+		if (zip.isEmpty() || !isValidZip(zip)) {
+			throw new IllegalArgumentException("zip must be valid");
+		}
+	}
+
+	private static void check_city(String city) throws IllegalArgumentException {
+		if (city.isEmpty()) {
+			throw new IllegalArgumentException("city cannot be empty");
+		}
+	}
+
+	public static boolean isValidZip(String zip) {
+		return zip.length() <= 50;
+	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
@@ -30,22 +61,20 @@ public class Cpville implements Serializable {
 		this.id = id;
 	}
 
-
-	public String getCp() {
-		return this.cp;
+	public String getZip() {
+		return this.zip;
 	}
 
-	public void setCp(String cp) {
-		this.cp = cp;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
-
-	public String getVille() {
-		return this.ville;
+	public String getCity() {
+		return this.city;
 	}
 
-	public void setVille(String ville) {
-		this.ville = ville;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 }

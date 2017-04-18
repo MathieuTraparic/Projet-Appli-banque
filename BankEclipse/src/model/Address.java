@@ -21,23 +21,19 @@ public class Address implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String line1;
 	private String line2 = null;
-	private String zip;
-	private String city;
+	private Cpville cpVille;
 	private Integer id;
 	
 	private Address(){
 		
 	}
-	public Address(String line1, String line2, String zip, String city) {
-		check_city(city);
+	public Address(String line1, String line2) {
+		
 		check_line1(line1);
-		check_zip(zip);
 
 		this.id = null;
 		this.line1 = line1;
 		this.line2 = line2;
-		this.zip = Formater.removeUsualSeparators(zip);
-		this.city = Formater.formatNameCase(city);
 	}
 
 	private static void check_line1(String line1) throws IllegalArgumentException {
@@ -46,21 +42,6 @@ public class Address implements Serializable{
 		}
 	}
 
-	private static void check_zip(String zip) throws IllegalArgumentException {
-		if (zip.isEmpty() || !isValidZip(zip)) {
-			throw new IllegalArgumentException("zip must be valid");
-		}
-	}
-
-	private static void check_city(String city) throws IllegalArgumentException {
-		if (city.isEmpty()) {
-			throw new IllegalArgumentException("city cannot be empty");
-		}
-	}
-
-	public static boolean isValidZip(String zip) {
-		return zip.length() <= 50;
-	}
 
 	@Column(name = "lign1")
 	public String getLine1() {
@@ -82,23 +63,14 @@ public class Address implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "idcpville")
-	public String getZip() {
-		return this.zip;
+	public Cpville getCpVille() {
+		return cpVille;
 	}
 
-	public void setZip(String zip) {
-		this.zip = zip;
+	public void setCpVille(Cpville cpVille) {
+		this.cpVille = cpVille;
 	}
 	
-	@ManyToOne
-	@JoinColumn(name = "idcpville")
-	public String getCity() {
-		return this.city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
