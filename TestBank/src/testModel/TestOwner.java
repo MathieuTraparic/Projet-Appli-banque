@@ -15,7 +15,7 @@ public class TestOwner {
 	String phoneNumber, Date birthday, 
 	String login, String pswd,  Address address
 	*/
-	Address add = new Address("foo","bar","foo","bar");
+	Address add = new Address("foo","bar");
 	Date dat = new Date();
 	
 	/**

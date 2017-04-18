@@ -21,7 +21,7 @@ public class Address implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String line1;
 	private String line2 = null;
-	private Cpville cpVille;
+	private CpVille cpVille;
 	private Integer id;
 	
 	private Address(){
@@ -63,11 +63,11 @@ public class Address implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name = "idcpville")
-	public Cpville getCpVille() {
+	public CpVille getCpVille() {
 		return cpVille;
 	}
 
-	public void setCpVille(Cpville cpVille) {
+	public void setCpVille(CpVille cpVille) {
 		this.cpVille = cpVille;
 	}
 	

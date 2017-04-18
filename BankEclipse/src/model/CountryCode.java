@@ -10,15 +10,15 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQuery(name="Countrycode.findAll", query="SELECT c FROM Countrycode c")
-public class Countrycode implements Serializable {
+public class CountryCode implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String code;
 
-	private Countrycode() {
+	private CountryCode() {
 	}
 	
-	public Countrycode(String code) {
+	public CountryCode(String code) {
 	this.code=code;
 	}
 

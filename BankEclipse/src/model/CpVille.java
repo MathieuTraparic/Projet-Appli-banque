@@ -16,16 +16,16 @@ import util.Formater;
  */
 @Entity
 @NamedQuery(name = "Cpville.findAll", query = "SELECT c FROM Cpville c")
-public class Cpville implements Serializable {
+public class CpVille implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String zip;
 	private String city;
 
-	private Cpville() {
+	private CpVille() {
 	}
 
-	public Cpville(int id, String zip, String city) {
+	public CpVille(int id, String zip, String city) {
 
 		check_city(city);
 		check_zip(zip);

@@ -2,8 +2,13 @@ package model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+
 import util.Formater;
 
+@Entity
+@NamedQuery(name = "PeriodicTransaction.findAll", query = "SELECT c FROM PeriodicTransaction c")
 public class PeriodicTransaction {
 	private Date endDate;
 	private int numberDefiningPeriodicity;

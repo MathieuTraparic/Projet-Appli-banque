@@ -18,7 +18,7 @@ public class TestAddress {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAddressLine1() {
-		Address address = new Address(null,"bar","bar","bar");
+		Address address = new Address(null,"bar");
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class TestAddress {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAddressLine1() {
-		Address address = new Address("","bar","bar","bar");
+		Address address = new Address("","bar");
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class TestAddress {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAddressZip() {
-		Address address = new Address("bar",null,null,"bar");
+		Address address = new Address("bar",null);
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class TestAddress {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAddressZip() {
-		Address address = new Address("bar",null,"","bar");
+		Address address = new Address("bar",null);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class TestAddress {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_AddressZipSize() {
-		Address address = new Address("bar",null,"000000000000000000000000000000000000000000000000000000000000","bar");
+		Address address = new Address("bar",null);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class TestAddress {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAddressCity() {
-		Address address = new Address("bar","bar","bar",null);
+		Address address = new Address("bar","bar");
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class TestAddress {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAddressCity() {
-		Address address = new Address("bar","bar","bar","");
+		Address address = new Address("bar","bar");
 	}
 
 }
