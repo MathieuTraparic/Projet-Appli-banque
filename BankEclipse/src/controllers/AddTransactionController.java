@@ -70,7 +70,14 @@ public class AddTransactionController implements Initializable{
 		type.getItems().add("OTHER");
 	}
 	
-	/*public Transaction getTransaction(){
-		return new Transaction(this.des,type.getValue(),Double.parseDouble(this.val),this.dt);
-	}*/
+	public Transaction getTransaction(){
+		SimpleDateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
+		Date dt = null;
+		try {
+			dt = dateParser.parse(date.getText());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new Transaction(this.description.getText(),type.getValue(),Double.parseDouble(this.value.getText()),dt);
+	}
 }
