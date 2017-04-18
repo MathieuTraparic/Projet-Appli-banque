@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2017 at 11:04 AM
+-- Generation Time: Apr 18, 2017 at 01:37 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -74,10 +74,10 @@ INSERT INTO `accounttype` (`id`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `adresse`
+-- Table structure for table `address`
 --
 
-CREATE TABLE `adresse` (
+CREATE TABLE `address` (
   `id` int(11) NOT NULL,
   `idcpville` int(11) NOT NULL,
   `lign1` varchar(250) NOT NULL,
@@ -85,10 +85,10 @@ CREATE TABLE `adresse` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `adresse`
+-- Dumping data for table `address`
 --
 
-INSERT INTO `adresse` (`id`, `idcpville`, `lign1`, `lign2`) VALUES
+INSERT INTO `address` (`id`, `idcpville`, `lign1`, `lign2`) VALUES
 (1, 1, '114 rue Lucien Faure', NULL),
 (2, 2, '1 rue truc', NULL),
 (3, 1, '12 rue machin', 'batiment B\r\n');
@@ -380,9 +380,9 @@ ALTER TABLE `accounttype`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `adresse`
+-- Indexes for table `address`
 --
-ALTER TABLE `adresse`
+ALTER TABLE `address`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_AD_IDcpvi` (`idcpville`);
 
@@ -491,9 +491,9 @@ ALTER TABLE `account`
 ALTER TABLE `accounttype`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `adresse`
+-- AUTO_INCREMENT for table `address`
 --
-ALTER TABLE `adresse`
+ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `advisor`
@@ -568,9 +568,9 @@ ALTER TABLE `account`
   ADD CONSTRAINT `FK_acc_coun` FOREIGN KEY (`idcountrycode`) REFERENCES `countrycode` (`id`);
 
 --
--- Constraints for table `adresse`
+-- Constraints for table `address`
 --
-ALTER TABLE `adresse`
+ALTER TABLE `address`
   ADD CONSTRAINT `FK_AD_IDcpvi` FOREIGN KEY (`idcpville`) REFERENCES `cpville` (`id`);
 
 --
@@ -583,7 +583,7 @@ ALTER TABLE `advisor`
 -- Constraints for table `agency`
 --
 ALTER TABLE `agency`
-  ADD CONSTRAINT `FK_ag_idad` FOREIGN KEY (`idadress`) REFERENCES `adresse` (`id`),
+  ADD CONSTRAINT `FK_ag_idad` FOREIGN KEY (`idadress`) REFERENCES `address` (`id`),
   ADD CONSTRAINT `FK_ag_idban` FOREIGN KEY (`idbank`) REFERENCES `bank` (`id`);
 
 --
@@ -603,7 +603,7 @@ ALTER TABLE `category`
 -- Constraints for table `owner`
 --
 ALTER TABLE `owner`
-  ADD CONSTRAINT `FK_own_add` FOREIGN KEY (`idaddress`) REFERENCES `adresse` (`id`);
+  ADD CONSTRAINT `FK_own_add` FOREIGN KEY (`idaddress`) REFERENCES `address` (`id`);
 
 --
 -- Constraints for table `periodictransaction`
