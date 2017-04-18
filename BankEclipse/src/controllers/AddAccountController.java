@@ -1,7 +1,10 @@
 package controllers;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.persistence.EntityManager;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -12,6 +15,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Account;
+import model.AccountType;
+import model.CountryCode;
+import model.Owner;
 
 public class AddAccountController implements Initializable {
 
@@ -36,22 +42,29 @@ public class AddAccountController implements Initializable {
 				Double.parseDouble(addAccountInitBalance.getText()),
 				Double.parseDouble(addAccountOverdraft.getText()),
 				Double.parseDouble(addAccountThreshold.getText()),
-				addAccountCountryCode.getAccessibleText(),
 				addAccountType.getAccessibleText());
+		CountryCode countryCode = new CountryCode(addAccountCountryCode.getAccessibleText());
 		Stage stage = (Stage) addAccountCancel.getScene().getWindow();
 	    stage.close();
 	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		for (String l : Account.getCountryCode()) {
-			addAccountCountryCode.getItems().add(l);	
-		}
-		addAccountCountryCode.getItems().add("OTHER");
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		List<CountryCode> l = em.createNamedQuery("countrycode.findAll").getResultList();
+		List<AccountType> j = em.createNamedQuery("accounttype.findAll").getResultList();
+		em.close();
 		
-		for (String l : Account.getTypes()) {
-			addAccountType.getItems().add(l);	
+		for (CountryCode countrycode : l){
+			addAccountCountryCode.getItems().add(countrycode.getCode());
 		}
+		
+		for (AccountType type : j){
+			addAccountCountryCode.getItems().add(type.getType());
+		}
+		
+		addAccountCountryCode.getItems().add("OTHER");
+
 		addAccountType.getItems().add("OTHER");
 	}
 }

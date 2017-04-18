@@ -8,7 +8,8 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name = "Accounttype.findAll", query = "SELECT a FROM Accounttype a")
+@Table(name = "accounttype")
+@NamedQuery(name = "accounttype.findAll", query = "SELECT a FROM accounttype a")
 public class AccountType implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;

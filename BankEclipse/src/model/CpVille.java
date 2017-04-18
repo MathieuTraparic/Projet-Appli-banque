@@ -15,7 +15,7 @@ import util.Formater;
  * 
  */
 @Entity
-@NamedQuery(name = "Cpville.findAll", query = "SELECT c FROM Cpville c")
+@NamedQuery(name = "cpville.findAll", query = "SELECT c FROM cpville c")
 public class CpVille implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
