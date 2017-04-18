@@ -6,6 +6,13 @@
 		<class>model.Owner</class>
 		<class>model.Address</class>
 		<class>model.Account</class>
+		<class>model.Accounttype</class>
+		<class>model.Countrycode</class>
+		<class>model.Cpville</class>
+		<class>model.Frequency</class>
+		<class>model.Periodictransaction</class>
+		<class>model.Targettransaction</class>
+		<class>model.Transactiontype</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/banquedatabase" />
 			<property name="javax.persistence.jdbc.user" value="User" />
