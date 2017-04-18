@@ -13,6 +13,11 @@
 		<class>model.PeriodicTransaction</class>
 		<class>model.TargetTransaction</class>
 		<class>model.TransactionType</class>
+		<class>model.Advisor</class>
+		<class>model.Transaction</class>
+		<class>model.Agency</class>
+		<class>model.Bank</class>
+		<class>model.Category</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/banquedatabase" />
 			<property name="javax.persistence.jdbc.user" value="User" />
