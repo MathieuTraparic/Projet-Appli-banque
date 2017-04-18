@@ -14,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +38,9 @@ public class Owner implements Serializable {
 	private Address address;
 	private List<Account> accounts;
 
-
+	private Owner(){
+		
+	}
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd,
 			Address address) {
 		check_firstName(firstName);
@@ -81,7 +82,7 @@ public class Owner implements Serializable {
 		return firstName;
 	}
 	
-	@Column ( name = "firstname")
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -90,7 +91,7 @@ public class Owner implements Serializable {
 	public Date getBirthday() {
 		return birthday;
 	}
-	@Temporal (TemporalType.DATE)
+	
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
@@ -123,7 +124,7 @@ public class Owner implements Serializable {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	@Column ( name = "phonenumber")
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}

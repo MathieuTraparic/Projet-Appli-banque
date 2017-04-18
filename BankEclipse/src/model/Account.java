@@ -2,11 +2,21 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 import util.Formater;
 
 
-
+@Entity
+@Table(name = "Account")
+@NamedQuery(name = "Account.findAll", query = "SELECT t FROM Account t")
 public class Account {
+	private Integer id;
 	private String number;
 	private String description;
 	private double initialBalance;
@@ -36,6 +46,10 @@ public class Account {
 			add("COMPTE_COURANT");
 		}
 	};
+	
+	private Account(){
+		
+	}
 	
 	public Account(String number, String description, double initialBalance,
 			 double overdraft, Double threshold, String countryCode, String type){
@@ -125,6 +139,67 @@ public class Account {
 	
 	public static boolean isValidType(double overdraft){
 		return overdraft<=0;
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer getId() {
+		return this.id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getNumber() {
+		return this.number;
+	}
+
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+
+	public String getDescription() {
+		return this.description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+	public String getType() {
+		return this.type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+
+	public void setInitialBalance(double initialBalance) {
+		this.initialBalance = initialBalance;
+	}
+
+
+	public void setOverdraft(double overdraft) {
+		this.overdraft = overdraft;
+	}
+
+
+	public void setAlertThreshold(Double alertThreshold) {
+		this.alertThreshold = alertThreshold;
+	}
+
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 	
 	
