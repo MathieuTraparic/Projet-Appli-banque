@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.persistence.Entity;
@@ -15,7 +16,8 @@ import util.Formater;
 @Entity
 @Table(name = "Account")
 @NamedQuery(name = "Account.findAll", query = "SELECT t FROM Account t")
-public class Account {
+public class Account implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String number;
 	private String description;

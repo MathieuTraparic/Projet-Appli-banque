@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -12,7 +17,8 @@ import util.Formater;
 @Entity
 @Table(name = "Address")
 @NamedQuery(name = "Address.findAll", query = "SELECT t FROM Address t")
-public class Address {
+public class Address implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String line1;
 	private String line2 = null;
 	private String zip;
@@ -56,6 +62,7 @@ public class Address {
 		return zip.length() <= 50;
 	}
 
+	@Column(name = "lign1")
 	public String getLine1() {
 		return this.line1;
 	}
@@ -64,6 +71,7 @@ public class Address {
 		this.line1 = line1;
 	}
 
+	@Column(name = "lign2")
 	public String getLine2() {
 		return this.line2;
 	}
@@ -71,7 +79,9 @@ public class Address {
 	public void setLine2(String line2) {
 		this.line2 = line2;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "idcpville")
 	public String getZip() {
 		return this.zip;
 	}
@@ -79,7 +89,9 @@ public class Address {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "idcpville")
 	public String getCity() {
 		return this.city;
 	}
