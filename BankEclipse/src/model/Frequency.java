@@ -17,7 +17,11 @@ public class Frequency implements Serializable {
 	private String unit;
 	private List<PeriodicTransaction> periodictransactions;
 
-	public Frequency() {
+	private Frequency() {
+	}
+	
+	public Frequency(String unit){
+		this.unit=unit;
 	}
 
 

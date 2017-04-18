@@ -8,7 +8,8 @@ public class PeriodicTransaction {
 	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private Frequency frequency;
-
+	
+	
 
 	public PeriodicTransaction(Date endDate, int numberDefiningPeriodicity, Frequency f) {
 		//TODO update FREQENCIES from DB

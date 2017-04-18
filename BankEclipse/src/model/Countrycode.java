@@ -15,7 +15,11 @@ public class Countrycode implements Serializable {
 	private int id;
 	private String code;
 
-	public Countrycode() {
+	private Countrycode() {
+	}
+	
+	public Countrycode(String code) {
+	this.code=code;
 	}
 
 

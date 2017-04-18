@@ -14,7 +14,7 @@ public class TestPeriodicTransaction {
 	Frequency f;
 	@Before
 	public void setUp(){
-		f=new Frequency();
+		f=new Frequency("asd");
 	}
 
 	/**
