@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import util.Formater;
+
 
 @Entity
 @Table(name = "Address")
