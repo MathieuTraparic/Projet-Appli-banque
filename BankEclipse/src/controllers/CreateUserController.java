@@ -20,8 +20,10 @@ public class CreateUserController {
 	void previousButton(ActionEvent event){
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		List<Owner> l = em.createNamedQuery("Owner.findAll").getResultList();
+		em.close();
 		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
 		newLogin.setText(l.get(0).getLogin());
+		
 	}
 	@FXML
 	void cancelButton(ActionEvent event){
