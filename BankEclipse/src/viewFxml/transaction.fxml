@@ -15,11 +15,10 @@
 				<ComboBox layoutX="397.0" layoutY="37.0" prefWidth="150.0" promptText="Choose your filter" AnchorPane.topAnchor="37.0" />
       				<TableView layoutX="15.0" layoutY="88.0" prefHeight="333.0" prefWidth="765.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="20.0">
       					<columns>
-      						<TableColumn prefWidth="397.0" text="Description of the transaction" />
-      						<TableColumn prefWidth="99.0" text="Type" />
-                  <TableColumn prefWidth="92.0" text="Date" />
-                  <TableColumn prefWidth="88.0" text="Debit" />
-                  <TableColumn prefWidth="88.0" text="Credit" />
+      						<TableColumn prefWidth="429.0" text="Description of the transaction" />
+      						<TableColumn prefWidth="114.0" text="Type" />
+                  <TableColumn prefWidth="89.0" text="Date" />
+                  <TableColumn prefWidth="132.0" text="Value" />
       					</columns>
       				</TableView>
             <ComboBox layoutX="205.0" layoutY="37.0" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />
