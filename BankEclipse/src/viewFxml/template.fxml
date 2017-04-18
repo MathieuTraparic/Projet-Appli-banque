@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="437.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TemplateController">
+	<children>
+		<MenuBar prefHeight="32.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			<menus>
+				<Menu mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleMenuFileOpen" text="Open...">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="O" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<SeparatorMenuItem />
+						<MenuItem mnemonicParsing="false" onAction="#handleMenuFileExport" text="Export...">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="E" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<SeparatorMenuItem />
+						<MenuItem mnemonicParsing="false" onAction="#handleMenuFileQuit" text="Quit">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="Q" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Window">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleMenuWindowPreference" text="Preference">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="P" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleMenuHelpTutorial" text="Tutorial">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="H" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+		<TabPane layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="648.0" rotateGraphic="true" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+			<tabs>
+				<Tab>
+					<graphic>
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Home" />
+					</graphic>
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+							<fx:include source="home.fxml" />
+						</AnchorPane>
+					</content>
+
+				</Tab>
+				<Tab>
+					<graphic>
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Transaction" />
+					</graphic>
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+							<fx:include source="transaction.fxml" />
+						</AnchorPane>
+					</content>
+
+				</Tab>
+				<Tab>
+					<graphic>
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Periodic" />
+					</graphic>
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+							<fx:include source="periodic.fxml" />
+						</AnchorPane>
+					</content>
+
+				</Tab>
+				<Tab>
+					<graphic>
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="RIB" />
+					</graphic>
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+							<fx:include source="RIB.fxml" />
+						</AnchorPane>
+					</content>
+
+				</Tab>
+				<Tab>
+					<graphic>
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Advisor" />
+					</graphic>
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
+							<fx:include source="advisor.fxml" />
+						</AnchorPane>
+					</content>
+
+				</Tab>
+			</tabs>
+		</TabPane>
+		<Button layoutX="10.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleLogoutButton" text="logout" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="10.0" />
+	</children>
+</AnchorPane>

@@ -1,5 +1,7 @@
 package model;
 
+import util.Formater;
+
 public class Address {
 	private String line1;
 	private String line2=null;
@@ -14,26 +16,33 @@ public class Address {
 		
 		this.line1 = line1;
 		this.line2 = line2;
-		this.zip = zip;
-		this.city = city;
+		this.zip = Formater.removeUsualSeparators(zip);
+		this.city = Formater.formatNameCase(city);
 	}
 	
-	public static void check_line1(String line1) throws IllegalArgumentException {
-		if (line1.length()==0) {
+	private static void check_line1(String line1) throws IllegalArgumentException {
+		if (line1.isEmpty()) {
 			throw new IllegalArgumentException("line1 cannot be empty");
 		}
 	}
 
-	public static void check_zip(String zip) throws IllegalArgumentException {
-		if (zip.length()==0 || zip.length()>50) {
+	private static void check_zip(String zip) throws IllegalArgumentException {
+		if (zip.isEmpty() || !isValidZip(zip)) {
 			throw new IllegalArgumentException("zip must be valid");
 		}
 	}
-	public static void check_city(String city) throws IllegalArgumentException {
-		if (city.length()==0) {
+	private static void check_city(String city) throws IllegalArgumentException {
+		if (city.isEmpty()) {
 			throw new IllegalArgumentException("city cannot be empty");
 		}
 	}
+	
+	public static boolean isValidZip(String zip){
+		return zip.length()<=50;
+	}
+
+	
+	
 	
 	
 	

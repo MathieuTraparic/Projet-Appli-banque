@@ -40,3 +40,7 @@ https://blogs.oracle.com/acaicedo/entry/managing_multiple_screens_in_javafx1
 
 Discord :
 https://discord.gg/sc9rG
+
+Combobox
+http://stackoverflow.com/questions/13032257/combo-box-javafx-with-fxml
+

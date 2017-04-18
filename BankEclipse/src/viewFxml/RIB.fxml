@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RIBController">
+	<children>
+		<AnchorPane fx:id="vistaHolder" layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
+         <children>
+            <RadioButton layoutX="477.0" layoutY="30.0" mnemonicParsing="false" text="RIB" AnchorPane.topAnchor="30.0" />
+            <RadioButton layoutX="537.0" layoutY="30.0" mnemonicParsing="false" text="IBAN" AnchorPane.topAnchor="30.0" />
+            <ComboBox layoutX="46.0" layoutY="27.0" prefWidth="150.0" promptText="Select your bank" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="27.0" />
+            <ComboBox layoutX="266.0" layoutY="27.0" prefWidth="150.0" promptText="Select your account" AnchorPane.topAnchor="27.0" />
+            <Pane layoutX="46.0" layoutY="85.0" prefHeight="296.0" prefWidth="707.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="85.0" />
+         </children>
+		</AnchorPane>
+	</children>
+</Pane>
