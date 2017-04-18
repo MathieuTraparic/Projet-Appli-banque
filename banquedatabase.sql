@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
--- https://www.phpmyadmin.net/
+-- version 4.4.15.5
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 18, 2017 at 01:37 PM
--- Server version: 5.7.14
--- PHP Version: 5.6.25
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 18, 2017 at 05:34 PM
+-- Server version: 5.6.34-log
+-- PHP Version: 7.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -28,7 +28,7 @@ USE `banquedatabase`;
 -- Table structure for table `account`
 --
 
-CREATE TABLE `account` (
+CREATE TABLE IF NOT EXISTS `account` (
   `id` int(11) NOT NULL,
   `descrip_type` varchar(250) NOT NULL,
   `account_number` varchar(250) NOT NULL,
@@ -40,14 +40,14 @@ CREATE TABLE `account` (
   `idcountrycode` int(11) NOT NULL,
   `idagency` int(11) NOT NULL,
   `idaccounttype` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `account`
 --
 
 INSERT INTO `account` (`id`, `descrip_type`, `account_number`, `creation_date`, `first_total`, `interest_rate`, `overdraft`, `aler_thresh`, `idcountrycode`, `idagency`, `idaccounttype`) VALUES
-(1, 'c\'est mon compte à moi', '1234 1234 1234', '2017-04-01', 100.00, 1.00, 0.00, 10.00, 1, 1, 1),
+(1, 'c''est mon compte à moi', '1234 1234 1234', '2017-04-01', 100.00, 1.00, 0.00, 10.00, 1, 1, 1),
 (2, 'un compte epargne', '1111 2222 3333', '2017-03-20', 2000.00, 10.00, -100.00, 100.00, 2, 1, 2),
 (3, 'un compte courant', '4321 4321 4321', '2017-04-01', 152.45, 0.00, 0.00, NULL, 3, 1, 3);
 
@@ -57,10 +57,10 @@ INSERT INTO `account` (`id`, `descrip_type`, `account_number`, `creation_date`, 
 -- Table structure for table `accounttype`
 --
 
-CREATE TABLE `accounttype` (
+CREATE TABLE IF NOT EXISTS `accounttype` (
   `id` int(11) NOT NULL,
   `type` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `accounttype`
@@ -77,12 +77,12 @@ INSERT INTO `accounttype` (`id`, `type`) VALUES
 -- Table structure for table `address`
 --
 
-CREATE TABLE `address` (
+CREATE TABLE IF NOT EXISTS `address` (
   `id` int(11) NOT NULL,
   `idcpville` int(11) NOT NULL,
   `lign1` varchar(250) NOT NULL,
   `lign2` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `address`
@@ -99,13 +99,13 @@ INSERT INTO `address` (`id`, `idcpville`, `lign1`, `lign2`) VALUES
 -- Table structure for table `advisor`
 --
 
-CREATE TABLE `advisor` (
+CREATE TABLE IF NOT EXISTS `advisor` (
   `id` int(11) NOT NULL,
   `idagency` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
   `firstname` varchar(250) NOT NULL,
   `date_assignment` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `advisor`
@@ -120,13 +120,13 @@ INSERT INTO `advisor` (`id`, `idagency`, `name`, `firstname`, `date_assignment`)
 -- Table structure for table `agency`
 --
 
-CREATE TABLE `agency` (
+CREATE TABLE IF NOT EXISTS `agency` (
   `id` int(11) NOT NULL,
   `idadress` int(11) NOT NULL,
   `idbank` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
   `countercode` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `agency`
@@ -141,7 +141,7 @@ INSERT INTO `agency` (`id`, `idadress`, `idbank`, `name`, `countercode`) VALUES
 -- Table structure for table `assign`
 --
 
-CREATE TABLE `assign` (
+CREATE TABLE IF NOT EXISTS `assign` (
   `main` varchar(250) NOT NULL,
   `idowner` int(11) NOT NULL,
   `idaccount` int(11) NOT NULL
@@ -153,11 +153,11 @@ CREATE TABLE `assign` (
 -- Table structure for table `bank`
 --
 
-CREATE TABLE `bank` (
+CREATE TABLE IF NOT EXISTS `bank` (
   `id` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
   `bankcode` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bank`
@@ -173,11 +173,11 @@ INSERT INTO `bank` (`id`, `name`, `bankcode`) VALUES
 -- Table structure for table `category`
 --
 
-CREATE TABLE `category` (
+CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL,
   `wording` varchar(250) NOT NULL,
   `idcategory` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `category`
@@ -193,10 +193,10 @@ INSERT INTO `category` (`id`, `wording`, `idcategory`) VALUES
 -- Table structure for table `countrycode`
 --
 
-CREATE TABLE `countrycode` (
+CREATE TABLE IF NOT EXISTS `countrycode` (
   `id` int(11) NOT NULL,
   `code` char(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `countrycode`
@@ -215,17 +215,17 @@ INSERT INTO `countrycode` (`id`, `code`) VALUES
 -- Table structure for table `cpville`
 --
 
-CREATE TABLE `cpville` (
+CREATE TABLE IF NOT EXISTS `cpville` (
   `id` int(11) NOT NULL,
-  `cp` varchar(50) NOT NULL,
-  `ville` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `zip` varchar(50) NOT NULL,
+  `city` varchar(250) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cpville`
 --
 
-INSERT INTO `cpville` (`id`, `cp`, `ville`) VALUES
+INSERT INTO `cpville` (`id`, `zip`, `city`) VALUES
 (1, '75000', 'Paris'),
 (2, '33000', 'Bordeaux\r\n');
 
@@ -235,10 +235,10 @@ INSERT INTO `cpville` (`id`, `cp`, `ville`) VALUES
 -- Table structure for table `frequency`
 --
 
-CREATE TABLE `frequency` (
+CREATE TABLE IF NOT EXISTS `frequency` (
   `id` int(11) NOT NULL,
   `unit` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `frequency`
@@ -255,7 +255,7 @@ INSERT INTO `frequency` (`id`, `unit`) VALUES
 -- Table structure for table `owner`
 --
 
-CREATE TABLE `owner` (
+CREATE TABLE IF NOT EXISTS `owner` (
   `id` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
   `firstname` varchar(250) NOT NULL,
@@ -265,7 +265,7 @@ CREATE TABLE `owner` (
   `pswd` varchar(250) NOT NULL,
   `idaddress` int(11) NOT NULL,
   `salt` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `owner`
@@ -280,12 +280,12 @@ INSERT INTO `owner` (`id`, `name`, `firstname`, `phonenumber`, `birthday`, `logi
 -- Table structure for table `periodictransaction`
 --
 
-CREATE TABLE `periodictransaction` (
+CREATE TABLE IF NOT EXISTS `periodictransaction` (
   `id` int(11) NOT NULL,
   `end_date` date NOT NULL,
   `day_number` int(11) NOT NULL,
   `idFreq` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `periodictransaction`
@@ -300,11 +300,11 @@ INSERT INTO `periodictransaction` (`id`, `end_date`, `day_number`, `idFreq`) VAL
 -- Table structure for table `targettransaction`
 --
 
-CREATE TABLE `targettransaction` (
+CREATE TABLE IF NOT EXISTS `targettransaction` (
   `id` int(11) NOT NULL,
   `summary` varchar(250) NOT NULL,
   `IBAN` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `targettransaction`
@@ -320,7 +320,7 @@ INSERT INTO `targettransaction` (`id`, `summary`, `IBAN`) VALUES
 -- Table structure for table `transaction`
 --
 
-CREATE TABLE `transaction` (
+CREATE TABLE IF NOT EXISTS `transaction` (
   `id` int(11) NOT NULL,
   `wording` varchar(250) NOT NULL,
   `transactionvalue` double(16,2) NOT NULL,
@@ -330,7 +330,7 @@ CREATE TABLE `transaction` (
   `idtarget_transaction` int(11) DEFAULT NULL,
   `idcategory` int(11) DEFAULT NULL,
   `idPeriodicTransaction` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaction`
@@ -346,17 +346,17 @@ INSERT INTO `transaction` (`id`, `wording`, `transactionvalue`, `date_transactio
 -- Table structure for table `transactiontype`
 --
 
-CREATE TABLE `transactiontype` (
+CREATE TABLE IF NOT EXISTS `transactiontype` (
   `id` int(11) NOT NULL,
   `wording` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transactiontype`
 --
 
 INSERT INTO `transactiontype` (`id`, `wording`) VALUES
-(1, 'je sais plus ce que c\'est\r\n'),
+(1, 'je sais plus ce que c''est\r\n'),
 (4, 'virement interne'),
 (5, 'cheque');
 
@@ -484,77 +484,77 @@ ALTER TABLE `transactiontype`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `accounttype`
 --
 ALTER TABLE `accounttype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `advisor`
 --
 ALTER TABLE `advisor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `agency`
 --
 ALTER TABLE `agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `bank`
 --
 ALTER TABLE `bank`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `countrycode`
 --
 ALTER TABLE `countrycode`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `cpville`
 --
 ALTER TABLE `cpville`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `frequency`
 --
 ALTER TABLE `frequency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `owner`
 --
 ALTER TABLE `owner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `periodictransaction`
 --
 ALTER TABLE `periodictransaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `targettransaction`
 --
 ALTER TABLE `targettransaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `transactiontype`
 --
 ALTER TABLE `transactiontype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- Constraints for dumped tables
 --
