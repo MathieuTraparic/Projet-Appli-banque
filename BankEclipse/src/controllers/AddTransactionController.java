@@ -71,6 +71,13 @@ public class AddTransactionController implements Initializable{
 	}
 	
 	public Transaction getTransaction(){
-		return new Transaction(this.des,type.getValue(),Double.parseDouble(this.val),this.dt);
+		SimpleDateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
+		Date dt = null;
+		try {
+			dt = dateParser.parse(date.getText());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new Transaction(this.description.getText(),type.getValue(),Double.parseDouble(this.value.getText()),dt);
 	}
 }
