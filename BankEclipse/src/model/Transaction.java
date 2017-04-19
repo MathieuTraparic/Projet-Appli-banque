@@ -1,7 +1,6 @@
 	package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -10,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import util.Formater;
 
@@ -65,7 +66,8 @@ public class Transaction implements Serializable {
 	public void setValue(Double value) {
 		this.value = value;
 	}
-
+	
+	@Temporal(TemporalType.DATE)
 	public Date getDate() {
 		return date;
 	}
