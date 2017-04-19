@@ -69,13 +69,16 @@ public class VistaNavigator {
 	 */
 
 	@SuppressWarnings("static-access")
-	public static FXMLLoader loadVista(String fxml) {
-		FXMLLoader loader = new FXMLLoader();
+	public static Object loadVista(String fxml) {
+		FXMLLoader loader = new FXMLLoader(VistaNavigator.class.getResource(fxml));
+		
 		try {
-			mainController.setVista((Node) loader.load(VistaNavigator.class.getResource(fxml)));
+			mainController.setVista((Node) loader.load());
+			
 		} catch (IOException e) {
 			System.err.println("Vista loading failed : " + e);
 		}
+		
 		return loader.getController();
 	}
 
