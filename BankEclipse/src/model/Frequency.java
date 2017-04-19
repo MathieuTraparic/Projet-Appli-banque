@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
+
 
 
 /**
@@ -17,7 +17,7 @@ public class Frequency implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String unit;
-	private List<PeriodicTransaction> periodictransactions;
+	//private List<PeriodicTransaction> periodictransactions;
 
 	private Frequency() {
 	}
@@ -47,28 +47,28 @@ public class Frequency implements Serializable {
 	}
 
 
-	//bi-directional many-to-one association to Periodictransaction
-	@OneToMany(mappedBy="frequency")
-	public List<PeriodicTransaction> getPeriodictransactions() {
-		return this.periodictransactions;
-	}
-
-	public void setPeriodictransactions(List<PeriodicTransaction> periodictransactions) {
-		this.periodictransactions = periodictransactions;
-	}
-
-	public PeriodicTransaction addPeriodictransaction(PeriodicTransaction periodictransaction) {
-		getPeriodictransactions().add(periodictransaction);
-		periodictransaction.setFrequency(this);
-
-		return periodictransaction;
-	}
-
-	public PeriodicTransaction removePeriodictransaction(PeriodicTransaction periodictransaction) {
-		getPeriodictransactions().remove(periodictransaction);
-		periodictransaction.setFrequency(null);
-
-		return periodictransaction;
-	}
+//	//bi-directional many-to-one association to Periodictransaction
+//	@OneToMany(mappedBy="frequency")
+//	public List<PeriodicTransaction> getPeriodictransactions() {
+//		return this.periodictransactions;
+//	}
+//
+//	public void setPeriodictransactions(List<PeriodicTransaction> periodictransactions) {
+//		this.periodictransactions = periodictransactions;
+//	}
+//
+//	public PeriodicTransaction addPeriodictransaction(PeriodicTransaction periodictransaction) {
+//		getPeriodictransactions().add(periodictransaction);
+//		periodictransaction.setFrequency(this);
+//
+//		return periodictransaction;
+//	}
+//
+//	public PeriodicTransaction removePeriodictransaction(PeriodicTransaction periodictransaction) {
+//		getPeriodictransactions().remove(periodictransaction);
+//		periodictransaction.setFrequency(null);
+//
+//		return periodictransaction;
+//	}
 
 }

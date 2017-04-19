@@ -19,7 +19,6 @@ public class TargetTransaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
-	
 	private String summary;
 	private String iban;
 	
@@ -64,5 +63,21 @@ public class TargetTransaction implements Serializable {
 		if (summary.isEmpty()){
 			throw new IllegalArgumentException("Summary must be filled with the name of the target transaction");
 		}
+	}
+
+	private String getSummary() {
+		return this.summary;
+	}
+
+	private void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	private String getIban() {
+		return this.iban;
+	}
+
+	private void setIban(String iban) {
+		this.iban = iban;
 	}
 }

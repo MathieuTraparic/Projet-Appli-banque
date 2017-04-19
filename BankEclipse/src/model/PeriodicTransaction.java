@@ -21,10 +21,11 @@ import javax.persistence.TemporalType;
 public class PeriodicTransaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private Frequency frequency;
-	private Integer id;
+	
 	
 	
 

@@ -9,18 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import util.Formater;
 import util.Validator;
 
-
 @Entity
 @Table(name = "advisor")
 @NamedQuery(name = "Advisor.findAll", query = "SELECT t FROM Advisor t")
-public class Advisor implements Serializable{
+public class Advisor implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String name;
@@ -28,9 +30,10 @@ public class Advisor implements Serializable{
 	private String phoneNumber;
 	private String email;
 	private Date assignmentDate;
-	
-	private Advisor(){
-		
+	private Agency agency;
+
+	private Advisor() {
+
 	}
 
 	public Advisor(String name, String firstName, String phoneNumber, String email, Date assignmentDate) {
@@ -47,16 +50,8 @@ public class Advisor implements Serializable{
 		this.email = Formater.removeUsualSeparators(email);
 		this.assignmentDate = assignmentDate;
 	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
-		return this.id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+
 
 	private static void checkName(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
@@ -119,5 +114,67 @@ public class Advisor implements Serializable{
 	public static boolean isValidPhoneNumber(String phoneNumber) {
 		return Validator.isValidPhoneNumber(phoneNumber);
 	}
+
+	private String getName() {
+		return this.name;
+	}
+
+	private void setName(String name) {
+		this.name = name;
+	}
+
+	private String getFirstName() {
+		return this.firstName;
+	}
+
+	private void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	private String getPhoneNumber() {
+		return this.phoneNumber;
+	}
+
+	private void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	private String getEmail() {
+		return this.email;
+	}
+
+	private void setEmail(String email) {
+		this.email = email;
+	}
 	
+	@Temporal(TemporalType.DATE)
+	private Date getAssignmentDate() {
+		return this.assignmentDate;
+	}
+
+	private void setAssignmentDate(Date assignmentDate) {
+		this.assignmentDate = assignmentDate;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "idAgency")
+	private Agency getAgency() {
+		return this.agency;
+	}
+
+	private void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
 }
