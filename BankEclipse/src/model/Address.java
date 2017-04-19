@@ -19,10 +19,11 @@ import javax.persistence.Table;
 @NamedQuery(name = "Address.findAll", query = "SELECT t FROM Address t")
 public class Address implements Serializable{
 	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private String line1;
 	private String line2 = null;
 	private CpVille cpVille;
-	private Integer id;
+	
 	
 	private Address(){
 	}
@@ -43,7 +44,7 @@ public class Address implements Serializable{
 	}
 
 
-	@Column(name = "lign1")
+
 	public String getLine1() {
 		return this.line1;
 	}
@@ -52,7 +53,7 @@ public class Address implements Serializable{
 		this.line1 = line1;
 	}
 
-	@Column(name = "lign2")
+
 	public String getLine2() {
 		return this.line2;
 	}
@@ -62,7 +63,7 @@ public class Address implements Serializable{
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "idcpville")
+	@JoinColumn(name = "idCpVille")
 	public CpVille getCpVille() {
 		return cpVille;
 	}

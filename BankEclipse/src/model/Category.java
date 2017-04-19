@@ -6,28 +6,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import util.Formater;
 
 @Entity
-@Table(name="category")
+@Table(name = "category")
 @NamedQuery(name = "Category.findAll", query = "SELECT t FROM Category t")
-public class Category implements Serializable{
+public class Category implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-
 	private String description;
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public Category getParentCategory() {
-		return this.parentCategory;
-	}
-
 	private Category parentCategory;
 
 	private void init(String description) {
@@ -36,20 +29,9 @@ public class Category implements Serializable{
 		this.description = Formater.formatNameCase(description);
 		this.parentCategory = null;
 	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
-		return this.id;
-	}
-	
 
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	private Category(){
-		
+	private Category() {
+
 	}
 
 	public Category(String description) {
@@ -73,6 +55,34 @@ public class Category implements Serializable{
 		if (parentCategory.getDescription().equals(description)) {
 			throw new IllegalArgumentException("The parent category and the new category cannot be the same");
 		}
+	}
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	private void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="idParentCategory")
+	public Category getParentCategory() {
+		return this.parentCategory;
+	}
+
+	private void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
 	}
 
 }

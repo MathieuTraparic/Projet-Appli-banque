@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -20,13 +22,9 @@ public class Agency  implements Serializable{
 	private Integer id;
 	private String name;
 	private String counterCode;
+	private Address adress;
+	private Bank bank;
 	
-	private static ArrayList<String> AGENCY = new ArrayList<String>(){
-		{
-			add("LI");
-			add("LO");
-		}
-	};
 	
 	private Agency(){
 		
@@ -63,7 +61,39 @@ public class Agency  implements Serializable{
 		}
 	}
 	
-	public static Iterable<String> getAgency() {
-		return AGENCY;
+	private String getName() {
+		return this.name;
 	}
+
+	private void setName(String name) {
+		this.name = name;
+	}
+
+	private String getCounterCode() {
+		return this.counterCode;
+	}
+
+	private void setCounterCode(String counterCode) {
+		this.counterCode = counterCode;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="idAddress")
+	private Address getAdress() {
+		return this.adress;
+	}
+
+	private void setAdress(Address adress) {
+		this.adress = adress;
+	}
+	@ManyToOne
+	@JoinColumn(name="idBank")
+	private Bank getBank() {
+		return this.bank;
+	}
+
+	private void setBank(Bank bank) {
+		this.bank = bank;
+	}
+	
 }

@@ -77,7 +77,6 @@ public class Owner implements Serializable {
 		this.name = name;
 	}
 	
-	@Column ( name = "firstname")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -120,7 +119,6 @@ public class Owner implements Serializable {
 		this.salt = salt;
 	}
 	
-	@Column ( name = "phonenumber")
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -130,7 +128,7 @@ public class Owner implements Serializable {
 	}
 	
 	@ManyToOne
-	@JoinColumn (name = "idaddress")
+	@JoinColumn (name = "idAddress")
 	public Address getAddress() {
 		return address;
 	}
@@ -140,8 +138,8 @@ public class Owner implements Serializable {
 	}
 
 	@ManyToMany
-	@JoinTable(name = "Assign", joinColumns = { @JoinColumn(name = "id_owner") }, inverseJoinColumns = {
-			@JoinColumn(name = "id_account") })
+	@JoinTable(name = "Assign", joinColumns = { @JoinColumn(name = "idOwner") }, inverseJoinColumns = {
+			@JoinColumn(name = "idAccount") })
 	public List<Account> getAccounts() {
 		return this.accounts;
 	}

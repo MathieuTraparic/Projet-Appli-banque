@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import util.Formater;
 
@@ -25,23 +28,26 @@ public class Account implements Serializable {
 	private String description;
 	private double initialBalance;
 	private double overdraft;
+	private double interestRate;
 	private Double alertThreshold;	
 	private CountryCode countryCode;
-	private String type;
+	private Date creationDate;
+	private Agency agency;
+	private AccountType accountType;
 	
 	
 	private Account(){
 	}
 	
 	public Account(String number, String description, double initialBalance,
-			 double overdraft, Double threshold, String type){
+			 double overdraft, Double threshold){
 		
 		//TODO update methode for the ArrayListes
 		
 		check_number(number);
 		check_description(description);
 		
-		check_type(type);
+		//check_type(type);
 		check_overdraft(overdraft);
 		
 		this.number = Formater.removeUsualSeparators(number);
@@ -49,7 +55,7 @@ public class Account implements Serializable {
 		this.overdraft = overdraft;
 		this.alertThreshold = threshold;
 
-		this.type = type;
+		//this.accountType = type;
 	}
 	
 	
@@ -88,11 +94,11 @@ public class Account implements Serializable {
 	
 
 	
-	private static void check_type(String type) throws IllegalArgumentException {
-		if (type.isEmpty()){
-			throw new IllegalArgumentException ("The account type can't be empty");
-		}
-	}
+//	private static void check_type(String type) throws IllegalArgumentException {
+//		if (type.isEmpty()){
+//			throw new IllegalArgumentException ("The account type can't be empty");
+//		}
+//	}
 	
 	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
 		if(!isValidOverdraft(overdraft)){
@@ -140,15 +146,6 @@ public class Account implements Serializable {
 	}
 
 
-	public String getType() {
-		return this.type;
-	}
-
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
 
 	public void setInitialBalance(double initialBalance) {
 		this.initialBalance = initialBalance;
@@ -163,15 +160,50 @@ public class Account implements Serializable {
 	public void setAlertThreshold(Double alertThreshold) {
 		this.alertThreshold = alertThreshold;
 	}
+	@Temporal(TemporalType.DATE)
+	public Date getCreationDate() {
+		return this.creationDate;
+	}
 
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public double getInterestRate() {
+		return this.interestRate;
+	}
+
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
+	}
 	@ManyToOne
-	@JoinColumn(name ="idcountrycode")
+	@JoinColumn(name ="idCountryCode")
 	public CountryCode getCountryCode() {
 		return countryCode;
 	}
 
 	public void setCountryCode(CountryCode countryCode) {
 		this.countryCode = countryCode;
+	}
+	@ManyToOne
+	@JoinColumn(name ="idAgency")
+	public Agency getAgency() {
+		return this.agency;
+	}
+
+	public void setAgency(Agency agency) {
+		this.agency = agency;
+	}
+
+	
+	@ManyToOne
+	@JoinColumn(name ="idAccountType")
+	public AccountType getAccountType() {
+		return this.accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
 	}
 	
 	

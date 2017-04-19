@@ -2,7 +2,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,15 +19,8 @@ import util.Validator;
 public class Bank implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String bankName;
-	private String bankCode;
-	
-	private static ArrayList<String> BANK = new ArrayList<String>(){
-		{
-			add("j");
-			add("h");
-		}
-	};
+	private String name;
+	private String code;
 	
 	private Bank(){
 		
@@ -42,8 +34,8 @@ public class Bank implements Serializable{
 		checkBankCode(bankCode);
 		checkBankName(bankName);
 		
-		this.bankName = Formater.formatNameCase(bankName);
-		this.bankCode = Formater.removeUsualSeparators(bankCode);
+		this.name = Formater.formatNameCase(bankName);
+		this.code = Formater.removeUsualSeparators(bankCode);
 	}
 	
 	@Id
@@ -77,9 +69,27 @@ public class Bank implements Serializable{
 			throw new IllegalArgumentException("The bank name is incorrect");
 		}
 	}
-	
-	
-	public static Iterable<String> getBank() {
-		return BANK;
+
+
+	private String getName() {
+		return this.name;
 	}
+
+
+	private void setName(String name) {
+		this.name = name;
+	}
+
+
+	private String getCode() {
+		return this.code;
+	}
+
+
+	private void setCode(String code) {
+		this.code = code;
+	}
+	
+	
+	
 }

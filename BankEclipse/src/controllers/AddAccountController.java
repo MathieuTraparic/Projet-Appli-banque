@@ -38,11 +38,11 @@ public class AddAccountController implements Initializable {
 	@FXML
 	void handleAddAccountSubmit(ActionEvent event){
 		
-		Account account = new Account(addAccountNumber.getText(), addAccountDescription.getText(),
-				Double.parseDouble(addAccountInitBalance.getText()),
-				Double.parseDouble(addAccountOverdraft.getText()),
-				Double.parseDouble(addAccountThreshold.getText()),
-				addAccountType.getAccessibleText());
+//		Account account = new Account(addAccountNumber.getText(), addAccountDescription.getText(),
+//				Double.parseDouble(addAccountInitBalance.getText()),
+//				Double.parseDouble(addAccountOverdraft.getText()),
+//				Double.parseDouble(addAccountThreshold.getText()),
+//				addAccountType.getAccessibleText());
 		CountryCode countryCode = new CountryCode(addAccountCountryCode.getAccessibleText());
 		Stage stage = (Stage) addAccountCancel.getScene().getWindow();
 	    stage.close();

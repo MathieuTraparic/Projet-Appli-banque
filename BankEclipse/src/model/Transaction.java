@@ -1,61 +1,89 @@
 	package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import util.Formater;
 
 @Entity
-@Table(name="Transaction")
+@Table(name="transaction")
 @NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transaction t")
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-
-	/**
-	 * To be fetched from DB BEFORE first instance is created
-	 */
-	@SuppressWarnings("serial")
-	private static ArrayList<String> TYPES = new ArrayList<String>() {
-		{
-			add("TRANSACTION");
-			add("RETRAIT");
-			add("MONEY");
-			add("BILL");
-		}
-	};
-
-	private String type;
+	private Integer id;
 	private String description;
-	private Double value;
+	private double value;
 	private Date date;
+	private Account account;
+	private TransactionType transactionType;
+	private Category category;
+	private TargetTransaction targetTransaction;
+	private PeriodicTransaction periodicTransaction;
+	
 	
 	private Transaction(){
 		
 	}
 
-	public Transaction(String description, String type, double value, Date date) {
+	public Transaction(String description, double value, Date date) {
 
 		checkValue(value);
 		checkDate(date);
-		checkType(type);
+		//checkType(type);
 		checkDescription(description);
 
 		this.description = description;
-		this.type = Formater.formatNameCase(type);
+		//this.type = Formater.formatNameCase(type);
 		this.value = value;
 		this.date = date;
 	}
 	
+//	public String getType() {
+//		return type;
+//	}
+//
+//	public void setType(String type) {
+//		this.type = type;
+//	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+	
+	@Temporal(TemporalType.TIME)
+	@Column(name="dateTransaction")
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
@@ -89,20 +117,58 @@ public class Transaction implements Serializable {
 		}
 
 	}
-
-	private static void checkType(String type) throws IllegalArgumentException {
-		if (type == null) {
-			throw new NullPointerException("The type of the transaction cannot be null");
-		} else if (!isValidType(type)) {
-			throw new IllegalArgumentException("The type of the transaction must be an existing type");
-		}
+	@ManyToOne
+	@JoinColumn(name="idAccount")
+	private Account getAccount() {
+		return this.account;
 	}
 
-	public static boolean isValidType(String type) {
-		return (TYPES.contains(type));
+	private void setAccount(Account account) {
+		this.account = account;
 	}
-	public static Iterable<String> getTypes() {
-		return TYPES;
+	@ManyToOne
+	@JoinColumn(name="idTransationType")
+	private TransactionType getTransactionType() {
+		return this.transactionType;
 	}
+
+	private void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
+	}
+	@ManyToOne
+	@JoinColumn(name="idCategory")
+	private Category getCategory() {
+		return this.category;
+	}
+
+	private void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="idTargetTransation")
+	private TargetTransaction getTargetTransaction() {
+		return this.targetTransaction;
+	}
+
+	private void setTargetTransaction(TargetTransaction targetTransaction) {
+		this.targetTransaction = targetTransaction;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="idPeriodicTransation")
+	public PeriodicTransaction getPeriodicTransaction() {
+		return this.periodicTransaction;
+	}
+
+	public void setPeriodicTransaction(PeriodicTransaction periodicTransaction) {
+		this.periodicTransaction = periodicTransaction;
+	}
+
+//	private static void checkType(String type) throws IllegalArgumentException {
+//		if (type == null) {
+//			throw new NullPointerException("The type of the transaction cannot be null");
+//		}
+//	}
 
 }

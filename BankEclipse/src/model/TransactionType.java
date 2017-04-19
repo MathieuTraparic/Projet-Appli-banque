@@ -14,13 +14,13 @@ import javax.persistence.*;
 public class TransactionType implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private String wording;
+	private String description;
 
 	private TransactionType() {
 	}
 	
-	public TransactionType(String wording) {
-		this.wording=wording;
+	public TransactionType(String description) {
+		this.description=description;
 	}
 
 
@@ -34,13 +34,14 @@ public class TransactionType implements Serializable {
 		this.id = id;
 	}
 
-
-	public String getWording() {
-		return this.wording;
+	private String getDescription() {
+		return this.description;
 	}
 
-	public void setWording(String wording) {
-		this.wording = wording;
+	private void setDescription(String description) {
+		this.description = description;
 	}
+
+
 
 }
