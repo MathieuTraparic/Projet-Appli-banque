@@ -28,14 +28,14 @@
          <children>
             <Label text="Login" />
             <Label text="Password" GridPane.rowIndex="1" />
-      				<TextField fx:id="login" onAction="#handleFields" prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" />
-            <PasswordField fx:id="pswd" onAction="#handleFields" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      				<TextField fx:id="login"  prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" />
+            <PasswordField fx:id="pswd"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
       		<Button mnemonicParsing="false" onAction="#signUpButton" text="Sign up" GridPane.rowIndex="3" />
             <Label text="Unvalid Login password combination" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <children>
                   <Button mnemonicParsing="false" onAction="#handleByPass" text="Bypass" />
-            		<Button fx:id="signIn" mnemonicParsing="false" onAction="#signInButton" text="Sign in" />
+            		<Button fx:id="signIn" disable="true" mnemonicParsing="false" onAction="#signInButton" text="Sign in" />
                </children>
             </HBox>
          </children>

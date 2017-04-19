@@ -23,7 +23,7 @@ import util.Validator;
 
 @Entity
 @Table(name = "owner")
-@NamedQuery(name = "Owner.findAll", query = "SELECT t FROM Owner t")
+@NamedQuery(name = "Owner.findAll", query = "SELECT o FROM Owner o")
 public class Owner implements Serializable {
 
 	private static final long serialVersionUID = 1L;
