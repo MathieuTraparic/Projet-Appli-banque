@@ -127,7 +127,7 @@ public class Transaction implements Serializable {
 		this.account = account;
 	}
 	@ManyToOne
-	@JoinColumn(name="idTransationType")
+	@JoinColumn(name="idTransactionType")
 	private TransactionType getTransactionType() {
 		return this.transactionType;
 	}
@@ -146,7 +146,7 @@ public class Transaction implements Serializable {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="idTargetTransation")
+	@JoinColumn(name="idTargetTransaction")
 	private TargetTransaction getTargetTransaction() {
 		return this.targetTransaction;
 	}
@@ -156,7 +156,7 @@ public class Transaction implements Serializable {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="idPeriodicTransation")
+	@JoinColumn(name="idPeriodicTransaction")
 	public PeriodicTransaction getPeriodicTransaction() {
 		return this.periodicTransaction;
 	}
