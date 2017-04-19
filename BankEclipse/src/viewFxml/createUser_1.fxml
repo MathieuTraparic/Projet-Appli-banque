@@ -15,29 +15,37 @@
 	<children>
 		<AnchorPane>
 		</AnchorPane>
-		<Button layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Next step" />
+		<Button fx:id="nextStepButton" disable="true" layoutX="611.0" layoutY="376.0" mnemonicParsing="false" onAction="#nextStepButton" text="Next step" />
 		<Button layoutX="184.0" layoutY="376.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
-      <GridPane alignment="CENTER" layoutX="179.0" layoutY="125.0" prefHeight="200.0" prefWidth="442.0">
+      <GridPane alignment="CENTER" layoutX="116.0" layoutY="125.0" prefHeight="200.0" prefWidth="565.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="117.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="526.0" minWidth="0.0" prefWidth="325.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="522.0" minWidth="10.0" prefWidth="218.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="526.0" minWidth="0.0" prefWidth="347.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-          <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="39.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="54.0" minHeight="0.0" prefHeight="19.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.0" minHeight="5.0" prefHeight="18.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="New login" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Label text="Password" GridPane.rowIndex="2" />
+            <Label text="Password" GridPane.rowIndex="3" />
       				<TextField fx:id="newLogin" prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label prefHeight="58.0" prefWidth="95.0" text="Password confirmation" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="3" />
-            <Label text="Email" GridPane.rowIndex="4" />
-            <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <PasswordField fx:id="newPasswordConfirmation" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label prefHeight="58.0" prefWidth="95.0" text="Password confirmation" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="5" />
+            <Label text="Email" GridPane.rowIndex="7" />
+            <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <PasswordField fx:id="newPasswordConfirmation" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="loginError" text="Please add a login name" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="passwordError" prefHeight="5.0" prefWidth="162.0" text="Please add a password" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="passwordConfirmationError" prefHeight="21.0" prefWidth="278.0" text="Passwords are not identical" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="emailError" prefHeight="21.0" prefWidth="278.0" text="Email must be a valid email" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
          </children>
       </GridPane>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="210.0" layoutY="59.0" prefHeight="25.0" prefWidth="434.0" text="First step: Create your new user account" textAlignment="CENTER" textFill="#0c0d0c">

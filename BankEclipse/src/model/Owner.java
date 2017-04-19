@@ -34,21 +34,24 @@ public class Owner implements Serializable {
 	private String login;
 	private String pswd;
 	private String salt;
+	private String email;
 	private String phoneNumber;
 	private Address address;
 	private List<Account> accounts;
 
+	@SuppressWarnings("unused")
 	private Owner(){
 	}
 	
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd,
-			Address address) {
+			Address address,String email) {
 		check_firstName(firstName);
 		check_login(login);
 		check_name(name);
 		check_phoneNumber(phoneNumber);
 		check_pswd(pswd);
 		check_birthday(birthday);
+		check_email(email);
 
 		this.name = Formater.formatNameCase(name);
 		this.firstName = Formater.formatNameCase(firstName);
@@ -57,6 +60,7 @@ public class Owner implements Serializable {
 		this.login = login;
 		this.pswd = pswd;
 		this.address = address;
+		this.email=email;
 	}
 
 	@Id
@@ -127,6 +131,15 @@ public class Owner implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 	
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@ManyToOne
 	@JoinColumn (name = "idAddress")
 	public Address getAddress() {
@@ -153,7 +166,7 @@ public class Owner implements Serializable {
 			throw new IllegalArgumentException("name cannot be empty");
 		}
 		if (!isValidName(name)) {
-			throw new IllegalArgumentException("name cannot be empty");
+			throw new IllegalArgumentException("name cannot be valid");
 		}
 	}
 
@@ -207,6 +220,18 @@ public class Owner implements Serializable {
 
 	public static boolean isValidBirthday(Date date) {
 		return date.before(new Date());
+	}
+	
+	private static void check_email(String email) throws IllegalArgumentException {
+		if (email.isEmpty()) {
+			throw new IllegalArgumentException("Email cannot be empty");
+		} else if (!isValidEmail(email)) {
+			throw new IllegalArgumentException("Email must be a valid email address");
+		}
+	}
+
+	public static boolean isValidEmail(String email) {
+		return Validator.isValidEmailAddress(email);
 	}
 
 }
