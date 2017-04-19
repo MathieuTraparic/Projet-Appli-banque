@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.persistence.EntityManager;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,9 +19,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.AccountType;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
+import model.CountryCode;
 import util.PopWindow;
 
 public class AdvisorController implements Initializable {
@@ -93,8 +97,6 @@ public class AdvisorController implements Initializable {
 		}
 
 		if (labels.stream().allMatch(label -> label.isVisible() == false)) {
-//			cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
-//					assignmentDate.getValue().getMonthValue() - 1, assignmentDate.getValue().getDayOfMonth(), 0, 0, 0);
 			Advisor advisor = new Advisor(name.getText(), firstName.getText(), phoneNumber.getText(), email.getText(),
 					cal.getTime());
 
@@ -126,13 +128,22 @@ public class AdvisorController implements Initializable {
 				add(agency);
 			}
 		};
-//		for (String l : Agency.getAgency()) {
-//			agency.getItems().add(l);
-//		}
-//		agency.getItems().add("OTHER");
-//		for (String l : Bank.getBank()) {
-//			bank.getItems().add(l);
-//		}
+		
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		List<Agency> a = em.createNamedQuery("Agency.findAll").getResultList();
+		List<Bank> b = em.createNamedQuery("Bank.findAll").getResultList();
+		em.close();
+		
+		for (Agency  agensy : a){
+			agency.getItems().add(agensy.getName());
+		}
+
+		agency.getItems().add("OTHER");
+		
+		for (Bank  bankk : b){
+			agency.getItems().add(bankk.getName());
+		}
+
 		bank.getItems().add("OTHER");
 
 		this.secondaryFields.forEach(item -> item.setDisable(true));

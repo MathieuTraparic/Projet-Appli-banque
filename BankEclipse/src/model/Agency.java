@@ -61,7 +61,7 @@ public class Agency  implements Serializable{
 		}
 	}
 	
-	private String getName() {
+	public String getName() {
 		return this.name;
 	}
 
