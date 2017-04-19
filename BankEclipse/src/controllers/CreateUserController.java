@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,20 +27,32 @@ import util.PasswordHandler;
 
 public class CreateUserController implements Initializable {
 
-	@FXML
+	/*@FXML
 	void firstStepValid(ActionEvent event) {
 		if (newLogin.getText() != null && newPassword.getText() != null && newPasswordConfirmation.getText() != null
 				&& email.getText() != null) {
 			this.nextStepButton.setDisable(false);
 		}
-	}
+	}*/
 
 	@FXML
 	void nextStepButton(ActionEvent event) {
 
 		labels1.forEach(label -> label.setVisible(false));
+		
 
 		if (newLogin.getText().isEmpty()) {
+			loginError.setText("This login must be filled");
+			loginError.setVisible(true);
+		}
+		
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		TypedQuery<Owner> q = em.createQuery("SELECT  o FROM Owner o WHERE o.login =:login", Owner.class);
+		List<Owner> list = q.setParameter("login", this.newLogin.getText()).getResultList();
+		em.close();
+		
+		if (!list.isEmpty()) {
+			loginError.setText("This login is already used");
 			loginError.setVisible(true);
 		}
 
@@ -59,9 +73,8 @@ public class CreateUserController implements Initializable {
 			
 			String salt = PasswordHandler.getNewSalt();
 			
-			Owner owner = new Owner(newLogin.getText(),PasswordHandler.hash(salt+newPasswordConfirmation.getText()),email.getText());
+			Owner owner = new Owner(newLogin.getText(),PasswordHandler.hash(salt+newPasswordConfirmation.getText()),email.getText(),salt);
 			
-			owner.setSalt(salt);
 	
 			CreateUserController2 r = 
 					(CreateUserController2) VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);
@@ -90,6 +103,17 @@ public class CreateUserController implements Initializable {
 
 			}
 		};
+
+		ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
+			nextStepButton.setDisable(newLogin.getText().isEmpty() 
+					|| newPassword.getText().isEmpty()
+					|| newPasswordConfirmation.getText().isEmpty()
+					|| email.getText().isEmpty());
+		};
+		newLogin.textProperty().addListener(onChange);
+		newPassword.textProperty().addListener(onChange);
+		newPasswordConfirmation.textProperty().addListener(onChange);
+		email.textProperty().addListener(onChange);
 	}
 
 	private List<Label> labels1;

@@ -48,9 +48,9 @@ public class LoginController implements Initializable {
 			}
 			//login not found
 
-		} else {
-			loginError.setVisible(true);
 		}
+		loginError.setVisible(true);
+		
 
 	}
 
@@ -64,9 +64,6 @@ public class LoginController implements Initializable {
 		VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 	}
 
-	@FXML
-	public void handleFields(InputMethodEvent event) {
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
