@@ -46,11 +46,10 @@ public class LoginController implements Initializable {
 			if (PasswordHandler.hash(o.getSalt() + pswd.getText()).equals(o.getPswd())) {
 				VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 			}
-			//login not found
-
-		} else {
-			loginError.setVisible(true);
+			//wrong password
 		}
+		loginError.setVisible(true);
+		
 
 	}
 
