@@ -22,10 +22,11 @@ import model.Transaction;
 public class AddTransactionController implements Initializable{
 	
 	@FXML public Button transactionCancel, transactionSubmit;
-	@FXML public TextField description, value, date;
+	@FXML public static TextField description;
+	@FXML public static TextField value;
+	@FXML public static TextField date;
 	@FXML public Label descriptionError, typeError, valueError, dateError;
-	@FXML public ComboBox<String> type;
-	@FXML public TableView<Transaction> addTransaction;
+	@FXML public static ComboBox<String> type;
 	@FXML private ObservableList<Transaction> data;
 	
 	@FXML
@@ -52,8 +53,6 @@ public class AddTransactionController implements Initializable{
 		}else{
 			try {
 				Date dt = dateParser.parse(d);
-				data.add(new Transaction(des,type.getValue(),Double.parseDouble(val),dt));
-				addTransaction.setItems(data);
 				Stage stage = (Stage) transactionCancel.getScene().getWindow();
 				stage.close();
 			} catch ( ParseException e ) {
@@ -70,7 +69,7 @@ public class AddTransactionController implements Initializable{
 		type.getItems().add("OTHER");
 	}
 	
-	public Transaction getTransaction(){
+	public static Transaction getTransaction(){
 		SimpleDateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
 		Date dt = null;
 		try {
@@ -78,6 +77,6 @@ public class AddTransactionController implements Initializable{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return new Transaction(this.description.getText(),type.getValue(),Double.parseDouble(this.value.getText()),dt);
+		return new Transaction(description.getText(),type.getValue(),Double.parseDouble(value.getText()),dt);
 	}
 }

@@ -19,21 +19,7 @@ import util.Formater;
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-
-	/**
-	 * To be fetched from DB BEFORE first instance is created
-	 */
-	@SuppressWarnings("serial")
-	private static ArrayList<String> TYPES = new ArrayList<String>() {
-		{
-			add("TRANSACTION");
-			add("RETRAIT");
-			add("MONEY");
-			add("BILL");
-		}
-	};
-
+	private Integer id;
 	private String type;
 	private String description;
 	private Double value;
@@ -56,6 +42,38 @@ public class Transaction implements Serializable {
 		this.date = date;
 	}
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
@@ -93,16 +111,7 @@ public class Transaction implements Serializable {
 	private static void checkType(String type) throws IllegalArgumentException {
 		if (type == null) {
 			throw new NullPointerException("The type of the transaction cannot be null");
-		} else if (!isValidType(type)) {
-			throw new IllegalArgumentException("The type of the transaction must be an existing type");
 		}
-	}
-
-	public static boolean isValidType(String type) {
-		return (TYPES.contains(type));
-	}
-	public static Iterable<String> getTypes() {
-		return TYPES;
 	}
 
 }
