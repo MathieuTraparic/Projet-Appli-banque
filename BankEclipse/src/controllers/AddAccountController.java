@@ -51,20 +51,20 @@ public class AddAccountController implements Initializable {
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<CountryCode> l = em.createNamedQuery("countrycode.findAll").getResultList();
-		List<AccountType> j = em.createNamedQuery("accounttype.findAll").getResultList();
+		List<CountryCode> l = em.createNamedQuery("CountryCode.findAll").getResultList();
+		List<AccountType> j = em.createNamedQuery("AccountType.findAll").getResultList();
 		em.close();
 		
 		for (CountryCode countrycode : l){
 			addAccountCountryCode.getItems().add(countrycode.getCode());
 		}
 		
+		addAccountCountryCode.getItems().add("OTHER");
+		
 		for (AccountType type : j){
-			addAccountCountryCode.getItems().add(type.getType());
+			addAccountType.getItems().add(type.getType());
 		}
 		
-		addAccountCountryCode.getItems().add("OTHER");
-
 		addAccountType.getItems().add("OTHER");
 	}
 }
