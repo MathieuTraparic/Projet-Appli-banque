@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -35,11 +36,10 @@ public class LoginController implements Initializable{
 	@FXML
 	void signInButton(ActionEvent event) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		Query q = em.createQuery("SELECT  o FROM Owner o WHERE o.login =:login");
-		q.setParameter("login", this.login.getText());
+		TypedQuery<Owner> q = em.createQuery("SELECT  o FROM Owner o WHERE o.login =:login", Owner.class);
+		Owner o = (Owner) q.setParameter("login", this.login.getText()).getSingleResult();
 
-		q.executeUpdate();
-		Owner o = (Owner) q.getSingleResult();
+		em.close();
 
 		if (o!=null && PasswordHandler.hash(o.getSalt() + pswd.getText()).equals(o.getPswd())) {
 			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
