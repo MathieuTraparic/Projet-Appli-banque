@@ -3,16 +3,18 @@
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import util.Formater;
 
 @Entity
 @Table(name="transaction")
@@ -21,35 +23,40 @@ public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
-	private String type;
 	private String description;
-	private Double value;
+	private double value;
 	private Date date;
+	private Account account;
+	private TransactionType transactionType;
+	private Category category;
+	private TargetTransaction targetTransaction;
+	private PeriodicTransaction periodicTransaction;
+	
 	
 	private Transaction(){
 		
 	}
 
-	public Transaction(String description, String type, double value, Date date) {
+	public Transaction(String description, double value, Date date) {
 
 		checkValue(value);
 		checkDate(date);
-		checkType(type);
+		//checkType(type);
 		checkDescription(description);
 
 		this.description = description;
-		this.type = Formater.formatNameCase(type);
+		//this.type = Formater.formatNameCase(type);
 		this.value = value;
 		this.date = date;
 	}
 	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
+//	public String getType() {
+//		return type;
+//	}
+//
+//	public void setType(String type) {
+//		this.type = type;
+//	}
 
 	public String getDescription() {
 		return description;
@@ -59,15 +66,16 @@ public class Transaction implements Serializable {
 		this.description = description;
 	}
 
-	public Double getValue() {
+	public double getValue() {
 		return value;
 	}
 
-	public void setValue(Double value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
+	@Column(name="dateTransaction")
 	public Date getDate() {
 		return date;
 	}
@@ -109,11 +117,58 @@ public class Transaction implements Serializable {
 		}
 
 	}
-
-	private static void checkType(String type) throws IllegalArgumentException {
-		if (type == null) {
-			throw new NullPointerException("The type of the transaction cannot be null");
-		}
+	@ManyToOne
+	@JoinColumn(name="idAccount")
+	private Account getAccount() {
+		return this.account;
 	}
+
+	private void setAccount(Account account) {
+		this.account = account;
+	}
+	@ManyToOne
+	@JoinColumn(name="idTransationType")
+	private TransactionType getTransactionType() {
+		return this.transactionType;
+	}
+
+	private void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
+	}
+	@ManyToOne
+	@JoinColumn(name="idCategory")
+	private Category getCategory() {
+		return this.category;
+	}
+
+	private void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="idTargetTransation")
+	private TargetTransaction getTargetTransaction() {
+		return this.targetTransaction;
+	}
+
+	private void setTargetTransaction(TargetTransaction targetTransaction) {
+		this.targetTransaction = targetTransaction;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="idPeriodicTransation")
+	public PeriodicTransaction getPeriodicTransaction() {
+		return this.periodicTransaction;
+	}
+
+	public void setPeriodicTransaction(PeriodicTransaction periodicTransaction) {
+		this.periodicTransaction = periodicTransaction;
+	}
+
+//	private static void checkType(String type) throws IllegalArgumentException {
+//		if (type == null) {
+//			throw new NullPointerException("The type of the transaction cannot be null");
+//		}
+//	}
 
 }

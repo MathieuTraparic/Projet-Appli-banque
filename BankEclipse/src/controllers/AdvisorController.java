@@ -126,13 +126,13 @@ public class AdvisorController implements Initializable {
 				add(agency);
 			}
 		};
-		for (String l : Agency.getAgency()) {
-			agency.getItems().add(l);
-		}
-		agency.getItems().add("OTHER");
-		for (String l : Bank.getBank()) {
-			bank.getItems().add(l);
-		}
+//		for (String l : Agency.getAgency()) {
+//			agency.getItems().add(l);
+//		}
+//		agency.getItems().add("OTHER");
+//		for (String l : Bank.getBank()) {
+//			bank.getItems().add(l);
+//		}
 		bank.getItems().add("OTHER");
 
 		this.secondaryFields.forEach(item -> item.setDisable(true));

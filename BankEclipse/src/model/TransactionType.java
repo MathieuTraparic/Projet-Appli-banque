@@ -19,8 +19,8 @@ public class TransactionType implements Serializable {
 	private TransactionType() {
 	}
 	
-	public TransactionType(String wording) {
-		this.description=wording;
+	public TransactionType(String description) {
+		this.description=description;
 	}
 
 

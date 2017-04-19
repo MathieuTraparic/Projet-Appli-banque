@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,6 +27,7 @@ public class PeriodicTransaction implements Serializable {
 	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private Frequency frequency;
+	private List<Transaction> transactions;
 	
 	
 	
@@ -108,6 +111,30 @@ public class PeriodicTransaction implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	//bi-directional many-to-one association to transaction
+	@OneToMany(mappedBy="PeriodicTransaction")
+	public List<Transaction> getTransactions() {
+		return this.transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	public Transaction addPeriodictransaction(Transaction transaction) {
+		getTransactions().add(transaction);
+		transaction.setPeriodicTransaction(this);
+
+		return transaction;
+	}
+
+	public Transaction removePeriodictransaction(Transaction transaction) {
+		getTransactions().remove(transaction);
+		transaction.setPeriodicTransaction(null);
+
+		return transaction;
 	}
 
 }

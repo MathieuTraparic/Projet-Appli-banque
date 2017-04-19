@@ -94,11 +94,11 @@ public class Account implements Serializable {
 	
 
 	
-	private static void check_type(String type) throws IllegalArgumentException {
-		if (type.isEmpty()){
-			throw new IllegalArgumentException ("The account type can't be empty");
-		}
-	}
+//	private static void check_type(String type) throws IllegalArgumentException {
+//		if (type.isEmpty()){
+//			throw new IllegalArgumentException ("The account type can't be empty");
+//		}
+//	}
 	
 	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
 		if(!isValidOverdraft(overdraft)){

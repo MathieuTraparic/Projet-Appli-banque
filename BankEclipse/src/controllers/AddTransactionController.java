@@ -78,9 +78,9 @@ public class AddTransactionController implements Initializable {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		List<Transaction> l = em.createNamedQuery("Transaction.findAll").getResultList();
 		em.close();
-		for(Transaction t : l){
-			type.getItems().add(t.getType());
-		}
+//		for(Transaction t : l){
+//			type.getItems().add(t.getType());
+//		}
 		type.getItems().add("OTHER");
 	}
 
@@ -92,6 +92,6 @@ public class AddTransactionController implements Initializable {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return new Transaction(description.getText(), type.getValue(), Double.parseDouble(value.getText()), dt);
+		return new Transaction(description.getText(), Double.parseDouble(value.getText()), dt);
 	}
 }
