@@ -51,6 +51,7 @@ public class Account implements Serializable {
 		check_overdraft(overdraft);
 		
 		this.number = Formater.removeUsualSeparators(number);
+		this.description = description;
 		this.initialBalance = initialBalance;
 		this.overdraft = overdraft;
 		this.alertThreshold = threshold;

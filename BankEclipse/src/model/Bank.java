@@ -71,7 +71,7 @@ public class Bank implements Serializable{
 	}
 
 
-	private String getName() {
+	public String getName() {
 		return this.name;
 	}
 

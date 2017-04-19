@@ -24,9 +24,6 @@ public class LoginController {
 	@FXML
 	void signUpButton(ActionEvent event){
 		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
-		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<Owner> l = em.createNamedQuery("Account.findAll").getResultList();
-		em.close();
 	}
 	
 
