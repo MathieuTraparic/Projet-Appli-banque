@@ -1,9 +1,13 @@
 	package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -12,7 +16,10 @@ import util.Formater;
 @Entity
 @Table(name="transaction")
 @NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transaction t")
-public class Transaction {
+public class Transaction implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int id;
 
 	/**
 	 * To be fetched from DB BEFORE first instance is created
@@ -31,6 +38,10 @@ public class Transaction {
 	private String description;
 	private Double value;
 	private Date date;
+	
+	private Transaction(){
+		
+	}
 
 	public Transaction(String description, String type, double value, Date date) {
 
@@ -43,6 +54,16 @@ public class Transaction {
 		this.type = Formater.formatNameCase(type);
 		this.value = value;
 		this.date = date;
+	}
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	private static void checkDescription(String description) throws IllegalArgumentException {

@@ -1,10 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -16,12 +20,18 @@ import util.Validator;
 @Entity
 @Table(name = "advisor")
 @NamedQuery(name = "Advisor.findAll", query = "SELECT t FROM Advisor t")
-public class Advisor {
+public class Advisor implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Integer id;
 	private String name;
 	private String firstName;
 	private String phoneNumber;
 	private String email;
 	private Date assignmentDate;
+	
+	private Advisor(){
+		
+	}
 
 	public Advisor(String name, String firstName, String phoneNumber, String email, Date assignmentDate) {
 
@@ -36,6 +46,16 @@ public class Advisor {
 		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
 		this.email = Formater.removeUsualSeparators(email);
 		this.assignmentDate = assignmentDate;
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	private static void checkName(String name) throws IllegalArgumentException {
@@ -99,4 +119,5 @@ public class Advisor {
 	public static boolean isValidPhoneNumber(String phoneNumber) {
 		return Validator.isValidPhoneNumber(phoneNumber);
 	}
+	
 }

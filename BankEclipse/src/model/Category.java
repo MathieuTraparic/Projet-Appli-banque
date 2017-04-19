@@ -1,6 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -9,7 +14,9 @@ import util.Formater;
 @Entity
 @Table(name="category")
 @NamedQuery(name = "Category.findAll", query = "SELECT t FROM Category t")
-public class Category {
+public class Category implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Integer id;
 
 	private String description;
 
@@ -28,6 +35,21 @@ public class Category {
 
 		this.description = Formater.formatNameCase(description);
 		this.parentCategory = null;
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public int getId() {
+		return this.id;
+	}
+	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	private Category(){
+		
 	}
 
 	public Category(String description) {

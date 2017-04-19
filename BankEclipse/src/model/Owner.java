@@ -39,8 +39,8 @@ public class Owner implements Serializable {
 	private List<Account> accounts;
 
 	private Owner(){
-		
 	}
+	
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd,
 			Address address) {
 		check_firstName(firstName);

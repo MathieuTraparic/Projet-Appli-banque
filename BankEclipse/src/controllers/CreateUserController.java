@@ -22,7 +22,7 @@ public class CreateUserController {
 		List<Owner> l = em.createNamedQuery("Owner.findAll").getResultList();
 		em.close();
 		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
-		newLogin.setText(l.get(0).getLogin());
+		//newLogin.setText(l.get(0).getLogin()); //TODO doesn't work
 		
 	}
 	@FXML
