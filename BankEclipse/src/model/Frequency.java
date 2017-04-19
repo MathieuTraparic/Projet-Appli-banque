@@ -10,7 +10,8 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="frequency.findAll", query="SELECT f FROM frequency f")
+@Table(name="frequency")
+@NamedQuery(name = "Frequency.findAll", query = "SELECT t FROM Frequency t")
 public class Frequency implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;

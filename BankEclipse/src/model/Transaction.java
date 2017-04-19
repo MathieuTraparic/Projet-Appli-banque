@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import util.Formater;
 
 @Entity
-@Table(name="Transaction")
+@Table(name="transaction")
 @NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transaction t")
 public class Transaction {
 
