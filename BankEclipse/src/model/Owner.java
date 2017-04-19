@@ -45,7 +45,8 @@ public class Owner implements Serializable {
 	
 	public Owner(String login, String pswd, String email){
 		check_pswd(pswd);
-		check_birthday(birthday);
+		check_login(login);
+		
 		check_email(email);
 		
 		this.login = login;
@@ -53,7 +54,7 @@ public class Owner implements Serializable {
 		this.email=email;
 	}
 	
-	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd, String email) {
+	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd, String email, Address address) {
 		
 		//TODO 
 		/*check_pswd(pswd);
@@ -61,7 +62,7 @@ public class Owner implements Serializable {
 		check_email(email);*/
 		
 		check_firstName(firstName);
-		check_login(login);
+		check_birthday(birthday);
 		check_name(name);
 		check_phoneNumber(phoneNumber);
 
@@ -73,6 +74,7 @@ public class Owner implements Serializable {
 		this.login = login;
 		this.pswd = pswd;
 		this.email=email;
+		this.address=address;
 	}
 
 	@Id

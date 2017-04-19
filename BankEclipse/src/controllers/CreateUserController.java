@@ -56,15 +56,27 @@ public class CreateUserController implements Initializable {
 
 		if (labels1.stream().allMatch(label -> label.isVisible() == false)) {
 			
-			
-			owner.setLogin(newLogin.getText());
+			Owner owner = new Owner(newLogin.getText(),newPasswordConfirmation.getText(),email.getText());
+
+			/*owner.setLogin(newLogin.getText());
 			owner.setPswd(newPasswordConfirmation.getText());
-			owner.setEmail(email.getText());
+			owner.setEmail(email.getText());*/
+			
 	
-			VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);
+			CreateUserController r = 
+					(CreateUserController) VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);
+			
+			r.initOwner(owner);
+			
+
+			
 		} else {
 			this.nextStepButton.setDisable(true);
 		}
+	}
+
+	public void initOwner(Owner owner2) {
+		this.owner=owner2;
 	}
 
 	@FXML
@@ -143,11 +155,14 @@ public class CreateUserController implements Initializable {
 			CpVille cpville = new CpVille(zipCode.getText(),cityName.getText());
 			Address address = new Address(addressLine1.getText(), addressLine2.getText());
 			
+			address.setCpVille(cpville);
 			
-			owner.setName(name.getText());
-			owner.setFirstName(firstName.getText());
-			owner.setPhoneNumber(phoneNumber.getText());
-			owner.setBirthday(birth.getTime());
+			this.owner.setName(name.getText());
+			this.owner.setFirstName(firstName.getText());
+			this.owner.setPhoneNumber(phoneNumber.getText());
+			this.owner.setBirthday(birth.getTime());
+			this.owner.setAddress(address);
+			this.owner.setSalt("dfsgdhf");
 			
 			
 			em.getTransaction().begin();
