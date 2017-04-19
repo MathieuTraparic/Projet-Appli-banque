@@ -36,12 +36,12 @@
          <children>
             <Label text="New login" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Password" GridPane.rowIndex="3" />
-      				<TextField fx:id="newLogin" prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      				<TextField fx:id="newLogin" onAction="#firstStepValid" prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label prefHeight="58.0" prefWidth="95.0" text="Password confirmation" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="5" />
             <Label text="Email" GridPane.rowIndex="7" />
-            <PasswordField fx:id="newPassword" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <PasswordField fx:id="newPasswordConfirmation" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <PasswordField fx:id="newPassword" onAction="#firstStepValid" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <PasswordField fx:id="newPasswordConfirmation" onAction="#firstStepValid" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="email" onAction="#firstStepValid" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Label fx:id="loginError" text="Please add a login name" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="passwordError" prefHeight="5.0" prefWidth="162.0" text="Please add a password" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label fx:id="passwordConfirmationError" prefHeight="21.0" prefWidth="278.0" text="Passwords are not identical" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="6" />
