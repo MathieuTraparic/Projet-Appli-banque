@@ -9,16 +9,23 @@ import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.WindowEvent;
 import model.Transaction;
 import model.TransactionType;
 import util.PopWindow;
 
-public class TransactionController implements Initializable {
+public class TransactionController implements Initializable{
 	
 	@FXML public TableView<Transaction> tableTransaction;	
+	@FXML public TableColumn<Transaction, String> description;
+	@FXML public TableColumn<TransactionType, String> type;
+	@FXML public TableColumn<Transaction, Double> value;
+	@FXML public TableColumn<Transaction, Date> date;
 	
 
 
@@ -29,15 +36,30 @@ public class TransactionController implements Initializable {
 	
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
-		PopWindow addTransactionPop = new PopWindow("/viewFxml/addTransaction.fxml",true);
+		//PopWindow addTransactionPop = new PopWindow("/viewFxml/addTransaction.fxml",true);
+		PopupController<Transaction> controller = PopupController.load(
+			"/viewFxml/addTransaction.fxml",true
+		);
 		
-		Transaction t = (Transaction)addTransactionPop.showAndWait(
-			new Transaction("Nouvelle transaction", 0, Calendar.getInstance().getTime())
+		controller.show(
+			new Transaction("Nouvelle transaction", 0.01, Calendar.getInstance().getTime()),
+			new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent event) {
+					Transaction t = controller.getValidatedData();
+					
+					if(t!=null) {
+						tableTransaction.getItems().add(t);					
+					}
+				}
+			}
 		);
 
-		if(t!=null) {
-			tableTransaction.getItems().add(t);
-		}
+//		if(t!=null) {
+//			description.setText(t.getDescription());
+//			description.setCellValueFactory(new PropertyValueFactory<>("visible"));
+//			tableTransaction.getItems().add(t);
+//		}
 		//this.tableTransaction.setItems(FXCollections.observableList(t));
 	}
 }

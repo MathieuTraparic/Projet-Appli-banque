@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.net.URL;
 
 import controllers.PopupController;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class PopWindow {
 
@@ -27,7 +29,7 @@ public class PopWindow {
 		this.combo = combo;
 	}
 	
-	public<T> T showAndWait(T data) throws IOException{
+	public<T> void show(T data, EventHandler<WindowEvent> handler) throws IOException{
 		FXMLLoader fxmlLoader;
 		if(combo){
 			fxmlLoader = new FXMLLoader(
@@ -44,7 +46,7 @@ public class PopWindow {
 		stage.setScene(new Scene(root1));
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
-		return controller.getValidatedData();
+		stage.setOnCloseRequest(handler);
 	}
 
 }
