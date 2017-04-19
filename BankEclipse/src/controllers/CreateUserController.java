@@ -143,6 +143,7 @@ public class CreateUserController implements Initializable {
 			CpVille cpville = new CpVille(zipCode.getText(),cityName.getText());
 			Address address = new Address(addressLine1.getText(), addressLine2.getText());
 			
+			
 			owner.setName(name.getText());
 			owner.setFirstName(firstName.getText());
 			owner.setPhoneNumber(phoneNumber.getText());
