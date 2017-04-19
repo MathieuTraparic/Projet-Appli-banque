@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import model.Address;
 import model.CpVille;
 import model.Owner;
+import util.PasswordHandler;
 
 public class CreateUserController implements Initializable {
 
@@ -56,8 +57,11 @@ public class CreateUserController implements Initializable {
 
 		if (labels1.stream().allMatch(label -> label.isVisible() == false)) {
 			
-			Owner owner = new Owner(newLogin.getText(),newPasswordConfirmation.getText(),email.getText());
-
+			String salt = PasswordHandler.getNewSalt();
+			
+			Owner owner = new Owner(newLogin.getText(),PasswordHandler.hash(salt+newPasswordConfirmation.getText()),email.getText());
+			
+			owner.setSalt(salt);
 	
 			CreateUserController2 r = 
 					(CreateUserController2) VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);

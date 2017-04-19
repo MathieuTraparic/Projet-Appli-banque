@@ -115,7 +115,6 @@ public class CreateUserController2 implements Initializable{
 			this.owner.setPhoneNumber(phoneNumber.getText());
 			this.owner.setBirthday(birth.getTime());
 			this.owner.setAddress(address);
-			this.owner.setSalt("dfsgdhf");
 			
 			
 			em.getTransaction().begin();
