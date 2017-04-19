@@ -43,7 +43,7 @@ public class Owner implements Serializable {
 	private Owner(){
 	}
 	
-	public Owner(String login, String pswd, String email){
+	public Owner(String login, String pswd, String email, String salt){
 		check_pswd(pswd);
 		check_login(login);
 		

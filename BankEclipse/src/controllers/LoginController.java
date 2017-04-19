@@ -21,7 +21,7 @@ import model.Owner;
 import util.PasswordHandler;
 import javafx.scene.input.InputMethodEvent;
 
-public class LoginController implements Initializable{
+public class LoginController implements Initializable {
 
 	@FXML
 	TextField login;
@@ -31,21 +31,26 @@ public class LoginController implements Initializable{
 	Label loginError;
 	@FXML
 	Button signIn;
-	
-	
+
 	@FXML
 	void signInButton(ActionEvent event) {
+
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		TypedQuery<Owner> q = em.createQuery("SELECT  o FROM Owner o WHERE o.login =:login", Owner.class);
-		Owner o = (Owner) q.setParameter("login", this.login.getText()).getSingleResult();
+		List<Owner> list = q.setParameter("login", this.login.getText()).getResultList();
 
 		em.close();
+		
+		if (!list.isEmpty()) {
+			Owner o = list.get(0);
+			if (PasswordHandler.hash(o.getSalt() + pswd.getText()).equals(o.getPswd())) {
+				VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
+			}
 
-		if (o!=null && PasswordHandler.hash(o.getSalt() + pswd.getText()).equals(o.getPswd())) {
-			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
-		} else {
-			loginError.setVisible(true);
+
 		}
+		loginError.setVisible(true);
+		
 
 	}
 
@@ -59,7 +64,6 @@ public class LoginController implements Initializable{
 		VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 	}
 
-	@FXML public void handleFields(InputMethodEvent event) {}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -68,12 +72,13 @@ public class LoginController implements Initializable{
 		};
 		login.textProperty().addListener(onChange);
 		pswd.textProperty().addListener(onChange);
-		
+
 	}
 
-	/*@FXML
-	public void handleFields() {
-		signIn.setDisable(login.getText().isEmpty() || pswd.getText().isEmpty());
-	}*/
+	/*
+	 * @FXML public void handleFields() {
+	 * signIn.setDisable(login.getText().isEmpty() || pswd.getText().isEmpty());
+	 * }
+	 */
 
 }

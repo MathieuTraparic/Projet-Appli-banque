@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,23 +23,36 @@ import javafx.scene.control.TextField;
 import model.Address;
 import model.CpVille;
 import model.Owner;
+import util.PasswordHandler;
 
 public class CreateUserController implements Initializable {
 
-	@FXML
+	/*@FXML
 	void firstStepValid(ActionEvent event) {
 		if (newLogin.getText() != null && newPassword.getText() != null && newPasswordConfirmation.getText() != null
 				&& email.getText() != null) {
 			this.nextStepButton.setDisable(false);
 		}
-	}
+	}*/
 
 	@FXML
 	void nextStepButton(ActionEvent event) {
 
 		labels1.forEach(label -> label.setVisible(false));
+		
 
 		if (newLogin.getText().isEmpty()) {
+			loginError.setText("This login must be filled");
+			loginError.setVisible(true);
+		}
+		
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		TypedQuery<Owner> q = em.createQuery("SELECT  o FROM Owner o WHERE o.login =:login", Owner.class);
+		List<Owner> list = q.setParameter("login", this.newLogin.getText()).getResultList();
+		em.close();
+		
+		if (!list.isEmpty()) {
+			loginError.setText("This login is already used");
 			loginError.setVisible(true);
 		}
 
@@ -56,32 +71,19 @@ public class CreateUserController implements Initializable {
 
 		if (labels1.stream().allMatch(label -> label.isVisible() == false)) {
 			
-			Owner owner = new Owner(newLogin.getText(),newPasswordConfirmation.getText(),email.getText());
-
-			/*owner.setLogin(newLogin.getText());
-			owner.setPswd(newPasswordConfirmation.getText());
-			owner.setEmail(email.getText());*/
+			String salt = PasswordHandler.getNewSalt();
+			
+			Owner owner = new Owner(newLogin.getText(),PasswordHandler.hash(salt+newPasswordConfirmation.getText()),email.getText(),salt);
 			
 	
-			CreateUserController r = 
-					(CreateUserController) VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);
+			CreateUserController2 r = 
+					(CreateUserController2) VistaNavigator.loadVista(VistaNavigator.CREATE_USER_2);
 			
 			r.initOwner(owner);
-			
-
-			
+	
 		} else {
 			this.nextStepButton.setDisable(true);
 		}
-	}
-
-	public void initOwner(Owner owner2) {
-		this.owner=owner2;
-	}
-
-	@FXML
-	void previousButton(ActionEvent event) {
-		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
 	}
 
 	@FXML
@@ -89,97 +91,6 @@ public class CreateUserController implements Initializable {
 		VistaNavigator.loadVista(VistaNavigator.LOGIN);
 	}
 	
-	@FXML
-	void secondStepValid(ActionEvent event) {
-		if (name.getText() != null && firstName.getText() != null 
-				&& addressLine1.getText() != null && cityName.getText() != null 
-				&& zipCode.getText() != null && phoneNumber.getText() != null
-				&& birthday.getValue() != null) {
-			this.signIn.setDisable(false);
-		}
-	}
-
-	@FXML
-	void signInButton(ActionEvent event) {
-
-		labels2 = new ArrayList<Label>() {
-			{
-				add(nameError);
-				add(firstNameError);
-				add(birthdayError);
-				add(addressError);
-				add(cityNameError);
-				add(zipCodeError);
-				add(phoneNumberError);
-			}
-		};
-
-		labels2.forEach(label -> label.setVisible(false));
-
-		Calendar birth = Calendar.getInstance();
-
-		if (name.getText().isEmpty() || !Owner.isValidName(firstName.getText())) {
-			nameError.setVisible(true);
-		}
-
-		if (firstName.getText().isEmpty() || !Owner.isValidName(firstName.getText())) {
-			firstNameError.setVisible(true);
-		}
-
-		if (addressLine1.getText().isEmpty()) {
-			addressError.setVisible(true);
-		}
-		if (cityName.getText().isEmpty()|| !Owner.isValidName(cityName.getText())) {
-			cityNameError.setVisible(true);
-		}
-		if (zipCode.getText().isEmpty()) {
-			zipCodeError.setVisible(true);
-		}
-		if (phoneNumber.getText().isEmpty()|| !Owner.isValidPhoneNumber(phoneNumber.getText())) {
-			phoneNumberError.setVisible(true);
-		}
-		if (birthday.getValue() == null) {
-			birthdayError.setVisible(true);
-		} else {
-			birth = new GregorianCalendar(birthday.getValue().getYear(), birthday.getValue().getMonthValue() - 1,
-					birthday.getValue().getDayOfMonth(), 0, 0, 0);
-			if (!Owner.isValidBirthday(birth.getTime())) {
-				birthdayError.setVisible(true);
-			}
-		}
-
-		if (labels2.stream().allMatch(label -> label.isVisible() == false)) {
-
-			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			
-			CpVille cpville = new CpVille(zipCode.getText(),cityName.getText());
-			Address address = new Address(addressLine1.getText(), addressLine2.getText());
-			
-			address.setCpVille(cpville);
-			
-			this.owner.setName(name.getText());
-			this.owner.setFirstName(firstName.getText());
-			this.owner.setPhoneNumber(phoneNumber.getText());
-			this.owner.setBirthday(birth.getTime());
-			this.owner.setAddress(address);
-			this.owner.setSalt("dfsgdhf");
-			
-			
-			em.getTransaction().begin();
-			em.persist(cpville);
-			em.persist(address);
-			em.persist(owner); 
-			em.getTransaction().commit();
-
-			em.close();
-			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
-		}
-		else {
-			signIn.setDisable(true);
-		}
-
-	}
-
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		labels1 = new ArrayList<Label>() {
@@ -192,19 +103,23 @@ public class CreateUserController implements Initializable {
 
 			}
 		};
+
+		ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
+			nextStepButton.setDisable(newLogin.getText().isEmpty() 
+					|| newPassword.getText().isEmpty()
+					|| newPasswordConfirmation.getText().isEmpty()
+					|| email.getText().isEmpty());
+		};
+		newLogin.textProperty().addListener(onChange);
+		newPassword.textProperty().addListener(onChange);
+		newPasswordConfirmation.textProperty().addListener(onChange);
+		email.textProperty().addListener(onChange);
 	}
 
 	private List<Label> labels1;
-	private List<Label> labels2;
-/*	private String loginO = null;
-	private String pwsdO = null;
-	private String emailO = null;*/
-	private Owner owner;
 
 	@FXML
 	private Button nextStepButton;
-	@FXML
-	private Button signIn;
 	@FXML
 	private TextField newLogin;
 	@FXML
@@ -213,18 +128,7 @@ public class CreateUserController implements Initializable {
 	private PasswordField newPassword;
 	@FXML
 	private PasswordField newPasswordConfirmation;
-	@FXML
-	private TextField name;
-	@FXML
-	private TextField firstName;
-	@FXML
-	private TextField addressLine1;
-	@FXML
-	private TextField addressLine2;
-	@FXML
-	private TextField cityName;
-	@FXML
-	private TextField zipCode;
+
 	@FXML
 	public Label loginError;
 	@FXML
@@ -233,23 +137,6 @@ public class CreateUserController implements Initializable {
 	public Label passwordConfirmationError;
 	@FXML
 	public Label emailError;
-	@FXML
-	public Label nameError;
-	@FXML
-	public Label firstNameError;
-	@FXML
-	public Label addressError;
-	@FXML
-	public Label cityNameError;
-	@FXML
-	public Label zipCodeError;
-	@FXML
-	public Label birthdayError;
-	@FXML
-	public DatePicker birthday;
-	@FXML
-	public TextField phoneNumber;
-	@FXML
-	public Label phoneNumberError;
+
 
 }

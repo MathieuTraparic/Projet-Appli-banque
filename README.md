@@ -40,3 +40,6 @@ https://blogs.oracle.com/acaicedo/entry/managing_multiple_screens_in_javafx1
 
 Combobox
 http://stackoverflow.com/questions/13032257/combo-box-javafx-with-fxml
+
+Storing passwords 
+https://crackstation.net/hashing-security.htm
