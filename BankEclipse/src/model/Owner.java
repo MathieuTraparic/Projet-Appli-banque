@@ -23,7 +23,7 @@ import util.Validator;
 
 @Entity
 @Table(name = "owner")
-@NamedQuery(name = "Owner.findAll", query = "SELECT t FROM Owner t")
+@NamedQuery(name = "Owner.findAll", query = "SELECT o FROM Owner o")
 public class Owner implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,15 +43,29 @@ public class Owner implements Serializable {
 	private Owner(){
 	}
 	
-	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd,
-			Address address,String email) {
-		check_firstName(firstName);
+	public Owner(String login, String pswd, String email){
+		check_pswd(pswd);
 		check_login(login);
+		
+		check_email(email);
+		
+		this.login = login;
+		this.pswd = pswd;
+		this.email=email;
+	}
+	
+	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd, String email, Address address) {
+		
+		//TODO 
+		/*check_pswd(pswd);
+		check_birthday(birthday);
+		check_email(email);*/
+		
+		check_firstName(firstName);
+		check_birthday(birthday);
 		check_name(name);
 		check_phoneNumber(phoneNumber);
-		check_pswd(pswd);
-		check_birthday(birthday);
-		check_email(email);
+
 
 		this.name = Formater.formatNameCase(name);
 		this.firstName = Formater.formatNameCase(firstName);
@@ -59,8 +73,8 @@ public class Owner implements Serializable {
 		this.birthday = birthday;
 		this.login = login;
 		this.pswd = pswd;
-		this.address = address;
 		this.email=email;
+		this.address=address;
 	}
 
 	@Id

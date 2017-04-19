@@ -27,12 +27,12 @@ public class CpVille implements Serializable {
 	private CpVille() {
 	}
 
-	public CpVille(int id, String zip, String city) {
+	public CpVille(String zip, String city) {
 
 		check_city(city);
 		check_zip(zip);
 
-		this.id = id;
+		//this.id = id;
 		this.zip = Formater.removeUsualSeparators(zip);
 		this.city = Formater.formatNameCase(city);
 	}
