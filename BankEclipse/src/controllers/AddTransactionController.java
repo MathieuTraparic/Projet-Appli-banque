@@ -16,31 +16,26 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Account;
-import model.AccountType;
-import model.CountryCode;
+import javafx.util.Callback;
 import model.Transaction;
+import model.TransactionType;
 
-public class AddTransactionController implements Initializable {
+public class AddTransactionController extends PopupController<Transaction> implements Initializable {
 
 	@FXML
 	public Button transactionCancel, transactionSubmit;
 	@FXML
-	public static TextField description;
-	@FXML
-	public static TextField value;
-	@FXML
-	public static TextField date;
+	public TextField description, value, date;
 	@FXML
 	public Label descriptionError, typeError, valueError, dateError;
 	@FXML
-	public static ComboBox<String> type;
+	public ComboBox<String> type;
 	@FXML
 	private ObservableList<Transaction> data;
-
+	
+	
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
 		Stage stage = (Stage) transactionCancel.getScene().getWindow();
@@ -48,7 +43,7 @@ public class AddTransactionController implements Initializable {
 	}
 
 	@FXML
-	void handleTransactionSubmit(ActionEvent event) {
+	void handleTransactionSubmit(ActionEvent event) throws ParseException {
 		String des = description.getText();
 		String val = value.getText();
 		String d = date.getText();
@@ -63,35 +58,41 @@ public class AddTransactionController implements Initializable {
 		if (d.isEmpty()) {
 			dateError.setText("Description can't be empty");
 		} else {
-			try {
-				Date dt = dateParser.parse(d);
-				Stage stage = (Stage) transactionCancel.getScene().getWindow();
-				stage.close();
-			} catch (ParseException e) {
-				// Error
-			}
+			Date dt = dateParser.parse(d);
+			Stage stage = (Stage) transactionCancel.getScene().getWindow();
+			//t = new Transaction(des, Double.parseDouble(val), dt);
+			/*stage.setResultConverter(new Callback<Button, Transaction>() {   
+			    @Override 
+			    public Transaction call(Button dialogButton) { 
+			        if (dialogButton == transactionSubmit) { 
+			            return t; 
+			        } 
+			        return null; 
+			    } 
+			});*/
+			this.getData().setDescription(des);
+			this.getData().setDate(dt);
+			this.getData().setValue(Double.parseDouble(val));
+			this.setAsValidated();
+			stage.close();
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<Transaction> l = em.createNamedQuery("Transaction.findAll").getResultList();
+		List<TransactionType> l = em.createNamedQuery("TransactionType.findAll").getResultList();
 		em.close();
-//		for(Transaction t : l){
-//			type.getItems().add(t.getType());
-//		}
+		for(TransactionType t : l){
+			type.getItems().add(t.getDescription());
+		}
 		type.getItems().add("OTHER");
 	}
 
-	public static Transaction getTransaction() {
-		SimpleDateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
-		Date dt = null;
-		try {
-			dt = dateParser.parse(date.getText());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return new Transaction(description.getText(), Double.parseDouble(value.getText()), dt);
+	@Override
+	protected void initializePopupFields(Transaction data) {
+		
 	}
+	
 }

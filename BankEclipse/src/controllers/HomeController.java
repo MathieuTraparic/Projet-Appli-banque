@@ -17,17 +17,17 @@ public class HomeController {
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
-		PopWindow addBankPop = new PopWindow(VistaNavigator.ADD_BANK,false,this.getClass());
+		PopWindow addBankPop = new PopWindow(VistaNavigator.ADD_BANK,false);
 	}
 
 	@FXML
 	void handleAddAgencyHome(ActionEvent event) throws IOException {
-		PopWindow addAgencyPop = new PopWindow(VistaNavigator.ADD_AGENCY,false,this.getClass());
+		PopWindow addAgencyPop = new PopWindow(VistaNavigator.ADD_AGENCY,false);
 	}
 
 	@FXML
 	void handleAddAccountHome(ActionEvent event) throws IOException{
-		PopWindow addAccountPop = new PopWindow(VistaNavigator.ADD_ACCOUNT,true,this.getClass());
+		PopWindow addAccountPop = new PopWindow(VistaNavigator.ADD_ACCOUNT,true);
 	}
 
 	@FXML

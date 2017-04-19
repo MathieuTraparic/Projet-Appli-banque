@@ -34,7 +34,7 @@ public class TransactionType implements Serializable {
 		this.id = id;
 	}
 
-	private String getDescription() {
+	public String getDescription() {
 		return this.description;
 	}
 

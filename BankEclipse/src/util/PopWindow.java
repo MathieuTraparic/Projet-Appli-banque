@@ -3,7 +3,7 @@ package util;
 import java.io.IOException;
 import java.net.URL;
 
-import controllers.TransactionController;
+import controllers.PopupController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +14,6 @@ public class PopWindow {
 
 	private String fxmlLocation;
 	private boolean combo;
-	private Class<?> callingclass;
 	
 	/**
 	 * 
@@ -23,28 +22,29 @@ public class PopWindow {
 	 * @throws IOException
 	 */
 	
-	public PopWindow(String fxmlLocation, boolean combo, Class<?> callingclass) throws IOException{
+	public PopWindow(String fxmlLocation, boolean combo) throws IOException{
 		this.fxmlLocation = fxmlLocation;
 		this.combo = combo;
-		this.callingclass = callingclass;
-		
-		popWindow(fxmlLocation, combo, callingclass);
 	}
 	
-	private void popWindow(String fxmlLocation, boolean combo, Class<?> callingclass) throws IOException{
+	public<T> T showAndWait(T data) throws IOException{
 		FXMLLoader fxmlLoader;
 		if(combo){
 			fxmlLoader = new FXMLLoader(
-					new URL(callingclass.getResource(fxmlLocation).toExternalForm()));
+					new URL(this.getClass().getResource(fxmlLocation).toExternalForm()));
 		}
 		else{
 			fxmlLoader = new FXMLLoader(getClass().getResource(fxmlLocation));
 		}
 		Parent root1 = (Parent) fxmlLoader.load();
+		PopupController<T> controller = fxmlLoader.getController();
 		Stage stage = new Stage();
+		
+		controller.initData(data);
 		stage.setScene(new Scene(root1));
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
+		return controller.getValidatedData();
 	}
 
 }

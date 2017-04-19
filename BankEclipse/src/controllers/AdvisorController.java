@@ -146,7 +146,8 @@ public class AdvisorController implements Initializable {
 		}
 		if (bank.getValue().toString() == "OTHER") {
 			//TODO refactor
-			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml",false,this.getClass());
+			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml",false);
+			
 			//TODO get the new bank and add it to the ComboBox
 		}
 	}
