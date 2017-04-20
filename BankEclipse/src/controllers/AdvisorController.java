@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,12 +22,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Address;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
-import model.CpVille;
-import model.Owner;
 import util.PopWindow;
 import util.DateConverter;
 
@@ -65,10 +63,9 @@ public class AdvisorController implements Initializable {
 
 	private List<Node> secondaryFields;
 	private List<Node> thirdFields;
-	
+
 	private List<Agency> listAgency;
 	private List<Advisor> listAdvisor;
-	
 
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
@@ -76,7 +73,7 @@ public class AdvisorController implements Initializable {
 		// Lambda expression
 		labels.forEach(label -> label.setVisible(false));
 
-		Calendar cal =Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
 
 		if (agency.getValue() == null) {
 			invalidAgency.setVisible(true);
@@ -101,49 +98,47 @@ public class AdvisorController implements Initializable {
 		if (phoneNumber.getText().isEmpty() || !Advisor.isValidPhoneNumber(phoneNumber.getText())) {
 			invalidNumber.setVisible(true);
 		}
-		if (email.getText().isEmpty()||!Advisor.isValidEmail(email.getText())) {
+		if (email.getText().isEmpty() || !Advisor.isValidEmail(email.getText())) {
 			invalidEmail.setVisible(true);
 		}
 
 		if (labels.stream().allMatch(label -> label.isVisible() == false)) {
-			Agency currentAgency=null;
+			Agency currentAgency = null;
 			for (Agency a : this.listAgency) {
-				if (agency.getValue()==a.getName()){
-					currentAgency=a;
+				if (agency.getValue() == a.getName()) {
+					currentAgency = a;
 				}
 			}
-			
-			
+
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			em.getTransaction().begin();
-			
+
 			Query q = em.createQuery("UPDATE Advisor a SET a.name=:name WHERE a.agency=:agency");
-			q.setParameter("agency",currentAgency);
-			q.setParameter("name",name.getText()); 
+			q.setParameter("agency", currentAgency);
+			q.setParameter("name", name.getText());
 			q.executeUpdate();
-			
+
 			Query s = em.createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency");
-			s.setParameter("agency",currentAgency);
-			s.setParameter("firstName",firstName.getText()); 
+			s.setParameter("agency", currentAgency);
+			s.setParameter("firstName", firstName.getText());
 			s.executeUpdate();
-			
+
 			Query d = em.createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency");
-			d.setParameter("agency",currentAgency);
-			d.setParameter("phoneNumber",phoneNumber.getText()); 
+			d.setParameter("agency", currentAgency);
+			d.setParameter("phoneNumber", phoneNumber.getText());
 			d.executeUpdate();
-			
+
 			Query f = em.createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency");
-			f.setParameter("agency",currentAgency);
-			f.setParameter("email",email.getText()); 
+			f.setParameter("agency", currentAgency);
+			f.setParameter("email", email.getText());
 			f.executeUpdate();
-			
+
 			Query g = em.createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
-			g.setParameter("agency",currentAgency);
-			g.setParameter("assignmentDate",cal.getTime()); 
+			g.setParameter("agency", currentAgency);
+			g.setParameter("assignmentDate", cal.getTime());
 			g.executeUpdate();
-			
+
 			em.getTransaction().commit();
-			
 
 			em.close();
 
@@ -171,8 +166,6 @@ public class AdvisorController implements Initializable {
 			private static final long serialVersionUID = 1L;
 
 			{
-				// addAll(labels);
-				add(applyButton);
 				add(assignmentDate);
 				add(name);
 				add(firstName);
@@ -181,14 +174,12 @@ public class AdvisorController implements Initializable {
 				add(agency);
 			}
 		};
-		
+
 		thirdFields = new ArrayList<Node>() {
 
 			private static final long serialVersionUID = 1L;
 
 			{
-				// addAll(labels);
-				add(applyButton);
 				add(assignmentDate);
 				add(name);
 				add(firstName);
@@ -196,95 +187,111 @@ public class AdvisorController implements Initializable {
 				add(email);
 			}
 		};
-		
+
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		List<Bank> b = em.createNamedQuery("Bank.findAll").getResultList();
 
 		em.close();
-		
-		for (Bank  bankk : b){
+
+		for (Bank bankk : b) {
 			bank.getItems().add(bankk.getName());
 		}
 		bank.getItems().add("OTHER");
-		
-		this.secondaryFields.forEach(item -> item.setDisable(true));
 
+		this.secondaryFields.forEach(item -> item.setDisable(true));
+		this.applyButton.setDisable(true);
+		
 	}
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
+
+		applyButton.setDisable(true);
 
 		if (bank.getValue() != null) {
 			this.secondaryFields.forEach(item -> item.setDisable(false));
 			this.thirdFields.forEach(item -> item.setDisable(true));
 		}
 		if (bank.getValue().toString() == "OTHER") {
-			//TODO refactor
-			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml",false);
-			
-			//TODO get the new bank and add it to the ComboBox
-		}
-		else {
+			// TODO refactor
+			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml", false);
+
+			// TODO get the new bank and add it to the ComboBox
+		} else {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			//List<Agency> a = em.createNamedQuery("Agency.findAll").getResultList();
 			TypedQuery<Bank> b = em.createQuery("SELECT b FROM Bank b WHERE b.name=:name", Bank.class);
 			List<Bank> bb = b.setParameter("name", this.bank.getValue()).getResultList();
-			
-			System.out.println(bb);
-			
-			if (!bb.isEmpty()){
+
+			if (!bb.isEmpty()) {
+				this.agency.getItems().clear();
 				TypedQuery<Agency> a = em.createQuery("SELECT  a FROM Agency a WHERE a.bank =:bank", Agency.class);
 				this.listAgency = a.setParameter("bank", bb.get(0)).getResultList();
-				for (Agency  agensy : listAgency){
+				
+				for (Agency agensy : listAgency) {
 					agency.getItems().add(agensy.getName());
 					agency.getItems().add("OTHER");
 				}
-				
 			}
-		
 			em.close();
-			
 		}
 	}
-	
+
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
+
+		applyButton.setDisable(true);
+		
+		if(agency.getValue()==null){
+			return ;
+		}
 
 		if (agency.getValue() != null) {
 			this.thirdFields.forEach(item -> item.setDisable(false));
 		}
 		if (agency.getValue().toString() == "OTHER") {
-			//TODO refactor
-			PopWindow addAgencypop = new PopWindow("/viewFxml/addAgency.fxml",false);
-			
-			//TODO get the new bank and add it to the ComboBox
-		}
-		else {
+			// TODO refactor
+			PopWindow addAgencypop = new PopWindow("/viewFxml/addAgency.fxml", false);
+
+			// TODO get the new bank and add it to the ComboBox
+		} else {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
-			
-			
-			Agency currentAgency=null;
+
+			Agency currentAgency = null;
 			for (Agency j : this.listAgency) {
-				if (agency.getValue()==j.getName()){
-					currentAgency=j;
+				if (agency.getValue() == j.getName()) {
+					currentAgency = j;
 				}
 			}
-			
+
 			listAdvisor = a.setParameter("agency", currentAgency).getResultList();
-						
-			if (!listAdvisor.isEmpty()){
-				//assignmentDate;
+
+			if (!listAdvisor.isEmpty()) {
+
 				name.setText(listAdvisor.get(0).getName());
 				firstName.setText(listAdvisor.get(0).getFirstName());
 				phoneNumber.setText(listAdvisor.get(0).getPhoneNumber());
 				email.setText(listAdvisor.get(0).getEmail());
-				assignmentDate.setValue(DateConverter.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));	
+				assignmentDate.setValue(DateConverter.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));
+
+				ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
+					applyButton.setDisable(name.getText() == listAdvisor.get(0).getName()
+							|| firstName.getText() == listAdvisor.get(0).getFirstName()
+							|| phoneNumber.getText() == listAdvisor.get(0).getPhoneNumber()
+							|| email.getText() == listAdvisor.get(0).getEmail());
+				};
+				name.textProperty().addListener(onChange);
+				firstName.textProperty().addListener(onChange);
+				phoneNumber.textProperty().addListener(onChange);
+				email.textProperty().addListener(onChange);
+				assignmentDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+					applyButton.setDisable(assignmentDate.getValue() == DateConverter
+							.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));
+				});
+
+				em.close();
+
 			}
-		
-			em.close();
-			
 		}
 	}
-
 }

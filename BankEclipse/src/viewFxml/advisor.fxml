@@ -16,7 +16,7 @@
 	<children>
 		<AnchorPane layoutX="4.0" layoutY="8.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
 			<children>
-				<Button fx:id="applyButton" layoutX="514.0" layoutY="405.0" mnemonicParsing="false" onAction="#applyAdvisorChange" text="Apply advisor information changes" AnchorPane.bottomAnchor="14.0" />
+				<Button fx:id="applyButton" disable="true" layoutX="514.0" layoutY="405.0" mnemonicParsing="false" onAction="#applyAdvisorChange" text="Apply advisor information changes" AnchorPane.bottomAnchor="14.0" />
             <Label layoutX="266.0" layoutY="20.0" text="Advisor information" AnchorPane.topAnchor="20.0">
                <font>
                   <Font size="31.0" />
