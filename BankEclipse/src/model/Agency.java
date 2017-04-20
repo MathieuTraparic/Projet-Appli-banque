@@ -74,7 +74,7 @@ public class Agency  implements Serializable{
 		this.name = name;
 	}
 
-	private String getCounterCode() {
+	public String getCounterCode() {
 		return this.counterCode;
 	}
 

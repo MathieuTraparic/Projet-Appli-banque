@@ -1,7 +1,11 @@
+/**
+ *  @author Mathieu Traparic
+ * 	Project : Bank
+ * 	Creation date : 2017-04-01
+ */
 package controllers;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +22,7 @@ import model.Account;
 import model.Agency;
 import model.Bank;
 import model.Owner;
+import util.IBANHandler;
 import javafx.event.ActionEvent;
 
 public class RIBController implements Initializable {
@@ -65,9 +70,15 @@ public class RIBController implements Initializable {
 
 	}
 
-	@FXML
-	public void handleGo(ActionEvent event) {
-
+	@FXML public void accountSelected(ActionEvent event) {
+		if(this.accountCombo.getValue()==null){
+			this.iban.setText("");
+			return;
+		}
+		Account a = this.accountCombo.getValue();
+		this.iban.setText(IBANHandler.genrateIBAN(a.getAccountNumber(), a.getAgency().getCounterCode(), a.getAgency().getBank().getCode(), a.getCountryCode().getCode()));
+		
 	}
+
 
 }

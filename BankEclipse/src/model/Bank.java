@@ -81,7 +81,7 @@ public class Bank implements Serializable{
 	}
 
 
-	private String getCode() {
+	public String getCode() {
 		return this.code;
 	}
 
