@@ -19,7 +19,7 @@ import model.Transaction;
 import model.TransactionType;
 import util.PopWindow;
 
-public class TransactionController implements Initializable{
+public class TransactionController extends AccountSpecificController{
 	
 	@FXML public TableView<Transaction> tableTransaction;	
 	@FXML public TableColumn<Transaction, String> description;
@@ -31,6 +31,7 @@ public class TransactionController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 	}	
 	
