@@ -2,6 +2,8 @@ package controllers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import model.Owner;
+
 import java.io.IOException;
 
 import javax.persistence.EntityManagerFactory;
@@ -31,8 +33,21 @@ public class VistaNavigator {
 	private static MainController mainController;
 
 	private static EntityManagerFactory emf;
+	
+	private Owner loggedOwner;
+	private static VistaNavigator instance =null;
 
-	public static void setEmf(EntityManagerFactory emf) {
+	private VistaNavigator(){
+		this.loggedOwner=null;
+	}
+	public static VistaNavigator getInstance(){
+		if(instance==null){
+			instance=new VistaNavigator();
+		}
+		return instance;
+			
+	}
+public static void setEmf(EntityManagerFactory emf) {
 		VistaNavigator.emf = emf;
 	}
 
@@ -68,7 +83,6 @@ public class VistaNavigator {
 	 *            the fxml file to be loaded.
 	 */
 
-	@SuppressWarnings("static-access")
 	public static Object loadVista(String fxml) {
 		FXMLLoader loader = new FXMLLoader(VistaNavigator.class.getResource(fxml));
 		
@@ -81,5 +95,13 @@ public class VistaNavigator {
 		
 		return loader.getController();
 	}
+	public Owner getLoggedOwner() {
+		return this.loggedOwner;
+	}
+	public void setLoggedOwner(Owner loggedOwner) {
+		this.loggedOwner = loggedOwner;
+	}
+	
+	
 
 }

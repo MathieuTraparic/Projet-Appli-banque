@@ -44,6 +44,7 @@ public class LoginController implements Initializable {
 		if (!list.isEmpty()) {
 			Owner o = list.get(0);
 			if (PasswordHandler.hash(o.getSalt() + pswd.getText()).equals(o.getPswd())) {
+				VistaNavigator.getInstance().setLoggedOwner(o);
 				VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 			}
 
