@@ -34,7 +34,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public ComboBox<String> type;
 	@FXML
 	private ObservableList<Transaction> data;
-	
+	TransactionType transactionType;
 	
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
@@ -47,6 +47,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		String des = description.getText();
 		String val = value.getText();
 		String d = date.getText();
+		String typ = type.getValue();
 		SimpleDateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
 
 		if (des.isEmpty()) {
@@ -60,19 +61,11 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		} else {
 			Date dt = dateParser.parse(d);
 			Stage stage = (Stage) transactionCancel.getScene().getWindow();
-			//t = new Transaction(des, Double.parseDouble(val), dt);
-			/*stage.setResultConverter(new Callback<Button, Transaction>() {   
-			    @Override 
-			    public Transaction call(Button dialogButton) { 
-			        if (dialogButton == transactionSubmit) { 
-			            return t; 
-			        } 
-			        return null; 
-			    } 
-			});*/
 			this.getData().setDescription(des);
 			this.getData().setDate(dt);
 			this.getData().setValue(Double.parseDouble(val));
+			transactionType = new TransactionType(typ);
+			this.getData().setTransactionType(transactionType);
 			this.setAsValidated();
 			stage.close();
 		}

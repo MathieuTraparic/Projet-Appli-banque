@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 19, 2017 at 02:24 PM
+-- Generation Time: Apr 20, 2017 at 12:21 PM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.0.13
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `idCpVille` int(11) NOT NULL,
   `line1` varchar(250) NOT NULL,
   `line2` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `address`
@@ -92,7 +92,10 @@ INSERT INTO `address` (`id`, `idCpVille`, `line1`, `line2`) VALUES
 (1, 1, '114 rue Lucien Faure', NULL),
 (2, 2, '1 rue truc', NULL),
 (3, 1, '12 rue machin', 'batiment B\r\n'),
-(5, 5, 'lu', '');
+(5, 5, 'lu', ''),
+(6, 6, 'lulululululululululu', ''),
+(7, 7, 'ss', ''),
+(8, 8, 'qsd', '');
 
 -- --------------------------------------------------------
 
@@ -106,16 +109,16 @@ CREATE TABLE IF NOT EXISTS `advisor` (
   `name` varchar(250) NOT NULL,
   `firstName` varchar(250) NOT NULL,
   `assignmentDate` date NOT NULL,
-  `phoneNumber` varchar(250) DEFAULT NULL,
-  `email` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `phoneNumber` varchar(250) NOT NULL,
+  `email` varchar(250) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `advisor`
 --
 
 INSERT INTO `advisor` (`id`, `idAgency`, `name`, `firstName`, `assignmentDate`, `phoneNumber`, `email`) VALUES
-(1, 1, 'M', 'Mme', '2017-03-01', '', '');
+(1, 1, 'M', 'Mme', '2017-03-01', '0612121212', 'zerzrt@ezrt.errt');
 
 -- --------------------------------------------------------
 
@@ -222,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `cpville` (
   `id` int(11) NOT NULL,
   `zip` varchar(50) NOT NULL,
   `city` varchar(250) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cpville`
@@ -231,7 +234,10 @@ CREATE TABLE IF NOT EXISTS `cpville` (
 INSERT INTO `cpville` (`id`, `zip`, `city`) VALUES
 (1, '75000', 'Paris'),
 (2, '33000', 'Bordeaux\r\n'),
-(5, 'lu', 'Lu');
+(5, 'lu', 'Lu'),
+(6, 'lulululu', 'Lulululululululululululululu'),
+(7, 'qs', 'Qs'),
+(8, 'qsd', 'Qsd');
 
 -- --------------------------------------------------------
 
@@ -270,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `owner` (
   `email` varchar(250) NOT NULL,
   `idAddress` int(11) NOT NULL,
   `salt` varchar(250) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `owner`
@@ -278,7 +284,10 @@ CREATE TABLE IF NOT EXISTS `owner` (
 
 INSERT INTO `owner` (`id`, `name`, `firstName`, `phoneNumber`, `birthday`, `login`, `pswd`, `email`, `idAddress`, `salt`) VALUES
 (1, 'Doe', 'John', '0000000000', '1986-07-28', 'mylogin', '62a5daea27481816ef8959019c78efa84d693dd3', '', 1, ''),
-(2, 'lu', 'lu', '0678787878', '2017-03-27', 'lu', 'lu', 'lu@lu.lu', 5, 'dfsgdhf');
+(2, 'lu', 'lu', '0678787878', '2017-03-27', 'lu', 'lu', 'lu@lu.lu', 5, 'dfsgdhf'),
+(3, 'lulululu', 'lulululululu', '0678787878', '2017-03-27', 'lulu', 'lulu', 'lulu@lulu.lulululu', 6, 'dfsgdhf'),
+(4, 'qs', 'qsq', '0612121212', '2017-03-28', 'qs', 'iKR+exdCWWEMJcZwr359qCzCg6ywrxRlIcHw+j7pahI=', 'qs@qs.qs', 7, 'ijGjnmTTde8='),
+(5, 'qsd', 'qsd', '0712121212', '2017-03-29', 'qsd', 'CS19Z8VJau9rEbUGe2W8TMBI+0nPE964vGRNM+4245I=', 'qsd@qsd.qsd', 8, '+FZy2cmHUfc=');
 
 -- --------------------------------------------------------
 
@@ -500,12 +509,12 @@ ALTER TABLE `accounttype`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `advisor`
 --
 ALTER TABLE `advisor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `agency`
 --
@@ -530,7 +539,7 @@ ALTER TABLE `countrycode`
 -- AUTO_INCREMENT for table `cpville`
 --
 ALTER TABLE `cpville`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `frequency`
 --
@@ -540,7 +549,7 @@ ALTER TABLE `frequency`
 -- AUTO_INCREMENT for table `owner`
 --
 ALTER TABLE `owner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `periodictransaction`
 --

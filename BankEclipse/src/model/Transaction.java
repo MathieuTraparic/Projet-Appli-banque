@@ -128,13 +128,14 @@ public class Transaction implements Serializable {
 	}
 	@ManyToOne
 	@JoinColumn(name="idTransactionType")
-	private TransactionType getTransactionType() {
+	public TransactionType getTransactionType() {
 		return this.transactionType;
 	}
 
-	private void setTransactionType(TransactionType transactionType) {
+	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
 	}
+	
 	@ManyToOne
 	@JoinColumn(name="idCategory")
 	private Category getCategory() {
