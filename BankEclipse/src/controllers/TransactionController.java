@@ -47,19 +47,13 @@ public class TransactionController implements Initializable{
 				@Override
 				public void handle(WindowEvent event) {
 					Transaction t = controller.getValidatedData();
-					
+					TransactionType tp = controller.getValidatedData().getTransactionType();
 					if(t!=null) {
-						tableTransaction.getItems().add(t);					
+						tableTransaction.getItems().add(t);
+						//tableTransaction.getItems().add(tp);
 					}
 				}
 			}
 		);
-
-//		if(t!=null) {
-//			description.setText(t.getDescription());
-//			description.setCellValueFactory(new PropertyValueFactory<>("visible"));
-//			tableTransaction.getItems().add(t);
-//		}
-		//this.tableTransaction.setItems(FXCollections.observableList(t));
 	}
 }

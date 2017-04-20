@@ -23,12 +23,26 @@
 					AnchorPane.rightAnchor="20.0">
 					<columns>
 						<TableColumn fx:id="description" prefWidth="429.0"
-							text="Description of the transaction" >
-							<cellValueFactory><PropertyValueFactory property='Description'/></cellValueFactory>
+							text="Description of the transaction">
+							<cellValueFactory>
+								<PropertyValueFactory property='Description' />
+							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="type" prefWidth="114.0" text="Type" />
-						<TableColumn fx:id="date" prefWidth="89.0" text="Date" />
-						<TableColumn fx:id="value" prefWidth="132.0" text="Value" />
+						<TableColumn fx:id="type" prefWidth="114.0" text="Type">
+							<cellValueFactory>
+								<PropertyValueFactory property="Type" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn fx:id="date" prefWidth="89.0" text="Date">
+							<cellValueFactory>
+								<PropertyValueFactory property="Date" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn fx:id="value" prefWidth="132.0" text="Value">
+							<cellValueFactory>
+								<PropertyValueFactory property="Value" />
+							</cellValueFactory>
+						</TableColumn>
 					</columns>
 				</TableView>
 				<ComboBox layoutX="205.0" layoutY="37.0" prefHeight="25.0"
