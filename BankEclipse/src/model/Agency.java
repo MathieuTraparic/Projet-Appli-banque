@@ -19,7 +19,7 @@ import util.Formater;
 @NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
 public class Agency  implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private int id;
 	private String name;
 	private String counterCode;
 	private Address adress;
@@ -28,6 +28,11 @@ public class Agency  implements Serializable{
 	
 	private Agency(){
 		
+	}
+	
+	public Agency(String agencyName){
+		checkName(agencyName);
+		this.name = Formater.formatNameCase(agencyName);
 	}
 
 	public Agency(String agencyName, String counterCode) {

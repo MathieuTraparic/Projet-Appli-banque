@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,7 +45,6 @@ public class Owner implements Serializable {
 	public Owner(String login, String pswd, String email, String salt){
 		check_pswd(pswd);
 		check_login(login);
-		
 		check_email(email);
 		
 		this.login = login;

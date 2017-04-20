@@ -52,6 +52,9 @@ public class CreateUserController2 implements Initializable{
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		labels2 = new ArrayList<Label>() {
+
+			private static final long serialVersionUID = 1L;
+
 			{
 				add(nameError);
 				add(firstNameError);
