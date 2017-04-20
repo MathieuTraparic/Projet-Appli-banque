@@ -89,6 +89,12 @@ public class Bank implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+
+	@Override
+	public String toString() {	
+		return this.name;
+	}
 	
 	
 	

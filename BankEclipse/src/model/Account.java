@@ -206,6 +206,13 @@ public class Account implements Serializable {
 	public void setAccountType(AccountType accountType) {
 		this.accountType = accountType;
 	}
+
+	@Override
+	public String toString() {
+		
+		return this.description;
+	}
+	
 	
 	
 }

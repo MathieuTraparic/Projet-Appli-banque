@@ -93,7 +93,7 @@ public class Agency  implements Serializable{
 	}
 	@ManyToOne
 	@JoinColumn(name="idBank")
-	private Bank getBank() {
+	public Bank getBank() {
 		return this.bank;
 	}
 
