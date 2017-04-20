@@ -24,7 +24,7 @@ import util.Validator;
 @NamedQuery(name = "Advisor.findAll", query = "SELECT t FROM Advisor t")
 public class Advisor implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private int id;
 	private String name;
 	private String firstName;
 	private String phoneNumber;
@@ -36,7 +36,8 @@ public class Advisor implements Serializable {
 
 	}
 
-	public Advisor(String name, String firstName, String phoneNumber, String email, Date assignmentDate) {
+	public Advisor(String name, String firstName, String phoneNumber, String email, 
+			Date assignmentDate) {
 
 		checkName(name);
 		chekFirstName(firstName);
@@ -49,6 +50,7 @@ public class Advisor implements Serializable {
 		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
 		this.email = Formater.removeUsualSeparators(email);
 		this.assignmentDate = assignmentDate;
+		
 	}
 
 
@@ -91,9 +93,7 @@ public class Advisor implements Serializable {
 	}
 
 	private static void check_email(String email) throws IllegalArgumentException {
-		if (email.isEmpty()) {
-			throw new IllegalArgumentException("Email cannot be empty");
-		} else if (!isValidEmail(email)) {
+		if (email.isEmpty()|| !isValidEmail(email)) {
 			throw new IllegalArgumentException("Email must be a valid email address");
 		}
 	}
@@ -103,9 +103,7 @@ public class Advisor implements Serializable {
 	}
 
 	private static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
-		if (phoneNumber.isEmpty()) {
-			throw new IllegalArgumentException("Phone number cannot be empty");
-		} else if (!isValidPhoneNumber(phoneNumber)) {
+		if (phoneNumber.isEmpty()|| !isValidPhoneNumber(phoneNumber)) {
 			throw new IllegalArgumentException(
 					"Phone number must be a valid French phone number composed of 10 digits");
 		}
@@ -115,54 +113,54 @@ public class Advisor implements Serializable {
 		return Validator.isValidPhoneNumber(phoneNumber);
 	}
 
-	private String getName() {
+	public String getName() {
 		return this.name;
 	}
 
-	private void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	private String getFirstName() {
+	public String getFirstName() {
 		return this.firstName;
 	}
 
-	private void setFirstName(String firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	private String getPhoneNumber() {
+	public String getPhoneNumber() {
 		return this.phoneNumber;
 	}
 
-	private void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
-	private String getEmail() {
+	public String getEmail() {
 		return this.email;
 	}
 
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 	
 	@Temporal(TemporalType.DATE)
-	private Date getAssignmentDate() {
+	public Date getAssignmentDate() {
 		return this.assignmentDate;
 	}
 
-	private void setAssignmentDate(Date assignmentDate) {
+	public void setAssignmentDate(Date assignmentDate) {
 		this.assignmentDate = assignmentDate;
 	}
 
 	@ManyToOne
 	@JoinColumn(name = "idAgency")
-	private Agency getAgency() {
+	public Agency getAgency() {
 		return this.agency;
 	}
 
-	private void setAgency(Agency agency) {
+	public void setAgency(Agency agency) {
 		this.agency = agency;
 	}
 

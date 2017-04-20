@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,12 +20,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.AccountType;
+import model.Address;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
-import model.CountryCode;
+import model.CpVille;
+import model.Owner;
 import util.PopWindow;
+import util.DateConverter;
 
 public class AdvisorController implements Initializable {
 
@@ -60,6 +63,11 @@ public class AdvisorController implements Initializable {
 	private List<Label> labels;
 
 	private List<Node> secondaryFields;
+	private List<Node> thirdFields;
+	
+	private List<Agency> listAgency;
+	private List<Advisor> listAdvisor;
+	
 
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
@@ -92,13 +100,34 @@ public class AdvisorController implements Initializable {
 		if (phoneNumber.getText().isEmpty() || !Advisor.isValidPhoneNumber(phoneNumber.getText())) {
 			invalidNumber.setVisible(true);
 		}
-		if (email.getText().isEmpty() || !Advisor.isValidEmail(email.getText())) {
+		if (email.getText().isEmpty()||!Advisor.isValidEmail(email.getText())) {
 			invalidEmail.setVisible(true);
 		}
 
 		if (labels.stream().allMatch(label -> label.isVisible() == false)) {
-			Advisor advisor = new Advisor(name.getText(), firstName.getText(), phoneNumber.getText(), email.getText(),
-					cal.getTime());
+			Agency currentAgency=null;
+			for (Agency a : this.listAgency) {
+				if (agency.getValue()==a.getName()){
+					currentAgency=a;
+				}
+			}
+			
+			
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			
+			
+			em.getTransaction().begin();
+
+			listAdvisor.get(0).setEmail(email.getText());
+			listAdvisor.get(0).setAssignmentDate(cal.getTime());
+			listAdvisor.get(0).setName(name.getText());
+			listAdvisor.get(0).setFirstName(firstName.getText());
+			listAdvisor.get(0).setPhoneNumber(phoneNumber.getText());
+			listAdvisor.get(0).setAgency(currentAgency);
+
+			em.getTransaction().commit();
+
+			em.close();
 
 		}
 
@@ -107,6 +136,9 @@ public class AdvisorController implements Initializable {
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		labels = new ArrayList<Label>() {
+
+			private static final long serialVersionUID = 1L;
+
 			{
 				add(invalidAgency);
 				add(invalidDate);
@@ -117,6 +149,9 @@ public class AdvisorController implements Initializable {
 			}
 		};
 		secondaryFields = new ArrayList<Node>() {
+
+			private static final long serialVersionUID = 1L;
+
 			{
 				// addAll(labels);
 				add(applyButton);
@@ -129,37 +164,108 @@ public class AdvisorController implements Initializable {
 			}
 		};
 		
+		thirdFields = new ArrayList<Node>() {
+
+			private static final long serialVersionUID = 1L;
+
+			{
+				// addAll(labels);
+				add(applyButton);
+				add(assignmentDate);
+				add(name);
+				add(firstName);
+				add(phoneNumber);
+				add(email);
+			}
+		};
+		
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<Agency> a = em.createNamedQuery("Agency.findAll").getResultList();
 		List<Bank> b = em.createNamedQuery("Bank.findAll").getResultList();
+
 		em.close();
 		
-		for (Agency  agensy : a){
-			agency.getItems().add(agensy.getName());
-		}
-
-		agency.getItems().add("OTHER");
-		
 		for (Bank  bankk : b){
-			agency.getItems().add(bankk.getName());
+			bank.getItems().add(bankk.getName());
 		}
-
 		bank.getItems().add("OTHER");
-
+		
 		this.secondaryFields.forEach(item -> item.setDisable(true));
 
 	}
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
+
 		if (bank.getValue() != null) {
 			this.secondaryFields.forEach(item -> item.setDisable(false));
+			this.thirdFields.forEach(item -> item.setDisable(true));
 		}
 		if (bank.getValue().toString() == "OTHER") {
 			//TODO refactor
 			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml",false);
 			
 			//TODO get the new bank and add it to the ComboBox
+		}
+		else {
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			//List<Agency> a = em.createNamedQuery("Agency.findAll").getResultList();
+			TypedQuery<Bank> b = em.createQuery("SELECT b FROM Bank b WHERE b.name=:name", Bank.class);
+			List<Bank> bb = b.setParameter("name", this.bank.getValue()).getResultList();
+			
+			System.out.println(bb);
+			
+			if (!bb.isEmpty()){
+				TypedQuery<Agency> a = em.createQuery("SELECT  a FROM Agency a WHERE a.bank =:bank", Agency.class);
+				this.listAgency = a.setParameter("bank", bb.get(0)).getResultList();
+				for (Agency  agensy : listAgency){
+					agency.getItems().add(agensy.getName());
+					agency.getItems().add("OTHER");
+				}
+				
+			}
+		
+			em.close();
+			
+		}
+	}
+	
+	@FXML
+	void chooseAdvisorAgency(ActionEvent event) throws IOException {
+
+		if (agency.getValue() != null) {
+			this.thirdFields.forEach(item -> item.setDisable(false));
+		}
+		if (agency.getValue().toString() == "OTHER") {
+			//TODO refactor
+			PopWindow addAgencypop = new PopWindow("/viewFxml/addAgency.fxml",false);
+			
+			//TODO get the new bank and add it to the ComboBox
+		}
+		else {
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
+			
+			
+			Agency currentAgency=null;
+			for (Agency j : this.listAgency) {
+				if (agency.getValue()==j.getName()){
+					currentAgency=j;
+				}
+			}
+			
+			listAdvisor = a.setParameter("agency", currentAgency).getResultList();
+						
+			if (!listAdvisor.isEmpty()){
+				//assignmentDate;
+				name.setText(listAdvisor.get(0).getName());
+				firstName.setText(listAdvisor.get(0).getFirstName());
+				phoneNumber.setText(listAdvisor.get(0).getPhoneNumber());
+				email.setText(listAdvisor.get(0).getEmail());
+				assignmentDate.setValue(DateConverter.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));	
+			}
+		
+			em.close();
+			
 		}
 	}
 
