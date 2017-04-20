@@ -18,7 +18,7 @@ public class Formater {
 		super();
 	}
 
-	private static final String[] USUAL_SEP = new String[] { " ", "-", ",", "." };
+	private static final String[] USUAL_SEP = new String[] { " ", "-", ",", "\\." };
 
 	/**
 	 * @return the list of usual separators used by {@link util.Formater#removeUsualSeparators(java.lang.String)}.
@@ -39,7 +39,7 @@ public class Formater {
 			
 			bl.append( USUAL_SEP[i]+"|");
 		}
-		bl.append( USUAL_SEP.length-1);
+		bl.append( USUAL_SEP[USUAL_SEP.length-1]);
 		bl.append(")+");
 
 		return removeSeparators(content, bl.toString());

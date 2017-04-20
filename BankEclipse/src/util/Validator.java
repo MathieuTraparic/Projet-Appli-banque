@@ -53,7 +53,7 @@ public class Validator {
 	}
 
 	public static boolean isValidIban(String iban) {
-		return IBANValidator.ibanTest(iban);
+		return IBANHandler.ibanTest(iban);
 	}
 
 }
