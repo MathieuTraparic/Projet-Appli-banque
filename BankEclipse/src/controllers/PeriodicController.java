@@ -2,6 +2,6 @@ package controllers;
 
 
 
-public class PeriodicController {
+public class PeriodicController extends AccountSpecificController{
 
 }

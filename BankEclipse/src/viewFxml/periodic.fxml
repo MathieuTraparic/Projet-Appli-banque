@@ -13,10 +13,10 @@
 
 <Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PeriodicController">
 	<children>
-		<AnchorPane fx:id="vistaHolder" layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
+		<AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="800.0">
          <children>
-            <ComboBox layoutY="14.0" prefWidth="150.0" promptText="Select your bank" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="14.0" />
-            <ComboBox layoutX="177.0" layoutY="14.0" prefWidth="150.0" promptText="Select your account" AnchorPane.topAnchor="14.0" />
+            <ComboBox fx:id="bankCombo" layoutY="14.0" prefWidth="150.0" promptText="Select your bank" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="14.0" />
+            <ComboBox fx:id="accountCombo" layoutX="177.0" layoutY="14.0" prefWidth="150.0" promptText="Select your account" AnchorPane.topAnchor="14.0" />
             <ComboBox layoutX="505.0" layoutY="14.0" prefHeight="25.0" prefWidth="322.0" promptText="Select the recipient account" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="14.0" />
             <Label layoutX="14.0" layoutY="64.0" text="Balance" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="64.0" />
             <TextField layoutX="70.0" layoutY="60.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="60.0" />
