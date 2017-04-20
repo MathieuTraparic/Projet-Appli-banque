@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -22,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.WindowEvent;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
@@ -213,10 +215,24 @@ public class AdvisorController implements Initializable {
 			this.thirdFields.forEach(item -> item.setDisable(true));
 		}
 		if (bank.getValue().toString() == "OTHER") {
-			// TODO refactor
-			PopWindow addBankPop = new PopWindow("/viewFxml/addBank.fxml", false);
-
-			// TODO get the new bank and add it to the ComboBox
+			PopupController<Bank> controller = PopupController.load(
+					VistaNavigator.ADD_BANK,false);
+			controller.show(new Bank("name","code"),
+				new EventHandler<WindowEvent>(){
+					@Override
+					public void handle(WindowEvent event){
+						Bank b = controller.getValidatedData();
+						if (b!=null){
+							EntityManager em = VistaNavigator.getEmf().createEntityManager();
+							em.getTransaction().begin();
+							em.persist(b);
+							em.getTransaction().commit();
+							em.close();
+							bank.getItems().add(bank.getItems().size()-1,b.getName());
+						}
+				}	
+			});
+	
 		} else {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Bank> b = em.createQuery("SELECT b FROM Bank b WHERE b.name=:name", Bank.class);
@@ -249,10 +265,11 @@ public class AdvisorController implements Initializable {
 			this.thirdFields.forEach(item -> item.setDisable(false));
 		}
 		if (agency.getValue().toString() == "OTHER") {
+			
 			// TODO refactor
-			PopWindow addAgencypop = new PopWindow("/viewFxml/addAgency.fxml", false);
 
-			// TODO get the new bank and add it to the ComboBox
+			
+			
 		} else {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
