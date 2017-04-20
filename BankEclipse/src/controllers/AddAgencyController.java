@@ -61,7 +61,7 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 				agencyCodeError.setVisible(true);
 			}
 			Stage stage = (Stage) addAgencySubmit.getScene().getWindow();
-			this.getData().getBank();
+			this.getData().setBank(new Bank(bankName));
 			this.getData().setName(name);
 			this.getData().setCounterCode(code);
 			this.setAsValidated();
