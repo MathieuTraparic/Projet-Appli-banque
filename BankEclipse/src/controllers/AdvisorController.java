@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import javafx.event.ActionEvent;
@@ -114,18 +115,35 @@ public class AdvisorController implements Initializable {
 			
 			
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			
-			
 			em.getTransaction().begin();
-
-			listAdvisor.get(0).setEmail(email.getText());
-			listAdvisor.get(0).setAssignmentDate(cal.getTime());
-			listAdvisor.get(0).setName(name.getText());
-			listAdvisor.get(0).setFirstName(firstName.getText());
-			listAdvisor.get(0).setPhoneNumber(phoneNumber.getText());
-			listAdvisor.get(0).setAgency(currentAgency);
-
+			
+			Query q = em.createQuery("UPDATE Advisor a SET a.name=:name WHERE a.agency=:agency");
+			q.setParameter("agency",currentAgency);
+			q.setParameter("name",name.getText()); 
+			q.executeUpdate();
+			
+			Query s = em.createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency");
+			s.setParameter("agency",currentAgency);
+			s.setParameter("firstName",firstName.getText()); 
+			s.executeUpdate();
+			
+			Query d = em.createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency");
+			d.setParameter("agency",currentAgency);
+			d.setParameter("phoneNumber",phoneNumber.getText()); 
+			d.executeUpdate();
+			
+			Query f = em.createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency");
+			f.setParameter("agency",currentAgency);
+			f.setParameter("email",email.getText()); 
+			f.executeUpdate();
+			
+			Query g = em.createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
+			g.setParameter("agency",currentAgency);
+			g.setParameter("assignmentDate",cal.getTime()); 
+			g.executeUpdate();
+			
 			em.getTransaction().commit();
+			
 
 			em.close();
 
