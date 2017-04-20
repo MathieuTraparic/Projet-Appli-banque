@@ -17,6 +17,7 @@ public class TemplateController{
 	
 	@FXML
 	void handleLogoutButton(ActionEvent event){
+		VistaNavigator.getInstance().setLoggedOwner(null);
 		VistaNavigator.loadVista(VistaNavigator.LOGIN);
 	}
 	

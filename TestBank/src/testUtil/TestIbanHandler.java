@@ -17,7 +17,7 @@ public class TestIbanHandler {
 
 
 
-	@Test@Ignore
+	@Test
 	public final void testIsValidIban() {
 		assertTrue(IBANHandler.ibanTest("FR1420041010050500013M02606"));
 		assertTrue(IBANHandler.ibanTest(" FR14 2004 1010 0505 0001 3M02 606 "));
@@ -32,6 +32,9 @@ public class TestIbanHandler {
 
 		assertTrue(IBANHandler.genrateIBAN("05 0001 3M02 606", "010 05", "2004 1", "FR")
 				.equals("FR142004 1010 0505 0001 3M02 606"));
+		
+		assertTrue(IBANHandler.genrateIBAN("0500013M02606", "01005", "20041", "FR")
+				.equals("FR1420041010050500013M02606"));
 
 	}
 
