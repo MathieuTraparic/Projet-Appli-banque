@@ -26,6 +26,10 @@ public class Bank implements Serializable{
 		
 	}
 	
+	public Bank(String bankName){
+		checkBankName(bankName);
+		this.name=bankName;
+	}
 	
 	public Bank(String bankName, String bankCode) {
 		

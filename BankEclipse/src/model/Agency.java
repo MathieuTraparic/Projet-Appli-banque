@@ -70,7 +70,7 @@ public class Agency  implements Serializable{
 		return this.name;
 	}
 
-	private void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -78,7 +78,7 @@ public class Agency  implements Serializable{
 		return this.counterCode;
 	}
 
-	private void setCounterCode(String counterCode) {
+	public void setCounterCode(String counterCode) {
 		this.counterCode = counterCode;
 	}
 	
@@ -93,11 +93,11 @@ public class Agency  implements Serializable{
 	}
 	@ManyToOne
 	@JoinColumn(name="idBank")
-	private Bank getBank() {
+	public Bank getBank() {
 		return this.bank;
 	}
 
-	private void setBank(Bank bank) {
+	public void setBank(Bank bank) {
 		this.bank = bank;
 	}
 	
