@@ -28,7 +28,6 @@ import javafx.stage.WindowEvent;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
-import util.PopWindow;
 import util.DateConverter;
 
 public class AdvisorController implements Initializable {
@@ -63,10 +62,7 @@ public class AdvisorController implements Initializable {
 	public Button applyButton;
 
 	private List<Label> errorLabels;
-
 	private List<Node> secondaryFields;
-	private List<Node> tertiaryFields;
-
 	private List<Agency> listAgency;
 	private ChangeListener<? super LocalDate> timeChange = null;
 	private List<Bank> allBanks;
@@ -102,19 +98,6 @@ public class AdvisorController implements Initializable {
 			}
 		};
 
-		// TODO why 2 arraylist with almost the same things ?
-		this.tertiaryFields = new ArrayList<Node>() {
-
-			private static final long serialVersionUID = 609746453523427938L;
-
-			{
-				add(assignmentDatePicker);
-				add(nameField);
-				add(firstNameField);
-				add(phoneNumberField);
-				add(emailField);
-			}
-		};
 
 		// fetch all banks from DB
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -135,7 +118,7 @@ public class AdvisorController implements Initializable {
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
 
-		applyButton.setDisable(true);
+		this.applyButton.setDisable(true);
 		nameField.clear();
 		firstNameField.clear();
 		phoneNumberField.clear();
@@ -144,8 +127,8 @@ public class AdvisorController implements Initializable {
 
 		if (bankCombo.getValue() != null) {
 			// TODO WTF ? they have all but 1 value in common
-			this.secondaryFields.forEach(item -> item.setDisable(false));
-			this.tertiaryFields.forEach(item -> item.setDisable(true));
+			this.secondaryFields.forEach(item -> item.setDisable(true));
+			agencyCombo.setDisable(false);
 		}
 		if (bankCombo.getValue().toString() == "OTHER") {
 			// call an AddBank popup
@@ -210,14 +193,15 @@ public class AdvisorController implements Initializable {
 			return;
 		}
 
-		// enable all fields
-		this.tertiaryFields.forEach(item -> item.setDisable(false));
 
 		if (agencyCombo.getValue().toString() == "OTHER") {
 			// call an addAgency popup 
 
 		} else {
 
+			// enable all fields
+			this.secondaryFields.forEach(item -> item.setDisable(false));
+			
 			Agency currentAgency = null;
 			for (Agency j : this.listAgency) {
 				if (agencyCombo.getValue().toString().equals(j.getName())) {
@@ -369,7 +353,7 @@ public class AdvisorController implements Initializable {
 			em.persist(newAdvisor);
 			em.getTransaction().commit();
 			em.close();
-			
+			isANewAdvisor = false;
 			applyButton.setDisable(true);
 		}
 
