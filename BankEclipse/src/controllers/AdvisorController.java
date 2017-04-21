@@ -271,6 +271,13 @@ public class AdvisorController implements Initializable {
 			
 			
 		} else {
+			
+			name.clear();
+			firstName.clear();
+			phoneNumber.clear();
+			email.clear();
+			assignmentDate.setValue(null);
+			
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
 
@@ -309,6 +316,10 @@ public class AdvisorController implements Initializable {
 				em.close();
 
 			}
+			else {
+				applyButton.setDisable(false);
+			}
+
 		}
 	}
 }
