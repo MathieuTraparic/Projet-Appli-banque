@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -11,6 +12,8 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import org.eclipse.persistence.jpa.jpql.parser.OnClause;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -68,6 +71,8 @@ public class AdvisorController implements Initializable {
 
 	private List<Agency> listAgency;
 	private List<Advisor> listAdvisor;
+	private ChangeListener<? super String> onChange = null;
+	private ChangeListener<? super LocalDate> timeChange = null;
 
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
@@ -209,6 +214,11 @@ public class AdvisorController implements Initializable {
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
 
 		applyButton.setDisable(true);
+		name.clear();
+		firstName.clear();
+		phoneNumber.clear();
+		email.clear();
+		assignmentDate.setValue(null);
 
 		if (bank.getValue() != null) {
 			this.secondaryFields.forEach(item -> item.setDisable(false));
@@ -255,7 +265,16 @@ public class AdvisorController implements Initializable {
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
 
+
+		
 		applyButton.setDisable(true);
+		name.clear();
+		firstName.clear();
+		phoneNumber.clear();
+		email.clear();
+		assignmentDate.setValue(null);
+
+
 		
 		if(agency.getValue()==null){
 			return ;
@@ -272,23 +291,18 @@ public class AdvisorController implements Initializable {
 			
 		} else {
 			
-			name.clear();
-			firstName.clear();
-			phoneNumber.clear();
-			email.clear();
-			assignmentDate.setValue(null);
-			
-			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
-
 			Agency currentAgency = null;
 			for (Agency j : this.listAgency) {
 				if (agency.getValue() == j.getName()) {
 					currentAgency = j;
 				}
 			}
+			
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
 
 			listAdvisor = a.setParameter("agency", currentAgency).getResultList();
+
 
 			if (!listAdvisor.isEmpty()) {
 
@@ -298,7 +312,7 @@ public class AdvisorController implements Initializable {
 				email.setText(listAdvisor.get(0).getEmail());
 				assignmentDate.setValue(DateConverter.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));
 
-				ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
+				onChange = (observable, oldValue, newValue) -> {
 					applyButton.setDisable(name.getText() == listAdvisor.get(0).getName()
 							|| firstName.getText() == listAdvisor.get(0).getFirstName()
 							|| phoneNumber.getText() == listAdvisor.get(0).getPhoneNumber()
@@ -308,17 +322,25 @@ public class AdvisorController implements Initializable {
 				firstName.textProperty().addListener(onChange);
 				phoneNumber.textProperty().addListener(onChange);
 				email.textProperty().addListener(onChange);
-				assignmentDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+				
+				timeChange = (observable, oldValue, newValue) -> {
 					applyButton.setDisable(assignmentDate.getValue() == DateConverter
-							.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));
-				});
+							.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));};
+			
+				
+				assignmentDate.valueProperty().addListener(timeChange);
 
 				em.close();
 
 			}
-			else {
-				applyButton.setDisable(false);
-			}
+		
+/*			applyButton.setDisable(false);
+			name.textProperty().removeListener(onChange);
+			firstName.textProperty().removeListener(onChange);
+			phoneNumber.textProperty().removeListener(onChange);
+			email.textProperty().removeListener(onChange);
+			assignmentDate.valueProperty().removeListener(timeChange);*/
+
 
 		}
 	}
