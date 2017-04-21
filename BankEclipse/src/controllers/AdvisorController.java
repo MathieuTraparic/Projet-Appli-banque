@@ -36,83 +36,83 @@ import util.DateConverter;
 public class AdvisorController implements Initializable {
 
 	@FXML
-	public TextField name;
+	public TextField nameField;
 	@FXML
-	public TextField firstName;
+	public TextField firstNameField;
 	@FXML
-	public TextField phoneNumber;
+	public TextField phoneNumberField;
 	@FXML
-	public TextField email;
+	public TextField emailField;
 	@FXML
-	public DatePicker assignmentDate;
+	public DatePicker assignmentDatePicker;
 	@FXML
-	public Label invalidName;
+	public Label nameErrorLabel;
 	@FXML
-	public Label invalidFirstName;
+	public Label firstNameErrorLabel;
 	@FXML
-	public Label invalidNumber;
+	public Label phoneNumberErrorLabel;
 	@FXML
-	public Label invalidEmail;
+	public Label emailErrorLabel;
 	@FXML
-	public Label invalidDate;
+	public Label dateErrorLabel;
 	@FXML
-	public Label invalidAgency;
+	public Label agencyErrorLabel;
 	@FXML
-	public ComboBox<String> agency;
+	public ComboBox<String> agencyCombo;
 	@FXML
-	public ComboBox<String> bank;
+	public ComboBox<String> bankCombo;
 	@FXML
 	public Button applyButton;
 
-	private List<Label> labels;
+	private List<Label> errorLabels;
 
 	private List<Node> secondaryFields;
-	private List<Node> thirdFields;
+	private List<Node> tertiaryFields;
 
 	private List<Agency> listAgency;
-	private List<Advisor> listAdvisor;
-	private ChangeListener<? super String> onChange = null;
 	private ChangeListener<? super LocalDate> timeChange = null;
+	private List<Bank> allBanks;
 
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
 
-		// Lambda expression
-		labels.forEach(label -> label.setVisible(false));
+		// hide all error labels
+		errorLabels.forEach(label -> label.setVisible(false));
 
 		Calendar cal = Calendar.getInstance();
 
-		if (agency.getValue() == null) {
-			invalidAgency.setVisible(true);
+		if (agencyCombo.getValue() == null) {
+			agencyErrorLabel.setVisible(true);
 		}
 
-		if (assignmentDate.getValue() == null) {
-			invalidDate.setVisible(true);
+		if (assignmentDatePicker.getValue() == null) {
+			dateErrorLabel.setVisible(true);
 		} else {
-			cal = new GregorianCalendar(assignmentDate.getValue().getYear(),
-					assignmentDate.getValue().getMonthValue() - 1, assignmentDate.getValue().getDayOfMonth(), 0, 0, 0);
+			cal = new GregorianCalendar(assignmentDatePicker.getValue().getYear(),
+					assignmentDatePicker.getValue().getMonthValue() - 1,
+					assignmentDatePicker.getValue().getDayOfMonth(), 0, 0, 0);
 			if (!Advisor.isValidAssignmentDate(cal.getTime())) {
-				invalidDate.setVisible(true);
+				dateErrorLabel.setVisible(true);
 			}
 		}
 
-		if (name.getText().isEmpty() || !Advisor.isValidName(name.getText())) {
-			invalidName.setVisible(true);
+		if (nameField.getText().isEmpty() || !Advisor.isValidName(nameField.getText())) {
+			nameErrorLabel.setVisible(true);
 		}
-		if (firstName.getText().isEmpty() || !Advisor.isValidFirstName(firstName.getText())) {
-			invalidFirstName.setVisible(true);
+		if (firstNameField.getText().isEmpty() || !Advisor.isValidFirstName(firstNameField.getText())) {
+			firstNameErrorLabel.setVisible(true);
 		}
-		if (phoneNumber.getText().isEmpty() || !Advisor.isValidPhoneNumber(phoneNumber.getText())) {
-			invalidNumber.setVisible(true);
+		if (phoneNumberField.getText().isEmpty() || !Advisor.isValidPhoneNumber(phoneNumberField.getText())) {
+			phoneNumberErrorLabel.setVisible(true);
 		}
-		if (email.getText().isEmpty() || !Advisor.isValidEmail(email.getText())) {
-			invalidEmail.setVisible(true);
+		if (emailField.getText().isEmpty() || !Advisor.isValidEmail(emailField.getText())) {
+			emailErrorLabel.setVisible(true);
 		}
 
-		if (labels.stream().allMatch(label -> label.isVisible() == false)) {
+		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
 			Agency currentAgency = null;
 			for (Agency a : this.listAgency) {
-				if (agency.getValue() == a.getName()) {
+				if (agencyCombo.getValue() == a.getName()) {
 					currentAgency = a;
 				}
 			}
@@ -122,22 +122,22 @@ public class AdvisorController implements Initializable {
 
 			Query q = em.createQuery("UPDATE Advisor a SET a.name=:name WHERE a.agency=:agency");
 			q.setParameter("agency", currentAgency);
-			q.setParameter("name", name.getText());
+			q.setParameter("name", nameField.getText());
 			q.executeUpdate();
 
 			Query s = em.createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency");
 			s.setParameter("agency", currentAgency);
-			s.setParameter("firstName", firstName.getText());
+			s.setParameter("firstName", firstNameField.getText());
 			s.executeUpdate();
 
 			Query d = em.createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency");
 			d.setParameter("agency", currentAgency);
-			d.setParameter("phoneNumber", phoneNumber.getText());
+			d.setParameter("phoneNumber", phoneNumberField.getText());
 			d.executeUpdate();
 
 			Query f = em.createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency");
 			f.setParameter("agency", currentAgency);
-			f.setParameter("email", email.getText());
+			f.setParameter("email", emailField.getText());
 			f.executeUpdate();
 
 			Query g = em.createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
@@ -148,6 +148,8 @@ public class AdvisorController implements Initializable {
 			em.getTransaction().commit();
 
 			em.close();
+			// TODO show a message that indicate the change was successful or
+			// not
 
 		}
 
@@ -155,107 +157,130 @@ public class AdvisorController implements Initializable {
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		labels = new ArrayList<Label>() {
 
-			private static final long serialVersionUID = 1L;
+		this.errorLabels = new ArrayList<Label>() {
+
+			private static final long serialVersionUID = 428581192054721416L;
 
 			{
-				add(invalidAgency);
-				add(invalidDate);
-				add(invalidEmail);
-				add(invalidFirstName);
-				add(invalidName);
-				add(invalidNumber);
+				add(agencyErrorLabel);
+				add(dateErrorLabel);
+				add(emailErrorLabel);
+				add(firstNameErrorLabel);
+				add(nameErrorLabel);
+				add(phoneNumberErrorLabel);
 			}
 		};
-		secondaryFields = new ArrayList<Node>() {
+		this.secondaryFields = new ArrayList<Node>() {
 
-			private static final long serialVersionUID = 1L;
-
-			{
-				add(assignmentDate);
-				add(name);
-				add(firstName);
-				add(phoneNumber);
-				add(email);
-				add(agency);
-			}
-		};
-
-		thirdFields = new ArrayList<Node>() {
-
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 3970639145907080465L;
 
 			{
-				add(assignmentDate);
-				add(name);
-				add(firstName);
-				add(phoneNumber);
-				add(email);
+				add(assignmentDatePicker);
+				add(nameField);
+				add(firstNameField);
+				add(phoneNumberField);
+				add(emailField);
+				add(agencyCombo);
 			}
 		};
 
+		// TODO why 2 arraylist with almost the same things ?
+		this.tertiaryFields = new ArrayList<Node>() {
+
+			private static final long serialVersionUID = 609746453523427938L;
+
+			{
+				add(assignmentDatePicker);
+				add(nameField);
+				add(firstNameField);
+				add(phoneNumberField);
+				add(emailField);
+			}
+		};
+
+		// fetch all banks from DB
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<Bank> b = em.createNamedQuery("Bank.findAll").getResultList();
+		this.allBanks = em.createNamedQuery("Bank.findAll").getResultList();
 
 		em.close();
 
-		for (Bank bankk : b) {
-			bank.getItems().add(bankk.getName());
-		}
-		bank.getItems().add("OTHER");
+		// insert all banks in bank comboBox
+		allBanks.forEach(bank -> bankCombo.getItems().add(bank.getName()));
+
+		bankCombo.getItems().add("OTHER");
 
 		this.secondaryFields.forEach(item -> item.setDisable(true));
 		this.applyButton.setDisable(true);
-		
+
 	}
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
 
 		applyButton.setDisable(true);
-		name.clear();
-		firstName.clear();
-		phoneNumber.clear();
-		email.clear();
-		assignmentDate.setValue(null);
+		nameField.clear();
+		firstNameField.clear();
+		phoneNumberField.clear();
+		emailField.clear();
+		assignmentDatePicker.setValue(null);
 
-		if (bank.getValue() != null) {
+		if (bankCombo.getValue() != null) {
+			// TODO WTF ? they have all but 1 value in common
 			this.secondaryFields.forEach(item -> item.setDisable(false));
-			this.thirdFields.forEach(item -> item.setDisable(true));
+			this.tertiaryFields.forEach(item -> item.setDisable(true));
 		}
-		if (bank.getValue().toString() == "OTHER") {
-			PopupController<Bank> controller = PopupController.load(
-					VistaNavigator.ADD_BANK,false);
-			controller.show(new Bank("name","code"),
-				new EventHandler<WindowEvent>(){
-					@Override
-					public void handle(WindowEvent event){
-						Bank b = controller.getValidatedData();
-						if (b!=null){
-							EntityManager em = VistaNavigator.getEmf().createEntityManager();
-							em.getTransaction().begin();
-							em.persist(b);
-							em.getTransaction().commit();
-							em.close();
-							bank.getItems().add(bank.getItems().size()-1,b.getName());
-						}
-				}	
+		if (bankCombo.getValue().toString() == "OTHER") {
+			// call an AddBank popup
+			PopupController<Bank> controller = PopupController.load(VistaNavigator.ADD_BANK, false);
+			controller.show(new Bank("name", "code"), new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent event) {
+					Bank b = controller.getValidatedData();
+					if (b != null) {
+						EntityManager em = VistaNavigator.getEmf().createEntityManager();
+						em.getTransaction().begin();
+						em.persist(b);
+						em.getTransaction().commit();
+						em.close();
+						bankCombo.getItems().add(bankCombo.getItems().size() - 1, b.getName());
+					}
+				}
 			});
-	
+			// TODO add the bank in this.allBanks or update it ?
 		} else {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			TypedQuery<Bank> b = em.createQuery("SELECT b FROM Bank b WHERE b.name=:name", Bank.class);
-			List<Bank> bb = b.setParameter("name", this.bank.getValue()).getResultList();
+			/*
+			 * No need to fetch them again from DB, we have them since the
+			 * initialize in this.allbanks
+			 * 
+			 * TypedQuery<Bank> b =
+			 * em.createQuery("SELECT b FROM Bank b WHERE b.name=:name",
+			 * Bank.class); List<Bank> bb = b.setParameter("name",
+			 * this.bankCombo.getValue()).getResultList();
+			 */
+			Bank currentBank = null;
+			// could be avoided if comboBox<Bank> instead of string
+			for (Bank bank : allBanks) {
+				if (bank.getName().equals(this.bankCombo.getValue())) {
+					currentBank = bank;
+				}
+			}
 
-			if (!bb.isEmpty()) {
-				this.agency.getItems().clear();
+			// check could be removed as we are selecting from the list of all
+			// banks
+			if (currentBank != null) {
+				// fetch the agencies for this bank from DB
+				// TODO maybe fetch them all at initialisation along with
+				// this.allbanks ?
+				this.agencyCombo.getItems().clear();
 				TypedQuery<Agency> a = em.createQuery("SELECT  a FROM Agency a WHERE a.bank =:bank", Agency.class);
-				this.listAgency = a.setParameter("bank", bb.get(0)).getResultList();
-				
-				for (Agency agensy : listAgency) {
-					agency.getItems().add(agensy.getName());
-					agency.getItems().add("OTHER");
+				this.listAgency = a.setParameter("bank", currentBank).getResultList();
+
+				// put the agencies obtained in the comboBox
+				for (Agency agency : listAgency) {
+					agencyCombo.getItems().add(agency.getName());
+					agencyCombo.getItems().add("OTHER");
 				}
 			}
 			em.close();
@@ -265,82 +290,75 @@ public class AdvisorController implements Initializable {
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
 
-
-		
 		applyButton.setDisable(true);
-		name.clear();
-		firstName.clear();
-		phoneNumber.clear();
-		email.clear();
-		assignmentDate.setValue(null);
+		nameField.clear();
+		firstNameField.clear();
+		phoneNumberField.clear();
+		emailField.clear();
+		assignmentDatePicker.setValue(null);
 
-
-		
-		if(agency.getValue()==null){
-			return ;
+		if (agencyCombo.getValue() == null) {
+			return;
 		}
 
-		if (agency.getValue() != null) {
-			this.thirdFields.forEach(item -> item.setDisable(false));
-		}
-		if (agency.getValue().toString() == "OTHER") {
-			
-			// TODO refactor
+		// enable all fields
+		this.tertiaryFields.forEach(item -> item.setDisable(false));
 
-			
-			
+		if (agencyCombo.getValue().toString() == "OTHER") {
+			// call an addAgency popup ?
+
 		} else {
-			
+
 			Agency currentAgency = null;
 			for (Agency j : this.listAgency) {
-				if (agency.getValue() == j.getName()) {
+				if (agencyCombo.getValue().toString().equals(j.getName())) {
 					currentAgency = j;
 				}
 			}
-			
+
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
 
-			listAdvisor = a.setParameter("agency", currentAgency).getResultList();
+			List<Advisor> l = a.setParameter("agency", currentAgency).getResultList();
+			em.close();
 
+			if (!l.isEmpty()) {
+				Advisor currentAdvisor = l.get(0);
 
-			if (!listAdvisor.isEmpty()) {
+				nameField.setText(currentAdvisor.getName());
+				firstNameField.setText(currentAdvisor.getFirstName());
+				phoneNumberField.setText(currentAdvisor.getPhoneNumber());
+				emailField.setText(currentAdvisor.getEmail());
+				assignmentDatePicker.setValue(DateConverter.DateToLocalDate(currentAdvisor.getAssignmentDate()));
 
-				name.setText(listAdvisor.get(0).getName());
-				firstName.setText(listAdvisor.get(0).getFirstName());
-				phoneNumber.setText(listAdvisor.get(0).getPhoneNumber());
-				email.setText(listAdvisor.get(0).getEmail());
-				assignmentDate.setValue(DateConverter.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));
-
-				onChange = (observable, oldValue, newValue) -> {
-					applyButton.setDisable(name.getText() == listAdvisor.get(0).getName()
-							|| firstName.getText() == listAdvisor.get(0).getFirstName()
-							|| phoneNumber.getText() == listAdvisor.get(0).getPhoneNumber()
-							|| email.getText() == listAdvisor.get(0).getEmail());
+				ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
+					applyButton.setDisable(nameField.getText() == currentAdvisor.getName()
+							|| firstNameField.getText() == currentAdvisor.getFirstName()
+							|| phoneNumberField.getText() == currentAdvisor.getPhoneNumber()
+							|| emailField.getText() == currentAdvisor.getEmail());
 				};
-				name.textProperty().addListener(onChange);
-				firstName.textProperty().addListener(onChange);
-				phoneNumber.textProperty().addListener(onChange);
-				email.textProperty().addListener(onChange);
-				
-				timeChange = (observable, oldValue, newValue) -> {
-					applyButton.setDisable(assignmentDate.getValue() == DateConverter
-							.DateToLocalDate(listAdvisor.get(0).getAssignmentDate()));};
-			
-				
-				assignmentDate.valueProperty().addListener(timeChange);
+				nameField.textProperty().addListener(onChange);
+				firstNameField.textProperty().addListener(onChange);
+				phoneNumberField.textProperty().addListener(onChange);
+				emailField.textProperty().addListener(onChange);
 
-				em.close();
+				timeChange = (observable, oldValue, newValue) -> {
+					applyButton.setDisable(assignmentDatePicker.getValue() == DateConverter
+							.DateToLocalDate(currentAdvisor.getAssignmentDate()));
+				};
+
+				assignmentDatePicker.valueProperty().addListener(timeChange);
 
 			}
-		
-/*			applyButton.setDisable(false);
-			name.textProperty().removeListener(onChange);
-			firstName.textProperty().removeListener(onChange);
-			phoneNumber.textProperty().removeListener(onChange);
-			email.textProperty().removeListener(onChange);
-			assignmentDate.valueProperty().removeListener(timeChange);*/
 
+			/*
+			 * applyButton.setDisable(false);
+			 * name.textProperty().removeListener(onChange);
+			 * firstName.textProperty().removeListener(onChange);
+			 * phoneNumber.textProperty().removeListener(onChange);
+			 * email.textProperty().removeListener(onChange);
+			 * assignmentDate.valueProperty().removeListener(timeChange);
+			 */
 
 		}
 	}

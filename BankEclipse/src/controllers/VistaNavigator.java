@@ -91,6 +91,7 @@ public static void setEmf(EntityManagerFactory emf) {
 			
 		} catch (IOException e) {
 			System.err.println("Vista loading failed : " + e);
+			e.printStackTrace();
 		}
 		
 		return loader.getController();
