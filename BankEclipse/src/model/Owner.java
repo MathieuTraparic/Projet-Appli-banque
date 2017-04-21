@@ -50,6 +50,7 @@ public class Owner implements Serializable {
 		this.login = login;
 		this.pswd = pswd;
 		this.email=email;
+		this.salt=salt;
 	}
 	
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd, String email, Address address) {

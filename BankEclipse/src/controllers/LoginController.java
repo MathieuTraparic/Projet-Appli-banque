@@ -22,6 +22,8 @@ import util.PasswordHandler;
 import javafx.scene.input.InputMethodEvent;
 
 public class LoginController implements Initializable {
+	private static final String DEFAULT_PASSWORD ="password";
+	private static final String DEFAULT_LOGIN ="defaultUser";
 
 	@FXML
 	TextField login;
@@ -60,26 +62,27 @@ public class LoginController implements Initializable {
 		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
 	}
 
-	@FXML
-	void handleByPass(ActionEvent event) {
-		VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
-	}
+//	@FXML
+//	void handleByPass(ActionEvent event) {
+//		VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
+//	}
 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//set a default user
+		this.signIn.setDisable(false);
+		this.login.setText(DEFAULT_LOGIN);
+		this.pswd.setText(DEFAULT_PASSWORD);
+		
+		//disable the sign in button if one of the fields is empty
 		ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
-			signIn.setDisable(login.getText().isEmpty() || pswd.getText().isEmpty());
+			this.signIn.setDisable(this.login.getText().isEmpty() || this.pswd.getText().isEmpty());
 		};
-		login.textProperty().addListener(onChange);
-		pswd.textProperty().addListener(onChange);
+		this.login.textProperty().addListener(onChange);
+		this.pswd.textProperty().addListener(onChange);
 
 	}
 
-	/*
-	 * @FXML public void handleFields() {
-	 * signIn.setDisable(login.getText().isEmpty() || pswd.getText().isEmpty());
-	 * }
-	 */
 
 }

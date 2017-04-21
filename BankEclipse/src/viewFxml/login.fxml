@@ -34,7 +34,7 @@
             <Label fx:id="loginError" text="Unvalid Login password combination" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleByPass" text="Bypass" />
+                  <!-- <Button mnemonicParsing="false" onAction="#handleByPass" text="Bypass" />  -->
             		<Button fx:id="signIn" disable="true" mnemonicParsing="false" onAction="#signInButton" text="Sign in" />
                </children>
             </HBox>

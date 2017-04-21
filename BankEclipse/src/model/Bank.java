@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import util.Formater;
 import util.Validator;
 
+
 @Entity
 @Table(name="bank")
 @NamedQuery(name = "Bank.findAll", query = "SELECT t FROM Bank t")
@@ -22,6 +23,9 @@ public class Bank implements Serializable{
 	private String name;
 	private String code;
 	
+	
+
+	@SuppressWarnings("unused")
 	private Bank(){
 		
 	}
@@ -33,7 +37,6 @@ public class Bank implements Serializable{
 	
 	public Bank(String bankName, String bankCode) {
 		
-		//TODO update methode for the ArrayListes
 		
 		checkBankCode(bankCode);
 		checkBankName(bankName);
