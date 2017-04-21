@@ -13,8 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import org.eclipse.persistence.jpa.jpql.parser.OnClause;
-
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -72,88 +70,7 @@ public class AdvisorController implements Initializable {
 	private List<Agency> listAgency;
 	private ChangeListener<? super LocalDate> timeChange = null;
 	private List<Bank> allBanks;
-
-	@FXML
-	void applyAdvisorChange(ActionEvent event) {
-
-		// hide all error labels
-		errorLabels.forEach(label -> label.setVisible(false));
-
-		Calendar cal = Calendar.getInstance();
-
-		if (agencyCombo.getValue() == null) {
-			agencyErrorLabel.setVisible(true);
-		}
-
-		if (assignmentDatePicker.getValue() == null) {
-			dateErrorLabel.setVisible(true);
-		} else {
-			cal = new GregorianCalendar(assignmentDatePicker.getValue().getYear(),
-					assignmentDatePicker.getValue().getMonthValue() - 1,
-					assignmentDatePicker.getValue().getDayOfMonth(), 0, 0, 0);
-			if (!Advisor.isValidAssignmentDate(cal.getTime())) {
-				dateErrorLabel.setVisible(true);
-			}
-		}
-
-		if (nameField.getText().isEmpty() || !Advisor.isValidName(nameField.getText())) {
-			nameErrorLabel.setVisible(true);
-		}
-		if (firstNameField.getText().isEmpty() || !Advisor.isValidFirstName(firstNameField.getText())) {
-			firstNameErrorLabel.setVisible(true);
-		}
-		if (phoneNumberField.getText().isEmpty() || !Advisor.isValidPhoneNumber(phoneNumberField.getText())) {
-			phoneNumberErrorLabel.setVisible(true);
-		}
-		if (emailField.getText().isEmpty() || !Advisor.isValidEmail(emailField.getText())) {
-			emailErrorLabel.setVisible(true);
-		}
-
-		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
-			Agency currentAgency = null;
-			for (Agency a : this.listAgency) {
-				if (agencyCombo.getValue() == a.getName()) {
-					currentAgency = a;
-				}
-			}
-
-			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			em.getTransaction().begin();
-
-			Query q = em.createQuery("UPDATE Advisor a SET a.name=:name WHERE a.agency=:agency");
-			q.setParameter("agency", currentAgency);
-			q.setParameter("name", nameField.getText());
-			q.executeUpdate();
-
-			Query s = em.createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency");
-			s.setParameter("agency", currentAgency);
-			s.setParameter("firstName", firstNameField.getText());
-			s.executeUpdate();
-
-			Query d = em.createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency");
-			d.setParameter("agency", currentAgency);
-			d.setParameter("phoneNumber", phoneNumberField.getText());
-			d.executeUpdate();
-
-			Query f = em.createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency");
-			f.setParameter("agency", currentAgency);
-			f.setParameter("email", emailField.getText());
-			f.executeUpdate();
-
-			Query g = em.createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
-			g.setParameter("agency", currentAgency);
-			g.setParameter("assignmentDate", cal.getTime());
-			g.executeUpdate();
-
-			em.getTransaction().commit();
-
-			em.close();
-			// TODO show a message that indicate the change was successful or
-			// not
-
-		}
-
-	}
+	private Boolean isANewAdvisor;
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -250,15 +167,7 @@ public class AdvisorController implements Initializable {
 			// TODO add the bank in this.allBanks or update it ?
 		} else {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			/*
-			 * No need to fetch them again from DB, we have them since the
-			 * initialize in this.allbanks
-			 * 
-			 * TypedQuery<Bank> b =
-			 * em.createQuery("SELECT b FROM Bank b WHERE b.name=:name",
-			 * Bank.class); List<Bank> bb = b.setParameter("name",
-			 * this.bankCombo.getValue()).getResultList();
-			 */
+
 			Bank currentBank = null;
 			// could be avoided if comboBox<Bank> instead of string
 			for (Bank bank : allBanks) {
@@ -305,7 +214,7 @@ public class AdvisorController implements Initializable {
 		this.tertiaryFields.forEach(item -> item.setDisable(false));
 
 		if (agencyCombo.getValue().toString() == "OTHER") {
-			// call an addAgency popup ?
+			// call an addAgency popup 
 
 		} else {
 
@@ -350,6 +259,10 @@ public class AdvisorController implements Initializable {
 				assignmentDatePicker.valueProperty().addListener(timeChange);
 
 			}
+			
+			else{
+				isANewAdvisor = true;
+			}
 
 			/*
 			 * applyButton.setDisable(false);
@@ -361,5 +274,90 @@ public class AdvisorController implements Initializable {
 			 */
 
 		}
+	}
+	@FXML
+	void applyAdvisorChange(ActionEvent event) {
+
+		// hide all error labels
+		errorLabels.forEach(label -> label.setVisible(false));
+
+		Calendar cal = Calendar.getInstance();
+
+		if (agencyCombo.getValue() == null) {
+			agencyErrorLabel.setVisible(true);
+		}
+
+		if (assignmentDatePicker.getValue() == null) {
+			dateErrorLabel.setVisible(true);
+		} else {
+			cal = new GregorianCalendar(assignmentDatePicker.getValue().getYear(),
+					assignmentDatePicker.getValue().getMonthValue() - 1,
+					assignmentDatePicker.getValue().getDayOfMonth(), 0, 0, 0);
+			if (!Advisor.isValidAssignmentDate(cal.getTime())) {
+				dateErrorLabel.setVisible(true);
+			}
+		}
+
+		if (nameField.getText().isEmpty() || !Advisor.isValidName(nameField.getText())) {
+			nameErrorLabel.setVisible(true);
+		}
+		if (firstNameField.getText().isEmpty() || !Advisor.isValidFirstName(firstNameField.getText())) {
+			firstNameErrorLabel.setVisible(true);
+		}
+		if (phoneNumberField.getText().isEmpty() || !Advisor.isValidPhoneNumber(phoneNumberField.getText())) {
+			phoneNumberErrorLabel.setVisible(true);
+		}
+		if (emailField.getText().isEmpty() || !Advisor.isValidEmail(emailField.getText())) {
+			emailErrorLabel.setVisible(true);
+		}
+
+		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
+			Agency currentAgency = null;
+			for (Agency a : this.listAgency) {
+				if (agencyCombo.getValue() == a.getName()) {
+					currentAgency = a;
+				}
+			}
+
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			em.getTransaction().begin();
+
+			Query q = em.createQuery("UPDATE Advisor a SET a.name=:name WHERE a.agency=:agency");
+			q.setParameter("agency", currentAgency);
+			q.setParameter("name", nameField.getText());
+			q.executeUpdate();
+
+			Query s = em.createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency");
+			s.setParameter("agency", currentAgency);
+			s.setParameter("firstName", firstNameField.getText());
+			s.executeUpdate();
+
+			Query d = em.createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency");
+			d.setParameter("agency", currentAgency);
+			d.setParameter("phoneNumber", phoneNumberField.getText());
+			d.executeUpdate();
+
+			Query f = em.createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency");
+			f.setParameter("agency", currentAgency);
+			f.setParameter("email", emailField.getText());
+			f.executeUpdate();
+
+			Query g = em.createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
+			g.setParameter("agency", currentAgency);
+			g.setParameter("assignmentDate", cal.getTime());
+			g.executeUpdate();
+
+			em.getTransaction().commit();
+
+			em.close();
+			
+			// TODO show a message that indicate the change was successful or
+			// not
+			// I just added the next line to show it, I can add a label in the view as well but 
+			//I don't see this as mandatory
+			applyButton.setDisable(true);
+
+		}
+
 	}
 }
