@@ -16,7 +16,7 @@ import util.Formater;
  * 
  */
 @Entity
-@Table(name="cpville")
+@Table(name = "cpville")
 @NamedQuery(name = "CpVille.findAll", query = "SELECT t FROM CpVille t")
 public class CpVille implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class CpVille implements Serializable {
 		check_city(city);
 		check_zip(zip);
 
-		//this.id = id;
+		// this.id = id;
 		this.zip = Formater.removeUsualSeparators(zip);
 		this.city = Formater.formatNameCase(city);
 	}
