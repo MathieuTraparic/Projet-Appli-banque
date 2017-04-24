@@ -170,8 +170,8 @@ public class AdvisorController implements Initializable {
 				// put the agencies obtained in the comboBox
 				for (Agency agency : listAgency) {
 					agencyCombo.getItems().add(agency.getName());
-					agencyCombo.getItems().add("OTHER");
 				}
+				agencyCombo.getItems().add("OTHER");
 			}
 			em.close();
 		}
@@ -318,33 +318,6 @@ public class AdvisorController implements Initializable {
 			q.setParameter("assignmentDate", cal.getTime());
 			q.executeUpdate();
 
-			// Not DRY enough
-			/*
-			 * Query s = em.
-			 * createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency"
-			 * ); s.setParameter("agency", currentAgency);
-			 * s.setParameter("firstName", firstNameField.getText());
-			 * s.executeUpdate();
-			 * 
-			 * Query d = em.
-			 * createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency"
-			 * ); d.setParameter("agency", currentAgency);
-			 * d.setParameter("phoneNumber", phoneNumberField.getText());
-			 * d.executeUpdate();
-			 * 
-			 * Query f = em.
-			 * createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency"
-			 * ); f.setParameter("agency", currentAgency);
-			 * f.setParameter("email", emailField.getText()); f.executeUpdate();
-			 * 
-			 * Query g = em.
-			 * createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency"
-			 * ); g.setParameter("agency", currentAgency);
-			 * g.setParameter("assignmentDate", cal.getTime());
-			 * g.executeUpdate();
-			 * 
-			 */
-
 			em.getTransaction().commit();
 
 			em.close();
@@ -366,6 +339,7 @@ public class AdvisorController implements Initializable {
 			em.persist(newAdvisor);
 			em.getTransaction().commit();
 			em.close();
+			
 			isANewAdvisor = false;
 			applyButton.setDisable(true);
 		}
