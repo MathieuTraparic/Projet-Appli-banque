@@ -41,22 +41,12 @@ public class Transaction implements Serializable {
 
 		checkValue(value);
 		checkDate(date);
-		//checkType(type);
 		checkDescription(description);
 
 		this.description = description;
-		//this.type = Formater.formatNameCase(type);
 		this.value = value;
 		this.date = date;
 	}
-	
-//	public String getType() {
-//		return type;
-//	}
-//
-//	public void setType(String type) {
-//		this.type = type;
-//	}
 
 	public String getDescription() {
 		return description;

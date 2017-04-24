@@ -3,6 +3,7 @@ package testModel;
 import java.util.Date;
 
 import org.junit.Test;
+import org.mockito.internal.matchers.Null;
 
 import model.Transaction;;
 
@@ -19,23 +20,15 @@ public class TestTransaction {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullTransactionDescription() {
-		Transaction transaction = new Transaction(null,"VIREMENT",1254d,date);
+		Transaction transaction = new Transaction(null,1254d,date);
 	}
-	/**
-	 * testing if the type is null
-	 */
-	@Test(expected = NullPointerException.class)
-	public void test_NullTransactionType() {
-		Transaction transaction = new Transaction("bar", null,1254d,date);
-	}
-
 	
 	/**
 	 * testing if the description is empty
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyTransactionDescription() {
-		Transaction transaction = new Transaction("","VIREMENT", 1254d, date);
+		Transaction transaction = new Transaction("", 1254d, date);
 	}
 	
 	/**
@@ -43,24 +36,18 @@ public class TestTransaction {
 	 */	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_TransactionValue() {
-		Transaction transaction = new Transaction("bar","VIREMENT", 0, date);
+		Transaction transaction = new Transaction("bar", 0, date);
 	}
 	
 	/**
-	 * testing if the type is empty
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void test_TransactionTypeEmpty() {
-		Transaction transaction = new Transaction("bar","", 1254d, date);
+	 * testing if the date is null
+	 */	
+	@Test(expected = NullPointerException.class)
+	public void test_NullTransactionDate() {
+		Transaction transaction = new Transaction("bar", -1254d, null);
 	}
 	
-	/**
-	 * testing if the type is not corresponding of one of the ArrayList TYPES in transaction model
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void test_TransactionType() {
-		Transaction transaction = new Transaction("bar","dfgsdffg", 1230d, date);
-	}
+
 	
 
 }
