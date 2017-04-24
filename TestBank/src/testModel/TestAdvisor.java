@@ -5,11 +5,13 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
 import model.Advisor;
-import model.Owner;;
+import model.Owner;
+import sun.security.jca.GetInstance;;
 
 public class TestAdvisor {
 	
@@ -92,7 +94,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)	
 	public void test_AdvisorAssignmentDate() {
-		Calendar cal = new GregorianCalendar(2017, Calendar.APRIL,24, 12, 31, 15);
+		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+2, Calendar.APRIL,24, 12, 31, 15);
 		Advisor advisor = new Advisor("bar","bar","0612121212","machin@truc.com", cal.getTime());
 	}
 	
@@ -103,13 +105,13 @@ public class TestAdvisor {
 	public void test_isValidAssignmentDate() {
 		
 	
-		Calendar cal = new GregorianCalendar(2017, Calendar.MARCH, 12, 12, 31, 15);
+		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.MARCH, 12, 12, 31, 15);
 		assertTrue(Advisor.isValidAssignmentDate(cal.getTime()));
-		 cal = new GregorianCalendar(2017, Calendar.APRIL, 12, 12, 31, 15);
+		 cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.APRIL, 12, 12, 31, 15);
 		assertTrue(Advisor.isValidAssignmentDate(cal.getTime()));
 		
-		 cal = new GregorianCalendar(2017, Calendar.APRIL, 14, 12, 31, 15);
-			assertFalse(Advisor.isValidAssignmentDate(cal.getTime()));
+		 cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+2, Calendar.APRIL, 14, 12, 31, 15);
+		assertFalse(Advisor.isValidAssignmentDate(cal.getTime()));
 	}
 	
 
