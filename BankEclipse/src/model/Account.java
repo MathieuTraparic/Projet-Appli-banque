@@ -42,12 +42,8 @@ public class Account implements Serializable {
 	public Account(String number, String description, double initialBalance,
 			 double overdraft, Double threshold){
 		
-		//TODO update methode for the ArrayListes
-		
 		check_number(number);
 		check_description(description);
-		
-		//check_type(type);
 		check_overdraft(overdraft);
 		
 		this.number = Formater.removeUsualSeparators(number);
@@ -56,7 +52,6 @@ public class Account implements Serializable {
 		this.overdraft = overdraft;
 		this.alertThreshold = threshold;
 
-		//this.accountType = type;
 	}
 	
 	
@@ -92,14 +87,6 @@ public class Account implements Serializable {
 			throw new IllegalArgumentException ("The account description can't be empty");
 		}
 	}
-	
-
-	
-//	private static void check_type(String type) throws IllegalArgumentException {
-//		if (type.isEmpty()){
-//			throw new IllegalArgumentException ("The account type can't be empty");
-//		}
-//	}
 	
 	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
 		if(!isValidOverdraft(overdraft)){

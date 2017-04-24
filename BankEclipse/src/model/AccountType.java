@@ -19,7 +19,16 @@ public class AccountType implements Serializable {
 	}
 
 	public AccountType(String type) {
+		
+		check_type(type);
+		
 		this.type = type;
+	}
+	
+	private static void check_type(String type) throws IllegalArgumentException {
+		if (type.isEmpty()) {
+			throw new IllegalArgumentException("The account type can't be empty");
+		}
 	}
 
 	@Id

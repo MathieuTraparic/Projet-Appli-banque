@@ -28,6 +28,9 @@ public class CountryCode implements Serializable {
 		if (countryCode.isEmpty()) {
 			throw new IllegalArgumentException("The country code can't be empty");
 		}
+		if (countryCode.length()>=3){
+			throw new IllegalArgumentException("The country code is only two letters");
+		}
 	}
 
 	@Id
