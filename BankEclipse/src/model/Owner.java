@@ -55,10 +55,9 @@ public class Owner implements Serializable {
 	
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd, String email, Address address) {
 		
-		//TODO 
-		/*check_pswd(pswd);
-		check_birthday(birthday);
-		check_email(email);*/
+		check_login(login);
+		check_pswd(pswd);
+		check_email(email);
 		
 		check_firstName(firstName);
 		check_birthday(birthday);
