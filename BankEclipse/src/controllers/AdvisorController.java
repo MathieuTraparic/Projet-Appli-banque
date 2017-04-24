@@ -66,7 +66,7 @@ public class AdvisorController implements Initializable {
 	private List<Agency> listAgency;
 	private ChangeListener<? super LocalDate> timeChange = null;
 	private List<Bank> allBanks;
-	private Boolean isANewAdvisor=false;
+	private Boolean isANewAdvisor = false;
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -98,7 +98,6 @@ public class AdvisorController implements Initializable {
 			}
 		};
 
-
 		// fetch all banks from DB
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.allBanks = em.createNamedQuery("Bank.findAll").getResultList();
@@ -126,7 +125,6 @@ public class AdvisorController implements Initializable {
 		assignmentDatePicker.setValue(null);
 
 		if (bankCombo.getValue() != null) {
-			// TODO WTF ? they have all but 1 value in common
 			this.secondaryFields.forEach(item -> item.setDisable(true));
 			agencyCombo.setDisable(false);
 		}
@@ -193,15 +191,14 @@ public class AdvisorController implements Initializable {
 			return;
 		}
 
-
 		if (agencyCombo.getValue().toString() == "OTHER") {
-			// call an addAgency popup 
+			// call an addAgency popup
 
 		} else {
 
 			// enable all fields
 			this.secondaryFields.forEach(item -> item.setDisable(false));
-			
+
 			Agency currentAgency = null;
 			for (Agency j : this.listAgency) {
 				if (agencyCombo.getValue().toString().equals(j.getName())) {
@@ -215,7 +212,7 @@ public class AdvisorController implements Initializable {
 			List<Advisor> l = a.setParameter("agency", currentAgency).getResultList();
 			em.close();
 
-			if (isANewAdvisor==false && !l.isEmpty()) {
+			if (isANewAdvisor == false && !l.isEmpty()) {
 				Advisor currentAdvisor = l.get(0);
 
 				nameField.setText(currentAdvisor.getName());
@@ -243,8 +240,8 @@ public class AdvisorController implements Initializable {
 				assignmentDatePicker.valueProperty().addListener(timeChange);
 
 			}
-			
-			else{
+
+			else {
 				isANewAdvisor = true;
 				applyButton.setDisable(false);
 			}
@@ -260,6 +257,7 @@ public class AdvisorController implements Initializable {
 
 		}
 	}
+
 	@FXML
 	void applyAdvisorChange(ActionEvent event) {
 
@@ -267,9 +265,9 @@ public class AdvisorController implements Initializable {
 		errorLabels.forEach(label -> label.setVisible(false));
 
 		Calendar cal = Calendar.getInstance();
-		
+
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		
+
 		Agency currentAgency = null;
 		for (Agency a : this.listAgency) {
 			if (agencyCombo.getValue() == a.getName()) {
@@ -305,50 +303,65 @@ public class AdvisorController implements Initializable {
 			emailErrorLabel.setVisible(true);
 		}
 
-		if (isANewAdvisor==false && errorLabels.stream().allMatch(label -> !label.isVisible())) {
-			
+		if (isANewAdvisor == false && errorLabels.stream().allMatch(label -> !label.isVisible())) {
+
 			em.getTransaction().begin();
 
-			Query q = em.createQuery("UPDATE Advisor a SET a.name=:name WHERE a.agency=:agency");
+			Query q = em.createQuery(
+					"UPDATE Advisor a SET a.name=:name, a.firstName=:firstName, a.phoneNumber=:phoneNumber, "
+							+ "a.email=:email, a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
 			q.setParameter("agency", currentAgency);
 			q.setParameter("name", nameField.getText());
+			q.setParameter("firstName", firstNameField.getText());
+			q.setParameter("phoneNumber", phoneNumberField.getText());
+			q.setParameter("email", emailField.getText());
+			q.setParameter("assignmentDate", cal.getTime());
 			q.executeUpdate();
 
-			Query s = em.createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency");
-			s.setParameter("agency", currentAgency);
-			s.setParameter("firstName", firstNameField.getText());
-			s.executeUpdate();
-
-			Query d = em.createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency");
-			d.setParameter("agency", currentAgency);
-			d.setParameter("phoneNumber", phoneNumberField.getText());
-			d.executeUpdate();
-
-			Query f = em.createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency");
-			f.setParameter("agency", currentAgency);
-			f.setParameter("email", emailField.getText());
-			f.executeUpdate();
-
-			Query g = em.createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency");
-			g.setParameter("agency", currentAgency);
-			g.setParameter("assignmentDate", cal.getTime());
-			g.executeUpdate();
+			// Not DRY enough
+			/*
+			 * Query s = em.
+			 * createQuery("UPDATE Advisor a SET a.firstName=:firstName WHERE a.agency=:agency"
+			 * ); s.setParameter("agency", currentAgency);
+			 * s.setParameter("firstName", firstNameField.getText());
+			 * s.executeUpdate();
+			 * 
+			 * Query d = em.
+			 * createQuery("UPDATE Advisor a SET a.phoneNumber=:phoneNumber WHERE a.agency=:agency"
+			 * ); d.setParameter("agency", currentAgency);
+			 * d.setParameter("phoneNumber", phoneNumberField.getText());
+			 * d.executeUpdate();
+			 * 
+			 * Query f = em.
+			 * createQuery("UPDATE Advisor a SET a.email=:email WHERE a.agency=:agency"
+			 * ); f.setParameter("agency", currentAgency);
+			 * f.setParameter("email", emailField.getText()); f.executeUpdate();
+			 * 
+			 * Query g = em.
+			 * createQuery("UPDATE Advisor a SET a.assignmentDate=:assignmentDate WHERE a.agency=:agency"
+			 * ); g.setParameter("agency", currentAgency);
+			 * g.setParameter("assignmentDate", cal.getTime());
+			 * g.executeUpdate();
+			 * 
+			 */
 
 			em.getTransaction().commit();
 
 			em.close();
-			
+
 			// TODO show a message that indicate the change was successful or
 			// not
-			// I just added the next line to show it, I can add a label in the view as well but 
-			//I don't see this as mandatory
+			// I just added the next line to show it, I can add a label in the
+			// view as well but
+			// I don't see this as mandatory
 			applyButton.setDisable(true);
 
 		}
-		if (isANewAdvisor==true && errorLabels.stream().allMatch(label -> !label.isVisible())){
-			Advisor newAdvisor = new Advisor(nameField.getText(), firstNameField.getText(), phoneNumberField.getText(), emailField.getText(), cal.getTime());
+		if (isANewAdvisor == true && errorLabels.stream().allMatch(label -> !label.isVisible())) {
+			Advisor newAdvisor = new Advisor(nameField.getText(), firstNameField.getText(), phoneNumberField.getText(),
+					emailField.getText(), cal.getTime());
 			newAdvisor.setAgency(currentAgency);
-			
+
 			em.getTransaction().begin();
 			em.persist(newAdvisor);
 			em.getTransaction().commit();
