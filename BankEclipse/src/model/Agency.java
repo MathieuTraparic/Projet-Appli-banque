@@ -88,7 +88,7 @@ public class Agency  implements Serializable{
 		return this.adress;
 	}
 
-	private void setAdress(Address adress) {
+	public void setAdress(Address adress) {
 		this.adress = adress;
 	}
 	@ManyToOne

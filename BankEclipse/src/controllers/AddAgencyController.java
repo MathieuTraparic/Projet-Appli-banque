@@ -24,6 +24,8 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 	@FXML public TextField agencyName, agencyCode;
 	@FXML public Label agencyNameError, agencyCodeError, agencyBankError;
 	@FXML public ComboBox<String> linkedBank;
+	private List<Bank> l = null;
+
 	
 	@FXML
 	void handleAddAgencyCancel(ActionEvent event) {
@@ -35,7 +37,7 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 	void handleAddAgencySubmit(ActionEvent event){
 		String name = agencyName.getText();
 		String code = agencyCode.getText();
-		String bankName = linkedBank.getValue();
+		String agencyBank = linkedBank.getValue();
 		agencyNameError.setVisible(false);
 		agencyCodeError.setVisible(false);
 		if(name.isEmpty()){
@@ -51,7 +53,10 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 			List<Agency> list = q.setParameter("name", name).getResultList();
 			TypedQuery<Agency> q2 = em.createQuery("SELECT c FROM Agency c WHERE c.counterCode=:code",Agency.class);
 			List<Agency> list2 = q2.setParameter("code", code).getResultList();
+			
 			em.close();
+			
+			
 			if(!list.isEmpty()){
 				agencyNameError.setText("This agency already exists");
 				agencyNameError.setVisible(true);
@@ -61,7 +66,17 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 				agencyCodeError.setVisible(true);
 			}
 			Stage stage = (Stage) addAgencySubmit.getScene().getWindow();
-			this.getData().setBank(new Bank(bankName));
+			
+			
+			Bank currentBank = null;
+			for (Bank bank : l) {
+				if (bank.getName().equals(this.linkedBank.getValue())) {
+					currentBank = bank;
+				}
+			}
+			
+			this.getData().setBank(currentBank);
+			
 			this.getData().setName(name);
 			this.getData().setCounterCode(code);
 			this.setAsValidated();
@@ -74,7 +89,7 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<Bank> l = em.createNamedQuery("Bank.findAll").getResultList();
+		this.l = em.createNamedQuery("Bank.findAll").getResultList();
 		em.close();
 		for(Bank b : l){
 			linkedBank.getItems().add(b.getName());

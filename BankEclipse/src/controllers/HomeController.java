@@ -13,13 +13,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.stage.WindowEvent;
+import model.Address;
 import model.Agency;
 import model.Bank;
+import model.CpVille;
 import util.PopWindow;
 
 public class HomeController implements Initializable{
 	
 	@FXML public ComboBox<String> bankChoiceHome;
+	
+	private Bank b = null;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
@@ -29,7 +33,7 @@ public class HomeController implements Initializable{
 			new EventHandler<WindowEvent>(){
 				@Override
 				public void handle(WindowEvent event){
-					Bank b = controller.getValidatedData();
+					b = controller.getValidatedData();
 					if (b!=null){
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
 						em.getTransaction().begin();
@@ -50,9 +54,21 @@ public class HomeController implements Initializable{
 				@Override
 				public void handle(WindowEvent event){
 					Agency a = controller.getValidatedData();
+					
+					CpVille zipCityAgency = new CpVille("123é", "trifouilli");
+					Address agencyAddress = new Address("azeaze", "azeazeaz");
+					
+					agencyAddress.setCpVille(zipCityAgency);
+					
 					if (a!=null){
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
+						
+						
+						a.setAdress(agencyAddress);
+						
 						em.getTransaction().begin();
+						em.persist(zipCityAgency);
+						em.persist(agencyAddress);
 						em.persist(a);
 						em.getTransaction().commit();
 						em.close();
