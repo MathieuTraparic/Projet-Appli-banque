@@ -3,9 +3,8 @@ package testModel;
 import java.util.Date;
 
 import org.junit.Test;
-import org.mockito.internal.matchers.Null;
 
-import model.Transaction;;
+import model.Transaction;
 
 /**
  * @author user

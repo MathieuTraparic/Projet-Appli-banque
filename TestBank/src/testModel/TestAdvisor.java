@@ -1,17 +1,15 @@
 package testModel;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import org.junit.Test;
 
-import model.Advisor;
-import model.Owner;
-import sun.security.jca.GetInstance;;
+import model.Advisor;;
 
 public class TestAdvisor {
 	

@@ -2,7 +2,6 @@ package testModel;
 
 import org.junit.Test;
 
-
 import model.Bank;
 
 public class TestBank {
