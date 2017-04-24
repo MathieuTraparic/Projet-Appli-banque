@@ -196,7 +196,26 @@ public class AdvisorController implements Initializable {
 		}
 
 		if (agencyCombo.getValue().toString() == "OTHER") {
-			// call an addAgency popup
+			PopupController<Agency> controller = PopupController.load(
+					VistaNavigator.ADD_AGENCY,false);
+			controller.show(new Agency("name","counterCode"),
+				new EventHandler<WindowEvent>(){
+					@Override
+					public void handle(WindowEvent event){
+						Agency a = controller.getValidatedData();
+
+						//Actually I don't get the idea why we do this here and not when we submit in the popup window
+						if (a!=null){
+							EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		
+							em.getTransaction().begin();
+							em.persist(a);
+							em.getTransaction().commit();
+							em.close();
+							agencyCombo.getItems().add(agencyCombo.getItems().size() - 1, a.getName());
+						}
+				}	
+			});
 
 		} else {
 

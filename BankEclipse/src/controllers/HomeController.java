@@ -54,21 +54,12 @@ public class HomeController implements Initializable{
 				@Override
 				public void handle(WindowEvent event){
 					Agency a = controller.getValidatedData();
-					
-					CpVille zipCityAgency = new CpVille("123é", "trifouilli");
-					Address agencyAddress = new Address("azeaze", "azeazeaz");
-					
-					agencyAddress.setCpVille(zipCityAgency);
-					
+
+					//Actually I don't get the idea why we do this here and not when we submit in the popup window
 					if (a!=null){
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-						
-						
-						a.setAdress(agencyAddress);
-						
+	
 						em.getTransaction().begin();
-						em.persist(zipCityAgency);
-						em.persist(agencyAddress);
 						em.persist(a);
 						em.getTransaction().commit();
 						em.close();
