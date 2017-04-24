@@ -117,7 +117,7 @@ public class AdvisorController implements Initializable {
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
 
-		this.applyButton.setDisable(true);
+		applyButton.setDisable(true);
 		nameField.clear();
 		firstNameField.clear();
 		phoneNumberField.clear();
@@ -179,6 +179,8 @@ public class AdvisorController implements Initializable {
 
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
+		
+		errorLabels.forEach(label -> label.setVisible(false));
 
 		applyButton.setDisable(true);
 		nameField.clear();
@@ -186,6 +188,8 @@ public class AdvisorController implements Initializable {
 		phoneNumberField.clear();
 		emailField.clear();
 		assignmentDatePicker.setValue(null);
+		
+		isANewAdvisor = false;
 
 		if (agencyCombo.getValue() == null) {
 			return;
