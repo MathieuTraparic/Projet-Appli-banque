@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -17,6 +18,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.sun.jmx.snmp.Timestamp;
+
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 
 @Entity
@@ -35,10 +40,38 @@ public class Transaction implements Serializable {
 	private TargetTransaction targetTransaction;
 	private PeriodicTransaction periodicTransaction;
 	
-	
+//
+//    private SimpleObjectProperty<Date> dateP;
+//    private StringProperty name;
+    
 	private Transaction(){
 		
 	}
+  
+
+//    public Transaction(String name, Date dateP) {
+//        this.name = new SimpleStringProperty(name);
+//        this.dateP = new SimpleObjectProperty(dateP);
+//    }
+	
+    public Transaction(String description, Date date) {
+        this.description = description;
+        this.date = date;
+    }
+
+
+//    public StringProperty nameProperty() {
+//        return description;
+//    }
+//
+//    public String getDateAsString() {
+//        SimpleDateFormat smp = new SimpleDateFormat("dd MMMMM yyyy");
+//        String strDate = (null == date|| null == date.get())
+//                ? "" : smp.format(date.get());
+//       
+//        return strDate;
+//    }
+
 
 	@Override
 	public String toString() {

@@ -16,13 +16,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DefaultStringConverter;
@@ -32,6 +37,8 @@ import model.Account;
 import model.PeriodicTransaction;
 import model.Transaction;
 import model.TransactionType;
+import util.DatePickerCell;
+
 
 public class TransactionController extends AccountSpecificController {
 
@@ -40,7 +47,7 @@ public class TransactionController extends AccountSpecificController {
 	@FXML
 	public TableColumn<Transaction, String> descriptionCol;
 	@FXML
-	public TableColumn<Transaction, String> typeCol;
+	public TableColumn<Transaction, TransactionType> typeCol;
 	@FXML
 	public TableColumn<Transaction, Double> valueCol;
 	@FXML
@@ -54,28 +61,48 @@ public class TransactionController extends AccountSpecificController {
 	@FXML
 	private Button editTransaction;
 
-	private ObservableList<Transaction> dataTransactionRow;
-	private List<TransactionType> typeList;
-	private ObservableList<String> typeStringCombo;
-	
+	private ObservableList<Transaction> dataTransactionRow=null;
+	private ArrayList<TransactionType> typeList;
+	private ObservableList<TransactionType> typeStringList;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
-		//type.setItems(FXCollections.observableArrayList(new ArrayList<TransactionType>()));
+		
+		typeList = new ArrayList<>();
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		this.typeList = em.createNamedQuery("TransactionType.findAll").getResultList();
+		List<TransactionType> l = em.createNamedQuery("TransactionType.findAll").getResultList();
 		em.close();
 
 
+
+		if (l!=null){
+			l.forEach(tr -> typeList.add(tr));
+		}	
+		
+		typeStringList = FXCollections.observableList(typeList);
+		
 		this.addTransaction.setDisable(true);
 
 		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 		dateCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+		typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
 		
-		//typeCol.setCellFactory(ComboBoxListCell.forListView(new DefaultStringConverter(),typeList));
+
+		dataTransactionRow = FXCollections.observableArrayList();
+		
+		/*
+		 * AUTHOR : http://blog.physalix.com/javafx8-render-a-datepicker-cell-in-a-tableview/
+		 */
+		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+            @Override
+            public TableCell call(TableColumn p) {
+                DatePickerCell datePick = new DatePickerCell(dataTransactionRow);
+                return datePick;
+            }
+        });
 				
 //		dateCol.setOnEditCommit(
 //				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
@@ -96,6 +123,7 @@ public class TransactionController extends AccountSpecificController {
 		if (this.accountCombo.getValue() != null) {
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
+
 		}
 
 	}
