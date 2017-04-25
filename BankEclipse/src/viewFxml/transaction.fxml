@@ -14,29 +14,29 @@
 		<AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="800.0">
 			<children>
 				<ComboBox layoutX="397.0" layoutY="37.0" prefWidth="150.0" promptText="Choose your filter" AnchorPane.topAnchor="37.0" />
-				<TableView fx:id="tableTransaction" layoutX="15.0" layoutY="88.0" prefHeight="314.0" prefWidth="765.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="88.0">
+				<TableView fx:id="tableTransaction" editable="true" layoutX="15.0" layoutY="88.0" prefHeight="314.0" prefWidth="765.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="88.0">
 					<columns>
-						<TableColumn prefWidth="429.0" text="Description of the transaction">
-							<cellValueFactory>
+						<TableColumn prefWidth="270.0" text="Description of the transaction">
+							<cellValueFactory >
 								<PropertyValueFactory property="Description" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn prefWidth="114.0" text="Type">
+						<TableColumn prefWidth="123.0" text="Type">
 							<cellValueFactory>
 								<PropertyValueFactory property="TransactionType" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn prefWidth="89.0" text="Date">
+						<TableColumn prefWidth="79.0" text="Date">
 							<cellValueFactory>
 								<PropertyValueFactory property="Date" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn prefWidth="132.0" text="Value">
+						<TableColumn prefWidth="122.0" text="Value">
 							<cellValueFactory>
 								<PropertyValueFactory property="Value" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn prefWidth="132.0" text="Periodic">
+						<TableColumn prefWidth="170.0" text="Periodic">
 							<cellValueFactory>
 								<PropertyValueFactory property="IsPeriodicTransaction" />
 							</cellValueFactory>

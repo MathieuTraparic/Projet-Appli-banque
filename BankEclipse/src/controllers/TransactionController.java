@@ -10,39 +10,42 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.WindowEvent;
 import model.Account;
-import model.Category;
 import model.PeriodicTransaction;
-import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
-import util.PopWindow;
 
 public class TransactionController extends AccountSpecificController {
 
 	@FXML
 	public TableView<Transaction> tableTransaction;
-/*	@FXML
+	@FXML
 	public TableColumn<Transaction, String> description;
 	@FXML
 	public TableColumn<TransactionType, String> type;
 	@FXML
 	public TableColumn<Transaction, Double> value;
 	@FXML
-	public TableColumn<Transaction, Date> date;*/
+	public TableColumn<Transaction, Date> date;
+	@FXML
+	public TableColumn<Transaction, PeriodicTransaction> periodic;
+	
 	@FXML
 	private Button addTransaction;
-	private List<Transaction> tableTransactionData;
+	
+	private ObservableList<Transaction> dataTransactionRow =
+            FXCollections.observableArrayList(
+            		new Transaction("Nouvelle transaction", 0.01, Calendar.getInstance().getTime(), new TransactionType("sd")));
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -66,8 +69,6 @@ public class TransactionController extends AccountSpecificController {
 
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
-		
-		
 		
 		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
 
@@ -108,6 +109,14 @@ public class TransactionController extends AccountSpecificController {
 	
 	@FXML
 	void editTransaction(ActionEvent event){
+		
+		Transaction selectedTransaction = tableTransaction.getSelectionModel().getSelectedItem();
+		
+		if (selectedTransaction != null){
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			
+			em.close();
+		}
 		
 	}
 }
