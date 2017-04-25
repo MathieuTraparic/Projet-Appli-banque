@@ -5,63 +5,50 @@
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.cell.PropertyValueFactory ?>
 
-<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controllers.TransactionController">
+<Pane prefHeight="474.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TransactionController">
 	<children>
-		<AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0"
-			prefHeight="450.0" prefWidth="800.0">
+		<AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="800.0">
 			<children>
-				<ComboBox layoutX="397.0" layoutY="37.0" prefWidth="150.0"
-					promptText="Choose your filter" AnchorPane.topAnchor="37.0" />
-				<TableView fx:id="tableTransaction" layoutX="15.0"
-					layoutY="88.0" prefHeight="333.0" prefWidth="765.0"
-					AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="15.0"
-					AnchorPane.rightAnchor="20.0">
+				<ComboBox layoutX="397.0" layoutY="37.0" prefWidth="150.0" promptText="Choose your filter" AnchorPane.topAnchor="37.0" />
+				<TableView fx:id="tableTransaction" layoutX="15.0" layoutY="88.0" prefHeight="314.0" prefWidth="765.0" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="88.0">
 					<columns>
-						<TableColumn fx:id="description" prefWidth="429.0"
-							text="Description of the transaction">
+						<TableColumn prefWidth="429.0" text="Description of the transaction">
 							<cellValueFactory>
-								<PropertyValueFactory property='Description' />
+								<PropertyValueFactory property="Description" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="type" prefWidth="114.0" text="Type">
+						<TableColumn prefWidth="114.0" text="Type">
 							<cellValueFactory>
-								<PropertyValueFactory property="Type" />
+								<PropertyValueFactory property="TransactionType" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="date" prefWidth="89.0" text="Date">
+						<TableColumn prefWidth="89.0" text="Date">
 							<cellValueFactory>
 								<PropertyValueFactory property="Date" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="value" prefWidth="132.0" text="Value">
+						<TableColumn prefWidth="132.0" text="Value">
 							<cellValueFactory>
 								<PropertyValueFactory property="Value" />
 							</cellValueFactory>
 						</TableColumn>
+						<TableColumn prefWidth="132.0" text="Periodic">
+							<cellValueFactory>
+								<PropertyValueFactory property="IsPeriodicTransaction" />
+							</cellValueFactory>
+						</TableColumn>
 					</columns>
 				</TableView>
-				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0" prefHeight="25.0"
-					prefWidth="157.0" promptText="Choose your account"
-					AnchorPane.topAnchor="37.0" />
-				<ComboBox fx:id="bankCombo" layoutX="16.0" layoutY="37.0" prefHeight="25.0"
-					prefWidth="157.0" promptText="Choose your bank"
-					AnchorPane.leftAnchor="16.0" />
-				<ScrollBar layoutX="780.0" layoutY="88.0" orientation="VERTICAL"
-					prefHeight="333.0" prefWidth="14.0" />
-				<Button fx:id="addTransaction" layoutX="670.0" layoutY="37.0"
-					mnemonicParsing="false" onAction="#handleAddTransaction" text="Add a transaction"
-					AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0" />
-				<Button layoutX="16.0" layoutY="424.0" mnemonicParsing="false"
-					text="Previous page" AnchorPane.bottomAnchor="1.0"
-					AnchorPane.leftAnchor="15.0" />
-				<Button layoutX="708.0" layoutY="424.0" mnemonicParsing="false"
-					text="Next page" AnchorPane.bottomAnchor="1.0"
-					AnchorPane.rightAnchor="21.0" />
+				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />
+				<ComboBox fx:id="bankCombo" layoutX="16.0" layoutY="37.0" prefHeight="25.0" prefWidth="157.0" promptText="Choose your bank" AnchorPane.leftAnchor="16.0" />
+				<ScrollBar layoutX="780.0" layoutY="88.0" orientation="VERTICAL" prefHeight="333.0" prefWidth="14.0" />
+				<Button fx:id="addTransaction" disable="true" layoutX="670.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleAddTransaction" text="Add a transaction" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0" />
+				<Button fx:id="removeTransaction" disable="true" layoutX="16.0" layoutY="424.0" mnemonicParsing="false" onAction="#removeTransaction" text="Remove transaction" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="15.0" />
+				<Button fx:id="editTransaction" disable="true" layoutX="679.0" layoutY="421.0" mnemonicParsing="false" onAction="#editTransaction" text="Edit transaction" AnchorPane.bottomAnchor="-2.0" AnchorPane.rightAnchor="32.0" />
 			</children>
 		</AnchorPane>
 	</children>

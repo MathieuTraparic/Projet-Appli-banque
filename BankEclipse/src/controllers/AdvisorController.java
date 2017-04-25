@@ -21,10 +21,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
@@ -179,7 +181,7 @@ public class AdvisorController implements Initializable {
 
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
-		
+
 		errorLabels.forEach(label -> label.setVisible(false));
 
 		applyButton.setDisable(true);
@@ -187,8 +189,8 @@ public class AdvisorController implements Initializable {
 		firstNameField.clear();
 		phoneNumberField.clear();
 		emailField.clear();
-		assignmentDatePicker.setValue(null);
-		
+		assignmentDatePicker.setValue(LocalDate.now());
+
 		isANewAdvisor = false;
 
 		if (agencyCombo.getValue() == null) {
@@ -196,25 +198,24 @@ public class AdvisorController implements Initializable {
 		}
 
 		if (agencyCombo.getValue().toString() == "OTHER") {
-			PopupController<Agency> controller = PopupController.load(
-					VistaNavigator.ADD_AGENCY,false);
-			controller.show(new Agency("name","counterCode"),
-				new EventHandler<WindowEvent>(){
-					@Override
-					public void handle(WindowEvent event){
-						Agency a = controller.getValidatedData();
+			PopupController<Agency> controller = PopupController.load(VistaNavigator.ADD_AGENCY, false);
+			controller.show(new Agency("name", "counterCode"), new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent event) {
+					Agency a = controller.getValidatedData();
 
-						//Actually I don't get the idea why we do this here and not when we submit in the popup window
-						if (a!=null){
-							EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		
-							em.getTransaction().begin();
-							em.persist(a);
-							em.getTransaction().commit();
-							em.close();
-							agencyCombo.getItems().add(agencyCombo.getItems().size() - 1, a.getName());
-						}
-				}	
+					// Actually I don't get the idea why we do this here and not
+					// when we submit in the popup window
+					if (a != null) {
+						EntityManager em = VistaNavigator.getEmf().createEntityManager();
+
+						em.getTransaction().begin();
+						em.persist(a);
+						em.getTransaction().commit();
+						em.close();
+						agencyCombo.getItems().add(agencyCombo.getItems().size() - 1, a.getName());
+					}
+				}
 			});
 
 		} else {
@@ -261,6 +262,24 @@ public class AdvisorController implements Initializable {
 				};
 
 				assignmentDatePicker.valueProperty().addListener(timeChange);
+
+				final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+					@Override
+					public DateCell call(final DatePicker datePicker) {
+						return new DateCell() {
+							@Override
+							public void updateItem(LocalDate item, boolean empty) {
+								super.updateItem(item, empty);
+
+								if (item.isAfter(LocalDate.now())) {
+									setDisable(true);
+									setStyle("-fx-background-color: #ffc0cb;");
+								}
+							}
+						};
+					}
+				};
+				assignmentDatePicker.setDayCellFactory(dayCellFactory);
 
 			}
 
@@ -362,7 +381,7 @@ public class AdvisorController implements Initializable {
 			em.persist(newAdvisor);
 			em.getTransaction().commit();
 			em.close();
-			
+
 			isANewAdvisor = false;
 			applyButton.setDisable(true);
 		}
