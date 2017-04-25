@@ -51,6 +51,8 @@ public class AddAccountController extends PopupController<Account> implements In
 	private List<Label> errorLabels;
 	private List<Account> list;
 	private List<Agency> a = null;
+	private List<CountryCode> l = null;
+	private List<AccountType> ac = null;
 
 	@FXML
 	void handleAddAccountCancel(ActionEvent event) {
@@ -101,17 +103,48 @@ public class AddAccountController extends PopupController<Account> implements In
 		}
 		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			TypedQuery<Account> q = em.createQuery("SELECT num FROM Account num " + "WHERE num.number=:number",
+			TypedQuery<Account> q = em.createQuery("SELECT num FROM Account num WHERE num.number=:number",
 					Account.class);
 			list = q.setParameter("number", number).getResultList();
-			em.close();
 			if (!list.isEmpty()) {
 				accountNumberError.setVisible(true);
 			} else {
 				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();
+				
+				int ind = 0;
+				for (CountryCode countrycode : l) {
+					if (countrycode.getCode() == countryCode) {
+						CountryCode code = countrycode;
+						this.getData().setCountryCode(code);
+					}
+					ind++;
+				}
+				if (ind == l.size()) {
+					CountryCode code = new CountryCode(countryCode);
+					em.getTransaction().begin();
+					em.persist(code);
+					em.getTransaction().commit();
+				}
 
-				CountryCode code = new CountryCode(countryCode);
+				ind = 0;
+				for (AccountType accountype : ac) {
+					if (accountype.getType() == accountType) {
+						AccountType type = accountype;
+						this.getData().setAccountType(type);
+					}
+					ind++;
+				}
+				if (ind == l.size()) {
+					AccountType type = new AccountType(accountType);
+					this.getData().setAccountType(type);
+					em.getTransaction().begin();
+					em.persist(type);
+					em.getTransaction().commit();
+				}
+				
 				AccountType type = new AccountType(accountType);
+
+				em.persist(type);
 
 				Agency currentAgency = null;
 				for (Agency agency : a) {
@@ -127,23 +160,22 @@ public class AddAccountController extends PopupController<Account> implements In
 				this.getData().setInitialBalance(Double.parseDouble(balance));
 				this.getData().setOverdraft(Double.parseDouble(overdraft));
 				this.getData().setAlertThreshold(Double.parseDouble(threshold));
-				this.getData().setAccountType(type);
-				this.getData().setCountryCode(code);
 				this.getData().setAgency(currentAgency);
 				this.getData().setCreationDate(date);
 				this.setAsValidated();
 
 				stage.close();
 			}
+			em.close();
 		}
 	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<CountryCode> l = em.createNamedQuery("CountryCode.findAll").getResultList();
-		List<AccountType> j = em.createNamedQuery("AccountType.findAll").getResultList();
-		List<Agency> ag = em.createNamedQuery("Agency.findAll").getResultList();
+		this.l = em.createNamedQuery("CountryCode.findAll").getResultList();
+		this.ac = em.createNamedQuery("AccountType.findAll").getResultList();
+		this.a = em.createNamedQuery("Agency.findAll").getResultList();
 		em.close();
 
 		for (CountryCode countrycode : l) {
@@ -151,12 +183,12 @@ public class AddAccountController extends PopupController<Account> implements In
 		}
 		addAccountCountryCode.getItems().add("OTHER");
 
-		for (AccountType type : j) {
+		for (AccountType type : ac) {
 			addAccountType.getItems().add(type.getType());
 		}
 		addAccountType.getItems().add("OTHER");
 
-		for (Agency agencyName : ag) {
+		for (Agency agencyName : a) {
 			addAgency.getItems().add(agencyName.getName());
 		}
 		addAgency.getItems().add("OTHER");
@@ -181,6 +213,5 @@ public class AddAccountController extends PopupController<Account> implements In
 	@Override
 	protected void initializePopupFields(Account data) {
 		// TODO Auto-generated method stub
-
 	}
 }
