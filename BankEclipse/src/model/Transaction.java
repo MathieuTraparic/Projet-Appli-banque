@@ -56,6 +56,21 @@ public class Transaction implements Serializable {
 		this.date = date;
 		this.transactionType = transactionType;
 	}
+	
+	// TODO avoid repetion with the previous controller
+	public Transaction(String description, double value, Date date, TransactionType transactionType, PeriodicTransaction periodicTransaction ) {
+
+		checkValue(value);
+		checkDate(date);
+		checkDescription(description);
+		// TODO chek the periodic transaction
+
+		this.description = description;
+		this.value = value;
+		this.date = date;
+		this.transactionType = transactionType;
+		this.periodicTransaction = periodicTransaction;
+	}
 
 	public String getDescription() {
 		return description;
@@ -161,12 +176,12 @@ public class Transaction implements Serializable {
 		return this.periodicTransaction;
 	}
 	
-	public String IsPeriodicTransaction(){
+	public String getTextPeriodicTransaction(){
 		if (this.periodicTransaction!=null){
 			return "Yes";
 		}
 		else{
-			return "";
+			return "nope";
 		}
 	}
 
