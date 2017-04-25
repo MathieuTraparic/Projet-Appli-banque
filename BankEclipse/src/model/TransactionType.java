@@ -45,8 +45,14 @@ public class TransactionType implements Serializable {
 		return this.description;
 	}
 
-	private void setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+
+	@Override
+	public String toString() {
+		return description;
 	}
 
 }

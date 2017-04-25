@@ -1,4 +1,4 @@
-	package model;
+package model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -37,7 +37,12 @@ public class Transaction implements Serializable {
 		
 	}
 
-	public Transaction(String description, double value, Date date) {
+	@Override
+	public String toString() {
+		return description;
+	}
+
+	public Transaction(String description, double value, Date date, TransactionType transactionType) {
 
 		checkValue(value);
 		checkDate(date);
@@ -46,6 +51,7 @@ public class Transaction implements Serializable {
 		this.description = description;
 		this.value = value;
 		this.date = date;
+		this.transactionType = transactionType;
 	}
 
 	public String getDescription() {
@@ -109,11 +115,11 @@ public class Transaction implements Serializable {
 	}
 	@ManyToOne
 	@JoinColumn(name="idAccount")
-	private Account getAccount() {
+	public Account getAccount() {
 		return this.account;
 	}
 
-	private void setAccount(Account account) {
+	public void setAccount(Account account) {
 		this.account = account;
 	}
 	@ManyToOne
@@ -128,21 +134,21 @@ public class Transaction implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="idCategory")
-	private Category getCategory() {
+	public Category getCategory() {
 		return this.category;
 	}
 
-	private void setCategory(Category category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 	
 	@ManyToOne
 	@JoinColumn(name="idTargetTransaction")
-	private TargetTransaction getTargetTransaction() {
+	public TargetTransaction getTargetTransaction() {
 		return this.targetTransaction;
 	}
 
-	private void setTargetTransaction(TargetTransaction targetTransaction) {
+	public void setTargetTransaction(TargetTransaction targetTransaction) {
 		this.targetTransaction = targetTransaction;
 	}
 	
