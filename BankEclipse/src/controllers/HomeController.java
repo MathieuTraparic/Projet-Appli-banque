@@ -13,11 +13,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.stage.WindowEvent;
-import model.Address;
+import model.Account;
 import model.Agency;
 import model.Bank;
-import model.CpVille;
-import util.PopWindow;
 
 public class HomeController implements Initializable{
 	
@@ -70,7 +68,25 @@ public class HomeController implements Initializable{
 
 	@FXML
 	void handleAddAccountHome(ActionEvent event) throws IOException {
-		PopWindow addAccountPop = new PopWindow(VistaNavigator.ADD_ACCOUNT, true);
+		PopupController<Account> controller = PopupController.load(
+				VistaNavigator.ADD_ACCOUNT,false);
+		controller.show(new Account("number","description", 0d, -150d, 0d),
+			new EventHandler<WindowEvent>(){
+				@Override
+				public void handle(WindowEvent event){
+					Account a = controller.getValidatedData();
+
+					//Actually I don't get the idea why we do this here and not when we submit in the popup window
+					if (a!=null){
+						EntityManager em = VistaNavigator.getEmf().createEntityManager();
+	
+						em.getTransaction().begin();
+						em.persist(a);
+						em.getTransaction().commit();
+						em.close();
+					}
+			}	
+		});
 	}
 
 	@FXML
