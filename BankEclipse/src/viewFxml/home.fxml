@@ -11,34 +11,59 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.cell.PropertyValueFactory ?>
 
-<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+<Pane xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="controllers.HomeController">
 	<children>
-		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="807.0">
+		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0"
+			prefWidth="807.0">
 			<children>
-				<Button layoutX="10.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddBankHome" text="Add a bank" AnchorPane.leftAnchor="10.0" />
-				<Button layoutX="207.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddAccountHome" text="Add an account" AnchorPane.leftAnchor="207.0" />
-				<ComboBox fx:id="bankCombo" layoutX="323.0" layoutY="47.0" onAction="#handleBankChoiceHome" prefWidth="150.0" promptText="Choose your bank" AnchorPane.leftAnchor="323.0" />
-				<TableView fx:id="accountView" layoutX="188.0" layoutY="88.0" prefHeight="108.0" prefWidth="790.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="7.0">
+				<Button layoutX="10.0" layoutY="47.0" mnemonicParsing="false"
+					onAction="#handleAddBankHome" text="Add a bank"
+					AnchorPane.leftAnchor="10.0" />
+				<Button layoutX="207.0" layoutY="47.0" mnemonicParsing="false"
+					onAction="#handleAddAccountHome" text="Add an account"
+					AnchorPane.leftAnchor="207.0" />
+				<ComboBox fx:id="bankCombo" layoutX="323.0" layoutY="47.0"
+					onAction="#handleBankChoiceHome" prefWidth="150.0" promptText="Choose your bank"
+					AnchorPane.leftAnchor="323.0" />
+				<TableView fx:id="accountView" layoutX="188.0" layoutY="88.0"
+					prefHeight="108.0" prefWidth="790.0" AnchorPane.leftAnchor="10.0"
+					AnchorPane.rightAnchor="7.0">
 					<columns>
-						<TableColumn prefWidth="657.0" text="Account list" />
-						<TableColumn prefWidth="132.0" text="Balance" />
+						<TableColumn fx:id="descriptionCol" prefWidth="657.0"
+							text="Account list">
+							<cellValueFactory>
+								<PropertyValueFactory property="Description" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn fx:id="balanceCol" prefWidth="132.0"
+							text="Balance">
+							<cellValueFactory>
+								<PropertyValueFactory property="Balance" />
+							</cellValueFactory>
+						</TableColumn>
 					</columns>
 				</TableView>
-            <Label layoutX="341.0" layoutY="20.0" text="Welcome Title Name" AnchorPane.leftAnchor="341.0" AnchorPane.rightAnchor="337.0" AnchorPane.topAnchor="20.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <BarChart fx:id="barChart" layoutX="23.0" layoutY="205.0" prefHeight="240.0" prefWidth="315.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </BarChart>
-            <Button fx:id="addAgencyHome" layoutX="100.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAddAgencyHome" text="Add an agency" />
+				<Label layoutX="341.0" layoutY="20.0" text="Welcome Title Name"
+					AnchorPane.leftAnchor="341.0" AnchorPane.rightAnchor="337.0"
+					AnchorPane.topAnchor="20.0">
+					<font>
+						<Font size="14.0" />
+					</font>
+				</Label>
+				<BarChart fx:id="barChart" layoutX="23.0" layoutY="205.0"
+					prefHeight="240.0" prefWidth="315.0">
+					<xAxis>
+						<CategoryAxis side="BOTTOM" />
+					</xAxis>
+					<yAxis>
+						<NumberAxis side="LEFT" />
+					</yAxis>
+				</BarChart>
+				<Button fx:id="addAgencyHome" layoutX="100.0" layoutY="47.0"
+					mnemonicParsing="false" onAction="#handleAddAgencyHome" text="Add an agency" />
 			</children>
 		</AnchorPane>
 	</children>

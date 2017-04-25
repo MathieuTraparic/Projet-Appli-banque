@@ -2,7 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,9 +37,11 @@ public class Account implements Serializable {
 	private Date creationDate;
 	private Agency agency;
 	private AccountType accountType;
+	private List<Transaction> transactions;
 	
 	
 	private Account(){
+		
 	}
 	
 	public Account(String number, String description, double initialBalance,
@@ -55,13 +60,7 @@ public class Account implements Serializable {
 	}
 	
 	
-	public String getAccountNumber(){
-		return this.number;
-	}
 
-	public String getAccountDescription(){
-		return this.description;
-	}
 	
 	public double getInitialBalance(){
 		return this.initialBalance;
@@ -199,6 +198,31 @@ public class Account implements Serializable {
 		
 		return this.description;
 	}
+	
+	//bi-directional many-to-one association to transaction
+	@OneToMany(mappedBy="Account")
+	private List<Transaction> getTransactions() {
+		return this.transactions;
+	}
+
+	private void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	/**
+	 * @return the current balance calculated from the initial
+	 * and all transaction values
+	 * TODO cache the value calculated
+	 */
+	public double getBalance() {
+		double balance = this.initialBalance ;
+		for (Transaction t : this.transactions) {
+			balance+=t.getValue();
+		}
+		return balance;
+	}
+
+
 	
 	
 	
