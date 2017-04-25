@@ -23,7 +23,7 @@ public class RIBController extends AccountSpecificController {
 			return;
 		}
 		Account a = this.accountCombo.getValue();
-		this.iban.setText(IBANHandler.genrateIBAN(a.getAccountNumber(), a.getAgency().getCounterCode(), a.getAgency().getBank().getCode(), a.getCountryCode().getCode()));
+		this.iban.setText(IBANHandler.genrateIBAN(a.getNumber(), a.getAgency().getCounterCode(), a.getAgency().getBank().getCode(), a.getCountryCode().getCode()));
 		
 	}
 

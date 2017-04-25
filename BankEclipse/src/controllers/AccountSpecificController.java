@@ -23,44 +23,29 @@ import model.Bank;
 import model.Owner;
 
 
-public abstract class AccountSpecificController implements Initializable {
-	@FXML
-	ComboBox<Bank> bankCombo;
+/**
+ *	Handle the initialization of a account ComboBox specific to the logged Owner
+ *	TODO Wrapper design pattern ?
+ */
+public abstract class AccountSpecificController extends BankSelector {
+	
 	@FXML
 	ComboBox<Account> accountCombo;
-	protected HashSet<Bank> banks;
-	protected HashSet<Account> accounts;
+	
+	
 
 	/* (non-Javadoc)
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		super.initialize(location, resources);
 		this.accountCombo.setDisable(true);
-
-		Owner loggedOwner = VistaNavigator.getInstance().getLoggedOwner();
-
-		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-
-		// get the accounts from logged owner
-		this.accounts = new HashSet<>();
-		TypedQuery<List> q = em.createQuery("SELECT o.accounts FROM Owner o WHERE o=:loggedOwner", List.class);
-		accounts.addAll((Collection<? extends Account>) q.setParameter("loggedOwner", loggedOwner).getResultList());
-		
-		//get a set of agencies from the accounts
-		HashSet<Agency> agencies = new HashSet<>();
-		accounts.forEach(account -> agencies.add(account.getAgency()));
-		
-		//get a set of banks from the agencies
-		this.banks = new HashSet<>();
-		agencies.forEach(agency -> banks.add(agency.getBank()));
-
-		this.bankCombo.getItems().addAll(banks);
 
 		this.bankCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
 			//get a bank specific subset of all the account from the owner 
 			HashSet<Account> accountFromCurrentBank = new HashSet<>();
-			this.accounts.forEach(account-> {
+			this.accountsOwned.forEach(account-> {
 				if(account.getAgency().getBank().equals(bankCombo.getValue())){
 					accountFromCurrentBank.add(account);
 				}

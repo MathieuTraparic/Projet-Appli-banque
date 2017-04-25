@@ -3,11 +3,15 @@ package controllers;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+
+import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,27 +19,40 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import model.Account;
+import model.Bank;
+import model.Category;
+import model.PeriodicTransaction;
+import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
+import util.DateConverter;
 
 public class AddTransactionController extends PopupController<Transaction> implements Initializable {
 
 	@FXML
 	public Button transactionCancel, transactionSubmit;
 	@FXML
-	public TextField description, value, date;
+	public TextField descriptionTextField, valueTextField;
+	@FXML
+	public DatePicker datePicker;
 	@FXML
 	public Label descriptionError, typeError, valueError, dateError;
 	@FXML
-	public ComboBox<String> type;
-	@FXML
-	private ObservableList<Transaction> data;
-	TransactionType transactionType;
+	public ComboBox<TransactionType> typeCombo;
 	
+	//@FXML
+	//private ObservableList<Transaction> data;
+
+	private List<TransactionType> transactionType;
+	private List<Label> errorLabels;
+	private TransactionType otherType;
+	
+
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
 		Stage stage = (Stage) transactionCancel.getScene().getWindow();
@@ -44,48 +61,75 @@ public class AddTransactionController extends PopupController<Transaction> imple
 
 	@FXML
 	void handleTransactionSubmit(ActionEvent event) throws ParseException {
-		String des = description.getText();
-		String val = value.getText();
-		String d = date.getText();
-		String typ = type.getValue();
-		SimpleDateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy");
+
+		errorLabels.forEach(label -> label.setVisible(false));
+
+		String des = descriptionTextField.getText();
+		Double val = Double.parseDouble(valueTextField.getText());
+		Date date = DateConverter.LocalDate2Date(datePicker.getValue());
+		String typ = typeCombo.getValue().getDescription();
+
 
 		if (des.isEmpty()) {
-			descriptionError.setText("Description can't be empty");
+			descriptionError.setVisible(true);
 		}
-		if (val.isEmpty()) {
-			valueError.setText("Description can't be empty");
+		if (val == null || val.equals("0")) {
+			valueError.setVisible(true);
 		}
-		if (d.isEmpty()) {
-			dateError.setText("Description can't be empty");
+		if (date == null) {
+			dateError.setVisible(true);
+		}
+		if (typ.isEmpty()) {
+			typeError.setVisible(true);
+		} 
+		if (typeCombo.getValue().toString() == "OTHER") {
+			// call an Add transaction type popup	
+			
 		} else {
-			Date dt = dateParser.parse(d);
+			
 			Stage stage = (Stage) transactionCancel.getScene().getWindow();
+			
+			TransactionType transactionType = typeCombo.getValue();
+					
+			this.getData().setDate(date);
+			this.getData().setValue(val);;
 			this.getData().setDescription(des);
-			this.getData().setDate(dt);
-			this.getData().setValue(Double.parseDouble(val));
-			transactionType = new TransactionType(typ);
 			this.getData().setTransactionType(transactionType);
+
 			this.setAsValidated();
 			stage.close();
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		List<TransactionType> l = em.createNamedQuery("TransactionType.findAll").getResultList();
+		transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
 		em.close();
-		for(TransactionType t : l){
-			type.getItems().add(t.getDescription());
+
+		otherType = new TransactionType("OTHER");
+
+		for (TransactionType t : transactionType) {
+			typeCombo.getItems().add(t);
 		}
-		type.getItems().add("OTHER");
+		typeCombo.getItems().add(otherType);
+
+		this.errorLabels = new ArrayList<Label>() {
+
+			{
+				add(descriptionError);
+				add(dateError);
+				add(valueError);
+				add(typeError);
+
+			}
+		};
+		errorLabels.forEach(label -> label.setVisible(false));
 	}
 
 	@Override
 	protected void initializePopupFields(Transaction data) {
-		
+
 	}
-	
+
 }
