@@ -41,7 +41,7 @@
 						<TableColumn fx:id="balanceCol" prefWidth="132.0"
 							text="Balance">
 							<cellValueFactory>
-								<PropertyValueFactory property="InitialBalance" />
+								<PropertyValueFactory property="Balance" />
 							</cellValueFactory>
 						</TableColumn>
 					</columns>
