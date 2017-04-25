@@ -12,12 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.stage.WindowEvent;
 import model.Account;
 import model.Agency;
 import model.Bank;
-<<<<<<< HEAD
-=======
+
 import util.PopWindow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
@@ -70,22 +70,20 @@ public class HomeController extends BankSelector implements Initializable{
 
 	@FXML
 	void handleAddAccountHome(ActionEvent event) throws IOException {
-		PopupController<Account> controller = PopupController.load(
-				VistaNavigator.ADD_ACCOUNT,false);
+		PopupController<Account> controller = PopupController.load(VistaNavigator.ADD_ACCOUNT,true);
 		controller.show(new Account("number","description", 0d, -150d, 0d),
 			new EventHandler<WindowEvent>(){
 				@Override
 				public void handle(WindowEvent event){
-					Account a = controller.getValidatedData();
+					Account account = controller.getValidatedData();
 
 					//Actually I don't get the idea why we do this here and not when we submit in the popup window
-					if (a!=null){
+					if (account!=null){
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-	
 						em.getTransaction().begin();
-						em.persist(a);
+						em.persist(account);
 						em.getTransaction().commit();
-						em.close();
+						em.close();	
 					}
 			}	
 		});

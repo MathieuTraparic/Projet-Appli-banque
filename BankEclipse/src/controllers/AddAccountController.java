@@ -26,32 +26,43 @@ import util.DateConverter;
 
 public class AddAccountController extends PopupController<Account> implements Initializable {
 
-	@FXML public Button addAccountCancel, addAccountSubmit;
-	@FXML public TextField addAccountNumber, addAccountDescription;
-	@FXML public TextField addAccountInitBalance, addAccountOverdraft;
-	@FXML public TextField addAccountThreshold;
-	@FXML public ComboBox<String> addAccountType;
-	@FXML public ComboBox<String> addAccountCountryCode;
-	@FXML public ComboBox<String> addAgency;
-	@FXML public DatePicker creationDate;
-	@FXML public Label accountNumberError, accountDescriptionError, accountBalanceError; 
-	@FXML public Label accountOverdraftError, accountAlertError, accountCountryCodeError;
-	@FXML public Label accountTypeError, accountAgencyError, accountDateError;
+	@FXML
+	public Button addAccountCancel, addAccountSubmit;
+	@FXML
+	public TextField addAccountNumber, addAccountDescription;
+	@FXML
+	public TextField addAccountInitBalance, addAccountOverdraft;
+	@FXML
+	public TextField addAccountThreshold;
+	@FXML
+	public ComboBox<String> addAccountType;
+	@FXML
+	public ComboBox<String> addAccountCountryCode;
+	@FXML
+	public ComboBox<String> addAgency;
+	@FXML
+	public DatePicker creationDate;
+	@FXML
+	public Label accountNumberError, accountDescriptionError, accountBalanceError;
+	@FXML
+	public Label accountOverdraftError, accountAlertError, accountCountryCodeError;
+	@FXML
+	public Label accountTypeError, accountAgencyError, accountDateError;
 	private List<Label> errorLabels;
 	private List<Account> list;
-	private List<Agency> a;
-	
+	private List<Agency> a = null;
+
 	@FXML
-	void handleAddAccountCancel(ActionEvent event){
+	void handleAddAccountCancel(ActionEvent event) {
 		Stage stage = (Stage) addAccountCancel.getScene().getWindow();
-	    stage.close();
+		stage.close();
 	}
 
 	@FXML
-	void handleAddAccountSubmit(ActionEvent event){
-		
+	void handleAddAccountSubmit(ActionEvent event) {
+
 		errorLabels.forEach(label -> label.setVisible(false));
-		
+
 		String number = addAccountNumber.getText();
 		String description = addAccountDescription.getText();
 		String balance = addAccountInitBalance.getText();
@@ -60,55 +71,57 @@ public class AddAccountController extends PopupController<Account> implements In
 		String accountType = addAccountType.getValue();
 		String countryCode = addAccountCountryCode.getValue();
 		String linkedAgency = addAgency.getValue();
-		
-		if(number.isEmpty()){
+
+		if (number.isEmpty()) {
 			accountNumberError.setVisible(true);
 		}
-		if(description.isEmpty()){
+		if (description.isEmpty()) {
 			accountDescriptionError.setVisible(true);
 		}
-		if(balance.isEmpty()){
+		if (balance.isEmpty()) {
 			accountBalanceError.setVisible(true);
 		}
-		if(overdraft.isEmpty()){
+		if (overdraft.isEmpty()) {
 			accountOverdraftError.setVisible(true);
 		}
-		if(threshold.isEmpty()){
+		if (threshold.isEmpty()) {
 			accountAlertError.setVisible(true);
 		}
-		if(accountType.isEmpty()){
+		if (accountType.isEmpty()) {
 			accountTypeError.setVisible(true);
 		}
-		if(countryCode.isEmpty()){
+		if (countryCode.isEmpty()) {
 			accountTypeError.setVisible(true);
 		}
-		if(linkedAgency.isEmpty()){
+		if (linkedAgency.isEmpty()) {
 			accountAgencyError.setVisible(true);
 		}
-		
-		if(errorLabels.stream().allMatch(label -> label.isVisible())){
+		if (creationDate == null) {
+			accountDateError.setVisible(true);
+		}
+		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			TypedQuery<Account> q = em.createQuery("SELECT num FROM Account num "
-					+ "WHERE num.number=:number", Account.class);
+			TypedQuery<Account> q = em.createQuery("SELECT num FROM Account num " + "WHERE num.number=:number",
+					Account.class);
 			list = q.setParameter("number", number).getResultList();
-			if(!list.isEmpty()){
+			em.close();
+			if (!list.isEmpty()) {
 				accountNumberError.setVisible(true);
-			}
-			else{
+			} else {
 				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();
-				
+
 				CountryCode code = new CountryCode(countryCode);
 				AccountType type = new AccountType(accountType);
-				
+
 				Agency currentAgency = null;
-				for(Agency agency : a){
-					if(agency.getName().equals(this.addAgency.getValue())){
+				for (Agency agency : a) {
+					if (agency.getName().equals(this.addAgency.getValue())) {
 						currentAgency = agency;
 					}
 				}
-				
+
 				Date date = DateConverter.LocalDate2Date(creationDate.getValue());
-				
+
 				this.getData().setNumber(number);
 				this.getData().setDescription(description);
 				this.getData().setInitialBalance(Double.parseDouble(balance));
@@ -119,7 +132,7 @@ public class AddAccountController extends PopupController<Account> implements In
 				this.getData().setAgency(currentAgency);
 				this.getData().setCreationDate(date);
 				this.setAsValidated();
-				
+
 				stage.close();
 			}
 		}
@@ -130,25 +143,25 @@ public class AddAccountController extends PopupController<Account> implements In
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		List<CountryCode> l = em.createNamedQuery("CountryCode.findAll").getResultList();
 		List<AccountType> j = em.createNamedQuery("AccountType.findAll").getResultList();
-		List<Agency> a = em.createNamedQuery("Agency.findAll").getResultList();
+		List<Agency> ag = em.createNamedQuery("Agency.findAll").getResultList();
 		em.close();
-		
-		for (CountryCode countrycode : l){
+
+		for (CountryCode countrycode : l) {
 			addAccountCountryCode.getItems().add(countrycode.getCode());
 		}
 		addAccountCountryCode.getItems().add("OTHER");
-		
-		for (AccountType type : j){
+
+		for (AccountType type : j) {
 			addAccountType.getItems().add(type.getType());
 		}
 		addAccountType.getItems().add("OTHER");
-		
-		for (Agency agency : a){
-			addAgency.getItems().add(agency.getName());
+
+		for (Agency agencyName : ag) {
+			addAgency.getItems().add(agencyName.getName());
 		}
-		addAccountType.getItems().add("OTHER");
-		
-		this.errorLabels = new ArrayList<Label>(){
+		addAgency.getItems().add("OTHER");
+
+		this.errorLabels = new ArrayList<Label>() {
 			private static final long serialVersionUID = 6275258056275001066L;
 			{
 				add(accountNumberError);
@@ -168,6 +181,6 @@ public class AddAccountController extends PopupController<Account> implements In
 	@Override
 	protected void initializePopupFields(Account data) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
