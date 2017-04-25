@@ -41,7 +41,6 @@ public class Account implements Serializable {
 	
 	
 	private Account(){
-		
 	}
 	
 	public Account(String number, String description, double initialBalance,

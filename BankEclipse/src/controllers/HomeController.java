@@ -24,8 +24,6 @@ public class HomeController extends BankSelector {
 
 
 	@FXML TableView<Account> accountView;
-	@FXML TableColumn<Account, String> descriptionCol;
-	@FXML TableColumn<Account, Double> balanceCol;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
