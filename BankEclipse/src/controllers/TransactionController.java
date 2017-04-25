@@ -20,7 +20,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.stage.WindowEvent;
+import javafx.util.StringConverter;
+import javafx.util.converter.DateStringConverter;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 import model.Account;
 import model.PeriodicTransaction;
 import model.Transaction;
@@ -43,6 +48,9 @@ public class TransactionController extends AccountSpecificController {
 
 	@FXML
 	private Button addTransaction;
+	
+	@FXML
+	private Button editTransaction;
 
 	private ObservableList<Transaction> dataTransactionRow;
 
@@ -59,8 +67,18 @@ public class TransactionController extends AccountSpecificController {
 		});
 		
 		descriptionCol.setCellFactory(TextFieldTableCell.forTableColumn());
-		//valueCol.setCellValueFactory(Tex););
-		//valueCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+		valueCol.setCellFactory(
+			    TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		dateCol.setCellFactory(
+				TextFieldTableCell.forTableColumn(new DateStringConverter()));
+
+		dateCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
+				.setDate(t.getNewValue()));
+		
+		valueCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
+				.setValue(t.getNewValue()));
+		
 		descriptionCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
 				.setDescription(t.getNewValue()));
 		
@@ -121,9 +139,12 @@ public class TransactionController extends AccountSpecificController {
 	@FXML
 	void editTransaction(ActionEvent event) {
 
-		Transaction selectedTransaction = tableTransaction.getSelectionModel().getSelectedItem();
 
-		if (selectedTransaction != null) {
+		if (tableTransaction.getSelectionModel().getSelectedItem() != null) {
+			
+			editTransaction.setDisable(false);
+			
+			
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
 			em.close();
