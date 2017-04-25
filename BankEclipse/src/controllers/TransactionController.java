@@ -48,12 +48,11 @@ public class TransactionController extends AccountSpecificController {
 
 	@FXML
 	private Button addTransaction;
-	
+
 	@FXML
 	private Button editTransaction;
 
 	private ObservableList<Transaction> dataTransactionRow;
-
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -62,32 +61,24 @@ public class TransactionController extends AccountSpecificController {
 
 		this.addTransaction.setDisable(true);
 
-		tableTransaction.getColumns().forEach(col -> {
-			col.setEditable(true);
-		});
-		
-		descriptionCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		dateCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
 
-		valueCol.setCellFactory(
-			    TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		dateCol.setCellFactory(
-				TextFieldTableCell.forTableColumn(new DateStringConverter()));
+//		dateCol.setOnEditCommit(
+//				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
+//
+//		valueCol.setOnEditCommit(
+//				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
+//
+//		descriptionCol.setOnEditCommit(
+//				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDescription(t.getNewValue()));
 
-		dateCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setDate(t.getNewValue()));
-		
-		valueCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setValue(t.getNewValue()));
-		
-		descriptionCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setDescription(t.getNewValue()));
-		
 		tableTransaction.setItems(dataTransactionRow);
 	}
 
 	@FXML
 	void accountCombo(ActionEvent event) throws IOException {
-		
+
 		this.addTransaction.setDisable(this.accountCombo.getValue() == null);
 		if (this.accountCombo.getValue() != null) {
 			this.tableTransaction
@@ -139,12 +130,10 @@ public class TransactionController extends AccountSpecificController {
 	@FXML
 	void editTransaction(ActionEvent event) {
 
-
 		if (tableTransaction.getSelectionModel().getSelectedItem() != null) {
-			
+
 			editTransaction.setDisable(false);
-			
-			
+
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
 			em.close();

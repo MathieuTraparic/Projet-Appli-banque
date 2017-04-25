@@ -43,12 +43,12 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 
 	@FXML
 	void handleAddAgencySubmit(ActionEvent event) {
-		
+
 		errorLabels.forEach(label -> label.setVisible(false));
 
 		String name = agencyName.getText();
 		String code = agencyCode.getText();
-		String line1 = addressLine1.getText(); 
+		String line1 = addressLine1.getText();
 		String line2 = addressLine2.getText();
 		String city = cityName.getText();
 		String zip = zipCode.getText();
@@ -70,14 +70,14 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 			zipCodeError.setVisible(true);
 		}
 
-		if (errorLabels.stream().allMatch(label -> !label.isVisible()))  {
+		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			TypedQuery<Agency> q = em.createQuery("SELECT n FROM Agency n "
-					+ "WHERE n.name=:name", Agency.class);
+			TypedQuery<Agency> q = em.createQuery("SELECT n FROM Agency n " + "WHERE n.name=:name", Agency.class);
 			list = q.setParameter("name", name).getResultList();
-			
-			//I don't think it is necessary to check both name and code but if yes, then we need to check everything I would say
-			//list = q.setParameter("code", code).getResultList();
+
+			// I don't think it is necessary to check both name and code but if
+			// yes, then we need to check everything I would say
+			// list = q.setParameter("code", code).getResultList();
 
 			if (!list.isEmpty()) {
 				agencyNameError.setVisible(true);
@@ -93,17 +93,16 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 						currentBank = bank;
 					}
 				}
-				
+
 				CpVille zipCityAgency = new CpVille(zip, city);
 				Address agencyAddress = new Address(line1, line2);
-				
+
 				agencyAddress.setCpVille(zipCityAgency);
-				
+
 				em.getTransaction().begin();
 				em.persist(zipCityAgency);
 				em.persist(agencyAddress);
 				em.getTransaction().commit();
-				
 
 				this.getData().setBank(currentBank);
 				this.getData().setAdress(agencyAddress);
