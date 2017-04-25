@@ -55,13 +55,7 @@ public class Account implements Serializable {
 	}
 	
 	
-	public String getAccountNumber(){
-		return this.number;
-	}
 
-	public String getAccountDescription(){
-		return this.description;
-	}
 	
 	public double getInitialBalance(){
 		return this.initialBalance;

@@ -28,8 +28,8 @@ import model.Owner;
 public abstract class BankSelector implements Initializable{
 	@FXML
 	ComboBox<Bank> bankCombo;
-	protected HashSet<Bank> banks;
-	protected HashSet<Account> accounts;
+	protected HashSet<Bank> banksOwned;
+	protected HashSet<Account> accountsOwned;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -38,19 +38,19 @@ public abstract class BankSelector implements Initializable{
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
 		// get the accounts from logged owner
-		this.accounts = new HashSet<>();
+		this.accountsOwned = new HashSet<>();
 		TypedQuery<List> q = em.createQuery("SELECT o.accounts FROM Owner o WHERE o=:loggedOwner", List.class);
-		accounts.addAll((Collection<? extends Account>) q.setParameter("loggedOwner", loggedOwner).getResultList());
+		accountsOwned.addAll((Collection<? extends Account>) q.setParameter("loggedOwner", loggedOwner).getResultList());
 		
 		//get a set of agencies from the accounts
 		HashSet<Agency> agencies = new HashSet<>();
-		accounts.forEach(account -> agencies.add(account.getAgency()));
+		accountsOwned.forEach(account -> agencies.add(account.getAgency()));
 		
 		//get a set of banks from the agencies
-		this.banks = new HashSet<>();
-		agencies.forEach(agency -> banks.add(agency.getBank()));
+		this.banksOwned = new HashSet<>();
+		agencies.forEach(agency -> banksOwned.add(agency.getBank()));
 
-		this.bankCombo.getItems().addAll(banks);
+		this.bankCombo.getItems().addAll(banksOwned);
 		
 	}
 

@@ -45,7 +45,7 @@ public abstract class AccountSpecificController extends BankSelector {
 		this.bankCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
 			//get a bank specific subset of all the account from the owner 
 			HashSet<Account> accountFromCurrentBank = new HashSet<>();
-			this.accounts.forEach(account-> {
+			this.accountsOwned.forEach(account-> {
 				if(account.getAgency().getBank().equals(bankCombo.getValue())){
 					accountFromCurrentBank.add(account);
 				}

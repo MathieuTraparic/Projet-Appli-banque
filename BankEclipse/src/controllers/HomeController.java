@@ -2,30 +2,30 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
 import javafx.stage.WindowEvent;
 import model.Account;
-import model.Address;
 import model.Agency;
 import model.Bank;
-import model.CpVille;
 import util.PopWindow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
 
 public class HomeController extends BankSelector {
 
 
-	private Bank b = null;
 	@FXML TableView<Account> accountView;
+	@FXML TableColumn<Account, String> descriptionCol;
+	@FXML TableColumn<Account, Double> balanceCol;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
@@ -33,11 +33,11 @@ public class HomeController extends BankSelector {
 		controller.show(new Bank("name", "code"), new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				b = controller.getValidatedData();
-				if (b != null) {
+				Bank addedBank = controller.getValidatedData();
+				if (addedBank != null) {
 					EntityManager em = VistaNavigator.getEmf().createEntityManager();
 					em.getTransaction().begin();
-					em.persist(b);
+					em.persist(addedBank);
 					em.getTransaction().commit();
 					em.close();
 				}
@@ -74,7 +74,16 @@ public class HomeController extends BankSelector {
 
 	@FXML
 	void handleBankChoiceHome(ActionEvent event) {
-
+		//get a bank specific subset of all the account from the owner 
+		List<Account>accountFromCurrentBank= new ArrayList<Account>();
+		
+		this.accountsOwned.forEach(account-> {
+			if(account.getAgency().getBank().equals(bankCombo.getValue())){
+				accountFromCurrentBank.add(account);
+			}
+		});
+		this.accountView.setItems(FXCollections.observableList(accountFromCurrentBank));
+		
 	}
 
 	@Override
