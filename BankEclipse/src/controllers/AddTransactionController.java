@@ -99,6 +99,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 
 			this.setAsValidated();
 			stage.close();
+			System.out.println(date);
 		}
 	}
 

@@ -73,7 +73,7 @@ public class Transaction implements Serializable {
 		this.value = value;
 	}
 	
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.DATE)
 	@Column(name="dateTransaction")
 	public Date getDate() {
 		return date;

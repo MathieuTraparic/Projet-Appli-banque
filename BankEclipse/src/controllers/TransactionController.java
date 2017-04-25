@@ -81,6 +81,8 @@ public class TransactionController extends AccountSpecificController {
 
 							Account account = accountCombo.getValue();
 							
+							System.out.println(transaction.getDate());
+							
 							transaction.setAccount(account);
 							transaction.setCategory(null);
 							transaction.setPeriodicTransaction(null);
@@ -97,5 +99,15 @@ public class TransactionController extends AccountSpecificController {
 
 					}
 				});
+	}
+	
+	@FXML
+	void removeTransaction(ActionEvent event){
+		
+	}
+	
+	@FXML
+	void editTransaction(ActionEvent event){
+		
 	}
 }
