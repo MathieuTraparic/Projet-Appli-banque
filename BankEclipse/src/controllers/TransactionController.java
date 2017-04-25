@@ -18,12 +18,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import javafx.util.converter.DateStringConverter;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import model.Account;
@@ -38,7 +40,7 @@ public class TransactionController extends AccountSpecificController {
 	@FXML
 	public TableColumn<Transaction, String> descriptionCol;
 	@FXML
-	public TableColumn<Transaction, TransactionType> typeCol;
+	public TableColumn<Transaction, String> typeCol;
 	@FXML
 	public TableColumn<Transaction, Double> valueCol;
 	@FXML
@@ -53,17 +55,28 @@ public class TransactionController extends AccountSpecificController {
 	private Button editTransaction;
 
 	private ObservableList<Transaction> dataTransactionRow;
-
+	private List<TransactionType> typeList;
+	private ObservableList<String> typeStringCombo;
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
+		//type.setItems(FXCollections.observableArrayList(new ArrayList<TransactionType>()));
+
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		this.typeList = em.createNamedQuery("TransactionType.findAll").getResultList();
+		em.close();
+
 
 		this.addTransaction.setDisable(true);
 
 		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 		dateCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
-
+		
+		//typeCol.setCellFactory(ComboBoxListCell.forListView(new DefaultStringConverter(),typeList));
+				
 //		dateCol.setOnEditCommit(
 //				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
 //
