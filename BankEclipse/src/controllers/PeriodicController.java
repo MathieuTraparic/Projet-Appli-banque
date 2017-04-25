@@ -1,7 +1,9 @@
 package controllers;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -15,33 +17,42 @@ public class PeriodicController extends AccountSpecificController {
 
 	@FXML
 	TableView<PeriodicTransaction> viewPeriodic;
-	HashSet<Transaction> transactionsOwned;
-	HashSet<PeriodicTransaction> periodicTransactionsOwned;
+	List<Transaction> transactionsOwned;
+	List<PeriodicTransaction> displayedPTs;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 
-		this.transactionsOwned = new HashSet<>();
-		this.accountsOwned.forEach(account -> transactionsOwned.addAll(account.getTransactions()));
-
-		this.periodicTransactionsOwned = new HashSet<>();
-		transactionsOwned.forEach(t -> {
-			if(t.getPeriodicTransaction()!=null)
-				periodicTransactionsOwned.add(t.getPeriodicTransaction());
-		});
+		this.transactionsOwned = new ArrayList<>();
+		
+		this.displayedPTs = new ArrayList<>();
+		this.viewPeriodic.setItems(FXCollections.observableArrayList(this.displayedPTs));
+		
+		
 
 	}
 
 	@FXML
 	public void accountChosen(ActionEvent event) {
-		this.viewPeriodic.getItems().clear();
-		for (PeriodicTransaction pt : periodicTransactionsOwned) {
-				System.out.println(pt.getFrequency());
+		if(this.accountCombo.getValue()==null){
+			return;
 		}
-
-		this.viewPeriodic.setItems(FXCollections.observableArrayList(
-				this.periodicTransactionsOwned.toArray(new PeriodicTransaction[periodicTransactionsOwned.size()])));
+		//get an account specific subset
+		
+		this.transactionsOwned = this.accountCombo.getValue().getTransactions();
+		//the set disallow duplicates
+		HashSet<PeriodicTransaction >pts = new HashSet<>();
+		for (Transaction t : this.transactionsOwned) {
+			if(t.getPeriodicTransaction()!=null){
+				pts.add(t.getPeriodicTransaction());
+			}
+				
+		}
+		this.displayedPTs.clear();
+		this.displayedPTs.addAll(pts);
+		this.viewPeriodic.setItems(FXCollections.observableArrayList(this.displayedPTs));
+		
 	}
 
 }

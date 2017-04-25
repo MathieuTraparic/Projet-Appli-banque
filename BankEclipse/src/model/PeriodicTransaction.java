@@ -77,9 +77,9 @@ public class PeriodicTransaction implements Serializable {
 //	}
 
 	public void setFrequency(Frequency frequency) {
-		// TODO Auto-generated method stub
-		
+		this.frequency =frequency;	
 	}
+	
 	@ManyToOne
 	@JoinColumn(name="idFreq")
 	public Frequency getFrequency() {
