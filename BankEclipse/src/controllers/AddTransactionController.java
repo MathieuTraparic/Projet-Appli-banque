@@ -66,7 +66,8 @@ public class AddTransactionController extends PopupController<Transaction> imple
 
 		String des = descriptionTextField.getText();
 		Double val = Double.parseDouble(valueTextField.getText());
-		Date date = DateConverter.LocalDate2Date(datePicker.getValue());
+		Date date = new Date ();
+		date = DateConverter.LocalDate2Date(datePicker.getValue());
 		String typ = typeCombo.getValue().getDescription();
 
 
@@ -98,6 +99,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 
 			this.setAsValidated();
 			stage.close();
+			System.out.println(date);
 		}
 	}
 

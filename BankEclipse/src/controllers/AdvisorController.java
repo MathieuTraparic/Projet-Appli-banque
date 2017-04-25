@@ -21,10 +21,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import model.Advisor;
 import model.Agency;
 import model.Bank;
@@ -187,7 +189,7 @@ public class AdvisorController implements Initializable {
 		firstNameField.clear();
 		phoneNumberField.clear();
 		emailField.clear();
-		assignmentDatePicker.setValue(null);
+		assignmentDatePicker.setValue(LocalDate.now());
 
 		isANewAdvisor = false;
 
@@ -260,6 +262,24 @@ public class AdvisorController implements Initializable {
 				};
 
 				assignmentDatePicker.valueProperty().addListener(timeChange);
+
+				final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+					@Override
+					public DateCell call(final DatePicker datePicker) {
+						return new DateCell() {
+							@Override
+							public void updateItem(LocalDate item, boolean empty) {
+								super.updateItem(item, empty);
+
+								if (item.isAfter(LocalDate.now())) {
+									setDisable(true);
+									setStyle("-fx-background-color: #ffc0cb;");
+								}
+							}
+						};
+					}
+				};
+				assignmentDatePicker.setDayCellFactory(dayCellFactory);
 
 			}
 
