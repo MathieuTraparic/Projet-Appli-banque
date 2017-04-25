@@ -200,7 +200,7 @@ public class Account implements Serializable {
 	
 	//bi-directional many-to-one association to transaction
 	@OneToMany(mappedBy="Account")
-	private List<Transaction> getTransactions() {
+	public List<Transaction> getTransactions() {
 		return this.transactions;
 	}
 

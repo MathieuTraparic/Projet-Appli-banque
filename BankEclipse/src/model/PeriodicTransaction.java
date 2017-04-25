@@ -136,5 +136,13 @@ public class PeriodicTransaction implements Serializable {
 
 		return transaction;
 	}
+	
+	public String getDescription(){
+		if(this.transactions.isEmpty()){
+			return "empty transaction list";
+		}else{
+			return this.transactions.get(0).getDescription();
+		}
+	}
 
 }

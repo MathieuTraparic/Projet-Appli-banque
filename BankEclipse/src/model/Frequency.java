@@ -51,6 +51,11 @@ public class Frequency implements Serializable {
 		this.unit = unit;
 	}
 
+	@Override
+	public String toString() {
+		return unit;
+	}
+
 	// //bi-directional many-to-one association to Periodictransaction
 	// @OneToMany(mappedBy="frequency")
 	// public List<PeriodicTransaction> getPeriodictransactions() {
