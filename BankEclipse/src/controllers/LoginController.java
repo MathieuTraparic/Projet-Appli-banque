@@ -74,6 +74,8 @@ public class LoginController implements Initializable {
 		this.signIn.setDisable(false);
 		this.login.setText(DEFAULT_LOGIN);
 		this.pswd.setText(DEFAULT_PASSWORD);
+		//First ping of the DB, dirty fix to connect ealier
+		VistaNavigator.getEmf().createEntityManager().close();
 		
 		//disable the sign in button if one of the fields is empty
 		ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
