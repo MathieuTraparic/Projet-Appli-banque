@@ -5,15 +5,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.WindowEvent;
@@ -29,25 +32,43 @@ public class TransactionController extends AccountSpecificController {
 
 	@FXML
 	public TableView<Transaction> tableTransaction;
-	@FXML
+/*	@FXML
 	public TableColumn<Transaction, String> description;
 	@FXML
 	public TableColumn<TransactionType, String> type;
 	@FXML
 	public TableColumn<Transaction, Double> value;
 	@FXML
-	public TableColumn<Transaction, Date> date;
+	public TableColumn<Transaction, Date> date;*/
+	@FXML
+	private Button addTransaction;
+	private List<Transaction> tableTransactionData;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
+		
+		this.addTransaction.setDisable(true);
+		
+		this.accountCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
+			this.addTransaction.setDisable(this.accountCombo.getValue() == null );
+			
+			if (this.accountCombo.getValue() != null){
+			this.tableTransaction.setItems(FXCollections.observableList(
+					this.accountCombo.getValue().getTransactions()));
+			}
+		});
+
 	}
+	
+	
 
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
-		// PopWindow addTransactionPop = new
-		// PopWindow("/viewFxml/addTransaction.fxml",true);
+		
+		
+		
 		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
 
 		controller.show(new Transaction("Nouvelle transaction", 0.01, Calendar.getInstance().getTime(), new TransactionType("sd")),

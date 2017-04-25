@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.sun.jmx.snmp.Timestamp;
 
 
 @Entity
@@ -156,6 +159,15 @@ public class Transaction implements Serializable {
 	@JoinColumn(name="idPeriodicTransaction")
 	public PeriodicTransaction getPeriodicTransaction() {
 		return this.periodicTransaction;
+	}
+	
+	public String IsPeriodicTransaction(){
+		if (this.periodicTransaction!=null){
+			return "Yes";
+		}
+		else{
+			return "";
+		}
 	}
 
 	public void setPeriodicTransaction(PeriodicTransaction periodicTransaction) {
