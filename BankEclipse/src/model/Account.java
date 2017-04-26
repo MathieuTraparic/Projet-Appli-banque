@@ -3,8 +3,11 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -218,6 +221,27 @@ public class Account implements Serializable {
 			balance+=t.getValue();
 		}
 		return balance;
+	}
+	
+	/**
+	 * @return a list of balance at a date
+	 * 
+	 */
+	public List<Entry<Double,Date>> getBalanceHistory() {
+		double balance = this.initialBalance ;
+		ArrayList<Transaction> sortedTransactions = new ArrayList<>(this.transactions);
+		//sort transaction by chronological order
+		sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
+		 List<Entry<Double,Date>> result = new ArrayList<>();
+		 //add a first entry at account creation
+		 result.add(new SimpleImmutableEntry<Double, Date>(balance, this.creationDate));
+		 
+		 //add all balance evolutions
+		 for (Transaction t : sortedTransactions) {
+			 balance+=t.getValue();
+			result.add(new SimpleImmutableEntry<Double, Date>(balance,t.getDate()));
+		}
+		return result;
 	}
 
 

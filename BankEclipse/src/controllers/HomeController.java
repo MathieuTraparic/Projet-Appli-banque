@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
@@ -18,15 +19,19 @@ import model.Account;
 import model.Agency;
 import model.Bank;
 
-import util.PopWindow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart.Series;
 
 
 public class HomeController extends BankSelector implements Initializable{
 
 
 	@FXML TableView<Account> accountView;
+	@FXML LineChart chart;
+	@FXML NumberAxis yAxis;
+	@FXML NumberAxis xAxis;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
@@ -106,5 +111,16 @@ public class HomeController extends BankSelector implements Initializable{
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		super.initialize(fxmlFileLocation, resources);
+		//on selectedAccount
+		accountView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+			if(newValue!=null){
+				Account selectedAccount = this.accountView.getSelectionModel().getSelectedItem();
+				//populate the lineChart
+				
+				Series<Double, Date> serie;
+				//serie.getData().a
+			}
+		}));
+		//taview.getSelectionModel().getSelectedItem();
 	}
 }
