@@ -144,37 +144,6 @@ public class AddAccountController extends PopupController<Account> implements In
 					em.persist(code);
 					em.getTransaction().commit();
 				}
-				
-				/*int ind = 0;
-				for (CountryCode countrycode : l) {
-					if (countrycode.getCode() == countryCode) {
-						CountryCode code = countrycode;
-						this.getData().setCountryCode(code);
-					}
-					ind++;
-				}
-				if (ind == l.size()) {
-					CountryCode code = new CountryCode(countryCode);
-					em.getTransaction().begin();
-					em.persist(code);
-					em.getTransaction().commit();
-				}
-*/
-//				int ind = 0;
-//				for (AccountType accountype : ac) {
-//					if (accountype.getType() == accountType) {
-//						AccountType type = accountype;
-//						this.getData().setAccountType(type);
-//					}
-//					ind++;
-//				}
-//				if (ind == l.size()) {
-//					AccountType type = new AccountType(accountType);
-//					this.getData().setAccountType(type);
-//					em.getTransaction().begin();
-//					em.persist(type);
-//					em.getTransaction().commit();
-//				}
 
 				Agency currentAgency = null;
 				for (Agency agency : a) {
@@ -214,6 +183,7 @@ public class AddAccountController extends PopupController<Account> implements In
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		

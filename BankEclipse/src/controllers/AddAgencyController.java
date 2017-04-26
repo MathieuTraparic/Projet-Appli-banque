@@ -32,8 +32,11 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 	@FXML
 	public ComboBox<String> linkedBank;
 	private List<Bank> l = null;
+	private List<CpVille> cp = null;
+	private List<Address> ad = null;
 	private List<Label> errorLabels;
 	private List<Agency> list;
+	
 
 	@FXML
 	void handleAddAgencyCancel(ActionEvent event) {
@@ -52,7 +55,6 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 		String line2 = addressLine2.getText();
 		String city = cityName.getText();
 		String zip = zipCode.getText();
-		String agencyBank = linkedBank.getValue();
 
 		if (name.isEmpty()) {
 			agencyNameError.setVisible(true);
@@ -93,20 +95,48 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 						currentBank = bank;
 					}
 				}
+				
+				Address currentAddress = null;
+				for(Address address : ad){
+					if(address.getLine1().equals(line1)){
+						currentAddress = address;
+					}
+				}
+				int ind;
+				if(currentAddress!=null){
+					this.getData().setAdress(currentAddress);
+					ind = 1;
+				} else {
+					currentAddress = new Address(line1, line2);
+					this.getData().setAdress(currentAddress);
+					ind = 0;
+				}				
+				
+				CpVille currentCpVille = null;
+				for(CpVille cpville : cp){
+					if(cpville.getZip().equals(zip)){
+						currentCpVille = cpville;
+					}
+				}
 
-				CpVille zipCityAgency = new CpVille(zip, city);
-				Address agencyAddress = new Address(line1, line2);
-
-				agencyAddress.setCpVille(zipCityAgency);
-
-				em.getTransaction().begin();
-				em.persist(zipCityAgency);
-				em.persist(agencyAddress);
-				em.getTransaction().commit();
+				if(currentCpVille!=null){
+					currentAddress.setCpVille(currentCpVille);
+					this.getData().setAdress(currentAddress);
+					if(ind==0){
+						em.getTransaction().begin();
+						em.persist(currentAddress);
+						em.getTransaction().commit();
+					}
+				} else{
+					currentCpVille = new CpVille(zip, city);
+					currentAddress.setCpVille(currentCpVille);
+					em.getTransaction().begin();
+					em.persist(currentCpVille);
+					em.persist(currentAddress);
+					em.getTransaction().commit();
+				}
 
 				this.getData().setBank(currentBank);
-				this.getData().setAdress(agencyAddress);
-
 				this.getData().setName(name);
 				this.getData().setCounterCode(code);
 				this.setAsValidated();
@@ -122,6 +152,8 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.l = em.createNamedQuery("Bank.findAll").getResultList();
+		this.cp = em.createNamedQuery("CpVille.findAll").getResultList();
+		this.ad = em.createNamedQuery("Address.findAll").getResultList();
 		em.close();
 		for (Bank b : l) {
 			linkedBank.getItems().add(b.getName());
