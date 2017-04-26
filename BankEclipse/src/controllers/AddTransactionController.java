@@ -37,21 +37,30 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	@FXML
 	public Button transactionCancel, transactionSubmit;
 	@FXML
-	public TextField descriptionTextField, valueTextField;
+	public TextField descriptionTextField, valueTextField,
+			newTargetIBANTextField, newTargetSummaryTextField, newCatgoryTextField;
 	@FXML
 	public DatePicker datePicker;
 	@FXML
-	public Label descriptionError, typeError, valueError, dateError;
+	public Label descriptionError, typeError, valueError, categoryOther, targetOther,
+			dateError, IBANTargetError, descriptionTargetError,categoryNameError ;
 	@FXML
 	public ComboBox<TransactionType> typeCombo;
+	@FXML
+	public ComboBox<Category> categoryCombo;
+	@FXML
+	public ComboBox<Category> categoryParentCombo;
+	@FXML
+	public ComboBox<TargetTransaction> targetCombo;
 	
 	//@FXML
 	//private ObservableList<Transaction> data;
 
 	private List<TransactionType> transactionType;
+	private List<Category> categoryList;
+	private List<TargetTransaction> targetList;
 	private List<Label> errorLabels;
-	private TransactionType otherType;
-	
+
 
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
@@ -107,14 +116,29 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
+		categoryList = em.createNamedQuery("Category.findAll").getResultList();
+		targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		em.close();
+		
+		TransactionType otherType= new TransactionType("OTHER");;
+		Category otherCategory = new Category("OTHER");
+		TargetTransaction otherTarget = new TargetTransaction("OTHER");
 
-		otherType = new TransactionType("OTHER");
 
 		for (TransactionType t : transactionType) {
 			typeCombo.getItems().add(t);
 		}
 		typeCombo.getItems().add(otherType);
+		
+		for (Category t : categoryList) {
+			categoryCombo.getItems().add(t);
+		}
+		categoryCombo.getItems().add(otherCategory);
+		
+		for (TargetTransaction t : targetList) {
+			targetCombo.getItems().add(t);
+		}
+		targetCombo.getItems().add(otherTarget);
 
 		this.errorLabels = new ArrayList<Label>() {
 

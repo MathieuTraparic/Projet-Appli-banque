@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
@@ -18,15 +20,23 @@ import model.Account;
 import model.Agency;
 import model.Bank;
 
-import util.PopWindow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.chart.XYChart.Data;
 
+public class HomeController extends BankSelector implements Initializable {
 
-public class HomeController extends BankSelector implements Initializable{
-
-
-	@FXML TableView<Account> accountView;
+	@FXML
+	TableView<Account> accountView;
+	@FXML
+	LineChart<String, Number> chart;
+	@FXML
+	CategoryAxis xDateAxis;
+	@FXML
+	NumberAxis yBalanceAxis;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
@@ -70,41 +80,65 @@ public class HomeController extends BankSelector implements Initializable{
 
 	@FXML
 	void handleAddAccountHome(ActionEvent event) throws IOException {
-		PopupController<Account> controller = PopupController.load(VistaNavigator.ADD_ACCOUNT,true);
-		controller.show(new Account("number","description", 0d, -150d, 0d),
-			new EventHandler<WindowEvent>(){
-				@Override
-				public void handle(WindowEvent event){
-					Account account = controller.getValidatedData();
+		PopupController<Account> controller = PopupController.load(VistaNavigator.ADD_ACCOUNT, true);
+		controller.show(new Account("number", "description", 0d, -150d, 0d), new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Account account = controller.getValidatedData();
 
-					//Actually I don't get the idea why we do this here and not when we submit in the popup window
-					if (account!=null){
-						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-						em.getTransaction().begin();
-						em.persist(account);
-						em.getTransaction().commit();
-						em.close();	
-					}
-			}	
+				// Actually I don't get the idea why we do this here and not
+				// when we submit in the popup window
+				if (account != null) {
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+					em.getTransaction().begin();
+					em.persist(account);
+					em.getTransaction().commit();
+					em.close();
+				}
+			}
 		});
 	}
 
 	@FXML
 	void handleBankChoiceHome(ActionEvent event) {
-		//get a bank specific subset of all the account from the owner 
-		List<Account>accountFromCurrentBank= new ArrayList<Account>();
-		
-		this.accountsOwned.forEach(account-> {
-			if(account.getAgency().getBank().equals(bankCombo.getValue())){
+		// get a bank specific subset of all the account from the owner
+		List<Account> accountFromCurrentBank = new ArrayList<Account>();
+
+		this.accountsOwned.forEach(account -> {
+			if (account.getAgency().getBank().equals(bankCombo.getValue())) {
 				accountFromCurrentBank.add(account);
 			}
 		});
 		this.accountView.setItems(FXCollections.observableList(accountFromCurrentBank));
-		
+
 	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		super.initialize(fxmlFileLocation, resources);
+		// on selectedAccount
+		accountView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+			if (newValue != null) {
+				Account selectedAccount = this.accountView.getSelectionModel().getSelectedItem();
+
+				// populate the lineChart
+
+				Series<String, Number> series = new Series<>();
+				series.setName(selectedAccount.getDescription());
+
+				// convert from the model List of couples to serie of Data
+				List<Entry<Double, Date>> couples = selectedAccount.getBalanceHistory();
+				for (Entry<Double, Date> entry : couples) {
+					series.getData().add(new Data<String, Number>(entry.getValue().toString(), entry.getKey()));
+				}
+
+				// if the series is not already in the chart, add it
+				if (!this.chart.getData().stream()
+						.anyMatch(s -> s.getName().equals(selectedAccount.getDescription()))) {
+					this.chart.getData().add(series);
+				}
+
+			}
+		}));
 	}
 }

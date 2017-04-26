@@ -1,8 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,12 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.sun.jmx.snmp.Timestamp;
-
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 
 @Entity
 @Table(name="transaction")
@@ -30,7 +23,25 @@ import javafx.beans.property.StringProperty;
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final Comparator<Transaction> CHRONOLOGICAL_COMPARATOR =new Comparator<Transaction>() {
+
+		@Override
+		public int compare(Transaction o1, Transaction o2) {
+			return o1.getDate().compareTo(o2.getDate());
+		}
+	};
+	public static final Comparator<Transaction> VALUE_COMPARATOR =new Comparator<Transaction>() {
+
+		@Override
+		public int compare(Transaction o1, Transaction o2) {
+			return (int) (o1.getValue()-o2.getValue());
+		}
+	};
+	
+
 	private int id;
+
 	private String description;
 	private double value;
 	private Date date;
