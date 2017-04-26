@@ -105,7 +105,14 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			
 			Category cat = categoryCombo.getValue();
 			TargetTransaction tar = targetCombo.getValue();
-					
+			
+			if (cat!=null){
+				this.getData().setCategory(cat);
+			}
+			if (tar!=null){
+				this.getData().setTargetTransaction(tar);
+			}
+			
 			this.getData().setDate(date);
 			this.getData().setValue(val);;
 			this.getData().setDescription(des);
@@ -113,7 +120,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 
 			this.setAsValidated();
 			stage.close();
-			System.out.println(date);
+
 		}
 	}
 
