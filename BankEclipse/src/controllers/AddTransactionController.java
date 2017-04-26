@@ -18,7 +18,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Bank;
 import model.Category;
 import model.TargetTransaction;
 import model.Transaction;
@@ -46,10 +45,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public ComboBox<Category> categoryParentCombo;
 	@FXML
 	public ComboBox<TargetTransaction> targetCombo;
-
-	// @FXML
-	// private ObservableList<Transaction> data;
-
+	
 	private List<TransactionType> transactionType;
 	private List<Category> categoryList;
 	private List<TargetTransaction> targetList;
@@ -71,6 +67,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 
 		errorLabels.forEach(label -> label.setVisible(false));
 
+
 		Category cat;
 		TargetTransaction tar;
 
@@ -91,6 +88,8 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		}
 
 		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
+			
+			
 
 			Date date = DateConverter.LocalDate2Date(datePicker.getValue());
 			Double val = Double.parseDouble(valueTextField.getText());
@@ -190,6 +189,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			}
 
 			if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible() && !categoryNameError.isVisible()) {
+				
+				
+				
 				this.getData().setDate(date);
 				this.getData().setValue(val);
 				this.getData().setDescription(des);
@@ -213,6 +215,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		Category otherCategory = new Category(NEW_CATEGORY);
 		TargetTransaction otherTarget = new TargetTransaction(NEW_TARGET);
 
+		/*
+		 * Loading the combobox data
+		 */
 		for (TransactionType t : transactionType) {
 			typeCombo.getItems().add(t);
 		}
@@ -231,7 +236,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		for (Category t : categoryList) {
 			categoryParentCombo.getItems().add(t);
 		}
-
+		/*
+		 * Setting all the errorLabels and the items to create a new target or category to non-visible
+		 */
 		this.errorLabels = new ArrayList<Label>() {
 
 			{
@@ -261,6 +268,10 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		newTextfields.forEach(textfield -> textfield.setDisable(true));
 
 		categoryParentCombo.setDisable(true);
+		
+		/*
+		 * Listener on the combo box to know if a new category or target or type should be added
+		 */
 
 		typeCombo.valueProperty().addListener((obs, oldV, newV) -> {
 
@@ -287,6 +298,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			categoryParentCombo.setDisable(b);
 
 		});
+		
 
 	}
 

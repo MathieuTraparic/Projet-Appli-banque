@@ -67,7 +67,7 @@
             <TextField fx:id="newCatgoryTextField" promptText="Name of the new category" GridPane.columnIndex="1" GridPane.rowIndex="14" />
             <Label fx:id="categoryOther" text="Create a new category" GridPane.rowIndex="14" />
             <ComboBox fx:id="categoryParentCombo" promptText="Category parent" GridPane.columnIndex="1" GridPane.rowIndex="16" />
-            <Label fx:id="IBANTargetError" text="IBAN must be valid" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <Label fx:id="IBANTargetError" text="IBAN must be valid and not already registered" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Label fx:id="descriptionTargetError" text="A description is recquired" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <Label fx:id="categoryNameError" text="An unused category name is recquired" GridPane.columnIndex="1" GridPane.rowIndex="15" />
          </children>
