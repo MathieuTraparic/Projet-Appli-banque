@@ -69,7 +69,7 @@
             <ComboBox fx:id="categoryParentCombo" promptText="Category parent" GridPane.columnIndex="1" GridPane.rowIndex="16" />
             <Label fx:id="IBANTargetError" text="IBAN must be valid" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Label fx:id="descriptionTargetError" text="A description is recquired" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <Label fx:id="categoryNameError" text="A name is recquired" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <Label fx:id="categoryNameError" text="An unused category name is recquired" GridPane.columnIndex="1" GridPane.rowIndex="15" />
          </children>
       </GridPane>
       <Button fx:id="transactionCancel" cancelButton="true" layoutX="41.0" layoutY="213.0" mnemonicParsing="false" onAction="#handleTransactionCancel" text="Cancel" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="41.0" />
