@@ -1,19 +1,29 @@
 package controllers;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
+
+import javax.persistence.EntityManager;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ButtonType;
+import javafx.stage.WindowEvent;
+import model.Account;
+import model.Transaction;
 
-public class TemplateController{
+public class TemplateController implements Initializable{
 	
-	//TODO add all action on the menu buttons 
+	private List<Account> account = null;
+	private List<Transaction> transaction = null;
 	
 	@FXML
 	void handleLogoutButton(ActionEvent event){
@@ -39,8 +49,14 @@ public class TemplateController{
 	}
 	
 	@FXML
-	void handleMenuFileExport(ActionEvent event){
-		// TODO
+	void handleMenuFileExport(ActionEvent event) throws IOException{
+		PopupController<Account> controller = PopupController.load(VistaNavigator.EXPORT, true);
+		controller.show(new Account("0000","description",0d,0d,0d), new EventHandler<WindowEvent>(){
+			@Override
+			public void handle(WindowEvent event){
+				Account a = controller.getValidatedData();
+			}
+		});
 	}
 	
 	@FXML
@@ -66,5 +82,14 @@ public class TemplateController{
 	@FXML
 	void handleMenuHelpTutorial(ActionEvent event){
 		//TODO
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		this.account = em.createNamedQuery("Account.findAll").getResultList();
+		this.transaction = em.createNamedQuery("Transaction.findAll").getResultList();
+		em.close();		
 	}
 }

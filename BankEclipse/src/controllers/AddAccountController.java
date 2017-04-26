@@ -64,7 +64,7 @@ public class AddAccountController extends PopupController<Account> implements In
 
 	@FXML
 	void handleAddAccountSubmit(ActionEvent event) {
-		
+
 		errorLabels.forEach(label -> label.setVisible(false));
 
 		String number = addAccountNumber.getText();
@@ -112,8 +112,8 @@ public class AddAccountController extends PopupController<Account> implements In
 				accountNumberError.setVisible(true);
 			} else {
 				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();
-				
-				if(!accountType.equals("OTHER")){
+
+				if (!accountType.equals("OTHER")) {
 					AccountType type = null;
 					for (AccountType accountype : ac) {
 						if (accountype.getType() == accountType) {
@@ -121,15 +121,15 @@ public class AddAccountController extends PopupController<Account> implements In
 							this.getData().setAccountType(type);
 						}
 					}
-				} else{
+				} else {
 					AccountType type = new AccountType(createAccountType.getText());
 					this.getData().setAccountType(type);
 					em.getTransaction().begin();
 					em.persist(type);
 					em.getTransaction().commit();
 				}
-				
-				if(!countryCode.equals("OTHER")){
+
+				if (!countryCode.equals("OTHER")) {
 					CountryCode code = null;
 					for (CountryCode countrycode : l) {
 						if (countrycode.getCode() == countryCode) {
@@ -137,7 +137,7 @@ public class AddAccountController extends PopupController<Account> implements In
 							this.getData().setCountryCode(code);
 						}
 					}
-				} else{
+				} else {
 					CountryCode code = new CountryCode(createCountryCode.getText());
 					this.getData().setCountryCode(code);
 					em.getTransaction().begin();
@@ -168,17 +168,17 @@ public class AddAccountController extends PopupController<Account> implements In
 			em.close();
 		}
 	}
-	
+
 	@FXML
-	void handleOtherCode(ActionEvent event){
-		if(this.addAccountCountryCode.getValue().toString().equals("OTHER")){
+	void handleOtherCode(ActionEvent event) {
+		if (this.addAccountCountryCode.getValue().toString().equals("OTHER")) {
 			this.createCountryCode.setDisable(false);
 		}
 	}
-	
+
 	@FXML
-	void handleOtherType(ActionEvent event){
-		if(this.addAccountType.getValue().toString().equals("OTHER")){
+	void handleOtherType(ActionEvent event) {
+		if (this.addAccountType.getValue().toString().equals("OTHER")) {
 			this.createAccountType.setDisable(false);
 		}
 	}
@@ -186,10 +186,10 @@ public class AddAccountController extends PopupController<Account> implements In
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		
-		this.createCountryCode.setDisable(true); 
+
+		this.createCountryCode.setDisable(true);
 		this.createAccountType.setDisable(true);
-		
+
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.l = em.createNamedQuery("CountryCode.findAll").getResultList();
 		this.ac = em.createNamedQuery("AccountType.findAll").getResultList();

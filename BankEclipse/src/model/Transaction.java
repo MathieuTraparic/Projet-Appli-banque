@@ -239,4 +239,8 @@ public class Transaction implements Serializable {
 //		}
 //	}
 
+	public String formatString(){
+		return this.description + ";" + this.value + ";" 
+				+ this.date.toString() + ";" + transactionType.toString() + ";\n"; 
+	}
 }

@@ -28,6 +28,7 @@ public class VistaNavigator {
 	public static final String ADD_BANK = "/viewFxml/addBank.fxml";
 	public static final String ADD_AGENCY = "/viewFxml/addAgency.fxml";
 	public static final String ADD_ACCOUNT = "/viewFxml/addAccount.fxml";
+	public static final String EXPORT = "/viewFxml/ExportTransaction.fxml";
 
 	/** The main application layout controller. */
 	private static MainController mainController;
