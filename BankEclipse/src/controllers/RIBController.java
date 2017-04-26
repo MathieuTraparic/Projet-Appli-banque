@@ -6,6 +6,7 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import model.Account;
 import util.IBANHandler;
@@ -15,7 +16,7 @@ public class RIBController extends AccountSpecificController {
 
 	
 	@FXML
-	Text iban;
+	TextField iban;
 
 	@FXML public void accountSelected(ActionEvent event) {
 		if(this.accountCombo.getValue()==null){
