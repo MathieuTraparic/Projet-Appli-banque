@@ -52,7 +52,7 @@
 						</TableColumn>
 												<TableColumn fx:id="categoryCol" editable="true" prefWidth="86.0" text="Category">
 							<cellValueFactory>
-								<PropertyValueFactory property="CategoryTransaction" />
+								<PropertyValueFactory property="Category" />
 							</cellValueFactory>
 						</TableColumn>
 					</columns>
