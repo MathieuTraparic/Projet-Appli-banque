@@ -1,8 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -17,12 +15,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.sun.jmx.snmp.Timestamp;
-
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 
 @Entity
