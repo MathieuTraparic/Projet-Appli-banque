@@ -35,6 +35,8 @@ public class AddAccountController extends PopupController<Account> implements In
 	@FXML
 	public TextField addAccountThreshold;
 	@FXML
+	public TextField createCountryCode, createAccountType;
+	@FXML
 	public ComboBox<String> addAccountType;
 	@FXML
 	public ComboBox<String> addAccountCountryCode;
@@ -62,7 +64,7 @@ public class AddAccountController extends PopupController<Account> implements In
 
 	@FXML
 	void handleAddAccountSubmit(ActionEvent event) {
-
+		
 		errorLabels.forEach(label -> label.setVisible(false));
 
 		String number = addAccountNumber.getText();
@@ -111,7 +113,39 @@ public class AddAccountController extends PopupController<Account> implements In
 			} else {
 				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();
 				
-				int ind = 0;
+				if(!accountType.equals("OTHER")){
+					AccountType type = null;
+					for (AccountType accountype : ac) {
+						if (accountype.getType() == accountType) {
+							type = accountype;
+							this.getData().setAccountType(type);
+						}
+					}
+				} else{
+					AccountType type = new AccountType(createAccountType.getText());
+					this.getData().setAccountType(type);
+					em.getTransaction().begin();
+					em.persist(type);
+					em.getTransaction().commit();
+				}
+				
+				if(!countryCode.equals("OTHER")){
+					CountryCode code = null;
+					for (CountryCode countrycode : l) {
+						if (countrycode.getCode() == countryCode) {
+							code = countrycode;
+							this.getData().setCountryCode(code);
+						}
+					}
+				} else{
+					CountryCode code = new CountryCode(createCountryCode.getText());
+					this.getData().setCountryCode(code);
+					em.getTransaction().begin();
+					em.persist(code);
+					em.getTransaction().commit();
+				}
+				
+				/*int ind = 0;
 				for (CountryCode countrycode : l) {
 					if (countrycode.getCode() == countryCode) {
 						CountryCode code = countrycode;
@@ -125,26 +159,22 @@ public class AddAccountController extends PopupController<Account> implements In
 					em.persist(code);
 					em.getTransaction().commit();
 				}
-
-				ind = 0;
-				for (AccountType accountype : ac) {
-					if (accountype.getType() == accountType) {
-						AccountType type = accountype;
-						this.getData().setAccountType(type);
-					}
-					ind++;
-				}
-				if (ind == l.size()) {
-					AccountType type = new AccountType(accountType);
-					this.getData().setAccountType(type);
-					em.getTransaction().begin();
-					em.persist(type);
-					em.getTransaction().commit();
-				}
-				
-				AccountType type = new AccountType(accountType);
-
-				em.persist(type);
+*/
+//				int ind = 0;
+//				for (AccountType accountype : ac) {
+//					if (accountype.getType() == accountType) {
+//						AccountType type = accountype;
+//						this.getData().setAccountType(type);
+//					}
+//					ind++;
+//				}
+//				if (ind == l.size()) {
+//					AccountType type = new AccountType(accountType);
+//					this.getData().setAccountType(type);
+//					em.getTransaction().begin();
+//					em.persist(type);
+//					em.getTransaction().commit();
+//				}
 
 				Agency currentAgency = null;
 				for (Agency agency : a) {
@@ -169,9 +199,27 @@ public class AddAccountController extends PopupController<Account> implements In
 			em.close();
 		}
 	}
+	
+	@FXML
+	void handleOtherCode(ActionEvent event){
+		if(this.addAccountCountryCode.getValue().toString().equals("OTHER")){
+			this.createCountryCode.setDisable(false);
+		}
+	}
+	
+	@FXML
+	void handleOtherType(ActionEvent event){
+		if(this.addAccountType.getValue().toString().equals("OTHER")){
+			this.createAccountType.setDisable(false);
+		}
+	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+		
+		this.createCountryCode.setDisable(true); 
+		this.createAccountType.setDisable(true);
+		
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.l = em.createNamedQuery("CountryCode.findAll").getResultList();
 		this.ac = em.createNamedQuery("AccountType.findAll").getResultList();
@@ -191,7 +239,6 @@ public class AddAccountController extends PopupController<Account> implements In
 		for (Agency agencyName : a) {
 			addAgency.getItems().add(agencyName.getName());
 		}
-		addAgency.getItems().add("OTHER");
 
 		this.errorLabels = new ArrayList<Label>() {
 			private static final long serialVersionUID = 6275258056275001066L;
