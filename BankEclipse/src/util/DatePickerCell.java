@@ -96,25 +96,46 @@ public class DatePickerCell <S, T> extends TableCell<Transaction, Date> {
 	        datePicker.setPromptText("jj/mm/aaaa");
 	        datePicker.setEditable(true);
 
-	        datePicker.setOnAction(new EventHandler() {
-	            public void handle(Event t) {
-	                LocalDate date = datePicker.getValue();
-	                int index = getIndex();
-
-	                SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
-	                
-	                Calendar cal = Calendar.getInstance();
+//	        datePicker.setOnAction(new EventHandler() {
+//	            public void handle(Event t) {
+//	                LocalDate date = datePicker.getValue();
+//	                int index = getIndex();
+//
+//	                SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
+//	                
+//	                Calendar cal = Calendar.getInstance();
+//	                cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+//	                cal.set(Calendar.MONTH, date.getMonthValue() - 1);
+//	                cal.set(Calendar.YEAR, date.getYear());
+//
+//	                setText(smp.format(cal.getTime()));
+//	                commitEdit(cal.getTime());
+//
+//	                if (null != getTransactionData()) {
+//	                	getTransactionData().get(index).setDate(cal.getTime());
+//	                }
+//	            }
+//	        });
+	        
+	        datePicker.valueProperty().addListener((obs,oldV,newV)->{
+	        	if(datePicker.getValue()==null){
+	        		return;
+	        	}
+	        	LocalDate date = datePicker.getValue();
+	        	int index = getIndex();
+	        	 SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
+	        	 Calendar cal = Calendar.getInstance();
 	                cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
-	                cal.set(Calendar.MONTH, date.getMonthValue() - 1);
+	                cal.set(Calendar.MONTH, date.getMonthValue()-1);
 	                cal.set(Calendar.YEAR, date.getYear());
 
 	                setText(smp.format(cal.getTime()));
 	                commitEdit(cal.getTime());
 
-	                if (null != getTransactionData()) {
+	                if (null != getTransactionData()&& index< getTransactionData().size()) {
+	                	System.out.println("size ="+getTransactionData().size());
 	                	getTransactionData().get(index).setDate(cal.getTime());
 	                }
-	            }
 	        });
 
 	        setAlignment(Pos.CENTER);

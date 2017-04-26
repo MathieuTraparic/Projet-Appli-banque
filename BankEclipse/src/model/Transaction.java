@@ -28,7 +28,7 @@ public class Transaction implements Serializable {
 
 		@Override
 		public int compare(Transaction o1, Transaction o2) {
-			return o1.getDate().compareTo(o2.getDate());
+			return o1.date.compareTo(o2.date);
 		}
 	};
 	public static final Comparator<Transaction> VALUE_COMPARATOR =new Comparator<Transaction>() {

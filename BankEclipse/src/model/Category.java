@@ -19,7 +19,7 @@ import util.Formater;
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private int id;
 	private String description;
 	private Category parentCategory;
 
@@ -39,8 +39,10 @@ public class Category implements Serializable {
 	}
 
 	public Category(String description, Category parentCategory) {
-		init(description);
+		checkdescription(description);		
 		checkDiffParentCategory(this.description, parentCategory);
+		
+		this.description = Formater.formatNameCase(description);
 		this.parentCategory = parentCategory;
 	}
 
@@ -67,7 +69,7 @@ public class Category implements Serializable {
 		this.id = id;
 	}
 
-	private void setDescription(String description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -81,7 +83,7 @@ public class Category implements Serializable {
 		return this.parentCategory;
 	}
 
-	private void setParentCategory(Category parentCategory) {
+	public void setParentCategory(Category parentCategory) {
 		this.parentCategory = parentCategory;
 	}
 	

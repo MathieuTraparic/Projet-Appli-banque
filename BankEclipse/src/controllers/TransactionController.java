@@ -138,6 +138,9 @@ public class TransactionController extends AccountSpecificController {
 
 		targetCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
 				.setTargetTransaction(t.getNewValue()));
+		
+		categoryCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
+				.setCategory(t.getNewValue()));
 
 		tableTransaction.setItems(dataTransactionRow);
 	}
@@ -170,9 +173,9 @@ public class TransactionController extends AccountSpecificController {
 							Account account = accountCombo.getValue();
 
 							transaction.setAccount(account);
-							transaction.setCategory(null);
+
 							transaction.setPeriodicTransaction(null);
-							transaction.setTargetTransaction(null);
+
 
 							EntityManager em = VistaNavigator.getEmf().createEntityManager();
 							em.getTransaction().begin();
