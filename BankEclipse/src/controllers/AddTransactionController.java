@@ -107,8 +107,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			TargetTransaction tar = targetCombo.getValue();
 			
 			if (categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)){
-				Category newCat = new Category(newCatgoryTextField.getText(), 
-						categoryParentCombo.getValue());
+				Category newCat = new Category(newCatgoryTextField.getText());
 				
 				EntityManager em = VistaNavigator.getEmf().createEntityManager();
 				
@@ -119,12 +118,17 @@ public class AddTransactionController extends PopupController<Transaction> imple
 						categoryNameError.setVisible(true);
 					}
 					else{
+						if (categoryParentCombo.getValue()!= null){
+					
+							newCat.setParentCategory(categoryParentCombo.getValue());
+						}
 						
 						em.getTransaction().begin();
 						em.persist(newCat);
 						em.getTransaction().commit();
 						
 						cat = newCat ;
+						
 						
 					}
 				}
@@ -213,15 +217,12 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		
 		categoryParentCombo.setDisable(true);
 		
-//		if (typeCombo.getValue().toString() == "New Type") {
-//			// call an Add transaction type popup	
-//			
-//		} 
-//		if (categoryCombo.getValue().toString() == "New Category") {
-//
-//			newCatgoryTextField.setDisable(false);
-//			
-//		}
+		typeCombo.valueProperty().addListener((obs, oldV, newV) -> {
+
+
+			boolean b =!newV.getDescription().equals(NEW_TYPE);
+			
+		});
 		
 		targetCombo.valueProperty().addListener((obs, oldV, newV) -> {
 
