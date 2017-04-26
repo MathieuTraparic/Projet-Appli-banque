@@ -60,7 +60,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	private List<Category> categoryList;
 	private List<TargetTransaction> targetList;
 	private List<Label> errorLabels;
-	private List<TextField> errorTextfields;
+	private List<TextField> newTextfields;
 	
 
 	@FXML
@@ -93,11 +93,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		}
 		if (typ.isEmpty()) {
 			typeError.setVisible(true);
-		} 
-		if (typeCombo.getValue().toString() == "OTHER") {
-			// call an Add transaction type popup	
-			
-		} else {
+		}else {
 			
 			Stage stage = (Stage) transactionCancel.getScene().getWindow();
 			
@@ -132,9 +128,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		em.close();
 		
-		TransactionType otherType= new TransactionType("OTHER");;
-		Category otherCategory = new Category("OTHER");
-		TargetTransaction otherTarget = new TargetTransaction("OTHER");
+		TransactionType otherType= new TransactionType("New Type");;
+		Category otherCategory = new Category("New Category");
+		TargetTransaction otherTarget = new TargetTransaction("New Target");
 
 
 		for (TransactionType t : transactionType) {
@@ -172,7 +168,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		};
 		errorLabels.forEach(label -> label.setVisible(false));
 		
-		this.errorTextfields = new ArrayList<TextField>() {
+		this.newTextfields = new ArrayList<TextField>() {
 
 			{
 				add(newTargetIBANTextField);
@@ -181,9 +177,28 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			}
 		};
 		
-		errorTextfields.forEach(textfields -> textfields.setDisable(true));
+		
+		newTextfields.forEach(textfield -> textfield.setDisable(true));
 		
 		categoryParentCombo.setDisable(true);
+		
+//		if (typeCombo.getValue().toString() == "New Type") {
+//			// call an Add transaction type popup	
+//			
+//		} 
+//		if (categoryCombo.getValue().toString() == "New Category") {
+//
+//			newCatgoryTextField.setDisable(false);
+//			
+//		}
+		
+		targetCombo.valueProperty().addListener((obs, old, obschanged) -> {
+			
+			newTargetIBANTextField.setDisable(targetCombo.getValue().equals("New Target"));
+
+			newTargetSummaryTextField.setDisable(!targetCombo.getValue().equals("New Target"));
+		});
+
 	}
 
 	@Override

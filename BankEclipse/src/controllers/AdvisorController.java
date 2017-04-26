@@ -262,6 +262,8 @@ public class AdvisorController implements Initializable {
 				};
 
 				assignmentDatePicker.valueProperty().addListener(timeChange);
+				
+				//could be refactored in a new util class since it is used with other datepickers
 
 				final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
 					@Override
