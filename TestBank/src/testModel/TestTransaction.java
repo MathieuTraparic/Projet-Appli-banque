@@ -5,6 +5,7 @@ import java.util.Date;
 import org.junit.Test;
 
 import model.Transaction;
+import model.TransactionType;
 
 /**
  * @author user
@@ -13,13 +14,14 @@ import model.Transaction;
 public class TestTransaction {
 	
 	Date date = new Date();
+	TransactionType transactionType = new TransactionType("qqs");
 
 	/**
 	 * testing if the description is null
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullTransactionDescription() {
-		Transaction transaction = new Transaction(null,1254d,date);
+		Transaction transaction = new Transaction(null,1254d,date,transactionType);
 	}
 	
 	/**
@@ -27,7 +29,7 @@ public class TestTransaction {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyTransactionDescription() {
-		Transaction transaction = new Transaction("", 1254d, date);
+		Transaction transaction = new Transaction("", 1254d, date, transactionType);
 	}
 	
 	/**
@@ -35,7 +37,7 @@ public class TestTransaction {
 	 */	
 	@Test(expected = IllegalArgumentException.class)
 	public void test_TransactionValue() {
-		Transaction transaction = new Transaction("bar", 0, date);
+		Transaction transaction = new Transaction("bar", 0, date, transactionType);
 	}
 	
 	/**
@@ -43,7 +45,7 @@ public class TestTransaction {
 	 */	
 	@Test(expected = NullPointerException.class)
 	public void test_NullTransactionDate() {
-		Transaction transaction = new Transaction("bar", -1254d, null);
+		Transaction transaction = new Transaction("bar", -1254d, null, transactionType);
 	}
 	
 
