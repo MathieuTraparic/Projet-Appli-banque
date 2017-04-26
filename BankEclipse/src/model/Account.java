@@ -231,7 +231,7 @@ public class Account implements Serializable {
 		double balance = this.initialBalance ;
 		ArrayList<Transaction> sortedTransactions = new ArrayList<>(this.transactions);
 		//sort transaction by chronological order
-		sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
+		//sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
 		 List<Entry<Double,Date>> result = new ArrayList<>();
 		 //add a first entry at account creation
 		 result.add(new SimpleImmutableEntry<Double, Date>(balance, this.creationDate));

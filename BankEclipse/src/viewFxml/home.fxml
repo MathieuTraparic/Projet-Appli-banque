@@ -5,7 +5,6 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
@@ -13,65 +12,43 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<Pane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controllers.HomeController">
+<Pane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
 	<children>
-		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0"
-			prefWidth="807.0">
+		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="807.0">
 			<children>
-				<TableView fx:id="accountView" layoutX="188.0" layoutY="88.0"
-					prefHeight="124.0" prefWidth="787.0" AnchorPane.leftAnchor="10.0"
-					AnchorPane.rightAnchor="10.0">
-					<columns>
-						<TableColumn fx:id="descriptionCol" maxWidth="1.7976931348623157E308"
-							prefWidth="300.0" text="Account list">
-							<cellValueFactory>
-								<PropertyValueFactory property="Description" />
-							</cellValueFactory>
-						</TableColumn>
-						<TableColumn fx:id="balanceCol" prefWidth="132.0"
-							text="Balance">
-							<cellValueFactory>
-								<PropertyValueFactory property="Balance" />
-							</cellValueFactory>
-						</TableColumn>
-					</columns>
-				</TableView>
-				<LineChart fx:id="chart" layoutY="209.0" prefHeight="244.0"
-					prefWidth="807.0" title="Balance evolution" titleSide="BOTTOM"
-					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-					AnchorPane.rightAnchor="0.0">
-					<xAxis>
-						<CategoryAxis fx:id="xDateAxis" label="Time" side="LEFT" />
-					</xAxis>
-					<yAxis>
-						<NumberAxis fx:id="yBalanceAxis" label="Balance" side="BOTTOM" />
-					</yAxis>
-				</LineChart>
-				<VBox alignment="TOP_CENTER" layoutY="20.0" spacing="10.0"
-					AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-					AnchorPane.topAnchor="0.0">
+				<VBox alignment="TOP_CENTER" layoutY="20.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 					<children>
-						<Label text="Account viewing">
-							<font>
-								<Font size="14.0" />
-							</font>
-						</Label>
-						<HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="807.0"
-							spacing="20.0">
+						<HBox alignment="CENTER" prefHeight="50.0" prefWidth="807.0" spacing="20.0">
 							<children>
-								<ComboBox fx:id="bankCombo" onAction="#handleBankChoiceHome"
-									prefHeight="25.0" prefWidth="142.0" promptText="Choose your bank" />
-								<Button mnemonicParsing="false" onAction="#handleAddAccountHome"
-									text="Add an account" />
-								<Button mnemonicParsing="false" onAction="#handleAddBankHome"
-									text="Add a bank" />
-								<Button mnemonicParsing="false" onAction="#handleAddAgencyHome"
-									text="Add an agency" />
+								<ComboBox fx:id="bankCombo" onAction="#handleBankChoiceHome" prefHeight="25.0" prefWidth="142.0" promptText="Choose your bank" />
+								<Button mnemonicParsing="false" onAction="#handleAddAccountHome" text="Add an account" />
+								<Button mnemonicParsing="false" onAction="#handleAddBankHome" text="Add a bank" />
+								<Button mnemonicParsing="false" onAction="#handleAddAgencyHome" text="Add an agency" />
 							</children>
 						</HBox>
+      				<TableView fx:id="accountView" prefHeight="124.0" prefWidth="787.0">
+      					<columns>
+      						<TableColumn fx:id="descriptionCol" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="Account list">
+      							<cellValueFactory>
+      								<PropertyValueFactory property="Description" />
+      							</cellValueFactory>
+      						</TableColumn>
+      						<TableColumn fx:id="balanceCol" prefWidth="132.0" text="Balance">
+      							<cellValueFactory>
+      								<PropertyValueFactory property="Balance" />
+      							</cellValueFactory>
+      						</TableColumn>
+      					</columns>
+      				</TableView>
+      				<LineChart fx:id="chart" prefHeight="244.0" prefWidth="807.0" title="Balance evolution" titleSide="BOTTOM">
+      					<xAxis>
+      						<CategoryAxis fx:id="xDateAxis" label="Time"  side="LEFT"  />
+      					</xAxis>
+      					<yAxis>
+      						<NumberAxis fx:id="yBalanceAxis" label="Balance" side="BOTTOM" />
+      					</yAxis>
+      				</LineChart>
 					</children>
 				</VBox>
 			</children>

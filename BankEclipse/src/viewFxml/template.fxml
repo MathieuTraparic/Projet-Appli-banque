@@ -56,7 +56,7 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-		<TabPane layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="648.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinHeight="70.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+		<TabPane fx:id="tabPane" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="648.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinHeight="70.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
 			<tabs>
 				<Tab>
 					<graphic>

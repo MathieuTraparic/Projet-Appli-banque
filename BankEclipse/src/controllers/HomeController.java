@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -9,11 +10,13 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+import javax.swing.text.DateFormatter;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.stage.WindowEvent;
 import model.Account;
@@ -128,14 +131,16 @@ public class HomeController extends BankSelector implements Initializable {
 
 				// convert from the model List of couples to serie of Data
 				List<Entry<Double, Date>> couples = selectedAccount.getBalanceHistory();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 				for (Entry<Double, Date> entry : couples) {
-					series.getData().add(new Data<String, Number>(entry.getValue().toString(), entry.getKey()));
+					series.getData().add(new Data<String, Number>(format.format(entry.getValue()), entry.getKey()));
 				}
 
 				// if the series is not already in the chart, add it
 				if (!this.chart.getData().stream()
 						.anyMatch(s -> s.getName().equals(selectedAccount.getDescription()))) {
-					this.chart.getData().add(series);
+					this.chart.setData(FXCollections.observableArrayList(series));
+					// this.chart.getData().add(series);
 				}
 
 			}

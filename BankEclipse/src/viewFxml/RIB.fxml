@@ -21,7 +21,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
                   </Label>
-                  <Text fx:id="iban" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" VBox.vgrow="NEVER">
+                  <TextField fx:id="iban" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
