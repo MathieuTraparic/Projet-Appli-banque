@@ -26,6 +26,13 @@ public class TargetTransaction implements Serializable {
 		
 	}
 	
+	public TargetTransaction(String summary) {
+;
+		checkSummary(summary);
+		
+		this.summary = Formater.formatNameCase(summary);
+	}
+	
 	public TargetTransaction(String summary, String iban) {
 		
 		checkIban(iban);
@@ -65,11 +72,11 @@ public class TargetTransaction implements Serializable {
 		}
 	}
 
-	private String getSummary() {
+	public String getSummary() {
 		return this.summary;
 	}
 
-	private void setSummary(String summary) {
+	public void setSummary(String summary) {
 		this.summary = summary;
 	}
 
@@ -79,5 +86,10 @@ public class TargetTransaction implements Serializable {
 
 	private void setIban(String iban) {
 		this.iban = iban;
+	}
+	
+	@Override
+	public String toString() {
+		return summary;
 	}
 }

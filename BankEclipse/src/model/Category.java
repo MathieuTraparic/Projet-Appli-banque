@@ -84,5 +84,10 @@ public class Category implements Serializable {
 	private void setParentCategory(Category parentCategory) {
 		this.parentCategory = parentCategory;
 	}
+	
+	@Override
+	public String toString() {
+		return description;
+	}
 
 }
