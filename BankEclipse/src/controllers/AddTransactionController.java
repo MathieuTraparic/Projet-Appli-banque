@@ -60,7 +60,8 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	private List<Category> categoryList;
 	private List<TargetTransaction> targetList;
 	private List<Label> errorLabels;
-
+	private List<TextField> errorTextfields;
+	
 
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
@@ -78,6 +79,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		Date date = new Date ();
 		date = DateConverter.LocalDate2Date(datePicker.getValue());
 		String typ = typeCombo.getValue().getDescription();
+
 
 
 		if (des.isEmpty()) {
@@ -100,6 +102,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			Stage stage = (Stage) transactionCancel.getScene().getWindow();
 			
 			TransactionType transactionType = typeCombo.getValue();
+			
+			Category cat = categoryCombo.getValue();
+			TargetTransaction tar = targetCombo.getValue();
 					
 			this.getData().setDate(date);
 			this.getData().setValue(val);;
@@ -139,6 +144,11 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			targetCombo.getItems().add(t);
 		}
 		targetCombo.getItems().add(otherTarget);
+		
+		for (Category t : categoryList) {
+			categoryParentCombo.getItems().add(t);
+		}
+		
 
 		this.errorLabels = new ArrayList<Label>() {
 
@@ -147,10 +157,26 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				add(dateError);
 				add(valueError);
 				add(typeError);
+				add(IBANTargetError);
+				add(descriptionTargetError);
+				add(categoryNameError);
 
 			}
 		};
 		errorLabels.forEach(label -> label.setVisible(false));
+		
+		this.errorTextfields = new ArrayList<TextField>() {
+
+			{
+				add(newTargetIBANTextField);
+				add(newTargetSummaryTextField);
+				add(newCatgoryTextField);
+			}
+		};
+		
+		errorTextfields.forEach(textfields -> textfields.setDisable(true));
+		
+		categoryParentCombo.setDisable(true);
 	}
 
 	@Override
