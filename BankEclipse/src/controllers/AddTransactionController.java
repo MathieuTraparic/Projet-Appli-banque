@@ -18,6 +18,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Bank;
 import model.Category;
 import model.TargetTransaction;
 import model.Transaction;
@@ -69,6 +70,8 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	void handleTransactionSubmit(ActionEvent event) throws ParseException {
 
 		errorLabels.forEach(label -> label.setVisible(false));
+		
+		Category cat;
 
 		String des = descriptionTextField.getText();
 		Double val = Double.parseDouble(valueTextField.getText());
@@ -89,16 +92,48 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		}
 		if (typ.isEmpty()) {
 			typeError.setVisible(true);
-		}else {
+		}
+
+
+		
+		else {
 			
 			Stage stage = (Stage) transactionCancel.getScene().getWindow();
 			
 			TransactionType transactionType = typeCombo.getValue();
 			
-			Category cat = categoryCombo.getValue();
+			cat = categoryCombo.getValue();
+			
 			TargetTransaction tar = targetCombo.getValue();
 			
-			if (cat!=null){
+			if (categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)){
+				Category newCat = new Category(newCatgoryTextField.getText(), 
+						categoryParentCombo.getValue());
+				
+				EntityManager em = VistaNavigator.getEmf().createEntityManager();
+				
+				List<Category> catList = em.createNamedQuery("Category.findAll").getResultList();
+				
+				for (Category ca : catList) {
+					if (ca.getDescription().equals(newCat.getDescription())) {
+						categoryNameError.setVisible(true);
+					}
+					else{
+						
+						em.getTransaction().begin();
+						em.persist(newCat);
+						em.getTransaction().commit();
+						
+						cat = newCat ;
+						
+					}
+				}
+				this.getData().setCategory(cat);
+				em.close();
+	
+			}
+	
+			if (cat!=null || !categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)){
 				this.getData().setCategory(cat);
 			}
 			if (tar!=null){
@@ -189,14 +224,22 @@ public class AddTransactionController extends PopupController<Transaction> imple
 //		}
 		
 		targetCombo.valueProperty().addListener((obs, oldV, newV) -> {
-			System.out.println(newV);
-			//System.out.println(obs);
-			//.out.println(oldV);
+
 
 			boolean b =!newV.getSummary().equals(NEW_TARGET);
-			System.out.println(b);
+			
 			newTargetIBANTextField.setDisable(b);
 			newTargetSummaryTextField.setDisable(b);
+			
+		});
+		
+		categoryCombo.valueProperty().addListener((obs, oldV, newV) -> {
+
+
+			boolean b =!newV.getDescription().equals(NEW_CATEGORY);
+			
+			newCatgoryTextField.setDisable(b);
+			categoryParentCombo.setDisable(b);
 			
 		});
 
