@@ -2,8 +2,6 @@ package controllers;
 
 import java.net.URL;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +9,6 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 
-import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
-
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,10 +18,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Account;
-import model.Bank;
 import model.Category;
-import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
@@ -61,6 +53,10 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	private List<TargetTransaction> targetList;
 	private List<Label> errorLabels;
 	private List<TextField> newTextfields;
+	
+	private static final String NEW_TARGET = "New target";
+	private static final String NEW_CATEGORY = "New category";
+	private static final String NEW_TYPE = "New type";
 	
 
 	@FXML
@@ -128,9 +124,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		em.close();
 		
-		TransactionType otherType= new TransactionType("New Type");;
-		Category otherCategory = new Category("New Category");
-		TargetTransaction otherTarget = new TargetTransaction("New Target");
+		TransactionType otherType= new TransactionType(NEW_TYPE);
+		Category otherCategory = new Category(NEW_CATEGORY);
+		TargetTransaction otherTarget = new TargetTransaction(NEW_TARGET);
 
 
 		for (TransactionType t : transactionType) {
@@ -192,11 +188,16 @@ public class AddTransactionController extends PopupController<Transaction> imple
 //			
 //		}
 		
-		targetCombo.valueProperty().addListener((obs, old, obschanged) -> {
-			
-			newTargetIBANTextField.setDisable(targetCombo.getValue().equals("New Target"));
+		targetCombo.valueProperty().addListener((obs, oldV, newV) -> {
+			System.out.println(newV);
+			//System.out.println(obs);
+			//.out.println(oldV);
 
-			newTargetSummaryTextField.setDisable(!targetCombo.getValue().equals("New Target"));
+			boolean b =!newV.getSummary().equals(NEW_TARGET);
+			System.out.println(b);
+			newTargetIBANTextField.setDisable(b);
+			newTargetSummaryTextField.setDisable(b);
+			
 		});
 
 	}
