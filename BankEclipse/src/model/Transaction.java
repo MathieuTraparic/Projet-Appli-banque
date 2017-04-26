@@ -31,6 +31,7 @@ import javafx.beans.property.StringProperty;
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	public static final Comparator<Transaction> CHRONOLOGICAL_COMPARATOR =new Comparator<Transaction>() {
 
 		@Override
@@ -46,7 +47,9 @@ public class Transaction implements Serializable {
 		}
 	};
 	
-	private Integer id;
+
+	private int id;
+
 	private String description;
 	private double value;
 	private Date date;
@@ -149,11 +152,11 @@ public class Transaction implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	private void setId(int id) {
 		this.id = id;
 	}
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -11,17 +12,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="507.0" prefWidth="342.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddAccountController">
+<AnchorPane prefHeight="507.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddAccountController">
 	<children>
 		<Label layoutX="91.0" layoutY="14.0" prefHeight="20.0" prefWidth="100.0" text="Add an account" AnchorPane.leftAnchor="91.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="14.0">
 			<font>
 				<Font size="14.0" />
 			</font>
 		</Label>
-		<GridPane layoutX="25.0" layoutY="55.0" prefHeight="416.0" prefWidth="291.0" AnchorPane.topAnchor="55.0">
+		<GridPane layoutX="25.0" layoutY="55.0" prefHeight="416.0" prefWidth="420.0" AnchorPane.topAnchor="55.0">
 			<columnConstraints>
 				<ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="91.0" />
-				<ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="125.0" />
+				<ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="180.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="145.0" />
 			</columnConstraints>
 			<rowConstraints>
 				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -56,8 +58,8 @@
 				<TextField fx:id="addAccountInitBalance" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 				<TextField fx:id="addAccountOverdraft" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 				<TextField fx:id="addAccountThreshold" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <ComboBox fx:id="addAccountCountryCode" prefHeight="25.0" prefWidth="239.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <ComboBox fx:id="addAccountType" prefHeight="25.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <ComboBox fx:id="addAccountCountryCode" onAction="#handleOtherCode" prefHeight="25.0" prefWidth="239.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <ComboBox fx:id="addAccountType" onAction="#handleOtherType" prefHeight="25.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Label fx:id="accountNumberError" text="Account number can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label fx:id="accountDescriptionError" text="Description can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="accountBalanceError" text="Initial balance can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -71,9 +73,19 @@
             <Label fx:id="accountCountryCodeError" text="Country code can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Label fx:id="accountTypeError" text="Account type can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <Label fx:id="accountAgencyError" text="Agency can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <TextField fx:id="createCountryCode" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="123.0" GridPane.columnIndex="2" GridPane.rowIndex="10">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="createAccountType" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="123.0" GridPane.columnIndex="2" GridPane.rowIndex="12">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </TextField>
 			</children>
 		</GridPane>
 		<Button fx:id="addAccountCancel" cancelButton="true" layoutX="25.0" layoutY="475.0" mnemonicParsing="false" onAction="#handleAddAccountCancel" text="Cancel" AnchorPane.bottomAnchor="7.0" />
-		<Button fx:id="addAccountSubmit" layoutX="262.0" layoutY="475.0" mnemonicParsing="false" onAction="#handleAddAccountSubmit" text="Submit" AnchorPane.bottomAnchor="7.0" />
+		<Button fx:id="addAccountSubmit" layoutX="246.0" layoutY="475.0" mnemonicParsing="false" onAction="#handleAddAccountSubmit" text="Submit" AnchorPane.bottomAnchor="7.0" />
 	</children>
 </AnchorPane>

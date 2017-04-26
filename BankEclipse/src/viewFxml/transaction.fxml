@@ -17,8 +17,7 @@
 		<AnchorPane layoutX="7.0" minHeight="0.0" minWidth="0.0"
 			prefHeight="460.0" prefWidth="800.0">
 			<children>
-				<ComboBox layoutX="397.0" layoutY="37.0" prefWidth="150.0"
-					promptText="Choose your filter" AnchorPane.topAnchor="37.0" />
+
 				<TableView fx:id="tableTransaction" editable="true"
 					layoutX="15.0" layoutY="88.0" prefHeight="314.0" prefWidth="765.0"
 					AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="15.0"
