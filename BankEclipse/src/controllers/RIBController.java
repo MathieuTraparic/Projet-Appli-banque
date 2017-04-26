@@ -7,7 +7,6 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import model.Account;
 import util.IBANHandler;
 import javafx.event.ActionEvent;
