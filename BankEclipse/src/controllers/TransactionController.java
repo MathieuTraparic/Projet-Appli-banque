@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,6 +61,9 @@ public class TransactionController extends AccountSpecificController {
 
 	@FXML
 	private Button editTransaction;
+	
+	@FXML
+	private Button removeTransaction;
 
 	private ObservableList<Transaction> dataTransactionRow=null;
 	private ArrayList<TransactionType> typeList;
@@ -96,6 +100,10 @@ public class TransactionController extends AccountSpecificController {
 		/*
 		 * AUTHOR : http://blog.physalix.com/javafx8-render-a-datepicker-cell-in-a-tableview/
 		 */
+		
+		/*
+		 * There still problem with the DatePickerCell class to fix
+		 */
 		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
             @Override
             public TableCell call(TableColumn p) {
@@ -103,15 +111,26 @@ public class TransactionController extends AccountSpecificController {
                 return datePick;
             }
         });
-				
-//		dateCol.setOnEditCommit(
-//				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
-//
-//		valueCol.setOnEditCommit(
-//				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
-//
-//		descriptionCol.setOnEditCommit(
-//				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDescription(t.getNewValue()));
+
+		
+		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged)-> {
+				editTransaction.setDisable(obschanged == null);
+				removeTransaction.setDisable(obschanged == null);
+		});
+		
+		//Getting the new date value is still problematic
+		dateCol.setOnEditCommit(
+				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
+		
+		typeCol.setOnEditCommit(
+				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setTransactionType(t.getNewValue()));
+
+
+		valueCol.setOnEditCommit(
+				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
+
+		descriptionCol.setOnEditCommit(
+				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDescription(t.getNewValue()));
 
 		tableTransaction.setItems(dataTransactionRow);
 	}
@@ -123,6 +142,7 @@ public class TransactionController extends AccountSpecificController {
 		if (this.accountCombo.getValue() != null) {
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
+
 
 		}
 
@@ -157,28 +177,69 @@ public class TransactionController extends AccountSpecificController {
 							em.close();
 
 							tableTransaction.getItems().add(transaction);
+							
+							tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
+							
 						}
 
 					}
 				});
+
 	}
 
 	@FXML
 	void removeTransaction(ActionEvent event) {
+		
+		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
+
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		
+		Transaction t = em.find(Transaction.class,transactionUpdate.getId());
+		
+		em.getTransaction().begin();
+		em.remove(t);
+		em.getTransaction().commit();
+
+		em.close();
+		
+		tableTransaction.getItems().remove(transactionUpdate);
+		
+		tableTransaction.getSelectionModel().clearSelection();
+
+		removeTransaction.setDisable(true);
+		editTransaction.setDisable(true);
 
 	}
 
 	@FXML
 	void editTransaction(ActionEvent event) {
-
-		if (tableTransaction.getSelectionModel().getSelectedItem() != null) {
-
-			editTransaction.setDisable(false);
+		
+			Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
 
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+			
+			em.getTransaction().begin();
+			
+			//String description, double value, Date date, TransactionType transactionType, PeriodicTransaction periodicTransaction 
+			
+			Query q = em.createQuery(
+					"UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
+							+ "a.transactionType=:transactionType WHERE a.id=:id");
+			q.setParameter("id", transactionUpdate.getId());
+			q.setParameter("description", transactionUpdate.getDescription());
+			q.setParameter("value", transactionUpdate.getValue());
+			q.setParameter("date", transactionUpdate.getDate());
+			q.setParameter("transactionType", transactionUpdate.getTransactionType());
+
+			q.executeUpdate();
+			
+			em.getTransaction().commit();
 
 			em.close();
-		}
+			
+			tableTransaction.getSelectionModel().clearSelection();
+			
+			editTransaction.setDisable(true);
 
 	}
 }
