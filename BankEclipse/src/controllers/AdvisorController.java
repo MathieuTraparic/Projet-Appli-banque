@@ -290,15 +290,6 @@ public class AdvisorController implements Initializable {
 				applyButton.setDisable(false);
 			}
 
-			/*
-			 * applyButton.setDisable(false);
-			 * name.textProperty().removeListener(onChange);
-			 * firstName.textProperty().removeListener(onChange);
-			 * phoneNumber.textProperty().removeListener(onChange);
-			 * email.textProperty().removeListener(onChange);
-			 * assignmentDate.valueProperty().removeListener(timeChange);
-			 */
-
 		}
 	}
 

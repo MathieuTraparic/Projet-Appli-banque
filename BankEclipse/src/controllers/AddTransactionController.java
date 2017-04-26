@@ -30,13 +30,13 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	@FXML
 	public Button transactionCancel, transactionSubmit;
 	@FXML
-	public TextField descriptionTextField, valueTextField,
-			newTargetIBANTextField, newTargetSummaryTextField, newCatgoryTextField;
+	public TextField descriptionTextField, valueTextField, newTargetIBANTextField, newTargetSummaryTextField,
+			newCatgoryTextField;
 	@FXML
 	public DatePicker datePicker;
 	@FXML
-	public Label descriptionError, typeError, valueError, categoryOther, targetOther,
-			dateError, IBANTargetError, descriptionTargetError,categoryNameError ;
+	public Label descriptionError, typeError, valueError, categoryOther, targetOther, dateError, IBANTargetError,
+			descriptionTargetError, categoryNameError;
 	@FXML
 	public ComboBox<TransactionType> typeCombo;
 	@FXML
@@ -45,20 +45,19 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public ComboBox<Category> categoryParentCombo;
 	@FXML
 	public ComboBox<TargetTransaction> targetCombo;
-	
-	//@FXML
-	//private ObservableList<Transaction> data;
+
+	// @FXML
+	// private ObservableList<Transaction> data;
 
 	private List<TransactionType> transactionType;
 	private List<Category> categoryList;
 	private List<TargetTransaction> targetList;
 	private List<Label> errorLabels;
 	private List<TextField> newTextfields;
-	
+
 	private static final String NEW_TARGET = "New target";
 	private static final String NEW_CATEGORY = "New category";
 	private static final String NEW_TYPE = "New type";
-	
 
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
@@ -70,16 +69,15 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	void handleTransactionSubmit(ActionEvent event) throws ParseException {
 
 		errorLabels.forEach(label -> label.setVisible(false));
-		
+
 		Category cat;
+		TargetTransaction tar;
 
 		String des = descriptionTextField.getText();
 		Double val = Double.parseDouble(valueTextField.getText());
-		Date date = new Date ();
+		Date date = new Date();
 		date = DateConverter.LocalDate2Date(datePicker.getValue());
 		String typ = typeCombo.getValue().getDescription();
-
-
 
 		if (des.isEmpty()) {
 			descriptionError.setVisible(true);
@@ -93,59 +91,84 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		if (typ.isEmpty()) {
 			typeError.setVisible(true);
 		}
-
-
 		
+		//if (isANewAdvisor == false && errorLabels.stream().allMatch(label -> !label.isVisible())) {
+
 		else {
-			
+
 			Stage stage = (Stage) transactionCancel.getScene().getWindow();
-			
+
 			TransactionType transactionType = typeCombo.getValue();
-			
+
 			cat = categoryCombo.getValue();
+
+			tar = targetCombo.getValue();
 			
-			TargetTransaction tar = targetCombo.getValue();
-			
-			if (categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)){
-				Category newCat = new Category(newCatgoryTextField.getText());
-				
-				EntityManager em = VistaNavigator.getEmf().createEntityManager();
-				
-				List<Category> catList = em.createNamedQuery("Category.findAll").getResultList();
-				
-				for (Category ca : catList) {
-					if (ca.getDescription().equals(newCat.getDescription())) {
-						categoryNameError.setVisible(true);
-					}
-					else{
-						if (categoryParentCombo.getValue()!= null){
-					
-							newCat.setParentCategory(categoryParentCombo.getValue());
+			if (cat!=null){
+				if (categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)) {
+					Category newCat = new Category(newCatgoryTextField.getText());
+
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+
+					List<Category> catList = em.createNamedQuery("Category.findAll").getResultList();
+
+					for (Category ca : catList) {
+						if (ca.getDescription().equals(newCat.getDescription())) {
+							categoryNameError.setVisible(true);
+						} else {
+							if (categoryParentCombo.getValue() != null) {
+
+								newCat.setParentCategory(categoryParentCombo.getValue());
+							}
+
+							em.getTransaction().begin();
+							em.persist(newCat);
+							em.getTransaction().commit();
+
+							cat = newCat;
+
 						}
-						
-						em.getTransaction().begin();
-						em.persist(newCat);
-						em.getTransaction().commit();
-						
-						cat = newCat ;
-						
-						
 					}
+					this.getData().setCategory(cat);
+					em.close();
+
+				}else{
+					this.getData().setCategory(cat);
 				}
-				this.getData().setCategory(cat);
-				em.close();
-	
-			}
-	
-			if (cat!=null || !categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)){
-				this.getData().setCategory(cat);
-			}
-			if (tar!=null){
-				this.getData().setTargetTransaction(tar);
 			}
 			
+			if (tar!=null){
+				if (targetCombo.getValue().getSummary().equals(NEW_TARGET)) {
+					TargetTransaction newTar= new TargetTransaction(newTargetSummaryTextField.getText(), newTargetIBANTextField.getText());
+
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+
+					List<TargetTransaction> tarList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
+
+					for (TargetTransaction ta : tarList) {
+						if (ta.getIban().equals(newTar.getIban())) {
+							IBANTargetError.setVisible(true);
+						} else {
+
+							em.getTransaction().begin();
+							em.persist(newTar);
+							em.getTransaction().commit();
+
+							tar = newTar;
+
+						}
+					}
+					this.getData().setTargetTransaction(tar);
+					em.close();
+				}
+				else {
+					this.getData().setTargetTransaction(tar);
+				}
+			}
+
+
 			this.getData().setDate(date);
-			this.getData().setValue(val);;
+			this.getData().setValue(val);
 			this.getData().setDescription(des);
 			this.getData().setTransactionType(transactionType);
 
@@ -162,31 +185,29 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		categoryList = em.createNamedQuery("Category.findAll").getResultList();
 		targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		em.close();
-		
-		TransactionType otherType= new TransactionType(NEW_TYPE);
+
+		TransactionType otherType = new TransactionType(NEW_TYPE);
 		Category otherCategory = new Category(NEW_CATEGORY);
 		TargetTransaction otherTarget = new TargetTransaction(NEW_TARGET);
-
 
 		for (TransactionType t : transactionType) {
 			typeCombo.getItems().add(t);
 		}
 		typeCombo.getItems().add(otherType);
-		
+
 		for (Category t : categoryList) {
 			categoryCombo.getItems().add(t);
 		}
 		categoryCombo.getItems().add(otherCategory);
-		
+
 		for (TargetTransaction t : targetList) {
 			targetCombo.getItems().add(t);
 		}
 		targetCombo.getItems().add(otherTarget);
-		
+
 		for (Category t : categoryList) {
 			categoryParentCombo.getItems().add(t);
 		}
-		
 
 		this.errorLabels = new ArrayList<Label>() {
 
@@ -202,7 +223,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			}
 		};
 		errorLabels.forEach(label -> label.setVisible(false));
-		
+
 		this.newTextfields = new ArrayList<TextField>() {
 
 			{
@@ -211,37 +232,33 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				add(newCatgoryTextField);
 			}
 		};
-		
-		
+
 		newTextfields.forEach(textfield -> textfield.setDisable(true));
-		
+
 		categoryParentCombo.setDisable(true);
-		
+
 		typeCombo.valueProperty().addListener((obs, oldV, newV) -> {
 
+			boolean b = !newV.getDescription().equals(NEW_TYPE);
 
-			boolean b =!newV.getDescription().equals(NEW_TYPE);
-			
 		});
-		
+
 		targetCombo.valueProperty().addListener((obs, oldV, newV) -> {
 
+			boolean b = !newV.getSummary().equals(NEW_TARGET);
 
-			boolean b =!newV.getSummary().equals(NEW_TARGET);
-			
 			newTargetIBANTextField.setDisable(b);
 			newTargetSummaryTextField.setDisable(b);
-			
+
 		});
-		
+
 		categoryCombo.valueProperty().addListener((obs, oldV, newV) -> {
 
+			boolean b = !newV.getDescription().equals(NEW_CATEGORY);
 
-			boolean b =!newV.getDescription().equals(NEW_CATEGORY);
-			
 			newCatgoryTextField.setDisable(b);
 			categoryParentCombo.setDisable(b);
-			
+
 		});
 
 	}

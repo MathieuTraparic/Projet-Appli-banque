@@ -80,11 +80,11 @@ public class TargetTransaction implements Serializable {
 		this.summary = summary;
 	}
 
-	private String getIban() {
+	public String getIban() {
 		return this.iban;
 	}
 
-	private void setIban(String iban) {
+	public void setIban(String iban) {
 		this.iban = iban;
 	}
 	
