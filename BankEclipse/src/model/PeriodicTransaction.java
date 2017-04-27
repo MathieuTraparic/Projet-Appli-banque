@@ -22,59 +22,26 @@ import javax.persistence.TemporalType;
 @NamedQuery(name = "PeriodicTransaction.findAll", query = "SELECT t FROM PeriodicTransaction t")
 public class PeriodicTransaction implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private Integer id;
+	private static final long serialVersionUID = -7446323535530912419L;
+	private int id;
 	private Date endDate;
 	private int numberDefiningPeriodicity;
 	private Frequency frequency;
 	private List<Transaction> transactions;
-	
-	
-	
 
-	private PeriodicTransaction() {
-	}
+	@SuppressWarnings("unused")
+	private PeriodicTransaction() {}
 
+	/**
+	 * @param endDate
+	 * @param numberDefiningPeriodicity
+	 * @param frequency
+	 */
 	public PeriodicTransaction(Date endDate, int numberDefiningPeriodicity, Frequency f) {
-		//TODO update FREQENCIES from DB
-
-		checkdayNumberDefiningPeriodicity(numberDefiningPeriodicity);
-		checkEndDateTransaction(endDate);
-
-		this.endDate = endDate;
-		this.numberDefiningPeriodicity = numberDefiningPeriodicity;
-		this.frequency = f;
+		this.setEndDate(endDate);
+		this.setNumberDefiningPeriodicity(numberDefiningPeriodicity);
+		this.setFrequency(f);
 	}
-
-	private static void checkEndDateTransaction(Date endDateTransaction) throws IllegalArgumentException{
-		if (endDateTransaction == null) {
-			throw new NullPointerException("The date cannot be null");
-		}
-	}
-	
-	private static void checkdayNumberDefiningPeriodicity(int numberDefiningPeriodicity) throws IllegalArgumentException {
-		if (!isValidNumberDefiningPeriodicity(numberDefiningPeriodicity)) {
-			throw new IllegalArgumentException(
-					"The number which defines the periodicity between each periodic transaction must be superior to 0");
-		}
-	}
-	
-	public static boolean isValidNumberDefiningPeriodicity(int numberDefiningPeriodicity){
-		return (numberDefiningPeriodicity >= 0);
-	}
-
-	/*private static void checkFrequencyUnit(String frequencyUnit) throws IllegalArgumentException{
-		if (frequencyUnit.isEmpty()) {
-			throw new IllegalArgumentException("The unit of periodicity cannot be empty");
-		}
-		else if(!isValidFrequencyUnit(frequencyUnit)){
-			throw new IllegalArgumentException("The frequency of the periodic transaction must be an existing type");
-		}
-	}*/
-	
-//	public static boolean isValidFrequencyUnit(String frequencyUnit){
-//		return (FREQUENCIES.contains(frequencyUnit));
-//	}
 
 	public void setFrequency(Frequency frequency) {
 		this.frequency =frequency;	
@@ -92,6 +59,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 
 	public void setEndDate(Date endDate) {
+		checkEndDateTransaction(endDate);
 		this.endDate = endDate;
 	}
 
@@ -100,40 +68,40 @@ public class PeriodicTransaction implements Serializable {
 	}
 
 	public void setNumberDefiningPeriodicity(int numberDefiningPeriodicity) {
+		checkdayNumberDefiningPeriodicity(numberDefiningPeriodicity);
 		this.numberDefiningPeriodicity = numberDefiningPeriodicity;
 	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	@SuppressWarnings("unused")
+	private void setId(Integer id) {
 		this.id = id;
 	}
 	
-	//bi-directional many-to-one association to transaction
 	@OneToMany(mappedBy="PeriodicTransaction")
 	public List<Transaction> getTransactions() {
 		return this.transactions;
 	}
 
 	public void setTransactions(List<Transaction> transactions) {
+		checkTransaction(transactions);
 		this.transactions = transactions;
 	}
 
 	public Transaction addPeriodictransaction(Transaction transaction) {
 		getTransactions().add(transaction);
 		transaction.setPeriodicTransaction(this);
-
 		return transaction;
 	}
 
 	public Transaction removePeriodictransaction(Transaction transaction) {
 		getTransactions().remove(transaction);
 		transaction.setPeriodicTransaction(null);
-
 		return transaction;
 	}
 	
@@ -144,5 +112,27 @@ public class PeriodicTransaction implements Serializable {
 			return this.transactions.get(0).getDescription();
 		}
 	}
-
+	
+	private static void checkEndDateTransaction(Date endDateTransaction) throws IllegalArgumentException{
+		if (endDateTransaction == null) {
+			throw new NullPointerException("The date cannot be null");
+		}
+	}
+	
+	private static void checkdayNumberDefiningPeriodicity(int numberDefiningPeriodicity) throws IllegalArgumentException {
+		if (!isValidNumberDefiningPeriodicity(numberDefiningPeriodicity)) {
+			throw new IllegalArgumentException(
+					"The number which defines the periodicity between each periodic transaction must be superior to 0");
+		}
+	}
+	
+	private static void checkTransaction(List<Transaction> transactions2) throws NullPointerException{
+		if(transactions2 == null){
+			throw new NullPointerException("The transaction can't be null");
+		}
+	}
+	
+	public static boolean isValidNumberDefiningPeriodicity(int numberDefiningPeriodicity){
+		return (numberDefiningPeriodicity >= 0);
+	}
 }

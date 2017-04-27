@@ -12,25 +12,19 @@ import javax.persistence.*;
 @NamedQuery(name = "Frequency.findAll", query = "SELECT f FROM Frequency f")
 
 public class Frequency implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 2903748555649709137L;
 	private int id;
 	private String unit;
-	// private List<PeriodicTransaction> periodictransactions;
 
-	private Frequency() {
-	}
+	@SuppressWarnings("unused")
+	private Frequency() {}
 
+	/**
+	 * @param unit
+	 */
 	public Frequency(String unit) {
-
-		check_frequency(unit);
-
-		this.unit = unit;
-	}
-
-	private static void check_frequency(String unit) throws IllegalArgumentException {
-		if (unit.isEmpty()) {
-			throw new IllegalArgumentException("The unit frequency must be valid");
-		}
+		this.setUnit(unit);
 	}
 
 	@Id
@@ -39,7 +33,8 @@ public class Frequency implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 
@@ -48,6 +43,7 @@ public class Frequency implements Serializable {
 	}
 
 	public void setUnit(String unit) {
+		checkUnit(unit);
 		this.unit = unit;
 	}
 
@@ -56,6 +52,12 @@ public class Frequency implements Serializable {
 		return unit;
 	}
 
+	private static void checkUnit(String unit) throws IllegalArgumentException {
+		if (unit.isEmpty()) {
+			throw new IllegalArgumentException("The unit frequency must be valid");
+		}
+	}
+	
 	// //bi-directional many-to-one association to Periodictransaction
 	// @OneToMany(mappedBy="frequency")
 	// public List<PeriodicTransaction> getPeriodictransactions() {

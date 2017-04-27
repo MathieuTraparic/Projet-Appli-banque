@@ -25,7 +25,7 @@ import util.Validator;
 @NamedQuery(name = "Owner.findAll", query = "SELECT o FROM Owner o")
 public class Owner implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5806508181292371902L;
 	private int id;
 	private String name;
 	private String firstName;
@@ -39,40 +39,40 @@ public class Owner implements Serializable {
 	private List<Account> accounts;
 
 	@SuppressWarnings("unused")
-	private Owner(){
+	private Owner(){}
+	
+	/**
+	 * @param login
+	 * @param pswd : password
+	 * @param email
+	 * @param salt
+	 */
+	public Owner(String login, String pswd, String email, String salt){	
+		this.setLogin(login);
+		this.setPswd(pswd);
+		this.setEmail(email);
+		this.setSalt(salt);
 	}
 	
-	public Owner(String login, String pswd, String email, String salt){
-		check_pswd(pswd);
-		check_login(login);
-		check_email(email);
-		
-		this.login = login;
-		this.pswd = pswd;
-		this.email=email;
-		this.salt=salt;
-	}
-	
+	/**
+	 * @param name
+	 * @param firstName
+	 * @param phoneNumber
+	 * @param birthday
+	 * @param login
+	 * @param pswd
+	 * @param email
+	 * @param address
+	 */
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd, String email, Address address) {
-		
-		check_login(login);
-		check_pswd(pswd);
-		check_email(email);
-		
-		check_firstName(firstName);
-		check_birthday(birthday);
-		check_name(name);
-		check_phoneNumber(phoneNumber);
-
-
-		this.name = Formater.formatNameCase(name);
-		this.firstName = Formater.formatNameCase(firstName);
-		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
-		this.birthday = birthday;
-		this.login = login;
-		this.pswd = pswd;
-		this.email=email;
-		this.address=address;
+		this.setName(name);
+		this.setFirstName(firstName); 
+		this.setPhoneNumber(phoneNumber);
+		this.setBirthday(birthday);
+		this.setLogin(login);
+		this.setPswd(pswd);
+		this.setEmail(email);
+		this.setAddress(address);
 	}
 
 	@Id
@@ -81,7 +81,8 @@ public class Owner implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 	
@@ -90,16 +91,17 @@ public class Owner implements Serializable {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		checkName(name);
+		this.name = Formater.formatNameCase(name);;
 	}
 	
 	public String getFirstName() {
 		return firstName;
 	}
-	
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		checkFirstName(firstName);
+		this.firstName = Formater.formatNameCase(firstName);
 	}
 	
 	@Temporal (TemporalType.DATE)
@@ -108,6 +110,7 @@ public class Owner implements Serializable {
 	}
 	
 	public void setBirthday(Date birthday) {
+		checkBirthday(birthday);
 		this.birthday = birthday;
 	}
 
@@ -116,6 +119,7 @@ public class Owner implements Serializable {
 	}
 
 	public void setLogin(String login) {
+		checkLogin(login);
 		this.login = login;
 	}
 
@@ -124,6 +128,7 @@ public class Owner implements Serializable {
 	}
 
 	public void setPswd(String pswd) {
+		checkPswd(pswd);
 		this.pswd = pswd;
 	}
 	
@@ -132,6 +137,7 @@ public class Owner implements Serializable {
 	}
 
 	public void setSalt(String salt) {
+		checkSalt(salt);
 		this.salt = salt;
 	}
 	
@@ -140,7 +146,8 @@ public class Owner implements Serializable {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+		checkPhoneNumber(phoneNumber);
+		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
 	}
 	
 	
@@ -149,6 +156,7 @@ public class Owner implements Serializable {
 	}
 
 	public void setEmail(String email) {
+		checkEmail(email);
 		this.email = email;
 	}
 
@@ -159,6 +167,7 @@ public class Owner implements Serializable {
 	}
 
 	public void setAddress(Address address) {
+		checkAddress(address);
 		this.address = address;
 	}
 
@@ -170,10 +179,11 @@ public class Owner implements Serializable {
 	}
 
 	public void setAccounts(List<Account> accounts) {
+		checkAccounts(accounts);
 		this.accounts = accounts;
 	}
 
-	private static void check_name(String name) throws IllegalArgumentException {
+	private static void checkName(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
 			throw new IllegalArgumentException("name cannot be empty");
 		}
@@ -186,19 +196,19 @@ public class Owner implements Serializable {
 		return Validator.isValidName(name);
 	}
 
-	private static void check_firstName(String firstName) throws IllegalArgumentException {
+	private static void checkFirstName(String firstName) throws IllegalArgumentException {
 		if (firstName.isEmpty()) {
 			throw new IllegalArgumentException("firstName cannot be empty");
 		}
 	}
 
-	private static void check_login(String login) throws IllegalArgumentException {
+	private static void checkLogin(String login) throws IllegalArgumentException {
 		if (login.isEmpty()) {
 			throw new IllegalArgumentException("login cannot be empty");
 		}
 	}
 
-	private static void check_pswd(String pswd) throws IllegalArgumentException {
+	private static void checkPswd(String pswd) throws IllegalArgumentException {
 		if (pswd.isEmpty()) {
 			throw new IllegalArgumentException("pswd cannot be empty");
 		} else if (!isValidPswd(pswd)) {
@@ -211,7 +221,7 @@ public class Owner implements Serializable {
 		return true;
 	}
 
-	private static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
+	private static void checkPhoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()) {
 			throw new IllegalArgumentException("phoneNumber cannot be empty");
 		}
@@ -224,7 +234,7 @@ public class Owner implements Serializable {
 		return Validator.isValidPhoneNumber(phoneNumber);
 	}
 
-	private static void check_birthday(Date birthday) throws IllegalArgumentException {
+	private static void checkBirthday(Date birthday) throws IllegalArgumentException {
 		if (!isValidBirthday(birthday)) {
 			throw new IllegalArgumentException("The birthday date cannot be in the future");
 		}
@@ -234,7 +244,7 @@ public class Owner implements Serializable {
 		return date.before(new Date());
 	}
 	
-	private static void check_email(String email) throws IllegalArgumentException {
+	private static void checkEmail(String email) throws IllegalArgumentException {
 		if (email.isEmpty()) {
 			throw new IllegalArgumentException("Email cannot be empty");
 		} else if (!isValidEmail(email)) {
@@ -245,5 +255,22 @@ public class Owner implements Serializable {
 	public static boolean isValidEmail(String email) {
 		return Validator.isValidEmailAddress(email);
 	}
-
+	
+	private static void checkSalt(String salt) throws NullPointerException{
+		if(salt == null){
+			throw new NullPointerException("The salt can't be null");
+		}
+	}
+	
+	private static void checkAddress(Address address) throws NullPointerException {
+		if(address == null){
+			throw new NullPointerException("The address can't be null");
+		}
+	}
+	
+	private static void checkAccounts(List<Account> accounts) throws NullPointerException {
+		if(accounts == null){
+			throw new NullPointerException("The accounts can't be null");
+		}
+	}
 }
