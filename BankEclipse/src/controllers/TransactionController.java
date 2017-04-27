@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import controllers.popup.PopupController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,7 +43,7 @@ import model.Transaction;
 import model.TransactionType;
 import util.DatePickerCell;
 
-public class TransactionController extends AccountSpecificController {
+public class TransactionController extends AccountSelector {
 
 	@FXML
 	public TableView<Transaction> tableTransaction;

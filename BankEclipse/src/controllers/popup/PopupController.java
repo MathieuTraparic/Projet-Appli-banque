@@ -1,4 +1,4 @@
-package controllers;
+package controllers.popup;
 
 import java.io.IOException;
 import java.net.URL;

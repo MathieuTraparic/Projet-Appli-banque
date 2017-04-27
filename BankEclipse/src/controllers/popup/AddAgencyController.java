@@ -1,4 +1,4 @@
-package controllers;
+package controllers.popup;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import controllers.VistaNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

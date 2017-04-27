@@ -27,7 +27,7 @@ import model.Owner;
  *	Handle the initialization of a account ComboBox specific to the logged Owner
  *	TODO Wrapper design pattern ?
  */
-public abstract class AccountSpecificController extends BankSelector {
+public abstract class AccountSelector extends BankSelector {
 	
 	@FXML
 	ComboBox<Account> accountCombo;

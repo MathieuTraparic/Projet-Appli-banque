@@ -7,6 +7,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
+
+import controllers.popup.PopupController;
+
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;

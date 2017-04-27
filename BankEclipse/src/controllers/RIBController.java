@@ -11,7 +11,7 @@ import model.Account;
 import util.IBANHandler;
 import javafx.event.ActionEvent;
 
-public class RIBController extends AccountSpecificController {
+public class RIBController extends AccountSelector {
 
 	
 	@FXML

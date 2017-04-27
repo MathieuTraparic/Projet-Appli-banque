@@ -1,4 +1,4 @@
-package controllers;
+package controllers.popup;
 
 import java.net.URL;
 import java.text.ParseException;
@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 
+import controllers.VistaNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

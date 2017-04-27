@@ -13,7 +13,7 @@ import model.PeriodicTransaction;
 import model.Transaction;
 import javafx.event.ActionEvent;
 
-public class PeriodicController extends AccountSpecificController {
+public class PeriodicController extends AccountSelector {
 
 	@FXML
 	TableView<PeriodicTransaction> viewPeriodic;
