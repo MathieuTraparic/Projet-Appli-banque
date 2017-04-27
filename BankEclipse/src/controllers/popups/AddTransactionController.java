@@ -26,6 +26,10 @@ import model.TransactionType;
 import util.DateConverter;
 import util.Validator;
 
+/**
+ * @author Group
+ * This controller allow to create a new Transaction
+ */
 public class AddTransactionController extends PopupController<Transaction> implements Initializable {
 
 	@FXML
@@ -60,12 +64,13 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+		// Initialization of the list with data extracted from the database
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
 		categoryList = em.createNamedQuery("Category.findAll").getResultList();
 		targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		em.close();
-
+		
 		TransactionType otherType = new TransactionType(NEW_TYPE);
 		Category otherCategory = new Category(NEW_CATEGORY);
 		TargetTransaction otherTarget = new TargetTransaction(NEW_TARGET);
@@ -148,12 +153,16 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		// TODO
 	}
 
+	/**
+	 * @param event : close the popup on cancel
+	 */
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
 		Stage stage = (Stage) transactionCancel.getScene().getWindow();
 		stage.close();
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	@FXML
 	void handleTransactionSubmit(ActionEvent event) throws ParseException {
@@ -178,7 +187,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		}
 
 		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
-
+			// Get data from the fields
 			Date date = DateConverter.LocalDate2Date(datePicker.getValue());
 			Double val = Double.parseDouble(valueTextField.getText());
 			String des = descriptionTextField.getText();
@@ -193,14 +202,15 @@ public class AddTransactionController extends PopupController<Transaction> imple
 						categoryNameError.setVisible(true);
 					}
 					if (!categoryNameError.isVisible()) {
+						// New instance of category
 						Category newCat = new Category(newCatgoryTextField.getText());
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
 						List<Category> catList = em.createNamedQuery("Category.findAll").getResultList();
-
 						for (Category ca : catList) {
 							if (ca.getDescription().equals(newCat.getDescription())) {
 								categoryNameError.setVisible(true);
 							} else {
+								// commit the new category
 								if (categoryParentCombo.getValue() != null) {
 									newCat.setParentCategory(categoryParentCombo.getValue());
 								}
@@ -227,14 +237,14 @@ public class AddTransactionController extends PopupController<Transaction> imple
 							|| !Validator.isValidIban(newTargetIBANTextField.getText())) {
 						IBANTargetError.setVisible(true);
 					}
-
+					
 					if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible()) {
 						TargetTransaction newTar = new TargetTransaction(newTargetSummaryTextField.getText(),
 								newTargetIBANTextField.getText());
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
 						List<TargetTransaction> tarList = em.createNamedQuery("TargetTransaction.findAll")
 								.getResultList();
-
+						// Commit the new TargetTransaction
 						for (TargetTransaction ta : tarList) {
 							if (ta.getIban().equals(newTar.getIban())) {
 								IBANTargetError.setVisible(true);
@@ -255,6 +265,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			}
 
 			if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible() && !categoryNameError.isVisible()) {
+				// Saving for the commit in the HomeController
 				this.getData().setDate(date);
 				this.getData().setValue(val);
 				this.getData().setDescription(des);
