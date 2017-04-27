@@ -10,14 +10,11 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
-import javax.swing.text.DateFormatter;
-
 import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.stage.WindowEvent;
 import model.Account;

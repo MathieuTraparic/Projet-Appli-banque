@@ -269,7 +269,10 @@ public class Account implements Serializable {
 		this.transactions = transactions;
 	}
 	
-	@ManyToMany(mappedBy="accounts")
+	//@ManyToMany(mappedBy="accounts")
+	@ManyToMany
+	@JoinTable(name = "Assign", joinColumns = { @JoinColumn(name = "idAccount") }, inverseJoinColumns = {
+			@JoinColumn(name = "idOwner") })
 	public List<Owner> getOwners() {
 		return this.owners;
 	}
