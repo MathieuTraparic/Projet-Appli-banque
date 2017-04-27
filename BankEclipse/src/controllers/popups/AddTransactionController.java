@@ -46,7 +46,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public ComboBox<Category> categoryParentCombo;
 	@FXML
 	public ComboBox<TargetTransaction> targetCombo;
-	
+
 	private List<TransactionType> transactionType;
 	private List<Category> categoryList;
 	private List<TargetTransaction> targetList;
@@ -57,153 +57,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	private static final String NEW_CATEGORY = "New category";
 	private static final String NEW_TYPE = "New type";
 
-	@FXML
-	void handleTransactionCancel(ActionEvent event) {
-		Stage stage = (Stage) transactionCancel.getScene().getWindow();
-		stage.close();
-	}
-
-	@FXML
-	void handleTransactionSubmit(ActionEvent event) throws ParseException {
-
-		errorLabels.forEach(label -> label.setVisible(false));
-
-
-		Category cat;
-		TargetTransaction tar;
-
-		if (descriptionTextField.getText().isEmpty()) {
-			descriptionError.setVisible(true);
-		}
-
-		if (valueTextField.getText().isEmpty() || valueTextField.getText().equals("0")) {
-			valueError.setVisible(true);
-		}
-
-		if (datePicker.getValue() == null) {
-			dateError.setVisible(true);
-		}
-
-		if (typeCombo.getValue() == null) {
-			typeError.setVisible(true);
-		}
-
-		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
-			
-			
-
-			Date date = DateConverter.LocalDate2Date(datePicker.getValue());
-			Double val = Double.parseDouble(valueTextField.getText());
-			String des = descriptionTextField.getText();
-
-			Stage stage = (Stage) transactionCancel.getScene().getWindow();
-
-			TransactionType transactionType = typeCombo.getValue();
-
-			cat = categoryCombo.getValue();
-
-			tar = targetCombo.getValue();
-
-			if (cat != null) {
-				if (categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)) {
-
-					if (newCatgoryTextField.getText().isEmpty()) {
-						categoryNameError.setVisible(true);
-					}
-					if (!categoryNameError.isVisible()) {
-						Category newCat = new Category(newCatgoryTextField.getText());
-
-						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-
-						List<Category> catList = em.createNamedQuery("Category.findAll").getResultList();
-
-						for (Category ca : catList) {
-							if (ca.getDescription().equals(newCat.getDescription())) {
-								categoryNameError.setVisible(true);
-							} else {
-								if (categoryParentCombo.getValue() != null) {
-
-									newCat.setParentCategory(categoryParentCombo.getValue());
-								}
-
-								em.getTransaction().begin();
-								em.persist(newCat);
-								em.getTransaction().commit();
-
-								cat = newCat;
-
-							}
-						}
-						this.getData().setCategory(cat);
-						em.close();
-
-					}
-
-				} else {
-					this.getData().setCategory(cat);
-				}
-			}
-
-			if (tar != null) {
-				if (targetCombo.getValue().getSummary().equals(NEW_TARGET)) {
-
-					if (newTargetSummaryTextField.getText().isEmpty()) {
-						
-						descriptionTargetError.setVisible(true);
-					}
-					if (newTargetIBANTextField.getText().isEmpty()
-							|| !Validator.isValidIban(newTargetIBANTextField.getText())) {
-						
-						IBANTargetError.setVisible(true);
-					}
-
-					if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible()) {
-						TargetTransaction newTar = new TargetTransaction(newTargetSummaryTextField.getText(),
-								newTargetIBANTextField.getText());
-
-						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-
-						List<TargetTransaction> tarList = em.createNamedQuery("TargetTransaction.findAll")
-								.getResultList();
-
-						for (TargetTransaction ta : tarList) {
-							if (ta.getIban().equals(newTar.getIban())) {
-								IBANTargetError.setVisible(true);
-							} else {
-
-								em.getTransaction().begin();
-								em.persist(newTar);
-								em.getTransaction().commit();
-
-								tar = newTar;
-
-							}
-						}
-						this.getData().setTargetTransaction(tar);
-						em.close();
-					}
-
-				}
-				if (!targetCombo.getValue().getSummary().equals(NEW_TARGET)) {
-					this.getData().setTargetTransaction(tar);
-				}
-			}
-
-			if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible() && !categoryNameError.isVisible()) {
-				
-				
-				
-				this.getData().setDate(date);
-				this.getData().setValue(val);
-				this.getData().setDescription(des);
-				this.getData().setTransactionType(transactionType);
-
-				this.setAsValidated();
-				stage.close();
-			}
-		}
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -238,10 +92,10 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			categoryParentCombo.getItems().add(t);
 		}
 		/*
-		 * Setting all the errorLabels and the items to create a new target or category to non-visible
+		 * Setting all the errorLabels and the items to create a new target or
+		 * category to non-visible
 		 */
 		this.errorLabels = new ArrayList<Label>() {
-
 			{
 				add(descriptionError);
 				add(dateError);
@@ -250,7 +104,6 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				add(IBANTargetError);
 				add(descriptionTargetError);
 				add(categoryNameError);
-
 			}
 		};
 		errorLabels.forEach(label -> label.setVisible(false));
@@ -258,54 +111,158 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		categoryOther.setVisible(false);
 
 		this.newTextfields = new ArrayList<TextField>() {
-
 			{
 				add(newTargetIBANTextField);
 				add(newTargetSummaryTextField);
 				add(newCatgoryTextField);
 			}
 		};
-
 		newTextfields.forEach(textfield -> textfield.setDisable(true));
-
 		categoryParentCombo.setDisable(true);
-		
 		/*
-		 * Listener on the combo box to know if a new category or target or type should be added
+		 * Listener on the combo box to know if a new category or target or type
+		 * should be added
 		 */
 
 		typeCombo.valueProperty().addListener((obs, oldV, newV) -> {
-
 			boolean b = !newV.getDescription().equals(NEW_TYPE);
-
 		});
 
 		targetCombo.valueProperty().addListener((obs, oldV, newV) -> {
-
 			boolean b = !newV.getSummary().equals(NEW_TARGET);
-
 			targetOther.setVisible(!b);
 			newTargetIBANTextField.setDisable(b);
 			newTargetSummaryTextField.setDisable(b);
-
 		});
 
 		categoryCombo.valueProperty().addListener((obs, oldV, newV) -> {
-
 			boolean b = !newV.getDescription().equals(NEW_CATEGORY);
-
 			categoryOther.setVisible(!b);
 			newCatgoryTextField.setDisable(b);
 			categoryParentCombo.setDisable(b);
-
 		});
-		
-
 	}
 
 	@Override
 	protected void initializePopupFields(Transaction data) {
-
+		// TODO
 	}
 
+	@FXML
+	void handleTransactionCancel(ActionEvent event) {
+		Stage stage = (Stage) transactionCancel.getScene().getWindow();
+		stage.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	@FXML
+	void handleTransactionSubmit(ActionEvent event) throws ParseException {
+
+		errorLabels.forEach(label -> label.setVisible(false));
+		Category cat;
+		TargetTransaction tar;
+		if (descriptionTextField.getText().isEmpty()) {
+			descriptionError.setVisible(true);
+		}
+
+		if (valueTextField.getText().isEmpty() || valueTextField.getText().equals("0")) {
+			valueError.setVisible(true);
+		}
+
+		if (datePicker.getValue() == null) {
+			dateError.setVisible(true);
+		}
+
+		if (typeCombo.getValue() == null) {
+			typeError.setVisible(true);
+		}
+
+		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
+
+			Date date = DateConverter.LocalDate2Date(datePicker.getValue());
+			Double val = Double.parseDouble(valueTextField.getText());
+			String des = descriptionTextField.getText();
+			TransactionType transactionType = typeCombo.getValue();
+			cat = categoryCombo.getValue();
+			tar = targetCombo.getValue();
+
+			if (cat != null) {
+				if (categoryCombo.getValue().getDescription().equals(NEW_CATEGORY)) {
+
+					if (newCatgoryTextField.getText().isEmpty()) {
+						categoryNameError.setVisible(true);
+					}
+					if (!categoryNameError.isVisible()) {
+						Category newCat = new Category(newCatgoryTextField.getText());
+						EntityManager em = VistaNavigator.getEmf().createEntityManager();
+						List<Category> catList = em.createNamedQuery("Category.findAll").getResultList();
+
+						for (Category ca : catList) {
+							if (ca.getDescription().equals(newCat.getDescription())) {
+								categoryNameError.setVisible(true);
+							} else {
+								if (categoryParentCombo.getValue() != null) {
+									newCat.setParentCategory(categoryParentCombo.getValue());
+								}
+								em.getTransaction().begin();
+								em.persist(newCat);
+								em.getTransaction().commit();
+								cat = newCat;
+							}
+						}
+						this.getData().setCategory(cat);
+						em.close();
+					}
+				} else {
+					this.getData().setCategory(cat);
+				}
+			}
+
+			if (tar != null) {
+				if (targetCombo.getValue().getSummary().equals(NEW_TARGET)) {
+					if (newTargetSummaryTextField.getText().isEmpty()) {
+						descriptionTargetError.setVisible(true);
+					}
+					if (newTargetIBANTextField.getText().isEmpty()
+							|| !Validator.isValidIban(newTargetIBANTextField.getText())) {
+						IBANTargetError.setVisible(true);
+					}
+
+					if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible()) {
+						TargetTransaction newTar = new TargetTransaction(newTargetSummaryTextField.getText(),
+								newTargetIBANTextField.getText());
+						EntityManager em = VistaNavigator.getEmf().createEntityManager();
+						List<TargetTransaction> tarList = em.createNamedQuery("TargetTransaction.findAll")
+								.getResultList();
+
+						for (TargetTransaction ta : tarList) {
+							if (ta.getIban().equals(newTar.getIban())) {
+								IBANTargetError.setVisible(true);
+							} else {
+								em.getTransaction().begin();
+								em.persist(newTar);
+								em.getTransaction().commit();
+								tar = newTar;
+							}
+						}
+						this.getData().setTargetTransaction(tar);
+						em.close();
+					}
+				}
+				if (!targetCombo.getValue().getSummary().equals(NEW_TARGET)) {
+					this.getData().setTargetTransaction(tar);
+				}
+			}
+
+			if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible() && !categoryNameError.isVisible()) {
+				this.getData().setDate(date);
+				this.getData().setValue(val);
+				this.getData().setDescription(des);
+				this.getData().setTransactionType(transactionType);
+				this.setAsValidated();
+				Stage stage = (Stage) transactionCancel.getScene().getWindow();
+				stage.close();
+			}
+		}
+	}
 }

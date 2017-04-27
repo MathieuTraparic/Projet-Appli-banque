@@ -47,9 +47,10 @@
 				<TextField fx:id="bankCode" GridPane.columnIndex="1"
 					GridPane.rowIndex="2" />
 				<Label fx:id="bankNameError" prefHeight="17.0" prefWidth="138.0"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+					GridPane.columnIndex="1" GridPane.rowIndex="1" 
+					text="The bank name can't be null"/>
 				<Label fx:id="bankCodeError" GridPane.columnIndex="1"
-					GridPane.rowIndex="3" />
+					GridPane.rowIndex="3" text="The bank code can't be null"/>
 			</children>
 		</GridPane>
 		<Button fx:id="addBankCancel" cancelButton="true" layoutX="41.0"

@@ -26,7 +26,10 @@ import model.CountryCode;
 import util.DateConverter;
 
 public class AddAccountController extends PopupController<Account> implements Initializable {
-
+	
+	/*
+	 * Class variables
+	 */
 	@FXML
 	public Button addAccountCancel, addAccountSubmit;
 	@FXML
@@ -57,12 +60,78 @@ public class AddAccountController extends PopupController<Account> implements In
 	private List<CountryCode> l = null;
 	private List<AccountType> ac = null;
 
+	/*
+	 * (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+		// Disable by default this two textfield. Theese are enable on event
+		this.createCountryCode.setDisable(true);
+		this.createAccountType.setDisable(true);
+		
+		// Communication with the data base to initialize lists
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		this.l = em.createNamedQuery("CountryCode.findAll").getResultList();
+		this.ac = em.createNamedQuery("AccountType.findAll").getResultList();
+		this.a = em.createNamedQuery("Agency.findAll").getResultList();
+		em.close();
+
+		// Fill the combobox with data extracted from the data base
+		for (CountryCode countrycode : l) {
+			addAccountCountryCode.getItems().add(countrycode.getCode());
+		}
+		addAccountCountryCode.getItems().add("OTHER");
+
+		for (AccountType type : ac) {
+			addAccountType.getItems().add(type.getType());
+		}
+		addAccountType.getItems().add("OTHER");
+
+		for (Agency agencyName : a) {
+			addAgency.getItems().add(agencyName.getName());
+		}
+
+		/*
+		 * Initialization of the error labels
+		 * The messages are defined in fxml of this controller AddAccount.fxml
+		 */
+		this.errorLabels = new ArrayList<Label>() {
+			private static final long serialVersionUID = 6275258056275001066L;
+			{
+				add(accountNumberError);
+				add(accountDescriptionError);
+				add(accountBalanceError);
+				add(accountOverdraftError);
+				add(accountAlertError);
+				add(accountCountryCodeError);
+				add(accountTypeError);
+				add(accountAgencyError);
+				add(accountDateError);
+			}
+		};
+		errorLabels.forEach(label -> label.setVisible(false));
+	}
+
+	@Override
+	protected void initializePopupFields(Account data) {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * @param event : Managemnent of the event on the Cancel button
+	 */
 	@FXML
 	void handleAddAccountCancel(ActionEvent event) {
 		Stage stage = (Stage) addAccountCancel.getScene().getWindow();
 		stage.close();
 	}
 
+	/**
+	 * @param event : By clicking on Submit, the event saves the new account. The commit in the
+	 * data base is set on the HomeController 
+	 */
 	@FXML
 	void handleAddAccountSubmit(ActionEvent event) {
 
@@ -76,7 +145,8 @@ public class AddAccountController extends PopupController<Account> implements In
 		String accountType = addAccountType.getValue();
 		String countryCode = addAccountCountryCode.getValue();
 		String linkedAgency = addAgency.getValue();
-
+		
+		// Tests to verify if the fields are filled
 		if (number.isEmpty()) {
 			accountNumberError.setVisible(true);
 		}
@@ -105,6 +175,7 @@ public class AddAccountController extends PopupController<Account> implements In
 			accountDateError.setVisible(true);
 		}
 		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
+			// Query to test the existence of data in the database
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Account> q = em.createQuery("SELECT num FROM Account num WHERE num.number=:number",
 					Account.class);
@@ -112,8 +183,7 @@ public class AddAccountController extends PopupController<Account> implements In
 			if (!list.isEmpty()) {
 				accountNumberError.setVisible(true);
 			} else {
-				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();
-
+				// Test to create or not a new AccountType during the creation of a new Account
 				if (!accountType.equals("OTHER")) {
 					AccountType type = null;
 					for (AccountType accountype : ac) {
@@ -129,7 +199,7 @@ public class AddAccountController extends PopupController<Account> implements In
 					em.persist(type);
 					em.getTransaction().commit();
 				}
-
+				// Test to create or not a new CountryCode during the creation of a new Account
 				if (!countryCode.equals("OTHER")) {
 					CountryCode code = null;
 					for (CountryCode countrycode : l) {
@@ -145,7 +215,7 @@ public class AddAccountController extends PopupController<Account> implements In
 					em.persist(code);
 					em.getTransaction().commit();
 				}
-
+				// Selection of the Agency in the database
 				Agency currentAgency = null;
 				for (Agency agency : a) {
 					if (agency.getName().equals(this.addAgency.getValue())) {
@@ -154,7 +224,7 @@ public class AddAccountController extends PopupController<Account> implements In
 				}
 
 				Date date = DateConverter.LocalDate2Date(creationDate.getValue());
-
+				// Data saving. The commit in the database is set in HomeController
 				this.getData().setNumber(number);
 				this.getData().setDescription(description);
 				this.getData().setInitialBalance(Double.parseDouble(balance));
@@ -164,12 +234,18 @@ public class AddAccountController extends PopupController<Account> implements In
 				this.getData().setCreationDate(date);
 				this.setAsValidated();
 
+				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();
 				stage.close();
 			}
 			em.close();
 		}
 	}
 
+	/*
+	 * These two textfields createCountryCode and addAccountType 
+	 * are invisible by default. These two events change the status 
+	 * of the textfields.
+	 */
 	@FXML
 	void handleOtherCode(ActionEvent event) {
 		if (this.addAccountCountryCode.getValue().toString().equals("OTHER")) {
@@ -182,54 +258,5 @@ public class AddAccountController extends PopupController<Account> implements In
 		if (this.addAccountType.getValue().toString().equals("OTHER")) {
 			this.createAccountType.setDisable(false);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-
-		this.createCountryCode.setDisable(true);
-		this.createAccountType.setDisable(true);
-
-		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		this.l = em.createNamedQuery("CountryCode.findAll").getResultList();
-		this.ac = em.createNamedQuery("AccountType.findAll").getResultList();
-		this.a = em.createNamedQuery("Agency.findAll").getResultList();
-		em.close();
-
-		for (CountryCode countrycode : l) {
-			addAccountCountryCode.getItems().add(countrycode.getCode());
-		}
-		addAccountCountryCode.getItems().add("OTHER");
-
-		for (AccountType type : ac) {
-			addAccountType.getItems().add(type.getType());
-		}
-		addAccountType.getItems().add("OTHER");
-
-		for (Agency agencyName : a) {
-			addAgency.getItems().add(agencyName.getName());
-		}
-
-		this.errorLabels = new ArrayList<Label>() {
-			private static final long serialVersionUID = 6275258056275001066L;
-			{
-				add(accountNumberError);
-				add(accountDescriptionError);
-				add(accountBalanceError);
-				add(accountOverdraftError);
-				add(accountAlertError);
-				add(accountCountryCodeError);
-				add(accountTypeError);
-				add(accountAgencyError);
-				add(accountDateError);
-			}
-		};
-		errorLabels.forEach(label -> label.setVisible(false));
-	}
-
-	@Override
-	protected void initializePopupFields(Account data) {
-		// TODO Auto-generated method stub
 	}
 }
