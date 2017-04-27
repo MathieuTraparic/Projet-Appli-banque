@@ -2,4 +2,6 @@ application
 controllers
 controllers.popups
 model
+testModel
+testUtil
 util
