@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 26, 2017 at 12:42 PM
+-- Generation Time: Apr 27, 2017 at 10:03 AM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.0.13
 
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL,
   `description` varchar(250) NOT NULL,
   `idParentCategory` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `category`
@@ -206,7 +206,10 @@ CREATE TABLE IF NOT EXISTS `category` (
 
 INSERT INTO `category` (`id`, `description`, `idParentCategory`) VALUES
 (1, 'ma cate generique', NULL),
-(2, 'alimentaire', NULL);
+(2, 'alimentaire', NULL),
+(15, 'Sport', 1),
+(18, 'Velo', 15),
+(19, 'Cinema', NULL);
 
 -- --------------------------------------------------------
 
@@ -339,8 +342,8 @@ CREATE TABLE IF NOT EXISTS `targettransaction` (
 --
 
 INSERT INTO `targettransaction` (`id`, `summary`, `iban`) VALUES
-(1, 'un destinataire', 'FR76 1234 1234 1234 '),
-(2, 'un autre destinataire', 'BE61 1111 2222 3333\r\n');
+(1, 'un destinataire', 'FR7630004000031234567890143'),
+(2, 'un autre destinataire', 'FR7630001007941234567890185');
 
 -- --------------------------------------------------------
 
@@ -358,7 +361,7 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   `idTargetTransaction` int(11) DEFAULT NULL,
   `idCategory` int(11) DEFAULT NULL,
   `idPeriodicTransaction` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaction`
@@ -372,7 +375,10 @@ INSERT INTO `transaction` (`id`, `description`, `value`, `dateTransaction`, `idA
 (22, 'TR2', 6554.00, '2017-05-06', 6, 5, NULL, NULL, NULL),
 (23, 'TR2', -3444.00, '2017-03-28', 6, 1, NULL, NULL, NULL),
 (24, 'TR4', -5.00, '2017-04-01', 6, 4, NULL, NULL, NULL),
-(25, 'TR5', 333.00, '2017-03-29', 6, 4, NULL, NULL, NULL);
+(25, 'TR5', 333.00, '2017-03-29', 6, 4, NULL, NULL, NULL),
+(33, 'df', 99.00, '2017-04-11', 6, 4, NULL, 15, NULL),
+(36, 'zdfg', 45.00, '2017-04-15', 1, 4, NULL, 18, NULL),
+(37, 'df', 3.00, '2017-04-16', 1, 4, NULL, 19, NULL);
 
 -- --------------------------------------------------------
 
@@ -548,7 +554,7 @@ ALTER TABLE `bank`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `countrycode`
 --
@@ -583,7 +589,7 @@ ALTER TABLE `targettransaction`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `transactiontype`
 --
