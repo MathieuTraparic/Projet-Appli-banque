@@ -18,6 +18,8 @@ import util.Formater;
 @NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
 public class Agency  implements Serializable{
 
+
+
 	private static final long serialVersionUID = 458612991376198713L;
 	private int id;
 	private String name;
@@ -33,23 +35,28 @@ public class Agency  implements Serializable{
 		
 	}
 	
-	/**Deprecated constructor
-	 * @param agencyName
-	 */
-	@Deprecated
-	public Agency(String agencyName){
-
-		this.setName(Formater.formatNameCase(agencyName));
-	}
-
 	/**Constructor
 	 * @param agencyName
 	 * @param counterCode
 	 */
+	@Deprecated
 	public Agency(String agencyName, String counterCode) {
 
 		this.setCounterCode(Formater.removeUsualSeparators(counterCode));
 		this.setName(Formater.formatNameCase(agencyName));
+	}
+	
+	/**
+	 * @param name 
+	 * @param counterCode
+	 * @param adress
+	 * @param bank
+	 */
+	public Agency(String name, String counterCode, Address adress, Bank bank) {
+		this.setCounterCode(Formater.removeUsualSeparators(counterCode));
+		this.setName(Formater.formatNameCase(name));
+		this.setAdress(adress);
+		this.setBank(bank);
 	}
 	
 	@Id
@@ -93,7 +100,6 @@ public class Agency  implements Serializable{
 
 	public void setCounterCode(String counterCode) {
 		checkCounterCode(counterCode);
-
 		this.counterCode = counterCode;
 	}
 	
@@ -103,8 +109,11 @@ public class Agency  implements Serializable{
 		return this.adress;
 	}
 
-	public void setAdress(Address adress) {
-		this.adress = adress;
+	public void setAdress(Address address) {
+		if(address==null){
+			throw new NullPointerException("address cannot be null");
+		}
+		this.adress = address;
 	}
 	@ManyToOne
 	@JoinColumn(name="idBank")
@@ -113,6 +122,9 @@ public class Agency  implements Serializable{
 	}
 
 	public void setBank(Bank bank) {
+		if(bank==null){
+			throw new NullPointerException("bank cannot be null");
+		}
 		this.bank = bank;
 	}
 	

@@ -7,9 +7,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import model.Advisor;;
+import model.Address;
+import model.Advisor;
+import model.Agency;
+import model.Bank;
+import model.CpVille;;
 
 public class TestAdvisor {
 	
@@ -21,14 +26,23 @@ public class TestAdvisor {
 	 *	private Date assignmentDate;
 	 */
 	
-	Date date = new Date();
-	
+	private Date assignmentDate;
+	private Advisor advisor;
+	private Agency agency;
+	@Before
+	public void setUp(){
+		this.assignmentDate = Calendar.getInstance().getTime();
+		//TODO mock
+		this.agency = new Agency("df", "123", new Address("bl", null, new CpVille("132", "awefg")), new Bank("sdf", "12345"));
+		this.advisor = new Advisor("qwe", "sdfgh", "0512345678", "mach@aer.com", assignmentDate, agency);
+		
+	}
 	/**
 	 * testing if Advisor name is null
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorName() {
-		Advisor advisor = new Advisor(null,"bar","0612121212","bar", date);
+		Advisor advisor = new Advisor(null,"bar","0612121212","bar", assignmentDate);
 	}
 	
 	/**
@@ -36,7 +50,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorName() {
-		Advisor advisor = new Advisor("","bar","0612121212","bar", date);
+		Advisor advisor = new Advisor("","bar","0612121212","bar", assignmentDate);
 	}
 	
 	/**
@@ -44,7 +58,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorFirstName() {
-		Advisor advisor = new Advisor("bar",null,"0612121212","bar", date);
+		Advisor advisor = new Advisor("bar",null,"0612121212","bar", assignmentDate);
 	}
 	
 	/**
@@ -52,7 +66,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorFirstName() {
-		Advisor advisor = new Advisor("bar","","0612121212","bar", date);
+		Advisor advisor = new Advisor("bar","","0612121212","bar", assignmentDate);
 	}
 	
 	/**
@@ -60,7 +74,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorPhoneNumber() {
-		Advisor advisor = new Advisor("bar","bar",null,"bar", date);
+		Advisor advisor = new Advisor("bar","bar",null,"bar", assignmentDate);
 	}
 	
 	/**
@@ -68,7 +82,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorPhoneNumber() {
-		Advisor advisor = new Advisor("bar","bar","","bar", date);
+		Advisor advisor = new Advisor("bar","bar","","bar", assignmentDate);
 	}
 	
 	/**
@@ -76,7 +90,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorEmail() {
-		Advisor advisor = new Advisor("bar","bar","0612121212",null, date);
+		Advisor advisor = new Advisor("bar","bar","0612121212",null, assignmentDate);
 	}
 	
 	/**
@@ -84,7 +98,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorEmail() {
-		Advisor advisor = new Advisor("bar","bar","0612121212","", date);
+		Advisor advisor = new Advisor("bar","bar","0612121212","", assignmentDate);
 	}
 	
 	/**
