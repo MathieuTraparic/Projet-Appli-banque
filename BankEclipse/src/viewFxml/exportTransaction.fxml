@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="165.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ExportController">
+<AnchorPane prefHeight="165.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.popups.ExportController">
 	<children>
 		<Label layoutX="117.0" layoutY="14.0" prefHeight="20.0" prefWidth="237.0" text="Export your transactions in csv format" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="117.0" AnchorPane.topAnchor="14.0">
 			<font>

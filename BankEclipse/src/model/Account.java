@@ -224,13 +224,14 @@ public class Account implements Serializable {
 	}
 	
 	/**
-	 * @return a list of balance at a date
+	 * @return a list of couples logging the balance evolution at 
+	 * every transaction date
 	 * 
 	 */
 	public List<Entry<Double,Date>> getBalanceHistory() {
 		double balance = this.initialBalance ;
 		ArrayList<Transaction> sortedTransactions = new ArrayList<>(this.transactions);
-		//sort transaction by chronological order
+		//sort transaction by chronological order ?
 		//sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
 		 List<Entry<Double,Date>> result = new ArrayList<>();
 		 //add a first entry at account creation

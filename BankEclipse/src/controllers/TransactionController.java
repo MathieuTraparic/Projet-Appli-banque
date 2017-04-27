@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import controllers.popup.PopupController;
+import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

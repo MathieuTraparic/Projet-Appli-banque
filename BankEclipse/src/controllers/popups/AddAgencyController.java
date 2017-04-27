@@ -1,4 +1,4 @@
-package controllers.popup;
+package controllers.popups;
 
 import java.net.URL;
 import java.util.ArrayList;

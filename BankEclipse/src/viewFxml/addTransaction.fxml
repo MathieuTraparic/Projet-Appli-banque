@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="716.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddTransactionController">
+<AnchorPane prefHeight="716.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.popups.AddTransactionController">
    <children>
       <Label layoutX="290.0" layoutY="14.0" prefHeight="31.0" prefWidth="172.0" text="Add a transaction" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="14.0">
          <font>

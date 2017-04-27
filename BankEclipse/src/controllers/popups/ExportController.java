@@ -1,4 +1,4 @@
-package controllers.popup;
+package controllers.popups;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

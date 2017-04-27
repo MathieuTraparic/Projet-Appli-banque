@@ -3,7 +3,7 @@ package util;
 import java.io.IOException;
 import java.net.URL;
 
-import controllers.popup.PopupController;
+import controllers.popups.PopupController;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.swing.text.DateFormatter;
 
-import controllers.popup.PopupController;
+import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
