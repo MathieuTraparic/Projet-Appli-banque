@@ -6,9 +6,13 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox prefHeight="550.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="controllers.MainController">
-  <children>
-    <StackPane fx:id="mainHolder" VBox.vgrow="ALWAYS" />
-      <Label alignment="BOTTOM_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="©Developped by David, Lucien and Mathieu. All right reserved, 2017. " textAlignment="RIGHT" VBox.vgrow="NEVER" />
-  </children>
+<VBox prefHeight="550.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/8.0.111" fx:controller="controllers.MainController">
+	<children>
+		<StackPane fx:id="mainHolder" VBox.vgrow="ALWAYS" />
+		<Label alignment="BOTTOM_RIGHT" contentDisplay="RIGHT"
+			maxWidth="1.7976931348623157E308"
+			text="©Developped by David, Lucien and Mathieu. All right reserved, 2017. "
+			textAlignment="RIGHT" VBox.vgrow="NEVER" />
+	</children>
 </VBox>
