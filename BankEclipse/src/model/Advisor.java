@@ -23,6 +23,8 @@ import util.Validator;
 @NamedQuery(name = "Advisor.findAll", query = "SELECT t FROM Advisor t")
 public class Advisor implements Serializable {
 
+
+
 	private static final long serialVersionUID = -882488167799880777L;
 	private int id;
 	private String name;
@@ -47,6 +49,7 @@ public class Advisor implements Serializable {
 	 * @param email ex : azer@aze.azeaze or aze@ze.zeee
 	 * @param assignment date not in the future
 	 */
+	@Deprecated
 	public Advisor(String name, String firstName, String phoneNumber, String email, 
 			Date assignmentDate) {
 
@@ -56,6 +59,24 @@ public class Advisor implements Serializable {
 		this.setEmail(Formater.removeUsualSeparators(email));
 		this.setAssignmentDate(assignmentDate);
 		
+	}
+	
+	/**Constructor
+	 * @param name contains only letters, spaces, apostrophe and dashes
+	 * @param firstName contains only letters, spaces, apostrophe and dashes
+	 * @param phoneNumber only accept French number ex: +33610203010 or 0033610203040 or 0610203040
+	 * @param email ex : azer@aze.azeaze or aze@ze.zeee
+	 * @param assignment date not in the future
+	 * @param agency 
+	 */
+	public Advisor(String name, String firstName, String phoneNumber, String email, Date assignmentDate,
+			Agency agency) {
+		this.setName(Formater.formatNameCase(name));
+		this.setFirstName(Formater.formatNameCase(firstName));
+		this.setPhoneNumber(Formater.removeUsualSeparators(phoneNumber));
+		this.setEmail(Formater.removeUsualSeparators(email));
+		this.setAssignmentDate(assignmentDate);
+		this.setAgency(agency);
 	}
 
 	private static void checkName(String name) throws IllegalArgumentException {

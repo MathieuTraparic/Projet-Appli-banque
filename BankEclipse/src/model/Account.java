@@ -70,12 +70,12 @@ public class Account implements Serializable {
 	}
 	
 	/**
-	 * @param number
+	 * @param number the account Number ex: 1234 1234 1234
 	 * @param description
 	 * @param initialBalance
-	 * @param overdraft
-	 * @param interestRate
-	 * @param alertThreshold
+	 * @param overdraft the balance value under which penalties are due
+	 * @param interestRate 
+	 * @param alertThreshold the balance value under which an alert is sent to the owner
 	 * @param countryCode
 	 * @param creationDate
 	 * @param agency

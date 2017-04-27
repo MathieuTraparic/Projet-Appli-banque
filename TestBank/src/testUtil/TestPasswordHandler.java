@@ -31,7 +31,6 @@ public class TestPasswordHandler {
 	public final void testHash() {
 		String salt =PasswordHandler.getNewSalt();
 		String s =PasswordHandler.hash("qwerw"+salt);
-		System.out.println(s);
 	}
 
 }
