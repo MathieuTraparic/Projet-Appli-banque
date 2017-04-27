@@ -1,11 +1,41 @@
 # Projet-Appli-banque
 
+Fonctionnalités implémentés :
+- afficher les comptes avec leur solde actuel
+- gestion de multiples banques/agences/comptes
+- CRUD sur la plupart des classes du model
+- afficher les transactions de chaque compte
+- afficher/editer des données dans un tableView
+- afficher un graph de l'évolution d'un compte
+- exporter les transaction d'un compte format csv
+- générer un code IBAN avec sa clé
+- gerer la connection/creation d'utilisateurs avec stockage de mot de passe hashé et salé
+- vérifier la validité des inputs de l'utilisateur
+- virements internes de comptes à comptes
+- traitements par lambda expressions
+- listeners, callback
+- passage de données entre fenêtres (popup/view)
 
-Ca marche !!
+Fonctionalités manquantes :
+- gestion des intérets 
+- gestion des alertes
+- gestion des agios
+- gestion des transactions périodiques
+- importer des données
+- filtrer les opérations affichés
+- les données des comboBox ne se raffraichissent qu'après logout/login
+- design pattern à rajouter ? 
+	-wrapper sur BankSelector et AccountSelector
+	-mediator au lieu d'un singleton VistaNavigator
+-tests à étoffer, utilisation de mockups
+-utilisation d'interfaces
 
+	
+
+
+#tutos
 Tuto pour connecter la DB au projet Java:
 http://www.objis.com/formation-java/tutoriel-java-acces-donnees-jdbc.html
-
 
 http://www.javafxtutorials.com/
 
