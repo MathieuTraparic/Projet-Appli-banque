@@ -46,15 +46,6 @@ public class TestPeriodicTransaction {
 	}
 	
 	/**
-	 * testing if the periodic transaction unit is not in the ArrayList FREQUENCIES 
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void test_ValueOfPeriodicTransactionUnit() {
-		PeriodicTransaction periodTransaction = 
-				new PeriodicTransaction(date, 1254, f);
-	}
-	
-	/**
 	 * testing if the periodic transaction is a negative number
 	 */
 	@Test(expected = IllegalArgumentException.class)
