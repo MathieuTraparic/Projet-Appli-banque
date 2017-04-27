@@ -25,35 +25,55 @@ import model.CpVille;
 import model.Owner;
 
 public class CreateUserController2 implements Initializable{
-
 	
+	@FXML
+	public Label nameError;
+	@FXML
+	public Label firstNameError;
+	@FXML
+	public Label addressError;
+	@FXML
+	public Label cityNameError;
+	@FXML
+	public Label zipCodeError;
+	@FXML
+	public Label birthdayError;
+	@FXML
+	public DatePicker birthday;
+	@FXML
+	public TextField phoneNumber;
+	@FXML
+	public Label phoneNumberError;
+	
+	@FXML
+	private TextField name;
+	@FXML
+	private TextField firstName;
+	@FXML
+	private TextField addressLine1;
+	@FXML
+	private TextField addressLine2;
+	@FXML
+	private TextField cityName;
+	@FXML
+	private TextField zipCode;
+	
+	@FXML
+	private Button signIn;
+	
+	private List<Label> labels2;
+	private Owner owner;
+
+	/*
+	 * get the data from create user controller 1 
+	 */
 	public void initOwner(Owner owner2) {
 		this.owner=owner2;
 	}
 	
-	@FXML
-	void previousButton(ActionEvent event) {
-		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
-	}
-	
-	@FXML
-	void cancelButton(ActionEvent event) {
-		VistaNavigator.loadVista(VistaNavigator.LOGIN);
-	}
-	
-	
-	@FXML
-	void secondStepValid(ActionEvent event) {
-		if (name.getText() != null && firstName.getText() != null 
-				&& addressLine1.getText() != null && cityName.getText() != null 
-				&& zipCode.getText() != null && phoneNumber.getText() != null
-				&& birthday.getValue() != null) {
-			this.signIn.setDisable(false);
-		}
-	}
-	
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+		
 		labels2 = new ArrayList<Label>() {
 
 			private static final long serialVersionUID = 1L;
@@ -114,6 +134,29 @@ public class CreateUserController2 implements Initializable{
 		};
 		birthday.setDayCellFactory(dayCellFactory);
 	}
+	
+	@FXML
+	void previousButton(ActionEvent event) {
+		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
+	}
+	
+	@FXML
+	void cancelButton(ActionEvent event) {
+		VistaNavigator.loadVista(VistaNavigator.LOGIN);
+	}
+	
+	
+	@FXML
+	void secondStepValid(ActionEvent event) {
+		if (name.getText() != null && firstName.getText() != null 
+				&& addressLine1.getText() != null && cityName.getText() != null 
+				&& zipCode.getText() != null && phoneNumber.getText() != null
+				&& birthday.getValue() != null) {
+			this.signIn.setDisable(false);
+		}
+	}
+	
+	
 	
 	@FXML
 	void signInButton(ActionEvent event) {
@@ -183,42 +226,5 @@ public class CreateUserController2 implements Initializable{
 		}
 
 	}
-	
-	private List<Label> labels2;
-	private Owner owner;
-	@FXML
-	public Label nameError;
-	@FXML
-	public Label firstNameError;
-	@FXML
-	public Label addressError;
-	@FXML
-	public Label cityNameError;
-	@FXML
-	public Label zipCodeError;
-	@FXML
-	public Label birthdayError;
-	@FXML
-	public DatePicker birthday;
-	@FXML
-	public TextField phoneNumber;
-	@FXML
-	public Label phoneNumberError;
-	
-	@FXML
-	private TextField name;
-	@FXML
-	private TextField firstName;
-	@FXML
-	private TextField addressLine1;
-	@FXML
-	private TextField addressLine2;
-	@FXML
-	private TextField cityName;
-	@FXML
-	private TextField zipCode;
-	
-	@FXML
-	private Button signIn;
 
 }
