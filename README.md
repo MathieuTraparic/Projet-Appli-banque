@@ -15,6 +15,7 @@ Fonctionnalités implémentés :
 - traitements par lambda expressions
 - listeners, callback
 - passage de données entre fenêtres (popup/view)
+- javadoc
 
 Fonctionalités manquantes :
 - gestion des intérets 
