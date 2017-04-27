@@ -11,26 +11,19 @@ import javax.persistence.*;
 @Table(name="countrycode")
 @NamedQuery(name = "CountryCode.findAll", query = "SELECT t FROM CountryCode t")
 public class CountryCode implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 2517598819056512842L;
 	private int id;
 	private String code;
 
-	private CountryCode() {
-	}
+	@SuppressWarnings("unused")
+	private CountryCode() {}
 
+	/**
+	 * @param code : country code
+	 */
 	public CountryCode(String code) {
-		check_countryCode(code);
-
-		this.code = code;
-	}
-
-	private static void check_countryCode(String countryCode) throws IllegalArgumentException {
-		if (countryCode.isEmpty()) {
-			throw new IllegalArgumentException("The country code can't be empty");
-		}
-		if (countryCode.length()>=3){
-			throw new IllegalArgumentException("The country code is only two letters");
-		}
+		this.setCode(code);
 	}
 
 	@Id
@@ -39,16 +32,17 @@ public class CountryCode implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
-	
 	
 	public String getCode() {
 		return this.code;
 	}
 
 	public void setCode(String code) {
+		checkCountryCode(code);
 		this.code = code;
 	}
 
@@ -57,6 +51,12 @@ public class CountryCode implements Serializable {
 		return  this.code ;
 	}
 	
-	
-
+	private static void checkCountryCode(String countryCode) throws IllegalArgumentException {
+		if (countryCode.isEmpty()) {
+			throw new IllegalArgumentException("The country code can't be empty");
+		}
+		if (countryCode.length()>=3){
+			throw new IllegalArgumentException("The country code is only two letters");
+		}
+	}
 }
