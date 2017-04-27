@@ -148,6 +148,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setTransactionType(TransactionType transactionType) {
+		
 		checkTransactionType(transactionType);
 		this.transactionType = transactionType;
 	}
@@ -159,7 +160,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setCategory(Category category) {
-		checkCategory(category);
+		
 		this.category = category;
 	}
 	
@@ -189,7 +190,9 @@ public class Transaction implements Serializable {
 	}
 
 	public void setPeriodicTransaction(PeriodicTransaction periodicTransaction) {
-		checkPeriodicTransaction(periodicTransaction);
+		if (periodicTransaction != null){
+			checkPeriodicTransaction(periodicTransaction);
+		}
 		this.periodicTransaction = periodicTransaction;
 	}
 
@@ -238,9 +241,4 @@ public class Transaction implements Serializable {
 		}
 	}
 	
-	private static void checkCategory(Category category) throws NullPointerException{
-		if(category == null){
-			throw new NullPointerException("The category can't be null");
-		}
-	}
 }

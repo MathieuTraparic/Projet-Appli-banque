@@ -80,7 +80,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 
 	@SuppressWarnings("unused")
-	private void setId(Integer id) {
+	private void setId(int id) {
 		this.id = id;
 	}
 	

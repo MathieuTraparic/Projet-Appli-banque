@@ -114,8 +114,9 @@ public class Category implements Serializable {
 	}
 
 	public void setParentCategory(Category parentCategory) {
-
-		checkDiffParentCategory(this.description, parentCategory);
+		if (parentCategory!=null){
+			checkDiffParentCategory(this.description, parentCategory);
+		}
 
 		this.parentCategory = parentCategory;
 	}
