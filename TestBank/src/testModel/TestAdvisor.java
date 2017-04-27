@@ -7,9 +7,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import model.Advisor;;
+import model.Address;
+import model.Advisor;
+import model.Agency;
+import model.Bank;
+import model.CpVille;;
 
 public class TestAdvisor {
 	
@@ -21,14 +26,28 @@ public class TestAdvisor {
 	 *	private Date assignmentDate;
 	 */
 	
-	Date date = new Date();
+	private Date assignmentDate;
+	private Advisor advisor;
+	private Agency agency;
+	@Before
+	public void setUp(){
+		this.assignmentDate =  new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)-1, Calendar.APRIL,24, 12, 31, 15).getTime();
+		//TODO mock
+		this.agency = new Agency("df", "123", new Address("bl", null, new CpVille("132", "awefg")), new Bank("sdf", "12345"));
+		this.advisor = new Advisor("name", "firstname", "0512345678", "mach@aer.com", assignmentDate, agency);
+		
+	}
+	@Test
+	public void test_dateIsNow() {
+		this.advisor = new Advisor("name", "firstname", "0512345678", "mach@aer.com", Calendar.getInstance().getTime(), agency);
+	}
 	
 	/**
 	 * testing if Advisor name is null
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorName() {
-		Advisor advisor = new Advisor(null,"bar","0612121212","bar", date);
+		this.advisor = new Advisor(null, "firstname", "0512345678", "mach@aer.com", assignmentDate, agency);
 	}
 	
 	/**
@@ -36,7 +55,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorName() {
-		Advisor advisor = new Advisor("","bar","0612121212","bar", date);
+		this.advisor = new Advisor("", "firstname", "0512345678", "mach@aer.com", assignmentDate, agency);
 	}
 	
 	/**
@@ -44,7 +63,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorFirstName() {
-		Advisor advisor = new Advisor("bar",null,"0612121212","bar", date);
+		this.advisor = new Advisor("name", null, "0512345678", "machin@free.com", assignmentDate, agency);
 	}
 	
 	/**
@@ -52,7 +71,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorFirstName() {
-		Advisor advisor = new Advisor("bar","","0612121212","bar", date);
+		this.advisor = new Advisor("name", "", "0512345678", "mach@aer.com", assignmentDate, agency);
 	}
 	
 	/**
@@ -60,7 +79,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorPhoneNumber() {
-		Advisor advisor = new Advisor("bar","bar",null,"bar", date);
+		this.advisor = new Advisor("name", "firstname", null, "mach@aer.com", assignmentDate, agency);
 	}
 	
 	/**
@@ -68,7 +87,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorPhoneNumber() {
-		Advisor advisor = new Advisor("bar","bar","","bar", date);
+		this.advisor = new Advisor("name", "firstname", "", "mach@aer.com", assignmentDate, agency);
 	}
 	
 	/**
@@ -76,7 +95,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullAdvisorEmail() {
-		Advisor advisor = new Advisor("bar","bar","0612121212",null, date);
+		this.advisor = new Advisor("name", "firstname", "0512345678", null, assignmentDate, agency);
 	}
 	
 	/**
@@ -84,7 +103,7 @@ public class TestAdvisor {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_EmptyAdvisorEmail() {
-		Advisor advisor = new Advisor("bar","bar","0612121212","", date);
+		this.advisor = new Advisor("name", "firstname", "0512345678", "", assignmentDate, agency);
 	}
 	
 	/**
@@ -93,24 +112,10 @@ public class TestAdvisor {
 	@Test(expected = IllegalArgumentException.class)	
 	public void test_AdvisorAssignmentDate() {
 		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+2, Calendar.APRIL,24, 12, 31, 15);
-		Advisor advisor = new Advisor("bar","bar","0612121212","machin@truc.com", cal.getTime());
+		this.advisor = new Advisor("name", "firstname", "0512345678", "mach@aer.com", cal.getTime(), agency);
 	}
 	
-	/**
-	 * testing if the assignment date of the new advisor is in the future
-	 */
-	@Test
-	public void test_isValidAssignmentDate() {
-		
-	
-		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.MARCH, 12, 12, 31, 15);
-		assertTrue(Advisor.isValidAssignmentDate(cal.getTime()));
-		 cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.APRIL, 12, 12, 31, 15);
-		assertTrue(Advisor.isValidAssignmentDate(cal.getTime()));
-		
-		 cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+2, Calendar.APRIL, 14, 12, 31, 15);
-		assertFalse(Advisor.isValidAssignmentDate(cal.getTime()));
-	}
+
 	
 
 }

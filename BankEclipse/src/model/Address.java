@@ -34,10 +34,23 @@ public class Address implements Serializable{
 	 * @param line1
 	 * @param line2 can be null
 	 */
+	@Deprecated
 	public Address(String line1, String line2) {
 
 		this.setLine1(line1);
 		this.line2 = line2;
+	}
+
+	/**
+	 * @param line1
+	 * @param line2 can be null
+	 * @param cpVille
+	 */
+	public Address(String line1, String line2, CpVille cpVille) {
+
+		this.setLine1(line1);
+		this.setLine2(line2);
+		this.setCpVille(cpVille);
 	}
 
 
@@ -74,9 +87,10 @@ public class Address implements Serializable{
 	}
 
 	public void setCpVille(CpVille cpVille) {
-		if (cpVille!=null){
-			this.cpVille = cpVille;
+		if (cpVille==null){
+			throw new NullPointerException("cpVille cannot be null");
 		}
+		this.cpVille = cpVille;
 	}
 	
 

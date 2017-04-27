@@ -40,22 +40,32 @@ public class Advisor implements Serializable {
 
 	}
 
-	/**Constructor
-	 * @param name contains only letters, spaces, apostrophe and dashes
-	 * @param firstName contains only letters, spaces, apostrophe and dashes
-	 * @param phoneNumber only accept French number ex: +33610203010 or 0033610203040 or 0610203040
-	 * @param email ex : azer@aze.azeaze or aze@ze.zeee
-	 * @param assignment date not in the future
-	 */
-	public Advisor(String name, String firstName, String phoneNumber, String email, 
-			Date assignmentDate) {
 
+
+	/**
+	 * Constructor
+	 * 
+	 * @param name
+	 *            contains only letters, spaces, apostrophe and dashes
+	 * @param firstName
+	 *            contains only letters, spaces, apostrophe and dashes
+	 * @param phoneNumber
+	 *            only accept French number ex: +33610203010 or 0033610203040 or
+	 *            0610203040
+	 * @param email
+	 *            ex : azer@aze.azeaze or aze@ze.zeee
+	 * @param assignment
+	 *            date not in the future
+	 * @param agency
+	 */
+	public Advisor(String name, String firstName, String phoneNumber, String email, Date assignmentDate,
+			Agency agency) {
 		this.setName(Formater.formatNameCase(name));
 		this.setFirstName(Formater.formatNameCase(firstName));
 		this.setPhoneNumber(Formater.removeUsualSeparators(phoneNumber));
-		this.setEmail(Formater.removeUsualSeparators(email));
+		this.setEmail(email);
 		this.setAssignmentDate(assignmentDate);
-		
+		this.setAgency(agency);
 	}
 
 	private static void checkName(String name) throws IllegalArgumentException {
@@ -68,7 +78,7 @@ public class Advisor implements Serializable {
 	}
 
 	/**
-	 * @param  name
+	 * @param name
 	 * @return true if name contains only letters, spaces, apostrophe and dashes
 	 */
 	public static boolean isValidName(String name) {
@@ -85,8 +95,10 @@ public class Advisor implements Serializable {
 	}
 
 	/**
-	 * @param first name
-	 * @return true if first  name contains only letters, spaces, apostrophe and dashes
+	 * @param first
+	 *            name
+	 * @return true if first name contains only letters, spaces, apostrophe and
+	 *         dashes
 	 */
 	public static boolean isValidFirstName(String firstname) {
 		return Validator.isValidName(firstname);
@@ -108,13 +120,14 @@ public class Advisor implements Serializable {
 	}
 
 	private static void checkEmail(String email) throws IllegalArgumentException {
-		if (email.isEmpty()|| !isValidEmail(email)) {
+		if (email.isEmpty() || !isValidEmail(email)) {
 			throw new IllegalArgumentException("Email must be a valid email address");
 		}
 	}
 
 	/**
-	 * @param email ex : azer@aze.azeaze or aze@ze.zeee
+	 * @param email
+	 *            ex : azer@aze.azeaze or aze@ze.zeee
 	 * @return true if the email is valid
 	 */
 	public static boolean isValidEmail(String email) {
@@ -122,24 +135,25 @@ public class Advisor implements Serializable {
 	}
 
 	private static void checkPhoneNumber(String phoneNumber) throws IllegalArgumentException {
-		if (phoneNumber.isEmpty()|| !isValidPhoneNumber(phoneNumber)) {
+		if (phoneNumber.isEmpty() || !isValidPhoneNumber(phoneNumber)) {
 			throw new IllegalArgumentException(
 					"Phone number must be a valid French phone number composed of 10 digits");
 		}
 	}
 
 	/**
-	 * @param phoneNumber only accept French number ex: +33610203010 or 0033610203040 or 0610203040
+	 * @param phoneNumber
+	 *            only accept French number ex: +33610203010 or 0033610203040 or
+	 *            0610203040
 	 * @return true if the phone number doesn't contain any unwanted character
 	 */
 	public static boolean isValidPhoneNumber(String phoneNumber) {
-		if (phoneNumber!=null){
+		if (phoneNumber != null) {
 			return Validator.isValidPhoneNumber(phoneNumber);
-		}
-		else{
+		} else {
 			return false;
 		}
-		
+
 	}
 
 	public String getName() {
@@ -147,7 +161,7 @@ public class Advisor implements Serializable {
 	}
 
 	public void setName(String name) {
-		
+
 		checkName(name);
 		this.name = name;
 	}
@@ -175,11 +189,11 @@ public class Advisor implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		
+
 		checkEmail(email);
 		this.email = email;
 	}
-	
+
 	@Temporal(TemporalType.DATE)
 	public Date getAssignmentDate() {
 		return this.assignmentDate;
@@ -197,9 +211,10 @@ public class Advisor implements Serializable {
 	}
 
 	public void setAgency(Agency agency) {
-		if(agency !=null){
-			this.agency = agency;
+		if (agency == null) {
+			throw new NullPointerException("agency cannot be null");
 		}
+		this.agency = agency;
 	}
 
 	@Id
@@ -207,7 +222,7 @@ public class Advisor implements Serializable {
 	public int getId() {
 		return this.id;
 	}
-	
+
 	/*
 	 * Used only by the ORM
 	 */
@@ -215,6 +230,5 @@ public class Advisor implements Serializable {
 	private void setId(int id) {
 		this.id = id;
 	}
-
 
 }

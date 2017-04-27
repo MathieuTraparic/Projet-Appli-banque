@@ -25,38 +25,62 @@ import model.CpVille;
 import model.Owner;
 
 public class CreateUserController2 implements Initializable{
-
 	
+	@FXML
+	public Label nameError;
+	@FXML
+	public Label firstNameError;
+	@FXML
+	public Label addressError;
+	@FXML
+	public Label cityNameError;
+	@FXML
+	public Label zipCodeError;
+	@FXML
+	public Label birthdayError;
+	@FXML
+	public DatePicker birthday;
+	@FXML
+	public TextField phoneNumber;
+	@FXML
+	public Label phoneNumberError;
+	
+	@FXML
+	private TextField name;
+	@FXML
+	private TextField firstName;
+	@FXML
+	private TextField addressLine1;
+	@FXML
+	private TextField addressLine2;
+	@FXML
+	private TextField cityName;
+	@FXML
+	private TextField zipCode;
+	
+	@FXML
+	private Button signIn;
+	
+	private List<Label> labels2;
+	private Owner owner;
+
+	/**get the data from create user controller 1 
+	 * @param owner2
+	 */
 	public void initOwner(Owner owner2) {
 		this.owner=owner2;
 	}
 	
-	@FXML
-	void previousButton(ActionEvent event) {
-		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
-	}
-	
-	@FXML
-	void cancelButton(ActionEvent event) {
-		VistaNavigator.loadVista(VistaNavigator.LOGIN);
-	}
-	
-	
-	@FXML
-	void secondStepValid(ActionEvent event) {
-		if (name.getText() != null && firstName.getText() != null 
-				&& addressLine1.getText() != null && cityName.getText() != null 
-				&& zipCode.getText() != null && phoneNumber.getText() != null
-				&& birthday.getValue() != null) {
-			this.signIn.setDisable(false);
-		}
-	}
-	
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+		
+		/*
+		 * set all Label in ArrayList to be initialized
+		 */
+		
 		labels2 = new ArrayList<Label>() {
 
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 2567784150210394600L;
 
 			{
 				add(nameError);
@@ -68,6 +92,11 @@ public class CreateUserController2 implements Initializable{
 				add(phoneNumberError);
 			}
 		};
+		
+		/*
+		 * if all text fields are filled with data, the listener set the sign in
+		 * button to not disabled
+		 */
 
 		ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
 			signIn.setDisable(name.getText().isEmpty() 
@@ -86,6 +115,11 @@ public class CreateUserController2 implements Initializable{
 		cityName.textProperty().addListener(onChange);
 		zipCode.textProperty().addListener(onChange);
 		phoneNumber.textProperty().addListener(onChange);
+		
+		/*
+		 * if the date is chosen and , the listener set the sign in
+		 * button to not disabled
+		 */
 		birthday.valueProperty().addListener((observable, oldValue, newValue) -> {
 			signIn.setDisable(name.getText().isEmpty() 
 					|| firstName.getText().isEmpty()
@@ -96,7 +130,11 @@ public class CreateUserController2 implements Initializable{
 					|| birthday.getValue()==null);
 		});
 		
+		/*
+		 * modify the date picker in a way that all date in the future are disable and with a red background
+		 */
 		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+			
 			@Override
 			public DateCell call(final DatePicker datePicker) {
 				return new DateCell() {
@@ -114,6 +152,18 @@ public class CreateUserController2 implements Initializable{
 		};
 		birthday.setDayCellFactory(dayCellFactory);
 	}
+	
+	@FXML
+	void previousButton(ActionEvent event) {
+		VistaNavigator.loadVista(VistaNavigator.CREATE_USER_1);
+	}
+	
+	@FXML
+	void cancelButton(ActionEvent event) {
+		VistaNavigator.loadVista(VistaNavigator.LOGIN);
+	}
+	
+	
 	
 	@FXML
 	void signInButton(ActionEvent event) {
@@ -183,42 +233,5 @@ public class CreateUserController2 implements Initializable{
 		}
 
 	}
-	
-	private List<Label> labels2;
-	private Owner owner;
-	@FXML
-	public Label nameError;
-	@FXML
-	public Label firstNameError;
-	@FXML
-	public Label addressError;
-	@FXML
-	public Label cityNameError;
-	@FXML
-	public Label zipCodeError;
-	@FXML
-	public Label birthdayError;
-	@FXML
-	public DatePicker birthday;
-	@FXML
-	public TextField phoneNumber;
-	@FXML
-	public Label phoneNumberError;
-	
-	@FXML
-	private TextField name;
-	@FXML
-	private TextField firstName;
-	@FXML
-	private TextField addressLine1;
-	@FXML
-	private TextField addressLine2;
-	@FXML
-	private TextField cityName;
-	@FXML
-	private TextField zipCode;
-	
-	@FXML
-	private Button signIn;
 
 }
