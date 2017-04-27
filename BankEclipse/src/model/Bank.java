@@ -88,9 +88,6 @@ public class Bank implements Serializable{
 		if (bankCode.isEmpty()){
 			throw new IllegalArgumentException("The code of the bank cannot be empty");
 		}
-		else if(!isValidName(bankCode)){
-			throw new IllegalArgumentException("The bank name is incorrect");
-		}
 	}
 
 
