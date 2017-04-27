@@ -30,7 +30,7 @@ public class Bank implements Serializable{
 	 */
 	@SuppressWarnings("unused")
 	private Bank(){
-		this.setCode("1235");
+//		this.setCode("1235");
 	}
 	
 	/**Deprecated constructor

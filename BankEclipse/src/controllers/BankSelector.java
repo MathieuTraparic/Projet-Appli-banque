@@ -42,9 +42,16 @@ public abstract class BankSelector implements Initializable{
 		TypedQuery<List> q = em.createQuery("SELECT o.accounts FROM Owner o WHERE o=:loggedOwner", List.class);
 		accountsOwned.addAll((Collection<? extends Account>) q.setParameter("loggedOwner", loggedOwner).getResultList());
 		
+		// getResultist return null if no rows are found
+		if(accountsOwned.contains(null) && accountsOwned.size()==1){
+			accountsOwned.clear();
+		}
 		//get a set of agencies from the accounts
 		HashSet<Agency> agencies = new HashSet<>();
-		accountsOwned.forEach(account -> agencies.add(account.getAgency()));
+		//accountsOwned.forEach(account -> agencies.add(account.getAgency()));
+		for (Account account: accountsOwned) {
+			agencies.add(account.getAgency());
+		}
 		
 		//get a set of banks from the agencies
 		this.banksOwned = new HashSet<>();

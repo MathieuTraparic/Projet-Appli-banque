@@ -10,20 +10,17 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
-import javax.swing.text.DateFormatter;
-
 import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.stage.WindowEvent;
 import model.Account;
 import model.Agency;
 import model.Bank;
-
+import model.Owner;
 import javafx.scene.control.TableView;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -89,10 +86,10 @@ public class HomeController extends BankSelector implements Initializable {
 			@Override
 			public void handle(WindowEvent event) {
 				Account account = controller.getValidatedData();
-
-				// Actually I don't get the idea why we do this here and not
-				// when we submit in the popup window
 				if (account != null) {
+					List<Owner> l =new ArrayList<>();
+					l.add(VistaNavigator.getInstance().getLoggedOwner());
+					account.setOwners(l);
 					EntityManager em = VistaNavigator.getEmf().createEntityManager();
 					em.getTransaction().begin();
 					em.persist(account);
