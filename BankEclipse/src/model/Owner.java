@@ -171,12 +171,15 @@ public class Owner implements Serializable {
 		this.address = address;
 	}
 
-	@ManyToMany
-	@JoinTable(name = "Assign", joinColumns = { @JoinColumn(name = "idOwner") }, inverseJoinColumns = {
-			@JoinColumn(name = "idAccount") })
+//	@ManyToMany
+//	@JoinTable(name = "Assign", joinColumns = { @JoinColumn(name = "idOwner") }, inverseJoinColumns = {
+//			@JoinColumn(name = "idAccount") })
+	@ManyToMany(mappedBy="owners")
 	public List<Account> getAccounts() {
 		return this.accounts;
 	}
+	
+	
 
 	public void setAccounts(List<Account> accounts) {
 		checkAccounts(accounts);
