@@ -58,22 +58,22 @@
 				<Label text="Name" GridPane.halignment="CENTER"
 					GridPane.rowIndex="1" GridPane.valignment="CENTER" />
 				<Label text="First Name" GridPane.rowIndex="3" />
-				<TextField fx:id="name" onAction="#secondStepValid"
+				<TextField fx:id="name" 
 					prefHeight="27.0" prefWidth="123.0" GridPane.columnIndex="1"
 					GridPane.rowIndex="1" />
 				<Label alignment="CENTER" prefHeight="58.0" prefWidth="95.0"
 					text="Address" textAlignment="CENTER" wrapText="true"
 					GridPane.rowIndex="5" />
 				<Label text="Zip Code" GridPane.rowIndex="10" />
-				<TextField fx:id="cityName" onAction="#secondStepValid"
+				<TextField fx:id="cityName" 
 					GridPane.columnIndex="1" GridPane.rowIndex="8" />
 				<Label text="City name" GridPane.rowIndex="8" />
-				<TextField fx:id="zipCode" onAction="#secondStepValid"
+				<TextField fx:id="zipCode" 
 					prefHeight="25.0" prefWidth="327.0" GridPane.columnIndex="1"
 					GridPane.rowIndex="10" />
-				<TextField fx:id="firstName" onAction="#secondStepValid"
+				<TextField fx:id="firstName" 
 					GridPane.columnIndex="1" GridPane.rowIndex="3" />
-				<TextField fx:id="addressLine1" onAction="#secondStepValid"
+				<TextField fx:id="addressLine1" 
 					GridPane.columnIndex="1" GridPane.rowIndex="5" />
 				<TextField fx:id="addressLine2" GridPane.columnIndex="1"
 					GridPane.rowIndex="7" />
@@ -106,13 +106,13 @@
 		<Button layoutX="553.0" layoutY="383.0" mnemonicParsing="false"
 			onAction="#previousButton" text="Previous" />
 		<DatePicker fx:id="birthday" layoutX="34.0" layoutY="205.0"
-			onAction="#secondStepValid" prefHeight="31.0" prefWidth="146.0"
+			 prefHeight="31.0" prefWidth="146.0"
 			promptText="Birthday" />
 		<Label fx:id="birthdayError" layoutX="34.0" layoutY="236.0"
 			prefHeight="46.0" prefWidth="131.0" text="Birthday cannot be in the future"
 			visible="false" wrapText="true" />
 		<TextField fx:id="phoneNumber" layoutX="14.0" layoutY="81.0"
-			onAction="#secondStepValid" promptText="PhoneNumber" />
+			promptText="PhoneNumber" />
 		<Label fx:id="phoneNumberError" layoutX="23.0" layoutY="119.0"
 			prefHeight="46.0" prefWidth="146.0" text="Phone number must be valid!"
 			visible="false" wrapText="true" />

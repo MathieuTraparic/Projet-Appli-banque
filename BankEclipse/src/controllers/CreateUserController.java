@@ -47,11 +47,12 @@ public class CreateUserController implements Initializable {
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
 		/*
-		 * set all Label in ArrayList
+		 * set all Label in ArrayList  to be initialized
 		 */
 
 		errorLabels = new ArrayList<Label>() {
-			private static final long serialVersionUID = 1L;
+
+			private static final long serialVersionUID = -4858852416598365832L;
 
 			{
 				add(emailError);
@@ -62,7 +63,7 @@ public class CreateUserController implements Initializable {
 		};
 
 		/*
-		 * if the text fields are filled with data, the listener set the next
+		 * if all text fields are filled with data, the listener set the next
 		 * step button to not disabled
 		 */
 
@@ -144,7 +145,4 @@ public class CreateUserController implements Initializable {
 	void cancelButton(ActionEvent event) {
 		VistaNavigator.loadVista(VistaNavigator.LOGIN);
 	}
-
-
-
 }
