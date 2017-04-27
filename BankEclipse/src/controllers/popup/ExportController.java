@@ -1,4 +1,4 @@
-package controllers;
+package controllers.popup;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import controllers.popup.PopupController;
+import controllers.VistaNavigator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
