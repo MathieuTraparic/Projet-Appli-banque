@@ -40,6 +40,7 @@ public class TestPeriodicTransaction {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test_PeriodicTransactionUnit() {
+		f = new Frequency("");
 		PeriodicTransaction periodTransaction = 
 				new PeriodicTransaction(date, 1254, f);
 	}

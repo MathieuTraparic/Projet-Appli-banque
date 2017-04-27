@@ -42,7 +42,7 @@ public class TransactionType implements Serializable {
 	}
 
 	public void setDescription(String description) {
-		check_transactionTypeDescription(description);
+		checkTransactionTypeDescription(description);
 		this.description = description;
 	}
 	
@@ -51,7 +51,7 @@ public class TransactionType implements Serializable {
 		return description;
 	}
 	
-	private static void check_transactionTypeDescription(String description) throws IllegalArgumentException {
+	private static void checkTransactionTypeDescription(String description) throws IllegalArgumentException {
 		if (description.isEmpty()) {
 			throw new IllegalArgumentException("The transaction type description must be valid");
 		}

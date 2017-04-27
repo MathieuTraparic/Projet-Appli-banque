@@ -10,7 +10,7 @@ public class TestTargetTransaction {
 	 * to test if IBAN is empty or null 
 	 */
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void test_NullTargetTransactionIBAN() {
 		TargetTransaction target = new TargetTransaction(null,"bar");
 		TargetTransaction targets = new TargetTransaction("","bar");

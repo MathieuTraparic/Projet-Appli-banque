@@ -7,7 +7,7 @@ import org.junit.Test;
 import model.Transaction;
 import model.TransactionType;
 
-/**
+/**s
  * @author user
  *
  */
@@ -47,8 +47,4 @@ public class TestTransaction {
 	public void test_NullTransactionDate() {
 		Transaction transaction = new Transaction("bar", -1254d, null, transactionType);
 	}
-	
-
-	
-
 }

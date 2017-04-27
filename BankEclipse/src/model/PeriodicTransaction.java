@@ -44,6 +44,7 @@ public class PeriodicTransaction implements Serializable {
 	}
 
 	public void setFrequency(Frequency frequency) {
+		checkFrequency(frequency);
 		this.frequency =frequency;	
 	}
 	
@@ -134,5 +135,14 @@ public class PeriodicTransaction implements Serializable {
 	
 	public static boolean isValidNumberDefiningPeriodicity(int numberDefiningPeriodicity){
 		return (numberDefiningPeriodicity >= 0);
+	}
+	
+	private static void checkFrequency(Frequency frequency){
+		if(frequency == null){
+			throw new NullPointerException("The frequency can't be null");
+		}
+		if(frequency.equals("")){
+			throw new IllegalArgumentException("The frequency can't be empty");
+		}
 	}
 }

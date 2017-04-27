@@ -36,7 +36,7 @@ public class TargetTransaction implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer getId() {
+	public int getId() {
 		return this.id;
 	}
 
