@@ -14,11 +14,9 @@ import javax.persistence.Table;
 import util.Formater;
 
 @Entity
-@Table(name="agency")
+@Table(name = "agency")
 @NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
-public class Agency  implements Serializable{
-
-
+public class Agency implements Serializable {
 
 	private static final long serialVersionUID = 458612991376198713L;
 	private int id;
@@ -26,16 +24,18 @@ public class Agency  implements Serializable{
 	private String counterCode;
 	private Address adress;
 	private Bank bank;
-	
+
 	/*
 	 * Used only by the ORM
 	 */
 	@SuppressWarnings("unused")
-	private Agency(){
-		
+	private Agency() {
+
 	}
-	
-	/**Constructor
+
+	/**
+	 * Constructor
+	 * 
 	 * @param agencyName
 	 * @param counterCode
 	 */
@@ -45,9 +45,9 @@ public class Agency  implements Serializable{
 		this.setCounterCode(Formater.removeUsualSeparators(counterCode));
 		this.setName(Formater.formatNameCase(agencyName));
 	}
-	
+
 	/**
-	 * @param name 
+	 * @param name
 	 * @param counterCode
 	 * @param adress
 	 * @param bank
@@ -58,12 +58,13 @@ public class Agency  implements Serializable{
 		this.setAdress(adress);
 		this.setBank(bank);
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return this.id;
 	}
+
 	/*
 	 * Used only by the ORM
 	 */
@@ -83,14 +84,14 @@ public class Agency  implements Serializable{
 			throw new IllegalArgumentException("The countercode cannot be empty");
 		}
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
 
 	public void setName(String name) {
 		checkName(name);
-		
+
 		this.name = name;
 	}
 
@@ -102,30 +103,31 @@ public class Agency  implements Serializable{
 		checkCounterCode(counterCode);
 		this.counterCode = counterCode;
 	}
-	
+
 	@ManyToOne
-	@JoinColumn(name="idAddress")
+	@JoinColumn(name = "idAddress")
 	private Address getAdress() {
 		return this.adress;
 	}
 
 	public void setAdress(Address address) {
-		if(address==null){
+		if (address == null) {
 			throw new NullPointerException("address cannot be null");
 		}
 		this.adress = address;
 	}
+
 	@ManyToOne
-	@JoinColumn(name="idBank")
+	@JoinColumn(name = "idBank")
 	public Bank getBank() {
 		return this.bank;
 	}
 
 	public void setBank(Bank bank) {
-		if(bank==null){
+		if (bank == null) {
 			throw new NullPointerException("bank cannot be null");
 		}
 		this.bank = bank;
 	}
-	
+
 }

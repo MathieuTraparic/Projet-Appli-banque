@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,6 +43,7 @@ public class Account implements Serializable {
 	private Agency agency;
 	private AccountType accountType;
 	private List<Transaction> transactions;
+	private List<Owner> owners;
 	
 	//for ORM use
 	@SuppressWarnings("unused")
@@ -264,6 +267,19 @@ public class Account implements Serializable {
 	@SuppressWarnings("unused")
 	private void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
+	}
+	
+	@ManyToMany(mappedBy="accounts")
+	public List<Owner> getOwners() {
+		return this.owners;
+	}
+	
+	public void setOwners(List<Owner> owners){
+		this.owners = owners;
+	}
+	
+	public void addOwner(Owner owner){
+		this.owners.add(owner);
 	}
 
 	/**
