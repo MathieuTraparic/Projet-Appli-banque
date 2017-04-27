@@ -73,7 +73,10 @@ public class AdvisorController implements Initializable {
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-
+		
+		/*
+		 * set all Label and fields in ArrayList
+		 */
 		this.errorLabels = new ArrayList<Label>() {
 
 			private static final long serialVersionUID = 428581192054721416L;
@@ -111,7 +114,8 @@ public class AdvisorController implements Initializable {
 		allBanks.forEach(bank -> bankCombo.getItems().add(bank.getName()));
 
 		bankCombo.getItems().add("OTHER");
-
+		
+		//set secondary label as disable
 		this.secondaryFields.forEach(item -> item.setDisable(true));
 		this.applyButton.setDisable(true);
 
@@ -119,7 +123,11 @@ public class AdvisorController implements Initializable {
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
-
+		
+		/*
+		 * if bank not chosen yet, submit is disable
+		 * all textfields are cleared when another bank is chosen
+		 */
 		applyButton.setDisable(true);
 		nameField.clear();
 		firstNameField.clear();
@@ -137,6 +145,7 @@ public class AdvisorController implements Initializable {
 			controller.show(new Bank("name", "code"), new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent event) {
+					//get the new bank data from the popup
 					Bank b = controller.getValidatedData();
 					if (b != null) {
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -182,7 +191,11 @@ public class AdvisorController implements Initializable {
 
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
-
+		
+		/*
+		 * when a new agency is chosen, all error labels are hidden
+		 *  all textfields are cleared when another bank is chosen
+		 */
 		errorLabels.forEach(label -> label.setVisible(false));
 
 		applyButton.setDisable(true);
@@ -199,14 +212,15 @@ public class AdvisorController implements Initializable {
 		}
 
 		if (agencyCombo.getValue().toString() == "OTHER") {
+			// call popup to create an agency
 			PopupController<Agency> controller = PopupController.load(VistaNavigator.ADD_AGENCY, false);
 			controller.show(new Agency("name", "counterCode"), new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent event) {
+					//get the new bank data from the popup
+					// could be avoid but need a major refactoring
 					Agency a = controller.getValidatedData();
 
-					// Actually I don't get the idea why we do this here and not
-					// when we submit in the popup window
 					if (a != null) {
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
@@ -214,6 +228,7 @@ public class AdvisorController implements Initializable {
 						em.persist(a);
 						em.getTransaction().commit();
 						em.close();
+						//update the agency combobox with the newly added agency
 						agencyCombo.getItems().add(agencyCombo.getItems().size() - 1, a.getName());
 					}
 				}
@@ -224,6 +239,7 @@ public class AdvisorController implements Initializable {
 			// enable all fields
 			this.secondaryFields.forEach(item -> item.setDisable(false));
 
+			//used to compare if there is changes compare to the database
 			Agency currentAgency = null;
 			for (Agency j : this.listAgency) {
 				if (agencyCombo.getValue().toString().equals(j.getName())) {
