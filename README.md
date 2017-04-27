@@ -1,4 +1,4 @@
-# Projet-Appli-banque
+﻿# Projet-Appli-banque
 
 Fonctionnalités implémentés :
 - afficher les comptes avec leur solde actuel
@@ -69,8 +69,9 @@ http://bekwam.blogspot.fr/2014/10/tabbed-navigation-in-java-fx.html
 Stack Pane 
 https://blogs.oracle.com/acaicedo/entry/managing_multiple_screens_in_javafx1
 
+Discord :
+https://discord.gg/sc9rG
+
 Combobox
 http://stackoverflow.com/questions/13032257/combo-box-javafx-with-fxml
 
-Storing passwords 
-https://crackstation.net/hashing-security.htm
