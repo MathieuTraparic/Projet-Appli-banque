@@ -384,8 +384,7 @@ public class AdvisorController implements Initializable {
 		}
 		if (isANewAdvisor == true && errorLabels.stream().allMatch(label -> !label.isVisible())) {
 			Advisor newAdvisor = new Advisor(nameField.getText(), firstNameField.getText(), phoneNumberField.getText(),
-					emailField.getText(), cal.getTime());
-			newAdvisor.setAgency(currentAgency);
+					emailField.getText(), cal.getTime(), currentAgency);
 
 			em.getTransaction().begin();
 			em.persist(newAdvisor);
