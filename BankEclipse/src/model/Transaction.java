@@ -50,70 +50,45 @@ public class Transaction implements Serializable {
 	private Category category;
 	private TargetTransaction targetTransaction;
 	private PeriodicTransaction periodicTransaction;
-	
-//
-//    private SimpleObjectProperty<Date> dateP;
-//    private StringProperty name;
     
-	private Transaction(){
-		
-	}
+	@SuppressWarnings("unused")
+	private Transaction(){}
   
-
-//    public Transaction(String name, Date dateP) {
-//        this.name = new SimpleStringProperty(name);
-//        this.dateP = new SimpleObjectProperty(dateP);
-//    }
-	
+    /**
+     * @param description
+     * @param date
+     */
     public Transaction(String description, Date date) {
-        this.description = description;
-        this.date = date;
+        this.setDescription(description);
+        this.setDate(date);;
     }
 
-
-//    public StringProperty nameProperty() {
-//        return description;
-//    }
-//
-//    public String getDateAsString() {
-//        SimpleDateFormat smp = new SimpleDateFormat("dd MMMMM yyyy");
-//        String strDate = (null == date|| null == date.get())
-//                ? "" : smp.format(date.get());
-//       
-//        return strDate;
-//    }
-
-
-	@Override
-	public String toString() {
-		return description;
-	}
-
+	/**
+	 * @param description
+	 * @param value
+	 * @param date
+	 * @param transactionType
+	 */
 	public Transaction(String description, double value, Date date, TransactionType transactionType) {
-
-		checkValue(value);
-		checkDate(date);
-		checkDescription(description);
-
-		this.description = description;
-		this.value = value;
-		this.date = date;
-		this.transactionType = transactionType;
+		this.setDescription(description);
+		this.setValue(value);
+		this.setDate(date);
+		this.setTransactionType(transactionType);
 	}
 	
-	// TODO avoid repetion with the previous controller
+	/**
+	 * @param description
+	 * @param value
+	 * @param date
+	 * @param transactionType
+	 * @param periodicTransaction
+	 */
 	public Transaction(String description, double value, Date date, TransactionType transactionType, PeriodicTransaction periodicTransaction ) {
-
-		checkValue(value);
-		checkDate(date);
-		checkDescription(description);
-		// TODO chek the periodic transaction
-
-		this.description = description;
-		this.value = value;
-		this.date = date;
-		this.transactionType = transactionType;
-		this.periodicTransaction = periodicTransaction;
+		this.setDescription(description);
+		this.setValue(value);
+		this.setDate(date);
+		this.setTransactionType(transactionType);
+		this.setPeriodicTransaction(periodicTransaction);
 	}
 
 	public String getDescription() {
@@ -121,6 +96,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setDescription(String description) {
+		checkDescription(description);
 		this.description = description;
 	}
 
@@ -129,6 +105,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setValue(double value) {
+		checkValue(value);
 		this.value = value;
 	}
 	
@@ -139,6 +116,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setDate(Date date) {
+		checkDate(date);
 		this.date = date;
 	}
 
@@ -148,33 +126,11 @@ public class Transaction implements Serializable {
 		return this.id;
 	}
 
+	@SuppressWarnings("unused")
 	private void setId(int id) {
 		this.id = id;
-	}
-
-	private static void checkDescription(String description) throws IllegalArgumentException {
-		if (description.isEmpty()) {
-			throw new IllegalArgumentException("The description of the transaction cannot be empty");
-		}
-	}
-
-	private static void checkValue(double value) throws IllegalArgumentException {
-		if (!isValidValue(value)) {
-			throw new IllegalArgumentException(
-					"The value of the transaction cannot be 0, it must be positive or negative");
-		}
-	}
-
-	public static boolean isValidValue(double value) {
-		return (0 != Double.compare(value, 0));
-	}
-
-	private static void checkDate(Date transactionDate) throws NullPointerException {
-		if (transactionDate == null) {
-			throw new NullPointerException("The date of the transaction cannot be null");
-		}
-
-	}
+	}	
+	
 	@ManyToOne
 	@JoinColumn(name="idAccount")
 	public Account getAccount() {
@@ -184,6 +140,7 @@ public class Transaction implements Serializable {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+	
 	@ManyToOne
 	@JoinColumn(name="idTransactionType")
 	public TransactionType getTransactionType() {
@@ -191,6 +148,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setTransactionType(TransactionType transactionType) {
+		checkTransactionType(transactionType);
 		this.transactionType = transactionType;
 	}
 	
@@ -201,6 +159,7 @@ public class Transaction implements Serializable {
 	}
 
 	public void setCategory(Category category) {
+		checkCategory(category);
 		this.category = category;
 	}
 	
@@ -230,17 +189,58 @@ public class Transaction implements Serializable {
 	}
 
 	public void setPeriodicTransaction(PeriodicTransaction periodicTransaction) {
+		checkPeriodicTransaction(periodicTransaction);
 		this.periodicTransaction = periodicTransaction;
 	}
-
-//	private static void checkType(String type) throws IllegalArgumentException {
-//		if (type == null) {
-//			throw new NullPointerException("The type of the transaction cannot be null");
-//		}
-//	}
 
 	public String formatString(){
 		return this.description + ";" + this.value + ";" 
 				+ this.date.toString() + ";" + transactionType.toString() + ";\n"; 
+	}
+	
+	@Override
+	public String toString() {
+		return description;
+	}
+	
+	private static void checkDescription(String description) throws IllegalArgumentException {
+		if (description.isEmpty()) {
+			throw new IllegalArgumentException("The description of the transaction cannot be empty");
+		}
+	}
+
+	private static void checkValue(double value) throws IllegalArgumentException {
+		if (!isValidValue(value)) {
+			throw new IllegalArgumentException(
+					"The value of the transaction cannot be 0, it must be positive or negative");
+		}
+	}
+
+	private static boolean isValidValue(double value) {
+		return (0 != Double.compare(value, 0));
+	}
+
+	private static void checkDate(Date transactionDate) throws NullPointerException {
+		if (transactionDate == null) {
+			throw new NullPointerException("The date of the transaction cannot be null");
+		}
+	}
+	
+	private static void checkTransactionType(TransactionType transactionType) throws NullPointerException{
+		if(transactionType == null){
+			throw new NullPointerException("The transaction type can't be null");
+		}
+	}
+	
+	private static void checkPeriodicTransaction(PeriodicTransaction periodicTransaction) throws NullPointerException{
+		if(periodicTransaction == null){
+			throw new NullPointerException("The transaction type can't be null");
+		}
+	}
+	
+	private static void checkCategory(Category category) throws NullPointerException{
+		if(category == null){
+			throw new NullPointerException("The category can't be null");
+		}
 	}
 }

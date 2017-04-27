@@ -19,38 +19,22 @@ import util.Formater;
 @Table(name = "cpville")
 @NamedQuery(name = "CpVille.findAll", query = "SELECT t FROM CpVille t")
 public class CpVille implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -7208703135643719589L;
 	private int id;
 	private String zip;
 	private String city;
 
-	private CpVille() {
-	}
+	@SuppressWarnings("unused")
+	private CpVille() {}
 
+	/**
+	 * @param zip
+	 * @param city
+	 */
 	public CpVille(String zip, String city) {
-
-		check_city(city);
-		check_zip(zip);
-
-		// this.id = id;
-		this.zip = Formater.removeUsualSeparators(zip);
-		this.city = Formater.formatNameCase(city);
-	}
-
-	private static void check_zip(String zip) throws IllegalArgumentException {
-		if (zip.isEmpty() || !isValidZip(zip)) {
-			throw new IllegalArgumentException("zip must be valid");
-		}
-	}
-
-	private static void check_city(String city) throws IllegalArgumentException {
-		if (city.isEmpty()) {
-			throw new IllegalArgumentException("city cannot be empty");
-		}
-	}
-
-	public static boolean isValidZip(String zip) {
-		return zip.length() <= 50;
+		this.setZip(zip);
+		this.setCity(city); 
 	}
 
 	@Id
@@ -59,7 +43,8 @@ public class CpVille implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 
@@ -68,7 +53,8 @@ public class CpVille implements Serializable {
 	}
 
 	public void setZip(String zip) {
-		this.zip = zip;
+		checkZip(zip);
+		this.zip = Formater.removeUsualSeparators(zip);
 	}
 
 	public String getCity() {
@@ -76,7 +62,23 @@ public class CpVille implements Serializable {
 	}
 
 	public void setCity(String city) {
-		this.city = city;
+		checkCity(city);
+		this.city = Formater.formatNameCase(city);
 	}
 
+	private static void checkZip(String zip) throws IllegalArgumentException {
+		if (zip.isEmpty() || !isValidZip(zip)) {
+			throw new IllegalArgumentException("zip must be valid");
+		}
+	}
+
+	private static void checkCity(String city) throws IllegalArgumentException {
+		if (city.isEmpty()) {
+			throw new IllegalArgumentException("city cannot be empty");
+		}
+	}
+
+	public static boolean isValidZip(String zip) {
+		return zip.length() <= 50;
+	}
 }

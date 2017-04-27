@@ -11,24 +11,19 @@ import javax.persistence.*;
 @Table(name = "transactiontype")
 @NamedQuery(name = "TransactionType.findAll", query = "SELECT t FROM TransactionType t")
 public class TransactionType implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 6948430153082483301L;
 	private int id;
 	private String description;
 
-	private TransactionType() {
-	}
+	@SuppressWarnings("unused")
+	private TransactionType() {}
 
+	/**
+	 * @param description
+	 */
 	public TransactionType(String description) {
-
-		check_transactionTypeDescription(description);
-
-		this.description = description;
-	}
-
-	private static void check_transactionTypeDescription(String description) throws IllegalArgumentException {
-		if (description.isEmpty()) {
-			throw new IllegalArgumentException("The transaction type description must be valid");
-		}
+		this.setDescription(description);;
 	}
 
 	@Id
@@ -37,7 +32,8 @@ public class TransactionType implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 
@@ -46,13 +42,19 @@ public class TransactionType implements Serializable {
 	}
 
 	public void setDescription(String description) {
+		check_transactionTypeDescription(description);
 		this.description = description;
 	}
 	
-
 	@Override
 	public String toString() {
 		return description;
+	}
+	
+	private static void check_transactionTypeDescription(String description) throws IllegalArgumentException {
+		if (description.isEmpty()) {
+			throw new IllegalArgumentException("The transaction type description must be valid");
+		}
 	}
 
 }

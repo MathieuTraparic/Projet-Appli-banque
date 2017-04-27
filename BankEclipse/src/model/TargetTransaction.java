@@ -22,24 +22,16 @@ public class TargetTransaction implements Serializable {
 	private String summary;
 	private String iban;
 	
-	private TargetTransaction(){
-		
-	}
+	@SuppressWarnings("unused")
+	private TargetTransaction(){}
 	
 	public TargetTransaction(String summary) {
-;
-		checkSummary(summary);
-		
-		this.summary = Formater.formatNameCase(summary);
+		this.setSummary(summary);
 	}
 	
 	public TargetTransaction(String summary, String iban) {
-		
-		checkIban(iban);
-		checkSummary(summary);
-		
-		this.summary = Formater.formatNameCase(summary);
-		this.iban = Formater.removeUsualSeparators(iban);
+		this.setSummary(summary);
+		this.setIban(iban);
 	}
 	
 	@Id
@@ -48,8 +40,27 @@ public class TargetTransaction implements Serializable {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getSummary() {
+		return this.summary;
+	}
+
+	public void setSummary(String summary) {
+		checkSummary(summary);
+		this.summary = Formater.formatNameCase(summary);
+	}
+
+	public String getIban() {
+		return this.iban;
+	}
+
+	public void setIban(String iban) {
+		checkIban(iban);
+		this.iban = Formater.removeUsualSeparators(iban);;
 	}
 	
 	private static void checkIban(String iban) throws IllegalArgumentException{
@@ -70,22 +81,6 @@ public class TargetTransaction implements Serializable {
 		if (summary.isEmpty()){
 			throw new IllegalArgumentException("Summary must be filled with the name of the target transaction");
 		}
-	}
-
-	public String getSummary() {
-		return this.summary;
-	}
-
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-
-	public String getIban() {
-		return this.iban;
-	}
-
-	public void setIban(String iban) {
-		this.iban = iban;
 	}
 	
 	@Override
