@@ -12,43 +12,67 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import util.Formater;
+import util.Validator;
 
 @Entity
 @Table(name = "category")
 @NamedQuery(name = "Category.findAll", query = "SELECT t FROM Category t")
 public class Category implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1609819592902961280L;
+
 	private int id;
 	private String description;
 	private Category parentCategory;
 
-	private void init(String description) {
-		checkdescription(description);
-
-		this.description = Formater.formatNameCase(description);
-		this.parentCategory = null;
-	}
-
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
 	private Category() {
 
 	}
 
+	/**Initialize the attributes for the two different constructor
+	 * @param description
+	 */
+	private void init(String description) {
+		this.setDescription(Formater.formatNameCase(description));
+		this.parentCategory = null;
+	}
+
+	/**Constructor used when category parent is not assigned
+	 * @param description contains only letters, spaces, apostrophe and dashes
+	 */
 	public Category(String description) {
 		init(description);
 	}
 
+	/**Constructor used when a parent category is assigned
+	 * @param description contains only letters, spaces, apostrophe and dashes
+	 * @param parentCategory
+	 */
 	public Category(String description, Category parentCategory) {
-		checkdescription(description);		
-		checkDiffParentCategory(this.description, parentCategory);
-		
-		this.description = Formater.formatNameCase(description);
-		this.parentCategory = parentCategory;
+
+		init(description);
+
+		this.setParentCategory(parentCategory);
+	}
+	
+	/**
+	 * @param  name
+	 * @return true if name contains only letters, spaces, apostrophe and dashes
+	 */
+	public static boolean isValidName(String name){
+		return Validator.isValidName(name);
 	}
 
-	private static void checkdescription(String description) throws IllegalArgumentException {
+	private static void checkDescription(String description) throws IllegalArgumentException {
 		if (description.isEmpty()) {
 			throw new IllegalArgumentException("Description of the category cannot be empty");
+		}
+		else if(!isValidName(description)){
+			throw new IllegalArgumentException("The category name is incorrect");
 		}
 	}
 
@@ -65,28 +89,37 @@ public class Category implements Serializable {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 
 	public void setDescription(String description) {
+		checkDescription(description);
+
 		this.description = description;
 	}
 
 	public String getDescription() {
 		return this.description;
 	}
-	
+
 	@ManyToOne
-	@JoinColumn(name="idParentCategory")
+	@JoinColumn(name = "idParentCategory")
 	public Category getParentCategory() {
 		return this.parentCategory;
 	}
 
 	public void setParentCategory(Category parentCategory) {
+
+		checkDiffParentCategory(this.description, parentCategory);
+
 		this.parentCategory = parentCategory;
 	}
-	
+
 	@Override
 	public String toString() {
 		return description;

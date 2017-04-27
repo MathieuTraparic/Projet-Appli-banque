@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,30 +17,39 @@ import util.Formater;
 @Table(name="agency")
 @NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
 public class Agency  implements Serializable{
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 458612991376198713L;
 	private int id;
 	private String name;
 	private String counterCode;
 	private Address adress;
 	private Bank bank;
 	
-	
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
 	private Agency(){
 		
 	}
 	
+	/**Deprecated constructor
+	 * @param agencyName
+	 */
+	@Deprecated
 	public Agency(String agencyName){
-		checkName(agencyName);
-		this.name = Formater.formatNameCase(agencyName);
+
+		this.setName(Formater.formatNameCase(agencyName));
 	}
 
+	/**Constructor
+	 * @param agencyName
+	 * @param counterCode
+	 */
 	public Agency(String agencyName, String counterCode) {
 
-		chekCounterCode(counterCode);
-		checkName(agencyName);
-
-		this.counterCode = Formater.removeUsualSeparators(counterCode);
-		this.name = Formater.formatNameCase(agencyName);
+		this.setCounterCode(Formater.removeUsualSeparators(counterCode));
+		this.setName(Formater.formatNameCase(agencyName));
 	}
 	
 	@Id
@@ -49,18 +57,21 @@ public class Agency  implements Serializable{
 	public int getId() {
 		return this.id;
 	}
-	
-	public void setId(int id) {
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 
-	public static void checkName(String name) throws IllegalArgumentException {
+	private static void checkName(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
 			throw new IllegalArgumentException("The name of the agency cannot be empty");
 		}
 	}
 
-	public static void chekCounterCode(String counterCode) throws IllegalArgumentException {
+	private static void checkCounterCode(String counterCode) throws IllegalArgumentException {
 		if (counterCode.isEmpty()) {
 			throw new IllegalArgumentException("The countercode cannot be empty");
 		}
@@ -71,6 +82,8 @@ public class Agency  implements Serializable{
 	}
 
 	public void setName(String name) {
+		checkName(name);
+		
 		this.name = name;
 	}
 
@@ -79,6 +92,8 @@ public class Agency  implements Serializable{
 	}
 
 	public void setCounterCode(String counterCode) {
+		checkCounterCode(counterCode);
+
 		this.counterCode = counterCode;
 	}
 	
