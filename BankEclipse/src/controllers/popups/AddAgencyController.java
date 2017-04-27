@@ -22,8 +22,15 @@ import model.Agency;
 import model.Bank;
 import model.CpVille;
 
+/**
+ * @author Groupe
+ * This popup allows the creation of a new agency in the database.  
+ */
 public class AddAgencyController extends PopupController<Agency> implements Initializable {
 
+	/*
+	 * Variables of the class
+	 */
 	@FXML
 	public Button addAgencyCancel, addAgencySubmit;
 	@FXML
@@ -38,13 +45,56 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 	private List<Label> errorLabels;
 	private List<Agency> list;
 	
+	/*
+	 * (non-Javadoc)
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+		// Initialization the list by data extracted from the data base
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		this.l = em.createNamedQuery("Bank.findAll").getResultList();
+		this.cp = em.createNamedQuery("CpVille.findAll").getResultList();
+		this.ad = em.createNamedQuery("Address.findAll").getResultList();
+		em.close();
+		//ComboBox filled
+		for (Bank b : l) {
+			linkedBank.getItems().add(b.getName());
+		}
+		// Initialization of the error Labels : by default these are not visible
+		this.errorLabels = new ArrayList<Label>() {
+			private static final long serialVersionUID = 6275258056275001066L;
+			{
+				add(agencyNameError);
+				add(agencyCodeError);
+				add(agencyBankError);
+				add(addressLine1Error);
+				add(cityNameError);
+				add(zipCodeError);
+			}
+		};
+		errorLabels.forEach(label -> label.setVisible(false));
+	}
 
+	@Override
+	protected void initializePopupFields(Agency data) {
+		// TODO Auto-generated method stub
+	}
+	
+	/**
+	 * @param event : managenment of the event on Close button
+	 */
 	@FXML
 	void handleAddAgencyCancel(ActionEvent event) {
 		Stage stage = (Stage) addAgencyCancel.getScene().getWindow();
 		stage.close();
 	}
 
+	/**
+	 * @param event : By clicking on Submit the event saves the new agency. The commit is set on the
+	 * HomeController
+	 */
 	@FXML
 	void handleAddAgencySubmit(ActionEvent event) {
 
@@ -77,19 +127,11 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 			TypedQuery<Agency> q = em.createQuery("SELECT n FROM Agency n " + "WHERE n.name=:name", Agency.class);
 			list = q.setParameter("name", name).getResultList();
-
-			// I don't think it is necessary to check both name and code but if
-			// yes, then we need to check everything I would say
-			// list = q.setParameter("code", code).getResultList();
-
 			if (!list.isEmpty()) {
 				agencyNameError.setVisible(true);
 			}
 
 			else {
-
-				Stage stage = (Stage) addAgencySubmit.getScene().getWindow();
-
 				Bank currentBank = null;
 				for (Bank bank : l) {
 					if (bank.getName().equals(this.linkedBank.getValue())) {
@@ -104,6 +146,7 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 					}
 				}
 				int ind;
+				// There is a new instance of Address only if the address doesn't exist in the database
 				if(currentAddress!=null){
 					this.getData().setAdress(currentAddress);
 					ind = 1;
@@ -119,7 +162,12 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 						currentCpVille = cpville;
 					}
 				}
-
+				/*
+				 * To respesct the link between CpVille and Address table in the database
+				 * we commit the new instances of the object CpVille and then Addresse in 
+				 * the database. This syntaxe allows to respect the uniqueness of the data 
+				 * in the database
+				 */
 				if(currentCpVille!=null){
 					currentAddress.setCpVille(currentCpVille);
 					this.getData().setAdress(currentAddress);
@@ -136,50 +184,16 @@ public class AddAgencyController extends PopupController<Agency> implements Init
 					em.persist(currentAddress);
 					em.getTransaction().commit();
 				}
-
+				// Saving of the data. The commit is set in the HomeController
 				this.getData().setBank(currentBank);
 				this.getData().setName(name);
 				this.getData().setCounterCode(code);
 				this.setAsValidated();
+				
+				Stage stage = (Stage) addAgencySubmit.getScene().getWindow();
 				stage.close();
 			}
 			em.close();
 		}
-
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		this.l = em.createNamedQuery("Bank.findAll").getResultList();
-		this.cp = em.createNamedQuery("CpVille.findAll").getResultList();
-		this.ad = em.createNamedQuery("Address.findAll").getResultList();
-		em.close();
-		for (Bank b : l) {
-			linkedBank.getItems().add(b.getName());
-		}
-
-		this.errorLabels = new ArrayList<Label>() {
-
-			private static final long serialVersionUID = 6275258056275001066L;
-
-			{
-				add(agencyNameError);
-				add(agencyCodeError);
-				add(agencyBankError);
-				add(addressLine1Error);
-				add(cityNameError);
-				add(zipCodeError);
-			}
-		};
-		errorLabels.forEach(label -> label.setVisible(false));
-
-	}
-
-	@Override
-	protected void initializePopupFields(Agency data) {
-		// TODO Auto-generated method stub
-
 	}
 }

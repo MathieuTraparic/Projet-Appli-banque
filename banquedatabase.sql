@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 27, 2017 at 10:03 AM
+-- Generation Time: Apr 27, 2017 at 03:06 PM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.0.13
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `idCpVille` int(11) NOT NULL,
   `line1` varchar(250) NOT NULL,
   `line2` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `address`
@@ -97,7 +97,9 @@ INSERT INTO `address` (`id`, `idCpVille`, `line1`, `line2`) VALUES
 (3, 1, '12 rue machin', 'batiment B\r\n'),
 (5, 5, 'lu', ''),
 (6, 6, 'qwe', ''),
-(11, 11, 'somewhere', '');
+(11, 11, 'somewhere', ''),
+(12, 12, 'sdfgsdfg', ''),
+(13, 13, 'd', '');
 
 -- --------------------------------------------------------
 
@@ -121,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `advisor` (
 
 INSERT INTO `advisor` (`id`, `idAgency`, `name`, `firstName`, `assignmentDate`, `phoneNumber`, `email`) VALUES
 (1, 1, 'Mdd', 'Mme', '2017-03-09', '0909090909', 'dfdfgh@hj.ghj'),
-(3, 2, 'Sdffg', 'Sdffgdfg', '2017-04-03', '0765656565', 'sdffgsdf@dssdfg');
+(3, 2, 'Sdffg', 'Sdffgdfg', '2017-04-03', '0765656565', 'sdffgsdf@dssdfg.om');
 
 -- --------------------------------------------------------
 
@@ -152,7 +154,7 @@ INSERT INTO `agency` (`id`, `idAddress`, `idBank`, `name`, `counterCode`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `assign` (
-  `main` varchar(250) NOT NULL,
+  `main` varchar(250) DEFAULT NULL,
   `idOwner` int(11) NOT NULL,
   `idAccount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -178,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `bank` (
   `id` int(11) NOT NULL,
   `name` varchar(250) NOT NULL,
   `code` varchar(250) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bank`
@@ -186,7 +188,8 @@ CREATE TABLE IF NOT EXISTS `bank` (
 
 INSERT INTO `bank` (`id`, `name`, `code`) VALUES
 (1, 'credit truc', '12345'),
-(2, 'lionaise machin', '54321');
+(2, 'lionaise machin', '54321'),
+(3, 'ryerty', '56756');
 
 -- --------------------------------------------------------
 
@@ -243,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `cpville` (
   `id` int(11) NOT NULL,
   `zip` varchar(50) NOT NULL,
   `city` varchar(250) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `cpville`
@@ -254,7 +257,9 @@ INSERT INTO `cpville` (`id`, `zip`, `city`) VALUES
 (2, '33000', 'Bordeaux\r\n'),
 (5, 'lu', 'Lu'),
 (6, '001', 'Bordeaux'),
-(11, '33000', 'Bordeaux');
+(11, '33000', 'Bordeaux'),
+(12, 'sdfgsdfg', 'Sdffgsdffg'),
+(13, 'd', 'D');
 
 -- --------------------------------------------------------
 
@@ -293,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `owner` (
   `email` varchar(250) NOT NULL,
   `idAddress` int(11) NOT NULL,
   `salt` varchar(250) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `owner`
@@ -303,7 +308,9 @@ INSERT INTO `owner` (`id`, `name`, `firstName`, `phoneNumber`, `birthday`, `logi
 (1, 'Doe', 'John', '0000000000', '1986-07-28', 'mylogin', '62a5daea27481816ef8959019c78efa84d693dd3', '', 1, ''),
 (2, 'lu', 'lu', '0678787878', '2017-03-27', 'lu', 'lu', 'lu@lu.lu', 5, 'dfsgdhf'),
 (3, 'qwe', 'qwe', '0000000000', '2017-04-04', 'qwe', 'pvfNpk3t1zospwfY1yhVRZhe2qAPdmekQJ326Gla+hc=', 'q@w.fr', 6, 'aua+Ix9Lp1I='),
-(4, 'myname', 'myFirstName', '+33612345678', '2017-04-01', 'defaultUser', 'AOV1u5aSyu7dXvpDCJQdCyMp4Fo6Ut8V6LEqoz2nRYo=', 'default@truc.com', 11, '1HoGuIfDKgA=');
+(4, 'myname', 'myFirstName', '+33612345678', '2017-04-01', 'defaultUser', 'AOV1u5aSyu7dXvpDCJQdCyMp4Fo6Ut8V6LEqoz2nRYo=', 'default@truc.com', 11, '1HoGuIfDKgA='),
+(5, 'Dsfgsdffg', 'Sdffgsdffg', '0988888888', '2017-04-04', 'qgshdfj', 'cVUmnoGgh1ok0UyVhoLm9k2juaCbsdMnZKcNRn0U/L4=', 'd@d.dd', 12, 'XZIBN8WNdgY='),
+(6, 'D', 'D', '0945454545', '2017-04-05', 'd', '8dHSNNU5bgbprknvAST8iRAt4MDwR8GQjnxXa8DTT/U=', 'd@d.dd', 13, 'vRlyNbOyT7c=');
 
 -- --------------------------------------------------------
 
@@ -534,7 +541,7 @@ ALTER TABLE `accounttype`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `advisor`
 --
@@ -549,7 +556,7 @@ ALTER TABLE `agency`
 -- AUTO_INCREMENT for table `bank`
 --
 ALTER TABLE `bank`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `category`
 --
@@ -564,7 +571,7 @@ ALTER TABLE `countrycode`
 -- AUTO_INCREMENT for table `cpville`
 --
 ALTER TABLE `cpville`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `frequency`
 --
@@ -574,7 +581,7 @@ ALTER TABLE `frequency`
 -- AUTO_INCREMENT for table `owner`
 --
 ALTER TABLE `owner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `periodictransaction`
 --
