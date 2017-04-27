@@ -18,31 +18,39 @@ import util.Validator;
 @Table(name="bank")
 @NamedQuery(name = "Bank.findAll", query = "SELECT t FROM Bank t")
 public class Bank implements Serializable{
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -5364979069387254961L;
 	private int id;
 	private String name;
 	private String code;
 	
 	
-
+	/*
+	 * Used only by the ORM
+	 */
 	@SuppressWarnings("unused")
 	private Bank(){
 		
 	}
 	
+	/**Deprecated constructor
+	 * @param agencyName contains only letters, spaces, apostrophe and dashes
+	 */
+	@Deprecated
 	public Bank(String bankName){
-		checkBankName(bankName);
-		this.name=bankName;
+
+		this.setName(bankName);
 	}
 	
+	
+	/**Constructor
+	 * @param bankName contains only letters, spaces, apostrophe and dashes
+	 * @param bankCode contains only letters, spaces, apostrophe and dashes
+	 */
 	public Bank(String bankName, String bankCode) {
 		
-		
-		checkBankCode(bankCode);
-		checkBankName(bankName);
-		
-		this.name = Formater.formatNameCase(bankName);
-		this.code = Formater.removeUsualSeparators(bankCode);
+		this.setName(bankName);
+		this.setCode(Formater.removeUsualSeparators(bankCode));
 	}
 	
 	@Id
@@ -51,10 +59,18 @@ public class Bank implements Serializable{
 		return this.id;
 	}
 	
-	public void setId(int id) {
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 	
+	/**
+	 * @param  name
+	 * @return true if name contains only letters, spaces, apostrophe and dashes
+	 */
 	public static boolean isValidName(String name){
 		return Validator.isValidName(name);
 	}
@@ -84,6 +100,7 @@ public class Bank implements Serializable{
 
 
 	public void setName(String name) {
+		checkBankName(name);
 		this.name = name;
 	}
 
@@ -94,6 +111,7 @@ public class Bank implements Serializable{
 
 
 	public void setCode(String code) {
+		checkBankCode(code);
 		this.code = code;
 	}
 

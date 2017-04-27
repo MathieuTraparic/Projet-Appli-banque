@@ -2,8 +2,6 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -28,12 +26,14 @@ import util.Formater;
 @Table(name = "Account")
 @NamedQuery(name = "Account.findAll", query = "SELECT t FROM Account t")
 public class Account implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private Integer id;
+
+	private static final long serialVersionUID = 4046352721505678179L;
+	private int id;
 	private String number;
 	private String description;
 	private double initialBalance;
 	private double overdraft;
+	//unused
 	private double interestRate;
 	private Double alertThreshold;	
 	private CountryCode countryCode;
@@ -42,27 +42,60 @@ public class Account implements Serializable {
 	private AccountType accountType;
 	private List<Transaction> transactions;
 	
-	
+	//for ORM use
+	@SuppressWarnings("unused")
 	private Account(){
 	}
 	
+	
+	/**
+	 * @param number the account Number ex: 1234 1234 1234
+	 * @param description
+	 * @param initialBalance
+	 * @param overdraft the balance value under which penalties are due
+	 * @param alertThreshold the balance value under which an alert is sent to the owner
+	 * 
+	 * This constructor doesn't initialize all required members since we connected the Database
+	 */
+	@Deprecated
 	public Account(String number, String description, double initialBalance,
-			 double overdraft, Double threshold){
+			 double overdraft, Double alertThreshold){
 		
-		check_number(number);
-		check_description(description);
-		check_overdraft(overdraft);
-		
-		this.number = Formater.removeUsualSeparators(number);
-		this.description = description;
-		this.initialBalance = initialBalance;
-		this.overdraft = overdraft;
-		this.alertThreshold = threshold;
+		this.setNumber(Formater.removeUsualSeparators(number));
+		this.setDescription(description);
+		this.setInitialBalance(initialBalance);
+		this.setOverdraft(overdraft);
+		this.setAlertThreshold(alertThreshold);
 
 	}
 	
+	/**
+	 * @param number
+	 * @param description
+	 * @param initialBalance
+	 * @param overdraft
+	 * @param interestRate
+	 * @param alertThreshold
+	 * @param countryCode
+	 * @param creationDate
+	 * @param agency
+	 * @param accountType
+	 */
+	public Account(String number, String description, double initialBalance, double overdraft, double interestRate,
+			Double alertThreshold, CountryCode countryCode, Date creationDate, Agency agency, AccountType accountType) {
+		
+		this.setNumber(Formater.removeUsualSeparators(number));
+		this.setDescription(description);
+		this.setInitialBalance(initialBalance);
+		this.setOverdraft(overdraft);
+		this.setInterestRate(interestRate);
+		this.setAlertThreshold(alertThreshold);
+		this.setCountryCode(countryCode);
+		this.setCreationDate(creationDate);
+		this.setAgency(agency);
+		this.setAccountType(accountType);
+	}
 	
-
 	
 	public double getInitialBalance(){
 		return this.initialBalance;
@@ -95,32 +128,43 @@ public class Account implements Serializable {
 		}
 	}
 	
+
+	
+	/**
+	 * @param overdraft
+	 * @return false if the overdraft is negative
+	 */
 	public static boolean isValidOverdraft(double overdraft){
 		return overdraft<=0;
 	}
 	
-	public static boolean isValidType(double overdraft){
-		return overdraft<=0;
-	}
 
+	/**
+	 * @return the primary key ID from the Database
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return this.id;
 	}
 
-
-	public void setId(Integer id) {
+	//for ORM use
+	@SuppressWarnings("unused")
+	private void setId(Integer id) {
 		this.id = id;
 	}
 
 
+	/**
+	 * @return the account number
+	 */
 	public String getNumber() {
 		return this.number;
 	}
 
 
 	public void setNumber(String number) {
+		check_number(number);
 		this.number = number;
 	}
 
@@ -131,6 +175,7 @@ public class Account implements Serializable {
 
 
 	public void setDescription(String description) {
+		check_description(description);
 		this.description = description;
 	}
 
@@ -142,6 +187,7 @@ public class Account implements Serializable {
 
 
 	public void setOverdraft(double overdraft) {
+		check_overdraft(overdraft);
 		this.overdraft = overdraft;
 	}
 
@@ -172,6 +218,9 @@ public class Account implements Serializable {
 	}
 
 	public void setCountryCode(CountryCode countryCode) {
+		if(countryCode==null){
+			throw new NullPointerException("The countryCode cannot be null");
+		}
 		this.countryCode = countryCode;
 	}
 	@ManyToOne
@@ -181,6 +230,9 @@ public class Account implements Serializable {
 	}
 
 	public void setAgency(Agency agency) {
+		if(agency==null){
+			throw new NullPointerException("The agency cannot be null");
+		}
 		this.agency = agency;
 	}
 
@@ -192,6 +244,9 @@ public class Account implements Serializable {
 	}
 
 	public void setAccountType(AccountType accountType) {
+		if(accountType==null){
+			throw new NullPointerException("The accountType cannot be null");
+		}
 		this.accountType = accountType;
 	}
 
@@ -205,7 +260,8 @@ public class Account implements Serializable {
 	public List<Transaction> getTransactions() {
 		return this.transactions;
 	}
-
+	//for ORM use
+	@SuppressWarnings("unused")
 	private void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}

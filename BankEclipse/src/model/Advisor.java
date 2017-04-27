@@ -2,7 +2,6 @@ package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
-
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -23,7 +22,8 @@ import util.Validator;
 @Table(name = "advisor")
 @NamedQuery(name = "Advisor.findAll", query = "SELECT t FROM Advisor t")
 public class Advisor implements Serializable {
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -882488167799880777L;
 	private int id;
 	private String name;
 	private String firstName;
@@ -32,28 +32,31 @@ public class Advisor implements Serializable {
 	private Date assignmentDate;
 	private Agency agency;
 
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
 	private Advisor() {
 
 	}
 
+	/**Constructor
+	 * @param name contains only letters, spaces, apostrophe and dashes
+	 * @param firstName contains only letters, spaces, apostrophe and dashes
+	 * @param phoneNumber only accept French number ex: +33610203010 or 0033610203040 or 0610203040
+	 * @param email ex : azer@aze.azeaze or aze@ze.zeee
+	 * @param assignment date not in the future
+	 */
 	public Advisor(String name, String firstName, String phoneNumber, String email, 
 			Date assignmentDate) {
 
-		checkName(name);
-		chekFirstName(firstName);
-		check_email(email);
-		check_assignmentDate(assignmentDate);
-		check_phoneNumber(phoneNumber);
-
-		this.name = Formater.formatNameCase(name);
-		this.firstName = Formater.formatNameCase(firstName);
-		this.phoneNumber = Formater.removeUsualSeparators(phoneNumber);
-		this.email = Formater.removeUsualSeparators(email);
-		this.assignmentDate = assignmentDate;
+		this.setName(Formater.formatNameCase(name));
+		this.setFirstName(Formater.formatNameCase(firstName));
+		this.setPhoneNumber(Formater.removeUsualSeparators(phoneNumber));
+		this.setEmail(Formater.removeUsualSeparators(email));
+		this.setAssignmentDate(assignmentDate);
 		
 	}
-
-
 
 	private static void checkName(String name) throws IllegalArgumentException {
 		if (name.isEmpty()) {
@@ -64,6 +67,10 @@ public class Advisor implements Serializable {
 		}
 	}
 
+	/**
+	 * @param  name
+	 * @return true if name contains only letters, spaces, apostrophe and dashes
+	 */
 	public static boolean isValidName(String name) {
 		return Validator.isValidName(name);
 	}
@@ -77,40 +84,62 @@ public class Advisor implements Serializable {
 		}
 	}
 
+	/**
+	 * @param first name
+	 * @return true if first  name contains only letters, spaces, apostrophe and dashes
+	 */
 	public static boolean isValidFirstName(String firstname) {
 		return Validator.isValidName(firstname);
 	}
 
-	private static void check_assignmentDate(Date assignmentDate) throws IllegalArgumentException {
+	private static void checkAssignmentDate(Date assignmentDate) throws IllegalArgumentException {
 		if (!isValidAssignmentDate(assignmentDate)) {
 			throw new IllegalArgumentException("Assignment date cannot be in the future");
 		}
 	}
 
+	/**
+	 * @param assignmentDate
+	 * @return boolean true if the assignment date is not in the future
+	 */
 	public static boolean isValidAssignmentDate(Date assignmentDate) {
 		Calendar cal = Calendar.getInstance();
 		return (assignmentDate.before(cal.getTime()));
 	}
 
-	private static void check_email(String email) throws IllegalArgumentException {
+	private static void checkEmail(String email) throws IllegalArgumentException {
 		if (email.isEmpty()|| !isValidEmail(email)) {
 			throw new IllegalArgumentException("Email must be a valid email address");
 		}
 	}
 
+	/**
+	 * @param email ex : azer@aze.azeaze or aze@ze.zeee
+	 * @return true if the email is valid
+	 */
 	public static boolean isValidEmail(String email) {
 		return Validator.isValidEmailAddress(email);
 	}
 
-	private static void check_phoneNumber(String phoneNumber) throws IllegalArgumentException {
+	private static void checkPhoneNumber(String phoneNumber) throws IllegalArgumentException {
 		if (phoneNumber.isEmpty()|| !isValidPhoneNumber(phoneNumber)) {
 			throw new IllegalArgumentException(
 					"Phone number must be a valid French phone number composed of 10 digits");
 		}
 	}
 
+	/**
+	 * @param phoneNumber only accept French number ex: +33610203010 or 0033610203040 or 0610203040
+	 * @return true if the phone number doesn't contain any unwanted character
+	 */
 	public static boolean isValidPhoneNumber(String phoneNumber) {
-		return Validator.isValidPhoneNumber(phoneNumber);
+		if (phoneNumber!=null){
+			return Validator.isValidPhoneNumber(phoneNumber);
+		}
+		else{
+			return false;
+		}
+		
 	}
 
 	public String getName() {
@@ -118,6 +147,8 @@ public class Advisor implements Serializable {
 	}
 
 	public void setName(String name) {
+		
+		checkName(name);
 		this.name = name;
 	}
 
@@ -126,6 +157,7 @@ public class Advisor implements Serializable {
 	}
 
 	public void setFirstName(String firstName) {
+		chekFirstName(firstName);
 		this.firstName = firstName;
 	}
 
@@ -134,6 +166,7 @@ public class Advisor implements Serializable {
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
+		checkPhoneNumber(phoneNumber);
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -142,6 +175,8 @@ public class Advisor implements Serializable {
 	}
 
 	public void setEmail(String email) {
+		
+		checkEmail(email);
 		this.email = email;
 	}
 	
@@ -151,6 +186,7 @@ public class Advisor implements Serializable {
 	}
 
 	public void setAssignmentDate(Date assignmentDate) {
+		checkAssignmentDate(assignmentDate);
 		this.assignmentDate = assignmentDate;
 	}
 
@@ -161,7 +197,9 @@ public class Advisor implements Serializable {
 	}
 
 	public void setAgency(Agency agency) {
-		this.agency = agency;
+		if(agency !=null){
+			this.agency = agency;
+		}
 	}
 
 	@Id
@@ -169,8 +207,12 @@ public class Advisor implements Serializable {
 	public int getId() {
 		return this.id;
 	}
-
-	public void setId(int id) {
+	
+	/*
+	 * Used only by the ORM
+	 */
+	@SuppressWarnings("unused")
+	private void setId(int id) {
 		this.id = id;
 	}
 
