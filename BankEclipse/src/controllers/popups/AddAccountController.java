@@ -67,6 +67,7 @@ public class AddAccountController extends PopupController<Account> implements In
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+
 		// Disable by default this two textfield. Theese are enable on event
 		this.createCountryCode.setDisable(true);
 		this.createAccountType.setDisable(true);

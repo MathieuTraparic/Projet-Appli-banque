@@ -9,6 +9,7 @@ import controllers.VistaNavigator;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -28,6 +29,7 @@ public class Main extends Application {
 		 */
 		VistaNavigator.setEmf(Persistence.createEntityManagerFactory("Bank"));
 		stage.setTitle("Personnal Bank Account Manager");
+		stage.getIcons().add(new Image("file:..\\ressource\\images\\icon2.png"));
 		stage.setScene(createScene(loadMainPane()));
 
 		stage.show();
