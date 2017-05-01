@@ -36,6 +36,7 @@ public class Owner implements Serializable {
 	private String email;
 	private String phoneNumber;
 	private Address address;
+	private int newUser;
 	private List<Account> accounts;
 
 	@SuppressWarnings("unused")
@@ -177,6 +178,15 @@ public class Owner implements Serializable {
 	@ManyToMany(mappedBy="owners")
 	public List<Account> getAccounts() {
 		return this.accounts;
+	}
+	
+	public int getNewUser() {
+		return this.newUser;
+	}
+	
+	public void setNewUser(int newUser) {
+		//TODO checkNewUser
+		this.newUser = newUser;
 	}
 	
 	

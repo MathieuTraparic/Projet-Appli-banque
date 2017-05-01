@@ -51,7 +51,15 @@ public class HomeController extends BankSelector implements Initializable {
 					em.getTransaction().begin();
 					em.persist(addedBank);
 					em.getTransaction().commit();
+					//em.getEntityManagerFactory().getCache().evictAll();
 					em.close();
+					if (!bankCombo.getItems().isEmpty()){
+						bankCombo.getItems().add(bankCombo.getItems().size() - 1, addedBank);
+					}
+					else {
+						bankCombo.getItems().add(addedBank);
+					}
+
 				}
 			}
 		});
@@ -94,6 +102,7 @@ public class HomeController extends BankSelector implements Initializable {
 					em.getTransaction().begin();
 					em.persist(account);
 					em.getTransaction().commit();
+					//accountCo.getItems().add(bankCombo.getItems().size() - 1, addedBank);
 					em.close();
 				}
 			}

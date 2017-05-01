@@ -22,12 +22,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
 import javafx.stage.WindowEvent;
 import model.Account;
+import model.Bank;
+import model.Owner;
 import model.Transaction;
 import javafx.scene.control.TabPane;
 
-public class TemplateController implements Initializable {
+public class TemplateController extends AccountSelector implements Initializable {
 
 	private List<Account> account = null;
 	private List<Transaction> transaction = null;
@@ -94,11 +97,35 @@ public class TemplateController implements Initializable {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.account = em.createNamedQuery("Account.findAll").getResultList();
 		this.transaction = em.createNamedQuery("Transaction.findAll").getResultList();
+		
 		em.close();
-		VistaNavigator.getEmf().getCache().evictAll();
+		
+		PopupController<Owner> controller;
+		try {
+			if (VistaNavigator.getInstance().getLoggedOwner().getNewUser()==0){
+				controller = PopupController.load(VistaNavigator.NEW_USER_GUIDE, false);
+				controller.show(VistaNavigator.getInstance().getLoggedOwner(), new EventHandler<WindowEvent>() {
+					@Override
+					public void handle(WindowEvent event) {
+					
+						
+					}
+				});
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		
 		
 		this.tabPane.getSelectionModel().selectedItemProperty().addListener((obs,oldTabl,newTab)->{
 			//do a thing on every tab change
+			VistaNavigator.getEmf().getCache().evictAll();
+			
+			
+			System.out.println("tabchanged");
 		});
 	}
 }

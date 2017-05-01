@@ -226,6 +226,7 @@ public class CreateUserController2 implements Initializable{
 			em.getTransaction().commit();
 
 			em.close();
+			VistaNavigator.getInstance().setLoggedOwner(owner);
 			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 		}
 		else {
