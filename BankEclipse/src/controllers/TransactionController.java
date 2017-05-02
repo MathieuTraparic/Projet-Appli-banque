@@ -144,6 +144,7 @@ public class TransactionController extends AccountSelector {
 				.setCategory(t.getNewValue()));
 
 		tableTransaction.setItems(dataTransactionRow);
+		
 	}
 
 	@FXML
@@ -155,6 +156,23 @@ public class TransactionController extends AccountSelector {
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
 
 		}
+		
+		//Controlling if the balance is not under the alert limit
+		
+		Double alert = this.accountCombo.getValue().getAlertThreshold();
+		
+		System.out.println(alert);
+		
+		if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
+			//pop up + email !
+			System.out.println("alert");
+		}
+		
+		/*
+		 * ajouter dans home controller table view les overdraft et alertthreshold
+		 * dans transaction add balance of the account of today 
+		 * dans RIB controller probleme combobox
+		 */
 
 	}
 
@@ -197,7 +215,17 @@ public class TransactionController extends AccountSelector {
 
 					}
 				});
-		//this.refresh();
+		
+		
+		//Controlling if the balance is not under the alert limit
+		
+		Double alert = this.accountCombo.getValue().getAlertThreshold();
+		System.out.println(alert);
+		
+		if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
+			//pop up + email !
+			System.out.println("alert");
+		}
 
 	}
 

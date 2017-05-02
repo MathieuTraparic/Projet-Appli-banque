@@ -38,7 +38,7 @@ public class Account implements Serializable {
 	private double overdraft;
 	//unused
 	private double interestRate;
-	private Double alertThreshold;	
+	private double alertThreshold;	
 	private CountryCode countryCode;
 	private Date creationDate;
 	private Agency agency;
@@ -71,7 +71,7 @@ public class Account implements Serializable {
 	 */
 	@Deprecated
 	public Account(String number, String description, double initialBalance,
-			 double overdraft, Double alertThreshold){
+			 double overdraft, double alertThreshold){
 		
 		this.setNumber(Formater.removeUsualSeparators(number));
 		this.setDescription(description);
@@ -94,7 +94,7 @@ public class Account implements Serializable {
 	 * @param accountType
 	 */
 	public Account(String number, String description, double initialBalance, double overdraft, double interestRate,
-			Double alertThreshold, CountryCode countryCode, Date creationDate, Agency agency, AccountType accountType) {
+			double alertThreshold, CountryCode countryCode, Date creationDate, Agency agency, AccountType accountType) {
 		
 		this.setNumber(Formater.removeUsualSeparators(number));
 		this.setDescription(description);
@@ -118,7 +118,7 @@ public class Account implements Serializable {
 	}
 	
 	public double getAlertThreshold(){
-		return this.alertThreshold.doubleValue();
+		return this.alertThreshold;
 	}
 	
 	
@@ -204,7 +204,7 @@ public class Account implements Serializable {
 	}
 
 
-	public void setAlertThreshold(Double alertThreshold) {
+	public void setAlertThreshold(double alertThreshold) {
 		this.alertThreshold = alertThreshold;
 	}
 	@Temporal(TemporalType.DATE)
