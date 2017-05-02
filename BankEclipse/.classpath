@@ -11,5 +11,33 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/javax.mail.jar"/>
 	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-barcodes-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-barcodes-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-barcodes-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-font-asian-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-font-asian-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-forms-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-forms-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-forms-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-hyph-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-hyph-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-io-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-io-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-io-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-kernel-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-kernel-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-kernel-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-layout-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-layout-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-layout-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-pdfa-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-pdfa-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-pdfa-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-pdftest-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-pdftest-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-pdftest-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-sign-7.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-sign-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/itext7-sign-7.0.2-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

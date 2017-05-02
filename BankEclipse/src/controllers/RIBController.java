@@ -37,9 +37,7 @@ public class RIBController extends AccountSelector {
 	
 	@FXML
 	void handleButtonExportRib(ActionEvent event){
-		 Document document = new Document(PageSize.A4, 0, 0, 0, 0);
-         PdfWriter.getInstance(document,response.getOutputStream());
-         document.open();
+		
 	}
 	
 	@Override
