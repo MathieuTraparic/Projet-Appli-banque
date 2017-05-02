@@ -229,7 +229,12 @@ public class CreateUserController2 implements Initializable{
 			em.close();
 			VistaNavigator.getInstance().setLoggedOwner(owner);
 			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
-			SendEmail.SendEmails();
+			String textMail = "Dear "+VistaNavigator.getInstance().getLoggedOwner().getFirstName()+", \n"
+					+ "You succesfully created a new account !\n"
+					+ " Enjoy ! \n"
+					+ "Admin team ";
+			
+			SendEmail.SendEmails(textMail);
 		}
 		else {
 			signIn.setDisable(true);

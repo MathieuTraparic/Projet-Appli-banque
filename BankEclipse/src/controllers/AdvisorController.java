@@ -65,9 +65,9 @@ public class AdvisorController extends BankSelector implements Initializable {
 
 	private List<Label> errorLabels;
 	private List<Node> secondaryFields;
-	private List<Agency> listAgency;
+	
 	private ChangeListener<? super LocalDate> timeChange = null;
-	private List<Bank> allBanks;
+
 	private Boolean isANewAdvisor = false;
 
 	@Override
@@ -104,17 +104,11 @@ public class AdvisorController extends BankSelector implements Initializable {
 			}
 		};
 
-		// fetch all banks from DB
-		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		this.allBanks = em.createNamedQuery("Bank.findAll").getResultList();
-
-		em.close();
-
-		this.bankCombo.getItems().add(new Bank("OTHER", "12345"));
-
 		// set secondary label as disable
 		this.secondaryFields.forEach(item -> item.setDisable(true));
 		this.applyButton.setDisable(true);
+		
+		
 
 	}
 
@@ -135,49 +129,24 @@ public class AdvisorController extends BankSelector implements Initializable {
 		if (bankCombo.getValue() != null) {
 			this.secondaryFields.forEach(item -> item.setDisable(true));
 			agencyCombo.setDisable(false);
-		}
-		if (bankCombo.getValue().getName() == "OTHER") {
-			// call an AddBank popup
-			PopupController<Bank> controller = PopupController.load(VistaNavigator.ADD_BANK, false);
-			controller.show(new Bank("name", "code"), new EventHandler<WindowEvent>() {
-				@Override
-				public void handle(WindowEvent event) {
-					// get the new bank data from the popup
-					Bank b = controller.getValidatedData();
-					if (b != null) {
-						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-						em.getTransaction().begin();
-						em.persist(b);
-						em.getTransaction().commit();
-						em.close();
-					}
-				}
-			});
-			// TODO add the bank in this.allBanks or update it ?
-		} else {
-			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-
+			this.agencyCombo.getItems().clear();
+			
 			Bank currentBank = null;
-			// could be avoided if comboBox<Bank> instead of string
-			for (Bank bank : allBanks) {
-				if (bank.getName().equals(this.bankCombo.getValue().getName())) {
-					currentBank = bank;
+			for (Bank bank : this.banksOwned) {
+			if (bank.getName().equals(this.bankCombo.getValue().getName())) {
+				currentBank = bank;
 				}
 			}
-
-			// check could be removed as we are selecting from the list of all
-			// banks
-			if (currentBank != null) {
-				// fetch the agencies for this bank from DB
-				// TODO maybe fetch them all at initialisation along with
-				// this.allbanks ?
-				this.agencyCombo.getItems().clear();
-
-				agencyCombo.getItems().addAll(this.agencyOwned);
-
+			
+			for (Agency agencies : this.agencyOwned){
+				if (currentBank.equals(agencies.getBank())){
+					this.agencyCombo.getItems().add(agencies);
+				}
 			}
-			em.close();
+			applyButton.setDisable(true);
+
 		}
+
 	}
 
 	@FXML
@@ -202,33 +171,6 @@ public class AdvisorController extends BankSelector implements Initializable {
 			return;
 		}
 
-		// if (agencyCombo.getValue().toString() == "OTHER") {
-		// // call popup to create an agency
-		// PopupController<Agency> controller =
-		// PopupController.load(VistaNavigator.ADD_AGENCY, false);
-		// controller.show(new Agency("name", "counterCode"), new
-		// EventHandler<WindowEvent>() {
-		// @Override
-		// public void handle(WindowEvent event) {
-		// //get the new bank data from the popup
-		// // could be avoid but need a major refactoring
-		// Agency a = controller.getValidatedData();
-		//
-		// if (a != null) {
-		// EntityManager em = VistaNavigator.getEmf().createEntityManager();
-		//
-		// em.getTransaction().begin();
-		// em.persist(a);
-		// em.getTransaction().commit();
-		// em.close();
-		// //update the agency combobox with the newly added agency
-		// agencyCombo.getItems().add(agencyCombo.getItems().size() - 1,
-		// a.getName());
-		// }
-		// }
-		// });
-		//
-		// }
 		else {
 
 			// enable all fields
@@ -370,11 +312,6 @@ public class AdvisorController extends BankSelector implements Initializable {
 
 			em.close();
 
-			// TODO show a message that indicate the change was successful or
-			// not
-			// I just added the next line to show it, I can add a label in the
-			// view as well but
-			// I don't see this as mandatory
 			applyButton.setDisable(true);
 
 		}

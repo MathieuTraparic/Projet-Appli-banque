@@ -22,7 +22,8 @@ public class SendEmail {
 	/**
 	 * don't work if avast is activated
 	 */
-	public static void SendEmails() {
+
+	public static void SendEmails(String messageMail) {
 
 		//String to = "lucien.bouletroblin@gmail.com";// testing
 		String to = VistaNavigator.getInstance().getLoggedOwner().getEmail();// testing
@@ -41,6 +42,8 @@ public class SendEmail {
 			}
 		};
 		Session session = Session.getInstance(mailProps, auth);
+		
+
 
 		// compose the message
 		try {
@@ -48,10 +51,7 @@ public class SendEmail {
 			message.setFrom(new InternetAddress(from));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			message.setSubject("Bank Manager Admin team");
-			message.setText("Dear "+VistaNavigator.getInstance().getLoggedOwner().getFirstName()+", \n"
-					+ "You succesfully created a new account !\n"
-					+ " Enjoy ! \n"
-					+ "Admin team ");
+			message.setText(messageMail);
 
 			// Send message
 			Transport.send(message);
