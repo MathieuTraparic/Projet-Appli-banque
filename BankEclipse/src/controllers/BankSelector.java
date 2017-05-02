@@ -66,6 +66,7 @@ public abstract class BankSelector implements Initializable, Refreshable{
 		agencies.forEach(agency -> banksOwned.add(agency.getBank()));
 
 		this.bankCombo.getItems().addAll(banksOwned);
+		this.bankCombo.getItems().sort(Bank.ALPHABETICAL_COMPARATOR);
 		
 	}
 	

@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
@@ -44,6 +45,14 @@ public class Account implements Serializable {
 	private AccountType accountType;
 	private List<Transaction> transactions;
 	private List<Owner> owners;
+	
+	public static final Comparator<Account> ALPHABETICAL_COMPARATOR =new Comparator<Account>() {
+
+		@Override
+		public int compare(Account o1, Account o2) {
+			return o1.getDescription().compareTo(o2.getDescription());
+		}
+	};
 	
 	//for ORM use
 	@SuppressWarnings("unused")
