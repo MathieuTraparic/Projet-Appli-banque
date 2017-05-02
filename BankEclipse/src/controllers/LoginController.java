@@ -51,10 +51,8 @@ public class LoginController implements Initializable {
 				VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 			}
 
-
 		}
 		loginError.setVisible(true);
-		
 
 	}
 

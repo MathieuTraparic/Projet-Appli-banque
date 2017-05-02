@@ -33,7 +33,7 @@ import model.Agency;
 import model.Bank;
 import util.DateConverter;
 
-public class AdvisorController implements Initializable {
+public class AdvisorController extends BankSelector implements Initializable {
 
 	@FXML
 	public TextField nameField;
@@ -58,9 +58,8 @@ public class AdvisorController implements Initializable {
 	@FXML
 	public Label agencyErrorLabel;
 	@FXML
-	public ComboBox<String> agencyCombo;
-	@FXML
-	public ComboBox<String> bankCombo;
+	public ComboBox<Agency> agencyCombo;
+
 	@FXML
 	public Button applyButton;
 
@@ -73,7 +72,8 @@ public class AdvisorController implements Initializable {
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-		
+		super.initialize(fxmlFileLocation, resources);
+
 		/*
 		 * set all Label and fields in ArrayList
 		 */
@@ -110,12 +110,9 @@ public class AdvisorController implements Initializable {
 
 		em.close();
 
-		// insert all banks in bank comboBox
-		allBanks.forEach(bank -> bankCombo.getItems().add(bank.getName()));
+		this.bankCombo.getItems().add(new Bank("OTHER", "12345"));
 
-		bankCombo.getItems().add("OTHER");
-		
-		//set secondary label as disable
+		// set secondary label as disable
 		this.secondaryFields.forEach(item -> item.setDisable(true));
 		this.applyButton.setDisable(true);
 
@@ -123,10 +120,10 @@ public class AdvisorController implements Initializable {
 
 	@FXML
 	void chooseAdvisorBank(ActionEvent event) throws IOException {
-		
+
 		/*
-		 * if bank not chosen yet, submit is disable
-		 * all textfields are cleared when another bank is chosen
+		 * if bank not chosen yet, submit is disable all textfields are cleared
+		 * when another bank is chosen
 		 */
 		applyButton.setDisable(true);
 		nameField.clear();
@@ -139,13 +136,13 @@ public class AdvisorController implements Initializable {
 			this.secondaryFields.forEach(item -> item.setDisable(true));
 			agencyCombo.setDisable(false);
 		}
-		if (bankCombo.getValue().toString() == "OTHER") {
+		if (bankCombo.getValue().getName() == "OTHER") {
 			// call an AddBank popup
 			PopupController<Bank> controller = PopupController.load(VistaNavigator.ADD_BANK, false);
 			controller.show(new Bank("name", "code"), new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent event) {
-					//get the new bank data from the popup
+					// get the new bank data from the popup
 					Bank b = controller.getValidatedData();
 					if (b != null) {
 						EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -153,7 +150,6 @@ public class AdvisorController implements Initializable {
 						em.persist(b);
 						em.getTransaction().commit();
 						em.close();
-						bankCombo.getItems().add(bankCombo.getItems().size() - 1, b.getName());
 					}
 				}
 			});
@@ -164,7 +160,7 @@ public class AdvisorController implements Initializable {
 			Bank currentBank = null;
 			// could be avoided if comboBox<Bank> instead of string
 			for (Bank bank : allBanks) {
-				if (bank.getName().equals(this.bankCombo.getValue())) {
+				if (bank.getName().equals(this.bankCombo.getValue().getName())) {
 					currentBank = bank;
 				}
 			}
@@ -176,14 +172,9 @@ public class AdvisorController implements Initializable {
 				// TODO maybe fetch them all at initialisation along with
 				// this.allbanks ?
 				this.agencyCombo.getItems().clear();
-				TypedQuery<Agency> a = em.createQuery("SELECT  a FROM Agency a WHERE a.bank =:bank", Agency.class);
-				this.listAgency = a.setParameter("bank", currentBank).getResultList();
 
-				// put the agencies obtained in the comboBox
-				for (Agency agency : listAgency) {
-					agencyCombo.getItems().add(agency.getName());
-				}
-				agencyCombo.getItems().add("OTHER");
+				agencyCombo.getItems().addAll(this.agencyOwned);
+
 			}
 			em.close();
 		}
@@ -191,10 +182,10 @@ public class AdvisorController implements Initializable {
 
 	@FXML
 	void chooseAdvisorAgency(ActionEvent event) throws IOException {
-		
+
 		/*
-		 * when a new agency is chosen, all error labels are hidden
-		 *  all textfields are cleared when another bank is chosen
+		 * when a new agency is chosen, all error labels are hidden all
+		 * textfields are cleared when another bank is chosen
 		 */
 		errorLabels.forEach(label -> label.setVisible(false));
 
@@ -211,38 +202,42 @@ public class AdvisorController implements Initializable {
 			return;
 		}
 
-		if (agencyCombo.getValue().toString() == "OTHER") {
-			// call popup to create an agency
-			PopupController<Agency> controller = PopupController.load(VistaNavigator.ADD_AGENCY, false);
-			controller.show(new Agency("name", "counterCode"), new EventHandler<WindowEvent>() {
-				@Override
-				public void handle(WindowEvent event) {
-					//get the new bank data from the popup
-					// could be avoid but need a major refactoring
-					Agency a = controller.getValidatedData();
-
-					if (a != null) {
-						EntityManager em = VistaNavigator.getEmf().createEntityManager();
-
-						em.getTransaction().begin();
-						em.persist(a);
-						em.getTransaction().commit();
-						em.close();
-						//update the agency combobox with the newly added agency
-						agencyCombo.getItems().add(agencyCombo.getItems().size() - 1, a.getName());
-					}
-				}
-			});
-
-		} else {
+		// if (agencyCombo.getValue().toString() == "OTHER") {
+		// // call popup to create an agency
+		// PopupController<Agency> controller =
+		// PopupController.load(VistaNavigator.ADD_AGENCY, false);
+		// controller.show(new Agency("name", "counterCode"), new
+		// EventHandler<WindowEvent>() {
+		// @Override
+		// public void handle(WindowEvent event) {
+		// //get the new bank data from the popup
+		// // could be avoid but need a major refactoring
+		// Agency a = controller.getValidatedData();
+		//
+		// if (a != null) {
+		// EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		//
+		// em.getTransaction().begin();
+		// em.persist(a);
+		// em.getTransaction().commit();
+		// em.close();
+		// //update the agency combobox with the newly added agency
+		// agencyCombo.getItems().add(agencyCombo.getItems().size() - 1,
+		// a.getName());
+		// }
+		// }
+		// });
+		//
+		// }
+		else {
 
 			// enable all fields
 			this.secondaryFields.forEach(item -> item.setDisable(false));
 
-			//used to compare if there is changes compare to the database
+			// used to compare if there is changes compare to the database
 			Agency currentAgency = null;
-			for (Agency j : this.listAgency) {
-				if (agencyCombo.getValue().toString().equals(j.getName())) {
+			for (Agency j : this.agencyOwned) {
+				if (agencyCombo.getValue().getName() == j.getName()) {
 					currentAgency = j;
 				}
 			}
@@ -279,8 +274,9 @@ public class AdvisorController implements Initializable {
 				};
 
 				assignmentDatePicker.valueProperty().addListener(timeChange);
-				
-				//could be refactored in a new util class since it is used with other datepickers
+
+				// could be refactored in a new util class since it is used with
+				// other datepickers
 
 				final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
 					@Override
@@ -321,8 +317,8 @@ public class AdvisorController implements Initializable {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
 		Agency currentAgency = null;
-		for (Agency a : this.listAgency) {
-			if (agencyCombo.getValue() == a.getName()) {
+		for (Agency a : this.agencyOwned) {
+			if (agencyCombo.getValue().getName().equals(a.getName())) {
 				currentAgency = a;
 			}
 		}
