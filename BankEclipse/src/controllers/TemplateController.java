@@ -10,10 +10,6 @@ import javax.persistence.EntityManager;
 
 import controllers.popups.PopupController;
 
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,15 +18,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Tab;
 import javafx.stage.WindowEvent;
 import model.Account;
-import model.Bank;
 import model.Owner;
 import model.Transaction;
 import javafx.scene.control.TabPane;
 
-public class TemplateController extends AccountSelector implements Initializable {
+public class TemplateController implements Initializable {
 
 	private List<Account> account = null;
 	private List<Transaction> transaction = null;
@@ -125,7 +119,8 @@ public class TemplateController extends AccountSelector implements Initializable
 			VistaNavigator.getEmf().getCache().evictAll();
 			
 			
-			System.out.println("tabchanged");
+			
+			//System.out.println("tabchanged");
 		});
 	}
 }
