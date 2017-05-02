@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import model.Account;
 
 
@@ -57,6 +58,10 @@ public abstract class AccountSelector extends BankSelector {
 			this.accountCombo.getItems().sort(Account.ALPHABETICAL_COMPARATOR);
 			this.accountCombo.setValue(null);
 		});
+	}
+	
+	@FXML public void accountComboClicked(MouseEvent event) {
+		this.refresh();
 	}
 	
 	
