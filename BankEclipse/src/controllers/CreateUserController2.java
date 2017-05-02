@@ -23,6 +23,7 @@ import javafx.util.Callback;
 import model.Address;
 import model.CpVille;
 import model.Owner;
+import util.SendEmail;
 
 public class CreateUserController2 implements Initializable{
 	
@@ -228,6 +229,7 @@ public class CreateUserController2 implements Initializable{
 			em.close();
 			VistaNavigator.getInstance().setLoggedOwner(owner);
 			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
+			SendEmail.SendEmails();
 		}
 		else {
 			signIn.setDisable(true);
