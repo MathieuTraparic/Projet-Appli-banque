@@ -197,6 +197,7 @@ public class TransactionController extends AccountSelector {
 
 					}
 				});
+		//this.refresh();
 
 	}
 

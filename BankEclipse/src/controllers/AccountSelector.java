@@ -39,6 +39,7 @@ public abstract class AccountSelector extends BankSelector {
 	@Override
 	public void refresh() {
 		super.refresh();
+		this.accountCombo.getItems().clear();
 		this.accountCombo.setDisable(true);
 
 		this.bankCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
