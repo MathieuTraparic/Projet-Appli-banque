@@ -6,15 +6,18 @@
 package controllers;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import com.sun.xml.internal.txw2.Document;
+import com.itextpdf.layout.element.Paragraph;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import model.Account;
+import model.Owner;
+import util.CreatePDF;
 import util.IBANHandler;
 
 public class RIBController extends AccountSelector {
@@ -37,6 +40,13 @@ public class RIBController extends AccountSelector {
 	
 	@FXML
 	void handleButtonExportRib(ActionEvent event){
+		Account a = this.accountCombo.getValue();
+		List<Owner> nameList = a.getOwners();
+		String s = null;
+		for(Owner o : nameList){
+			s += o.getName();
+		}
+		CreatePDF ribPDF = new CreatePDF(String.format("RIB_%s", s));
 		
 	}
 	
