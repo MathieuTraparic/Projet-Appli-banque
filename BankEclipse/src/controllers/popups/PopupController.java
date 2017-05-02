@@ -19,6 +19,8 @@ import javafx.stage.WindowEvent;
  * So every popup must extends PopupController
  */
 public abstract class PopupController<T> {
+	
+	Image icon = new Image("file:..\\ressource\\images\\icon2.png");
 
 	public PopupController() {
 		// TODO Auto-generated constructor stub
@@ -80,7 +82,7 @@ public abstract class PopupController<T> {
 		
 		this.initData(data);
 		stage.setScene(new Scene(this.root));
-		stage.getIcons().add(new Image("file:..\\ressource\\images\\icon2.png"));
+		stage.getIcons().add(icon);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
 		stage.setOnHidden(handler);
