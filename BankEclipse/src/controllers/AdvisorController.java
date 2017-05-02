@@ -13,10 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import controllers.popups.PopupController;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -26,7 +24,6 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import model.Advisor;
 import model.Agency;
@@ -185,13 +182,13 @@ public class AdvisorController extends BankSelector implements Initializable {
 			}
 
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-			TypedQuery<Advisor> a = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
+			TypedQuery<Advisor> q = em.createQuery("SELECT a FROM Advisor a WHERE a.agency=:agency", Advisor.class);
 
-			List<Advisor> l = a.setParameter("agency", currentAgency).getResultList();
+			List<Advisor> listAdvisorQueried = q.setParameter("agency", currentAgency).getResultList();
 			em.close();
 
-			if (isANewAdvisor == false && !l.isEmpty()) {
-				Advisor currentAdvisor = l.get(0);
+			if (isANewAdvisor == false && !listAdvisorQueried.isEmpty()) {
+				Advisor currentAdvisor = listAdvisorQueried.get(0);
 
 				nameField.setText(currentAdvisor.getName());
 				firstNameField.setText(currentAdvisor.getFirstName());
@@ -259,9 +256,9 @@ public class AdvisorController extends BankSelector implements Initializable {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
 		Agency currentAgency = null;
-		for (Agency a : this.agencyOwned) {
-			if (agencyCombo.getValue().getName().equals(a.getName())) {
-				currentAgency = a;
+		for (Agency ag : this.agencyOwned) {
+			if (agencyCombo.getValue().getName().equals(ag.getName())) {
+				currentAgency = ag;
 			}
 		}
 
