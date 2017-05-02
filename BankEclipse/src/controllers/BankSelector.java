@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import model.Account;
 import model.Agency;
 import model.Bank;
@@ -39,6 +40,7 @@ public abstract class BankSelector implements Initializable, Refreshable{
 
 	@Override
 	public void refresh() {
+		this.bankCombo.getItems().clear();
 		Owner loggedOwner = VistaNavigator.getInstance().getLoggedOwner();
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -65,6 +67,10 @@ public abstract class BankSelector implements Initializable, Refreshable{
 
 		this.bankCombo.getItems().addAll(banksOwned);
 		
+	}
+	
+	@FXML public void bankComboClicked(MouseEvent event) {
+		this.refresh();
 	}
 	
 
