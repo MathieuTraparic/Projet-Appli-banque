@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -9,11 +10,6 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 
 import controllers.popups.PopupController;
-
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,13 +18,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.WindowEvent;
 import model.Account;
-import model.Bank;
+import model.AccountType;
+import model.Agency;
+import model.CountryCode;
 import model.Owner;
 import model.Transaction;
-import javafx.scene.control.TabPane;
 
 public class TemplateController extends AccountSelector implements Initializable {
 
@@ -63,7 +60,10 @@ public class TemplateController extends AccountSelector implements Initializable
 	@FXML
 	void handleMenuFileExport(ActionEvent event) throws IOException {
 		PopupController<Account> controller = PopupController.load(VistaNavigator.EXPORT, true);
-		controller.show(new Account("0000", "description", 0d, 0d, 0d), new EventHandler<WindowEvent>() {
+		controller.show(new Account("0000", "description", 0d, 0d, 0d, 0d, new CountryCode("FR"),
+				Calendar.getInstance().getTime(), 
+				new Agency("Name","CounterCode"), 
+				new AccountType("AccountType")), new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
 				Account a = controller.getValidatedData();
