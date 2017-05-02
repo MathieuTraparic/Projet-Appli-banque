@@ -24,10 +24,12 @@ import model.Account;
 import model.AccountType;
 import model.Agency;
 import model.CountryCode;
+import javafx.stage.WindowEvent;
+import model.Account;
 import model.Owner;
 import model.Transaction;
 
-public class TemplateController extends AccountSelector implements Initializable {
+public class TemplateController implements Initializable {
 
 	private List<Account> account = null;
 	private List<Transaction> transaction = null;
@@ -125,7 +127,8 @@ public class TemplateController extends AccountSelector implements Initializable
 			VistaNavigator.getEmf().getCache().evictAll();
 			
 			
-			System.out.println("tabchanged");
+			
+			//System.out.println("tabchanged");
 		});
 	}
 }

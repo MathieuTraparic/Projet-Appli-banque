@@ -25,7 +25,7 @@ import model.Owner;
 /**
  *	Handle the initializing of a bank ComboBox specific to the logged Owner
  */
-public abstract class BankSelector implements Initializable{
+public abstract class BankSelector implements Initializable, Refreshable{
 	@FXML
 	ComboBox<Bank> bankCombo;
 	protected HashSet<Bank> banksOwned;
@@ -33,6 +33,12 @@ public abstract class BankSelector implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.refresh();
+		
+	}
+
+	@Override
+	public void refresh() {
 		Owner loggedOwner = VistaNavigator.getInstance().getLoggedOwner();
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -60,5 +66,6 @@ public abstract class BankSelector implements Initializable{
 		this.bankCombo.getItems().addAll(banksOwned);
 		
 	}
+	
 
 }
