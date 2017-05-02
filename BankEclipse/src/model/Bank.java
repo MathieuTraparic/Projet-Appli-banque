@@ -2,6 +2,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,13 @@ public class Bank implements Serializable{
 	private int id;
 	private String name;
 	private String code;
-	
+	public static final Comparator<Bank> ALPHABETICAL_COMPARATOR =new Comparator<Bank>() {
+
+		@Override
+		public int compare(Bank o1, Bank o2) {
+			return o1.getName().compareTo(o2.getName());
+		}
+	};
 	
 	/*
 	 * Used only by the ORM

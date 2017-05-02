@@ -29,7 +29,7 @@
 						</MenuItem>
 						<SeparatorMenuItem />
 						<MenuItem mnemonicParsing="false" onAction="#handleMenuFileExport"
-							text="Export...">
+							text="Export transactions...">
 							<accelerator>
 								<KeyCodeCombination alt="UP" code="E"
 									control="ANY" meta="UP" shift="UP" shortcut="UP" />

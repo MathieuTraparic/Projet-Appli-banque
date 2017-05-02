@@ -39,6 +39,7 @@ public abstract class AccountSelector extends BankSelector {
 	@Override
 	public void refresh() {
 		super.refresh();
+		this.accountCombo.getItems().clear();
 		this.accountCombo.setDisable(true);
 
 		this.bankCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -53,6 +54,7 @@ public abstract class AccountSelector extends BankSelector {
 			//update the account comboBox and reset its current value
 			this.accountCombo.setDisable(false);
 			this.accountCombo.getItems().setAll(accountFromCurrentBank);
+			this.accountCombo.getItems().sort(Account.ALPHABETICAL_COMPARATOR);
 			this.accountCombo.setValue(null);
 		});
 	}

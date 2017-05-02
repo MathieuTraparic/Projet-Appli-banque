@@ -5,17 +5,28 @@
  */
 package controllers;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import com.itextpdf.layout.element.Paragraph;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import model.Account;
+import model.Owner;
+import util.CreatePDF;
 import util.IBANHandler;
-import javafx.event.ActionEvent;
 
 public class RIBController extends AccountSelector {
 
 	
 	@FXML
 	TextField iban;
+	@FXML
+	Button exportRib;
 
 	@FXML public void accountSelected(ActionEvent event) {
 		if(this.accountCombo.getValue()==null){
@@ -24,8 +35,23 @@ public class RIBController extends AccountSelector {
 		}
 		Account a = this.accountCombo.getValue();
 		this.iban.setText(IBANHandler.genrateIBAN(a.getNumber(), a.getAgency().getCounterCode(), a.getAgency().getBank().getCode(), a.getCountryCode().getCode()));
+		exportRib.setDisable(false);
+	}
+	
+	@FXML
+	void handleButtonExportRib(ActionEvent event){
+		Account a = this.accountCombo.getValue();
+		List<Owner> nameList = a.getOwners();
+		String s = null;
+		for(Owner o : nameList){
+			s += o.getName();
+		}
+		CreatePDF ribPDF = new CreatePDF(String.format("RIB_%s", s));
 		
 	}
-
-
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		exportRib.setDisable(true);
+	}
 }

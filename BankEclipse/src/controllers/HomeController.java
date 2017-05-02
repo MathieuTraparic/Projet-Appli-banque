@@ -27,6 +27,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.chart.XYChart.Data;
+import javafx.scene.control.Button;
 
 public class HomeController extends BankSelector implements Initializable {
 
@@ -38,6 +39,7 @@ public class HomeController extends BankSelector implements Initializable {
 	CategoryAxis xDateAxis;
 	@FXML
 	NumberAxis yBalanceAxis;
+	@FXML Button removeButton;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
@@ -53,13 +55,6 @@ public class HomeController extends BankSelector implements Initializable {
 					em.getTransaction().commit();
 					//em.getEntityManagerFactory().getCache().evictAll();
 					em.close();
-					if (!bankCombo.getItems().isEmpty()){
-						bankCombo.getItems().add(bankCombo.getItems().size() - 1, addedBank);
-					}
-					else {
-						bankCombo.getItems().add(addedBank);
-					}
-
 				}
 			}
 		});
@@ -72,9 +67,6 @@ public class HomeController extends BankSelector implements Initializable {
 			@Override
 			public void handle(WindowEvent event) {
 				Agency a = controller.getValidatedData();
-
-				// Actually I don't get the idea why we do this here and not
-				// when we submit in the popup window
 				if (a != null) {
 					EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
@@ -95,9 +87,9 @@ public class HomeController extends BankSelector implements Initializable {
 			public void handle(WindowEvent event) {
 				Account account = controller.getValidatedData();
 				if (account != null) {
-					List<Owner> l =new ArrayList<>();
-					l.add(VistaNavigator.getInstance().getLoggedOwner());
-					account.setOwners(l);
+					List<Owner> owners =new ArrayList<>();
+					owners.add(VistaNavigator.getInstance().getLoggedOwner());
+					account.setOwners(owners);
 					EntityManager em = VistaNavigator.getEmf().createEntityManager();
 					em.getTransaction().begin();
 					em.persist(account);
@@ -113,23 +105,27 @@ public class HomeController extends BankSelector implements Initializable {
 	void handleBankChoiceHome(ActionEvent event) {
 		// get a bank specific subset of all the account from the owner
 		List<Account> accountFromCurrentBank = new ArrayList<Account>();
-
-		this.accountsOwned.forEach(account -> {
+		for (Account account : accountsOwned) {
 			if (account.getAgency().getBank().equals(bankCombo.getValue())) {
 				accountFromCurrentBank.add(account);
 			}
-		});
+		}
+		
 		this.accountView.setItems(FXCollections.observableList(accountFromCurrentBank));
-
 	}
 
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		super.initialize(fxmlFileLocation, resources);
-		// on selectedAccount
+		
+		// on selectedAccount, draw a lineChart
 		accountView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+			this.removeButton.setDisable(newValue == null);
+			this.removeButton.setVisible(newValue != null);
 			if (newValue != null) {
+				
 				Account selectedAccount = this.accountView.getSelectionModel().getSelectedItem();
+				
 
 				// populate the lineChart
 
@@ -152,5 +148,21 @@ public class HomeController extends BankSelector implements Initializable {
 
 			}
 		}));
+	}
+
+
+
+	@FXML public void removeAccount(ActionEvent event) {
+		Account selectedAccount = this.accountView.getSelectionModel().getSelectedItem();
+		this.accountView.getSelectionModel().clearSelection();
+		this.accountView.getItems().remove(selectedAccount);
+		this.chart.getData().clear();
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		//not sure if necessary
+		Account a =em.find(Account.class, selectedAccount.getId());
+		em.getTransaction().begin();
+		em.remove(a);
+		em.getTransaction().commit();
+		
 	}
 }
