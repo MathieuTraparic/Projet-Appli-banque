@@ -114,6 +114,19 @@
 					</content>
 
 				</Tab>
+				<Tab>
+					<graphic>
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0"
+							rotate="90.0" text="Category" />
+					</graphic>
+					<content>
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0"
+							prefWidth="600.0">
+							<fx:include source="category.fxml" />
+						</AnchorPane>
+					</content>
+
+				</Tab>
 			</tabs>
 		</TabPane>
 		<Button layoutX="10.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleLogoutButton" text="logout" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="10.0" />

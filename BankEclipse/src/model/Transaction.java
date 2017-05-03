@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -241,12 +242,26 @@ public class Transaction implements Serializable {
 		}
 	}
 	
-	public void interestTransaction(Transaction transaction){
-		double interestRate = this.account.getInterestRate();
+	public String interestTransaction(){
+		double interestRate = this.account.getInterestRate()/100;
+		double value = this.getValue();
+		int coef;
+		double valueOfInterestAfterAYear = 0;
 		
-		//
-	
-		double transactionBalanceEvolution = this.value * interestRate;
+		//If transaction date is between the 1st and 15th or after the 15th of the month do shit
+		if (this.getDate().getDate()<=15) {
+			coef = (24 - (getDate().getMonth()*2));
+
+			valueOfInterestAfterAYear += (value * interestRate * coef)/24;
+
+		}
+		else{
+			coef = (24 - (getDate().getMonth()*2)-1);
+			valueOfInterestAfterAYear += (value * interestRate * coef)/24;
+		}
+
+			return String.format(Locale.US, "%.2f", valueOfInterestAfterAYear);
+
 	}
 	
 }

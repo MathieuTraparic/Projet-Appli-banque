@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CategoryController">
+	<children>
+		<TableView fx:id="categoryView" layoutX="190.0" layoutY="59.0" prefHeight="400.0" prefWidth="156.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="444.0" AnchorPane.topAnchor="0.0">
+			<columns>
+				<TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Category">
+					<cellValueFactory>
+						<PropertyValueFactory property="Key" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn fx:id="countCol" prefWidth="75.0" text="Count">
+				<cellValueFactory>
+						<PropertyValueFactory property="Value" />
+					</cellValueFactory>
+				</TableColumn>
+			</columns>
+		</TableView>
+		<PieChart fx:id="pieChart" layoutX="155.0" prefHeight="400.0" prefWidth="445.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+	</children>
+</AnchorPane>
