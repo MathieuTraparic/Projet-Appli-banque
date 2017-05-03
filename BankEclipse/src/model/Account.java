@@ -2,8 +2,11 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleImmutableEntry;
@@ -296,7 +299,7 @@ public class Account implements Serializable {
 	/**
 	 * @return the current balance calculated from the initial
 	 * and all transaction values
-	 * TODO cache the value calculated
+	 * TODO cache the value calculated and consider interestRate 
 	 */
 	public double getBalance() {
 		double balance = this.initialBalance ;
@@ -327,6 +330,38 @@ public class Account implements Serializable {
 		}
 		return result;
 	}
+/*	
+	*//**
+	 * 
+	 * @return a list of couples logging the balance evolution at 
+	 * each day since the account creation until today
+	 * 
+	 *//*
+	public List<Entry<Double,Date>> getDailyBalanceHistory() {
+		double balance = this.initialBalance;
+		Calendar currentCal = new GregorianCalendar(this.creationDate.getYear(), this.creationDate.getMonth(), this.creationDate.getDate());
+		
+		ArrayList<Transaction> sortedTransactions = new ArrayList<>(this.transactions);
+		//sort transaction by chronological order ?
+		sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
+		 List<Entry<Double,Date>> result = new ArrayList<>();
+		 //add a first entry at account creation
+		 result.add(new SimpleImmutableEntry<Double, Date>(balance, currentCal.getTime()));
+		 
+		 while(!currentDate.equals()){
+			 for (Transaction t : sortedTransactions) {
+				if(t.getDate().ge==currentDate){
+					currentDate.
+				}
+			}
+		 }
+		 //add all balance evolutions
+		 for (Transaction t : sortedTransactions) {
+			 balance+=t.getValue();
+			result.add(new SimpleImmutableEntry<Double, Date>(balance,t.getDate()));
+		}
+		return result;
+	}*/
 
 
 	
