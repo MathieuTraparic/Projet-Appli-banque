@@ -17,6 +17,8 @@ import javafx.stage.Stage;
  * Main application class.
  */
 public class Main extends Application {
+	
+	Image icon = new Image("file:..\\ressource\\images\\icon2.png");
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -29,7 +31,7 @@ public class Main extends Application {
 		 */
 		VistaNavigator.setEmf(Persistence.createEntityManagerFactory("Bank"));
 		stage.setTitle("Personnal Bank Account Manager");
-		stage.getIcons().add(new Image("file:..\\ressource\\images\\icon2.png"));
+		stage.getIcons().add(icon);
 		stage.setScene(createScene(loadMainPane()));
 
 		stage.show();

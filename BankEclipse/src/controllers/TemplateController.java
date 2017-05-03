@@ -104,7 +104,7 @@ public class TemplateController implements Initializable {
 		
 		PopupController<Owner> controller;
 		try {
-			if (VistaNavigator.getInstance().getLoggedOwner().getNewUser()==0){
+			if (VistaNavigator.getInstance().getLoggedOwner().getNewUser()==1){
 				controller = PopupController.load(VistaNavigator.NEW_USER_GUIDE, false);
 				controller.show(VistaNavigator.getInstance().getLoggedOwner(), new EventHandler<WindowEvent>() {
 					@Override

@@ -31,6 +31,7 @@ public abstract class BankSelector implements Initializable, Refreshable{
 	ComboBox<Bank> bankCombo;
 	protected HashSet<Bank> banksOwned;
 	protected HashSet<Account> accountsOwned;
+	protected HashSet<Agency> agencyOwned;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -55,15 +56,15 @@ public abstract class BankSelector implements Initializable, Refreshable{
 			accountsOwned.clear();
 		}
 		//get a set of agencies from the accounts
-		HashSet<Agency> agencies = new HashSet<>();
+		this.agencyOwned = new HashSet<>();
 		//accountsOwned.forEach(account -> agencies.add(account.getAgency()));
 		for (Account account: accountsOwned) {
-			agencies.add(account.getAgency());
+			this.agencyOwned.add(account.getAgency());
 		}
 		
 		//get a set of banks from the agencies
 		this.banksOwned = new HashSet<>();
-		agencies.forEach(agency -> banksOwned.add(agency.getBank()));
+		this.agencyOwned.forEach(agency -> banksOwned.add(agency.getBank()));
 
 		this.bankCombo.getItems().addAll(banksOwned);
 		this.bankCombo.getItems().sort(Bank.ALPHABETICAL_COMPARATOR);
