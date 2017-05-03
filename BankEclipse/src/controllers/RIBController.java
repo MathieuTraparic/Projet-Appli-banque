@@ -8,13 +8,15 @@ package controllers;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -49,25 +51,55 @@ public class RIBController extends AccountSelector {
 
 	@FXML
 	void handleButtonExportRib(ActionEvent event) {
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = 
-                directoryChooser.showDialog((Stage) exportRib.getScene().getWindow());         
 		List<Owner> listOwner = accountCombo.getValue().getOwners();
-		String owner = null; int ind = 0;
+		String owner = null;
+		int ind = 0;
 		for (Owner o : listOwner) {
-			if(listOwner.size()==1){
+			if (listOwner.size() == 1) {
 				owner = o.getName();
-			}
-			else if(ind==0){
+			} else if (ind == 0) {
 				owner = o.getName() + " ";
 				ind = ind + 1;
-			}
-			else {
+			} else {
 				owner += o.getName() + " ";
-			}	
+			}
 		}
-		CreatePDF ribPDF = new CreatePDF("RIB.pdf", String.format("%s", iban.getText()), bankCombo.getValue().getName(),
-				accountCombo.getValue().getAgency().getName(), owner, selectedDirectory.getAbsolutePath());
+		
+		Stage stage = (Stage) exportRib.getScene().getWindow();
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File selectedDirectory = directoryChooser.showDialog(stage);
+		if (selectedDirectory == null) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.initOwner(stage); 
+			alert.setTitle("Warning");
+			alert.setHeaderText("You have selected any directory.");
+			alert.setContentText("Your RIB is not exported."); 
+			final Optional<ButtonType> result = alert.showAndWait(); 
+			result.ifPresent(button -> { 
+			    if (button != ButtonType.OK) { 
+			    	alert.close();
+			    } else {
+			    	alert.close();
+			    }
+			});
+		} else {
+			CreatePDF ribPDF = new CreatePDF("RIB.pdf", String.format("%s", iban.getText()),
+					bankCombo.getValue().getName(), accountCombo.getValue().getAgency().getName(), owner,
+					selectedDirectory.getAbsolutePath());
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.initOwner(stage); 
+			alert.setTitle("Confirmation");
+			alert.setHeaderText("Your RIB is exported to that location :");
+			alert.setContentText(selectedDirectory.getAbsolutePath()); 
+			final Optional<ButtonType> result = alert.showAndWait();
+			result.ifPresent(button ->{
+				if(button == ButtonType.OK){
+					alert.close();
+				} else {
+					alert.close();
+				}
+			});
+		}
 	}
 
 	@Override

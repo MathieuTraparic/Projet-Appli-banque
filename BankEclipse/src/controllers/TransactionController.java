@@ -66,7 +66,7 @@ public class TransactionController extends AccountSelector {
 	private Button removeTransaction;
 	
 	@FXML
-	private Label balanceLabel, balanceNumberLabel, alertLabel;
+	private Label balanceLabel, balanceNumberLabel, alertLabel, interestLabel;
 
 	private ObservableList<Transaction> dataTransactionRow = null;
 	
@@ -81,6 +81,7 @@ public class TransactionController extends AccountSelector {
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
+		interestLabel.setVisible(false);
 		
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 
@@ -135,6 +136,13 @@ public class TransactionController extends AccountSelector {
 		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
 			editTransaction.setDisable(obschanged == null);
 			removeTransaction.setDisable(obschanged == null);
+			
+//			if ( obschanged != null){
+//				String interest = tableTransaction.getSelectionModel().getSelectedItem().interestTransaction();
+//				
+//				interestLabel.setText(interest);
+//				interestLabel.setVisible(true);
+//			}
 		});
 
 		// Getting the new date value is still problematic
@@ -166,11 +174,13 @@ public class TransactionController extends AccountSelector {
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
+		interestLabel.setVisible(false);
 		
 		if (this.accountCombo.getValue() != null) {
 			
 			balanceLabel.setVisible(true);
 			balanceNumberLabel.setVisible(true);
+			
 			
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
