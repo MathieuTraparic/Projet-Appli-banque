@@ -242,12 +242,13 @@ public class Transaction implements Serializable {
 		}
 	}
 	
+	//TODO to remove
 	public String interestTransaction(){
 		double interestRate = this.account.getInterestRate()/100;
 		double value = this.getValue();
 		int coef;
 		double valueOfInterestAfterAYear = 0;
-		
+				
 		//If transaction date is between the 1st and 15th or after the 15th of the month do shit
 		if (this.getDate().getDate()<=15) {
 			coef = (24 - (getDate().getMonth()*2));
