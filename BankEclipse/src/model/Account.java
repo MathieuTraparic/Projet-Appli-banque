@@ -36,7 +36,6 @@ public class Account implements Serializable {
 	private String description;
 	private double initialBalance;
 	private double overdraft;
-	//unused
 	private double interestRate;
 	private double alertThreshold;	
 	private CountryCode countryCode;
