@@ -36,7 +36,7 @@ public class Owner implements Serializable {
 	private String email;
 	private String phoneNumber;
 	private Address address;
-	private int newUser;
+	private boolean newUser;
 	private List<Account> accounts;
 
 	@SuppressWarnings("unused")
@@ -69,7 +69,7 @@ public class Owner implements Serializable {
 	 * @param newUser (0 == false 1 == true)
 	 */
 	public Owner(String name, String firstName, String phoneNumber, Date birthday, String login, String pswd,
-			String email, Address address, int newUser) {
+			String email, Address address, boolean newUser) {
 		this.setName(name);
 		this.setFirstName(firstName);
 		this.setPhoneNumber(phoneNumber);
@@ -182,12 +182,12 @@ public class Owner implements Serializable {
 		return this.accounts;
 	}
 
-	public int getNewUser() {
+	public boolean getNewUser() {
 		return this.newUser;
 	}
 
-	public void setNewUser(int newUser) {
-		checkNewUser(newUser);
+	public void setNewUser(boolean newUser) {
+		//checkNewUser(newUser);
 		this.newUser = newUser;
 	}
 
@@ -287,10 +287,10 @@ public class Owner implements Serializable {
 		}
 	}
 
-	private static void checkNewUser(int newUser) throws IllegalArgumentException {
-		if (newUser < 0 || newUser > 1) {
-			throw new IllegalArgumentException("The newUser variable can be only 0 or 1");
-		}
-	}
+//	private static void checkNewUser(int newUser) throws IllegalArgumentException {
+//		if (newUser < 0 || newUser > 1) {
+//			throw new IllegalArgumentException("The newUser variable can be only 0 or 1");
+//		}
+//	}
 
 }

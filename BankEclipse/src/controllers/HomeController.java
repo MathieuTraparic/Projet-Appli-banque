@@ -8,26 +8,40 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.WindowEvent;
+import javafx.util.converter.DoubleStringConverter;
 import model.Account;
+import model.AccountType;
 import model.Agency;
 import model.Bank;
+import model.Category;
+import model.CountryCode;
 import model.Owner;
+import model.TargetTransaction;
+import model.TransactionType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 
 public class HomeController extends BankSelector implements Initializable {
 
@@ -40,6 +54,13 @@ public class HomeController extends BankSelector implements Initializable {
 	@FXML
 	NumberAxis yBalanceAxis;
 	@FXML Button removeButton;
+	//@FXML Button editButton;
+	@FXML TableColumn<Account, String> descriptionCol;
+	@FXML TableColumn<Account, Double> interestCol;
+	@FXML TableColumn<Account, Double> alertCol;
+	@FXML TableColumn<Account, CountryCode> countryCol;
+	@FXML TableColumn<Account, AccountType> typeCol;
+	@FXML TableColumn<Account, Agency> agencyCol;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {
@@ -117,11 +138,90 @@ public class HomeController extends BankSelector implements Initializable {
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 		super.initialize(fxmlFileLocation, resources);
+
+		//fetch lists of possible edit for account attributes
+		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+		ObservableList<CountryCode> countryCodes = FXCollections.observableList(em.createNamedQuery("CountryCode.findAll", CountryCode.class).getResultList());
+		ObservableList<AccountType> types = FXCollections.observableList(em.createNamedQuery("AccountType.findAll", AccountType.class).getResultList());
+		ObservableList<Agency> agencies = FXCollections.observableList(em.createNamedQuery("Agency.findAll", Agency.class).getResultList());
 		
+		
+		this.descriptionCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		this.interestCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		this.alertCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		this.countryCol.setCellFactory(ComboBoxTableCell.forTableColumn(countryCodes));
+		this.typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(types));
+		this.agencyCol.setCellFactory(ComboBoxTableCell.forTableColumn(agencies));
+		
+		//TODO find a way to refactor the setOnEditCommit
+		this.descriptionCol.setOnEditCommit(
+				t ->{
+					EntityManager eman = VistaNavigator.getEmf().createEntityManager();
+					Account a = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					a.setDescription(t.getNewValue());
+					eman.getTransaction().begin();
+					eman.merge(a);
+					eman.getTransaction().commit();
+					eman.close();
+				});		
+		this.interestCol.setOnEditCommit(
+				t ->{
+					EntityManager eman = VistaNavigator.getEmf().createEntityManager();
+					Account a = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					a.setInterestRate(t.getNewValue());
+					eman.getTransaction().begin();
+					eman.merge(a);
+					eman.getTransaction().commit();
+					eman.close();
+				});		
+		this.alertCol.setOnEditCommit(
+				t ->{
+					EntityManager eman = VistaNavigator.getEmf().createEntityManager();
+					Account a = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					a.setAlertThreshold(t.getNewValue());
+					eman.getTransaction().begin();
+					eman.merge(a);
+					eman.getTransaction().commit();
+					eman.close();
+				});		
+				
+		this.countryCol.setOnEditCommit(
+				t ->{
+					EntityManager eman = VistaNavigator.getEmf().createEntityManager();
+					Account a = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					a.setCountryCode(t.getNewValue());
+					eman.getTransaction().begin();
+					eman.merge(a);
+					eman.getTransaction().commit();
+					eman.close();
+				});		
+				
+		this.typeCol.setOnEditCommit(
+				t ->{
+					EntityManager eman = VistaNavigator.getEmf().createEntityManager();
+					Account a = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					a.setAccountType(t.getNewValue());
+					eman.getTransaction().begin();
+					eman.merge(a);
+					eman.getTransaction().commit();
+					eman.close();
+				});		
+		this.agencyCol.setOnEditCommit(
+				t ->{
+					EntityManager eman = VistaNavigator.getEmf().createEntityManager();
+					Account a = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					a.setAgency(t.getNewValue());
+					eman.getTransaction().begin();
+					eman.merge(a);
+					eman.getTransaction().commit();
+					eman.close();
+				});		
+		
+		em.close();
 		// on selectedAccount, draw a lineChart
 		accountView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
-			this.removeButton.setDisable(newValue == null);
-			this.removeButton.setVisible(newValue != null);
+			removeButton.setDisable(newValue == null);
+			removeButton.setVisible(newValue != null);
 			if (newValue != null) {
 				
 				Account selectedAccount = this.accountView.getSelectionModel().getSelectedItem();
@@ -165,4 +265,5 @@ public class HomeController extends BankSelector implements Initializable {
 		em.getTransaction().commit();
 		
 	}
+
 }

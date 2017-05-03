@@ -25,7 +25,7 @@ public class TestOwner {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerName() {
-		Owner owner = new Owner(null, "foo","06 12 12 12 12", dat.getTime(), "lol", "lol",email, add);
+		Owner owner = new Owner(null, "foo","06 12 12 12 12", dat.getTime(), "lol", "lol",email, add,true);
 	}
 	
 	/**
@@ -33,7 +33,7 @@ public class TestOwner {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerFirstName() {
-		Owner owner = new Owner("foo",null,"06 12 12 12 12", dat.getTime(), "lol", "lol",email, add);
+		Owner owner = new Owner("foo",null,"06 12 12 12 12", dat.getTime(), "lol", "lol",email, add,true);
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class TestOwner {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerPhoneNumber() {
-		Owner owner = new Owner("foo","bar",null, dat.getTime(), "lol", "lol",email, add);
+		Owner owner = new Owner("foo","bar",null, dat.getTime(), "lol", "lol",email, add,true);
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class TestOwner {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerLogin() {
-		Owner owner = new Owner("foo","bar", "06 12 12 12 12",dat.getTime(), null, "lol",email, add);
+		Owner owner = new Owner("foo","bar", "06 12 12 12 12",dat.getTime(), null, "lol",email, add,true);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class TestOwner {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerPswd() {
-		Owner owner = new Owner("foo","bar", "06 12 12 12 12",dat.getTime(),"lol", null,email, add);
+		Owner owner = new Owner("foo","bar", "06 12 12 12 12",dat.getTime(),"lol", null,email, add,true);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class TestOwner {
 	 */
 	@Test(expected = NullPointerException.class)
 	public void test_NullOwnerEmail() {
-		Owner owner = new Owner("foo","bar", "06 12 12 12 12",dat.getTime(),"lol", "lol",null, add);
+		Owner owner = new Owner("foo","bar", "06 12 12 12 12",dat.getTime(),"lol", "lol",null, add,true);
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class TestOwner {
 	@Test(expected = IllegalArgumentException.class)	
 	public void test_OwnerBirthday() {
 		Calendar cal = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR)+1, Calendar.MARCH, Calendar.THURSDAY, 12, 31, 15);
-		Owner owner = new Owner("foo","bar", "0612121212", cal.getTime(),"lol", "ll",email, add);
+		Owner owner = new Owner("foo","bar", "0612121212", cal.getTime(),"lol", "ll",email, add,true);
 	}
 	//
 	//
