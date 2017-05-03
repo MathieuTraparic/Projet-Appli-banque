@@ -68,4 +68,11 @@ public class AccountType implements Serializable {
 		this.type = type;
 	}
 
+	@Override
+	public String toString() {
+		return this.getType();
+	}
+	
+	
+
 }
