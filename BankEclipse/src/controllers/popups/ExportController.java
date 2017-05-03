@@ -58,7 +58,6 @@ public class ExportController extends PopupController<Account> implements Initia
 				//oos.writeChars(l.formatString());
 				fw.write(l.formatString());
 				fw.flush();
-				System.out.println(l.formatString());
 			}
 			fw.close();
 		} catch (FileNotFoundException e) {
