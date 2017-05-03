@@ -75,6 +75,11 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
+            <Label fx:id="interestLabel" layoutX="571.0" layoutY="38.0" text="0.00">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
 			</children>
 		</AnchorPane>
       <Label fx:id="alertLabel" alignment="CENTER" layoutX="260.0" layoutY="445.0" text="The balance is below the threshold !" textAlignment="CENTER" textFill="RED">
