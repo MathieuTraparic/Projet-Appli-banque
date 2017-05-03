@@ -13,6 +13,7 @@ import com.itextpdf.layout.element.Paragraph;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import model.Account;
@@ -20,7 +21,7 @@ import model.Owner;
 import util.CreatePDF;
 import util.IBANHandler;
 
-public class RIBController extends AccountSelector {
+public class RIBController extends AccountSelector{
 
 	
 	@FXML
@@ -40,18 +41,12 @@ public class RIBController extends AccountSelector {
 	
 	@FXML
 	void handleButtonExportRib(ActionEvent event){
-		Account a = this.accountCombo.getValue();
-		List<Owner> nameList = a.getOwners();
-		String s = null;
-		for(Owner o : nameList){
-			s += o.getName();
-		}
-		CreatePDF ribPDF = new CreatePDF(String.format("RIB_%s", s));
-		
+		CreatePDF ribPDF = new CreatePDF("RIB", String.format("%s", iban));
 	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		super.initialize(arg0, arg1);
 		exportRib.setDisable(true);
 	}
 }
