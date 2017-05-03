@@ -241,4 +241,12 @@ public class Transaction implements Serializable {
 		}
 	}
 	
+	public void interestTransaction(Transaction transaction){
+		double interestRate = this.account.getInterestRate();
+		
+		//
+	
+		double transactionBalanceEvolution = this.value * interestRate;
+	}
+	
 }
