@@ -144,7 +144,7 @@ public class HomeController extends BankSelector implements Initializable {
 		ObservableList<CountryCode> countryCodes = FXCollections.observableList(em.createNamedQuery("CountryCode.findAll", CountryCode.class).getResultList());
 		ObservableList<AccountType> types = FXCollections.observableList(em.createNamedQuery("AccountType.findAll", AccountType.class).getResultList());
 		ObservableList<Agency> agencies = FXCollections.observableList(em.createNamedQuery("Agency.findAll", Agency.class).getResultList());
-		
+		em.close();
 		
 		this.descriptionCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		this.interestCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
@@ -217,7 +217,7 @@ public class HomeController extends BankSelector implements Initializable {
 					eman.close();
 				});		
 		
-		em.close();
+		
 		// on selectedAccount, draw a lineChart
 		accountView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
 			removeButton.setDisable(newValue == null);
