@@ -18,23 +18,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.control.cell.ComboBoxTableCell;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 import javafx.util.converter.DateStringConverter;
-import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
 import model.Account;
 import model.Category;
 import model.PeriodicTransaction;
@@ -70,12 +63,20 @@ public class TransactionController extends AccountSelector {
 
 	@FXML
 	private Button removeTransaction;
+	
+	@FXML
+	private Label balanceLabel, balanceNumberLabel, alertLabel;
 
 	private ObservableList<Transaction> dataTransactionRow = null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
+		
+		balanceLabel.setVisible(false);
+		balanceNumberLabel.setVisible(false);
+		alertLabel.setVisible(false);
+		
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -151,34 +152,38 @@ public class TransactionController extends AccountSelector {
 	void accountCombo(ActionEvent event) throws IOException {
 
 		this.addTransaction.setDisable(this.accountCombo.getValue() == null);
+		
+		balanceLabel.setVisible(false);
+		balanceNumberLabel.setVisible(false);
+		alertLabel.setVisible(false);
+		
 		if (this.accountCombo.getValue() != null) {
+			
+			balanceLabel.setVisible(true);
+			balanceNumberLabel.setVisible(true);
+			
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
 			
+			Double balance = this.accountCombo.getValue().getBalance();			
+			balanceNumberLabel.setText(balance.toString());
+			
 			Double alert = this.accountCombo.getValue().getAlertThreshold();
-			
-			System.out.println(alert);
-			
-			if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
+
+			if (alert != null  && balance <= alert ) {
 				//pop up + email !
 				System.out.println("alert");
+				alertLabel.setVisible(true);
 			}
 		}
 		
-		//Controlling if the balance is not under the alert limit
-		
-
-		
-		/*
-		 * ajouter dans home controller table view les overdraft et alertthreshold
-		 * dans transaction add balance of the account of today 
-		 * dans RIB controller probleme combobox
-		 */
 
 	}
 
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
+		
+		alertLabel.setVisible(false);
 
 		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
 
@@ -210,18 +215,30 @@ public class TransactionController extends AccountSelector {
 							tableTransaction.getColumns().forEach(col -> {
 								col.setVisible(false);
 								col.setVisible(true);
+								
+								
 							});
+
+							Double balance =accountCombo.getValue().getBalance();			
+							balanceNumberLabel.setText(balance.toString());
+							
+							Double alert = accountCombo.getValue().getAlertThreshold();
+
+							if (alert != null  && balance <= alert ) {
+								//pop up + email !
+								alertLabel.setVisible(true);
+							}
 
 						}
 
 					}
 				});
 		
+
 		
 		//Controlling if the balance is not under the alert limit
 		
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
-		System.out.println(alert);
 		
 		if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
 			//pop up + email !
@@ -256,6 +273,17 @@ public class TransactionController extends AccountSelector {
 
 		removeTransaction.setDisable(true);
 		editTransaction.setDisable(true);
+		
+		Double balance = this.accountCombo.getValue().getBalance();			
+		balanceNumberLabel.setText(balance.toString());
+		
+		Double alert = this.accountCombo.getValue().getAlertThreshold();
+
+		if (alert != null  && balance <= alert ) {
+			//pop up + email !
+
+			alertLabel.setVisible(true);
+		}
 
 	}
 
@@ -292,6 +320,17 @@ public class TransactionController extends AccountSelector {
 		});
 
 		editTransaction.setDisable(true);
+		
+		Double balance = this.accountCombo.getValue().getBalance();			
+		balanceNumberLabel.setText(balance.toString());
+		
+		Double alert = this.accountCombo.getValue().getAlertThreshold();
+
+		if (alert != null  && balance <= alert ) {
+			//pop up + email !
+			alertLabel.setVisible(true);
+		}
 
 	}
+
 }
