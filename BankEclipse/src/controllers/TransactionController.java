@@ -68,6 +68,10 @@ public class TransactionController extends AccountSelector {
 	private Label balanceLabel, balanceNumberLabel, alertLabel;
 
 	private ObservableList<Transaction> dataTransactionRow = null;
+	
+	private String overAndTresholdAlert = "The balance is below the overdraft limit \n and the threshold! Carefull!";
+	private String overAlert = "The balance is below the overdraft limit! \n U gonna pay!";
+	private String thresholdAlert ="The balance is below the threshold!";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -85,6 +89,9 @@ public class TransactionController extends AccountSelector {
 		List<Category> categoryList = em.createNamedQuery("Category.findAll").getResultList();
 		em.close();
 		
+		/*
+		 * Necessary because target and category can be null in the db
+		 */
 		targetList.add(null);
 		categoryList.add(null);
 
@@ -144,8 +151,6 @@ public class TransactionController extends AccountSelector {
 		categoryCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
 				.setCategory(t.getNewValue()));
 
-		tableTransaction.setItems(dataTransactionRow);
-		
 	}
 
 	@FXML
@@ -169,10 +174,20 @@ public class TransactionController extends AccountSelector {
 			balanceNumberLabel.setText(balance.toString());
 			
 			Double alert = this.accountCombo.getValue().getAlertThreshold();
+			
+			Double overdraft = this.accountCombo.getValue().getOverdraft();
+			
 
-			if (alert != null  && balance <= alert ) {
-				//pop up + email !
-				System.out.println("alert");
+			if (alert != null && balance <= alert) {
+				alertLabel.setText(thresholdAlert);
+				alertLabel.setVisible(true);
+			}
+			if (overdraft != null  && balance <= overdraft){
+				alertLabel.setText(overAlert);
+				alertLabel.setVisible(true);
+			}
+			if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+				alertLabel.setText(overAndTresholdAlert);
 				alertLabel.setVisible(true);
 			}
 		}
@@ -219,13 +234,24 @@ public class TransactionController extends AccountSelector {
 								
 							});
 
-							Double balance =accountCombo.getValue().getBalance();			
+							Double balance = accountCombo.getValue().getBalance();			
 							balanceNumberLabel.setText(balance.toString());
 							
 							Double alert = accountCombo.getValue().getAlertThreshold();
+							
+							Double overdraft = accountCombo.getValue().getOverdraft();
+							
 
-							if (alert != null  && balance <= alert ) {
-								//pop up + email !
+							if (alert != null && balance <= alert) {
+								alertLabel.setText(thresholdAlert);
+								alertLabel.setVisible(true);
+							}
+							if (overdraft != null  && balance <= overdraft){
+								alertLabel.setText(overAlert);
+								alertLabel.setVisible(true);
+							}
+							if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+								alertLabel.setText(overAndTresholdAlert);
 								alertLabel.setVisible(true);
 							}
 
@@ -233,22 +259,13 @@ public class TransactionController extends AccountSelector {
 
 					}
 				});
-		
-
-		
-		//Controlling if the balance is not under the alert limit
-		
-		Double alert = this.accountCombo.getValue().getAlertThreshold();
-		
-		if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
-			//pop up + email !
-			System.out.println("alert");
-		}
 
 	}
 
 	@FXML
 	void removeTransaction(ActionEvent event) {
+		
+		alertLabel.setVisible(false);
 
 		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
 
@@ -278,10 +295,20 @@ public class TransactionController extends AccountSelector {
 		balanceNumberLabel.setText(balance.toString());
 		
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
+		
+		Double overdraft = this.accountCombo.getValue().getOverdraft();
+		
 
-		if (alert != null  && balance <= alert ) {
-			//pop up + email !
-
+		if (alert != null && balance <= alert) {
+			alertLabel.setText(thresholdAlert);
+			alertLabel.setVisible(true);
+		}
+		if (overdraft != null  && balance <= overdraft){
+			alertLabel.setText(overAlert);
+			alertLabel.setVisible(true);
+		}
+		if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+			alertLabel.setText(overAndTresholdAlert);
 			alertLabel.setVisible(true);
 		}
 
@@ -289,6 +316,8 @@ public class TransactionController extends AccountSelector {
 
 	@FXML
 	void editTransaction(ActionEvent event) {
+		
+		alertLabel.setVisible(false);
 
 		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
 
@@ -325,9 +354,20 @@ public class TransactionController extends AccountSelector {
 		balanceNumberLabel.setText(balance.toString());
 		
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
+		
+		Double overdraft = this.accountCombo.getValue().getOverdraft();
+		
 
-		if (alert != null  && balance <= alert ) {
-			//pop up + email !
+		if (alert != null && balance <= alert) {
+			alertLabel.setText(thresholdAlert);
+			alertLabel.setVisible(true);
+		}
+		if (overdraft != null  && balance <= overdraft){
+			alertLabel.setText(overAlert);
+			alertLabel.setVisible(true);
+		}
+		if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+			alertLabel.setText(overAndTresholdAlert);
 			alertLabel.setVisible(true);
 		}
 

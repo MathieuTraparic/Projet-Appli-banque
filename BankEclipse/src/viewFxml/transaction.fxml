@@ -37,7 +37,7 @@
 								<PropertyValueFactory property="Date" />
 							</cellValueFactory>
 						</TableColumn>
-						<TableColumn fx:id="valueCol" editable="true"  prefWidth="87.0" text="Value">
+						<TableColumn fx:id="valueCol" editable="true" prefWidth="87.0" text="Value">
 							<cellValueFactory>
 								<PropertyValueFactory property="Value" />
 							</cellValueFactory>
@@ -77,7 +77,7 @@
             </Label>
 			</children>
 		</AnchorPane>
-      <Label fx:id="alertLabel" layoutX="260.0" layoutY="445.0" text="The balance is below the threshold !" textFill="RED">
+      <Label fx:id="alertLabel" alignment="CENTER" layoutX="260.0" layoutY="445.0" text="The balance is below the threshold !" textAlignment="CENTER" textFill="RED">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
