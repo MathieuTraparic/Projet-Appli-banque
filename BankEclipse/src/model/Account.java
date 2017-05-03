@@ -408,38 +408,25 @@ public class Account implements Serializable {
 			totalInterestPerYear+=Double.parseDouble(transaction.interestTransaction());
 		}
 		
-		return String.format(Locale.US, "%.2f", (interestInitialBalance+totalInterestPerYear));
+		double totalInterest = interestInitialBalance+totalInterestPerYear;
+		
+		if (totalInterest<0){
+			
+			totalInterest = 0.0;
+		}
+		
+		return String.format(Locale.US, "%.2f", totalInterest);
 
 	}
 	
-	public String getAgioAccountPerYear(){
+	public String getAgioAccountPerYear(double totalInterestPerYear){
 		
-		double totalInterestPerYear = 0;
-		
-		double interestRate = this.getInterestRate()/100;
+		double agioRate = this.getAgioRate()/100;
 
-		int coef;
-		double interestInitialBalance = 0;
+		double agioTotal = (totalInterestPerYear*agioRate)/(this.getInterestRate()/100);
 		
-		if (this.getInitialBalance()!=0){
-			Transaction initialBalance = new Transaction("initial balance", this.getInitialBalance(),
-					this.getCreationDate(), new TransactionType("initial Balance"));
-			
-			if (initialBalance.getDate().getDate()<=15){
-				coef = (24 - (initialBalance.getDate().getMonth()*2));
-				interestInitialBalance += (initialBalance.getValue() * interestRate * coef)/24;
-			}
-			else {
-				coef = (24 - (initialBalance.getDate().getMonth()*2)-1);
-				interestInitialBalance += (initialBalance.getValue() * interestRate * coef)/24;
-			}
-		}
 		
-		for (Transaction transaction : this.transactions) {
-			totalInterestPerYear+=Double.parseDouble(transaction.interestTransaction());
-		}
-		
-		return String.format(Locale.US, "%.2f", (interestInitialBalance+totalInterestPerYear));
+		return String.format(Locale.US, "%.2f", agioTotal);
 
 	}
 	
