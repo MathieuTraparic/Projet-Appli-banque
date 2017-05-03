@@ -41,7 +41,7 @@ public class RIBController extends AccountSelector{
 	
 	@FXML
 	void handleButtonExportRib(ActionEvent event){
-		CreatePDF ribPDF = new CreatePDF("RIB", String.format("%s", iban));
+		CreatePDF ribPDF = new CreatePDF("RIB_2", String.format("%s", iban.getText()));
 	}
 	
 	@Override
