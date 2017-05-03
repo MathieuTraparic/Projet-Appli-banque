@@ -24,8 +24,6 @@ import model.Account;
 import model.AccountType;
 import model.Agency;
 import model.CountryCode;
-import javafx.stage.WindowEvent;
-import model.Account;
 import model.Owner;
 import model.Transaction;
 
@@ -63,14 +61,13 @@ public class TemplateController implements Initializable {
 	void handleMenuFileExport(ActionEvent event) throws IOException {
 		PopupController<Account> controller = PopupController.load(VistaNavigator.EXPORT, true);
 		controller.show(new Account("0000", "description", 0d, 0d, 0d, 0d, new CountryCode("FR"),
-				Calendar.getInstance().getTime(), 
-				new Agency("Name","CounterCode"), 
-				new AccountType("AccountType")), new EventHandler<WindowEvent>() {
-			@Override
-			public void handle(WindowEvent event) {
-				Account a = controller.getValidatedData();
-			}
-		});
+				Calendar.getInstance().getTime(), new Agency("Name", "CounterCode"), new AccountType("AccountType")),
+				new EventHandler<WindowEvent>() {
+					@Override
+					public void handle(WindowEvent event) {
+						Account a = controller.getValidatedData();
+					}
+				});
 	}
 
 	@FXML
@@ -85,7 +82,28 @@ public class TemplateController implements Initializable {
 	}
 
 	@FXML
-	void handleMenuWindowPreference(ActionEvent event) {
+	void handleChangeLogin(ActionEvent event) throws IOException {
+		Owner owner = VistaNavigator.getInstance().getLoggedOwner();
+		PopupController<Owner> controller = PopupController.load(VistaNavigator.NEW_LOGIN, false);
+		controller.show(owner, new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Owner o = controller.getValidatedData();
+				if (o != null) {
+					String newLogin = o.getLogin();
+					owner.setLogin(newLogin);
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+					em.getTransaction().begin();
+					em.merge(owner);
+					em.getTransaction().commit();
+					em.close();
+				}
+			}
+		});
+	}
+
+	@FXML
+	void handleChangePassword(ActionEvent event) {
 		// TODO
 	}
 
@@ -94,23 +112,22 @@ public class TemplateController implements Initializable {
 		// TODO
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.account = em.createNamedQuery("Account.findAll").getResultList();
 		this.transaction = em.createNamedQuery("Transaction.findAll").getResultList();
-		
 		em.close();
-		
+
 		PopupController<Owner> controller;
 		try {
-			if (VistaNavigator.getInstance().getLoggedOwner().getNewUser()==true){
+			if (VistaNavigator.getInstance().getLoggedOwner().getNewUser() == true) {
 				controller = PopupController.load(VistaNavigator.NEW_USER_GUIDE, false);
 				controller.show(VistaNavigator.getInstance().getLoggedOwner(), new EventHandler<WindowEvent>() {
 					@Override
 					public void handle(WindowEvent event) {
-					
-						
+
 					}
 				});
 			}
@@ -119,16 +136,11 @@ public class TemplateController implements Initializable {
 			e.printStackTrace();
 		}
 
-		
-		
-		
-		this.tabPane.getSelectionModel().selectedItemProperty().addListener((obs,oldTabl,newTab)->{
-			//do a thing on every tab change
+		this.tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTabl, newTab) -> {
+			// do a thing on every tab change
 			VistaNavigator.getEmf().getCache().evictAll();
-			
-			
-			
-			//System.out.println("tabchanged");
+
+			// System.out.println("tabchanged");
 		});
 	}
 }
