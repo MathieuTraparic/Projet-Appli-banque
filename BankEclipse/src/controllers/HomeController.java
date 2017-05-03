@@ -61,6 +61,7 @@ public class HomeController extends BankSelector implements Initializable {
 	@FXML TableColumn<Account, CountryCode> countryCol;
 	@FXML TableColumn<Account, AccountType> typeCol;
 	@FXML TableColumn<Account, Agency> agencyCol;
+	@FXML TableColumn<Account, String> interestPerYearCol;
 
 	@FXML
 	void handleAddBankHome(ActionEvent event) throws IOException {

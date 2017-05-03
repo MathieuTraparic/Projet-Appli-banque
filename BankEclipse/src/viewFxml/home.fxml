@@ -35,7 +35,7 @@
 						</HBox>
 						<TableView fx:id="accountView" editable="true" prefHeight="300.0">
 							<columns>
-								<TableColumn fx:id="descriptionCol" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="Account">
+								<TableColumn fx:id="descriptionCol" maxWidth="1.7976931348623157E308" prefWidth="156.0" text="Account">
 									<cellValueFactory>
 										<PropertyValueFactory property="Description" />
 									</cellValueFactory>
@@ -43,36 +43,41 @@
 										<TextFieldTableCell fx:factory="forTableColumn" />
 									</cellFactory>
 								</TableColumn>
-								<TableColumn maxWidth="1.7976931348623157E308" text="Balance">
+								<TableColumn maxWidth="1.7976931348623157E308" prefWidth="78.0" text="Balance">
 									<cellValueFactory>
 										<PropertyValueFactory property="Balance" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="interestCol" maxWidth="1.7976931348623157E308" text="Interest rate">
+								<TableColumn fx:id="interestCol" maxWidth="1.7976931348623157E308" prefWidth="113.0" text="Interest rate">
 									<cellValueFactory>
 										<PropertyValueFactory property="InterestRate" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="alertCol" maxWidth="1.7976931348623157E308" prefWidth="90.0" text="Alert treshold">
+								<TableColumn fx:id="alertCol" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Alert treshold">
 									<cellValueFactory>
 										<PropertyValueFactory property="AlertThreshold" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="countryCol" maxWidth="1.7976931348623157E308" text="Country">
+								<TableColumn fx:id="countryCol" maxWidth="1.7976931348623157E308" prefWidth="99.0" text="Country">
 									<cellValueFactory>
 										<PropertyValueFactory property="CountryCode" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" text="Type">
+								<TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" prefWidth="63.0" text="Type">
 									<cellValueFactory>
 										<PropertyValueFactory property="AccountType" />
 									</cellValueFactory>
 								</TableColumn>
-								<TableColumn fx:id="agencyCol" maxWidth="1.7976931348623157E308" text="Agency">
+								<TableColumn fx:id="agencyCol" maxWidth="1.7976931348623157E308" prefWidth="98.0" text="Agency">
 									<cellValueFactory>
 										<PropertyValueFactory property="Agency" />
 									</cellValueFactory>
 								</TableColumn>
+                        <TableColumn fx:id="interestPerYearCol" maxWidth="1.7976931348623157E308" prefWidth="79.0" text="Interest per Year">
+                           <cellValueFactory>
+                              <PropertyValueFactory property="InterestAccountPerYear" />
+                           </cellValueFactory>
+                        </TableColumn>
 							</columns>
 						</TableView>
 						<StackPane>

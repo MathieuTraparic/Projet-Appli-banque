@@ -246,23 +246,21 @@ public class Transaction implements Serializable {
 		double interestRate = this.account.getInterestRate()/100;
 		double value = this.getValue();
 		int coef;
-		double valueOfInterestAfterAYear;
+		double valueOfInterestAfterAYear = 0;
 		
 		//If transaction date is between the 1st and 15th or after the 15th of the month do shit
 		if (this.getDate().getDate()<=15) {
 			coef = (24 - (getDate().getMonth()*2));
 
-			valueOfInterestAfterAYear = (value * interestRate * coef)/24;
-	
-			return String.format(Locale.US, "%.2f", valueOfInterestAfterAYear);
+			valueOfInterestAfterAYear += (value * interestRate * coef)/24;
+
 		}
 		else{
 			coef = (24 - (getDate().getMonth()*2)-1);
-
-			valueOfInterestAfterAYear = (value * interestRate * coef)/24;
+			valueOfInterestAfterAYear += (value * interestRate * coef)/24;
+		}
 
 			return String.format(Locale.US, "%.2f", valueOfInterestAfterAYear);
-		}
 
 	}
 	
