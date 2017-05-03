@@ -116,7 +116,7 @@ public class DatePickerCell <S, T> extends TableCell<Transaction, Date> {
 	                commitEdit(cal.getTime());
 
 	                if (null != getTransactionData()&& index< getTransactionData().size()) {
-	                	System.out.println("size ="+getTransactionData().size());
+	                	//System.out.println("size ="+getTransactionData().size());
 	                	getTransactionData().get(index).setDate(cal.getTime());
 	                }
 	        });

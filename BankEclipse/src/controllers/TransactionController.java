@@ -108,7 +108,7 @@ public class TransactionController extends AccountSelector {
 		categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
 
 		dataTransactionRow = FXCollections.observableArrayList();
-
+		
 		/*
 		 * AUTHOR :
 		 * http://blog.physalix.com/javafx8-render-a-datepicker-cell-in-a-
@@ -323,10 +323,11 @@ public class TransactionController extends AccountSelector {
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
-		em.getTransaction().begin();
-
 		Query q = em.createQuery("UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
 				+ "a.transactionType=:transactionType, a.category=:category, a.targetTransaction=:targetTransaction WHERE a.id=:id");
+		
+		em.getTransaction().begin();
+
 		q.setParameter("id", transactionUpdate.getId());
 		q.setParameter("description", transactionUpdate.getDescription());
 		q.setParameter("value", transactionUpdate.getValue());
