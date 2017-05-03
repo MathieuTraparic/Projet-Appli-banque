@@ -23,6 +23,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
@@ -102,13 +103,13 @@ public class TransactionController extends AccountSelector {
 		this.addTransaction.setDisable(true);
 
 		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		dateCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
+		
 		typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
 		targetCol.setCellFactory(ComboBoxTableCell.forTableColumn(targetStringList));
 		categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
 
-		dataTransactionRow = FXCollections.observableArrayList();
-
+		
+		
 		/*
 		 * AUTHOR :
 		 * http://blog.physalix.com/javafx8-render-a-datepicker-cell-in-a-
@@ -119,6 +120,10 @@ public class TransactionController extends AccountSelector {
 		 * There still problem with the DatePickerCell class to fix // in worst
 		 * case, the date picker will be changed to just a string column
 		 */
+		dataTransactionRow = dateCol.getTableView().getItems();
+		
+		dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
+		
 		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
 			@Override
 			public TableCell call(TableColumn p) {
@@ -126,7 +131,7 @@ public class TransactionController extends AccountSelector {
 				return datePick;
 			}
 		});
-
+		
 		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
 			editTransaction.setDisable(obschanged == null);
 			removeTransaction.setDisable(obschanged == null);
@@ -190,6 +195,7 @@ public class TransactionController extends AccountSelector {
 				alertLabel.setText(overAndTresholdAlert);
 				alertLabel.setVisible(true);
 			}
+
 		}
 		
 
@@ -323,10 +329,11 @@ public class TransactionController extends AccountSelector {
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 
-		em.getTransaction().begin();
-
 		Query q = em.createQuery("UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
 				+ "a.transactionType=:transactionType, a.category=:category, a.targetTransaction=:targetTransaction WHERE a.id=:id");
+		
+		em.getTransaction().begin();
+
 		q.setParameter("id", transactionUpdate.getId());
 		q.setParameter("description", transactionUpdate.getDescription());
 		q.setParameter("value", transactionUpdate.getValue());
