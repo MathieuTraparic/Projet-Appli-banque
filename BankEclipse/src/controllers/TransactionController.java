@@ -154,19 +154,20 @@ public class TransactionController extends AccountSelector {
 		if (this.accountCombo.getValue() != null) {
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
-
+			
+			Double alert = this.accountCombo.getValue().getAlertThreshold();
+			
+			System.out.println(alert);
+			
+			if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
+				//pop up + email !
+				System.out.println("alert");
+			}
 		}
 		
 		//Controlling if the balance is not under the alert limit
 		
-		Double alert = this.accountCombo.getValue().getAlertThreshold();
-		
-		System.out.println(alert);
-		
-		if (alert != null  && this.accountCombo.getValue().getBalance() <= this.accountCombo.getValue().getAlertThreshold()) {
-			//pop up + email !
-			System.out.println("alert");
-		}
+
 		
 		/*
 		 * ajouter dans home controller table view les overdraft et alertthreshold
