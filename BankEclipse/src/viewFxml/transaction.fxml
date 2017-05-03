@@ -59,8 +59,8 @@
 						</TableColumn>
 					</columns>
 				</TableView>
-				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0" onAction="#accountCombo" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />
-				<ComboBox fx:id="bankCombo" layoutX="16.0" layoutY="37.0" prefHeight="25.0" prefWidth="157.0" promptText="Choose your bank" AnchorPane.leftAnchor="16.0" />
+				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0"   onAction="#accountCombo" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />
+				<ComboBox fx:id="bankCombo" layoutX="16.0" layoutY="37.0" onMouseClicked="#bankComboClicked" prefHeight="25.0" prefWidth="157.0" promptText="Choose your bank" AnchorPane.leftAnchor="16.0" />
 				<ScrollBar layoutX="780.0" layoutY="88.0" orientation="VERTICAL" prefHeight="333.0" prefWidth="14.0" />
 				<Button fx:id="addTransaction" disable="true" layoutX="670.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleAddTransaction" text="Add a transaction" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0" />
 				<Button fx:id="removeTransaction" disable="true" layoutX="16.0" layoutY="424.0" mnemonicParsing="false" onAction="#removeTransaction" text="Remove transaction" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="15.0" />
