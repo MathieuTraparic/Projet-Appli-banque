@@ -39,8 +39,6 @@
 	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2-sources.jar"/>
 	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/slf4j-api-1.7.25.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Beltharion/Desktop/ProjetBank/Projet-Appli-banque/BankEclipse/lib/slf4j-jdk14-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.7.25.jar"/>
 	<classpathentry kind="output" path="bin"/>
