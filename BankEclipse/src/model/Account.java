@@ -52,9 +52,13 @@ public class Account implements Serializable {
 	private double interestTransaction = 0;
 	private double agioTransaction = 0;
 
-	public static final Comparator<Account> ALPHABETICAL_COMPARATOR=new Comparator<Account>(){
+	public static final Comparator<Account> ALPHABETICAL_COMPARATOR = new Comparator<Account>() {
 
-	@Override public int compare(Account o1,Account o2){return o1.getDescription().compareTo(o2.getDescription());}};
+		@Override
+		public int compare(Account o1, Account o2) {
+			return o1.getDescription().compareTo(o2.getDescription());
+		}
+	};
 
 	// for ORM use
 	@SuppressWarnings("unused")
@@ -338,8 +342,8 @@ public class Account implements Serializable {
 			balance += t.getValue();
 			result.add(new SimpleImmutableEntry<Double, Date>(balance, t.getDate()));
 		}
-		
-		//to sort the balanceHystory by date !
+
+		// to sort the balanceHystory by date !
 		result.sort(new Comparator<Entry<Double, Date>>() {
 
 			@Override
@@ -352,132 +356,92 @@ public class Account implements Serializable {
 
 	/*	
 		*//**
-	 * 
-	 * @return a list of couples logging the balance evolution at 
-	 * each day since the account creation until today
-	 * 
-	 *//*
-	public List<Entry<Double,Date>> getDailyBalanceHistory() {
-		double balance = this.initialBalance;
-		Calendar currentCal = new GregorianCalendar(this.creationDate.getYear(), this.creationDate.getMonth(), this.creationDate.getDate());
-		
-		ArrayList<Transaction> sortedTransactions = new ArrayList<>(this.transactions);
-		//sort transaction by chronological order ?
-		sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
-		 List<Entry<Double,Date>> result = new ArrayList<>();
-		 //add a first entry at account creation
-		 result.add(new SimpleImmutableEntry<Double, Date>(balance, currentCal.getTime()));
-		 
-		 while(!currentDate.equals()){
-			 for (Transaction t : sortedTransactions) {
-				if(t.getDate().ge==currentDate){
-					currentDate.
-				}
-			}
-		 }
-		 //add all balance evolutions
-		 for (Transaction t : sortedTransactions) {
-			 balance+=t.getValue();
-			result.add(new SimpleImmutableEntry<Double, Date>(balance,t.getDate()));
-		}
-		return result;
-	}*/
-	
-	//TODO to do not with each transaction but on the balance of the account if the balance is positive
-	public double interestTransaction(){
-		double interestRate = this.getInterestRate()/100;
-		
-		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
-		double previousEntryGetKey = 0 ;
-		int coef = 0;
-		int previousCoef = 0;
-		
-		System.out.println(balanceHistory);
-
-			for (Entry<Double, Date> entry : balanceHistory) {
-				if (entry.getKey()>0){
-					if (entry.getValue().getDate()<=15) {
-						coef = (24 - (entry.getValue().getMonth()*2))-previousCoef;
-						interestTransaction += ((entry.getKey()) * interestRate * coef)/24;
-						//previousEntryGetKey = entry.getKey();
-						previousCoef = (24 - (entry.getValue().getMonth()*2));
-					}
-					else{
-						coef = (24 - (entry.getValue().getMonth()*2)-1) - previousCoef;
-						interestTransaction += ((entry.getKey()) * interestRate * coef)/24;
-						//previousEntryGetKey = entry.getKey();
-						previousCoef = (24 - (entry.getValue().getMonth()*2)-1);;
-					}
-				}
-			}
-//			for (Transaction transaction : this.transactions) {
-//			if (transaction.getValue()>0){	
-//				if (transaction.getDate().getDate()<=15) {
-//					int coef = (24 - (transaction.getDate().getMonth()*2));
-//					interestTransaction += (transaction.getValue() * interestRate * coef)/24;
-//
-//				}
-//				else{
-//					int coef = (24 - (transaction.getDate().getMonth()*2)-1);
-//					interestTransaction += (transaction.getValue() * interestRate * coef)/24;
-//				}
-//			}
-//		}			
-		return this.interestTransaction;		
-	}
-
-	public double agioTransaction() {
-		for (Transaction transaction : this.transactions) {
-			if (transaction.getValue() < 0) {
-				this.agioTransaction += Double.parseDouble(transaction.interestTransaction());
-			}
-		}
-		return this.agioTransaction;
-	}
+			 * 
+			 * @return a list of couples logging the balance evolution at each
+			 *         day since the account creation until today
+			 * 
+			 *//*
+			 * public List<Entry<Double,Date>> getDailyBalanceHistory() { double
+			 * balance = this.initialBalance; Calendar currentCal = new
+			 * GregorianCalendar(this.creationDate.getYear(),
+			 * this.creationDate.getMonth(), this.creationDate.getDate());
+			 * 
+			 * ArrayList<Transaction> sortedTransactions = new
+			 * ArrayList<>(this.transactions); //sort transaction by
+			 * chronological order ?
+			 * sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
+			 * List<Entry<Double,Date>> result = new ArrayList<>(); //add a
+			 * first entry at account creation result.add(new
+			 * SimpleImmutableEntry<Double, Date>(balance,
+			 * currentCal.getTime()));
+			 * 
+			 * while(!currentDate.equals()){ for (Transaction t :
+			 * sortedTransactions) { if(t.getDate().ge==currentDate){
+			 * currentDate. } } } //add all balance evolutions for (Transaction
+			 * t : sortedTransactions) { balance+=t.getValue(); result.add(new
+			 * SimpleImmutableEntry<Double, Date>(balance,t.getDate())); }
+			 * return result; }
+			 */
 
 	public String getInterestAccountPerYear() {
 		double interestRate = this.getInterestRate() / 100;
 
-		int coef;
-		double interestInitialBalance = 0;
+		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
+		double previousEntryGetKey = 0;
+		int coef = 0;
+		int previousCoef = 0;
 
-		interestTransaction = interestTransaction();
+		this.interestTransaction = 0;
+		for (Entry<Double, Date> entry : balanceHistory) {
 
-		if (this.getInitialBalance() > 0) {
-			Transaction initialBalance = new Transaction("initial balance", this.getInitialBalance(),
-					this.getCreationDate(), new TransactionType("initial Balance"));
-
-			if (initialBalance.getDate().getDate() <= 15) {
-				coef = (24 - (initialBalance.getDate().getMonth() * 2));
-				interestInitialBalance += (initialBalance.getValue() * interestRate * coef) / 24;
-			} else {
-				coef = (24 - (initialBalance.getDate().getMonth() * 2) - 1);
-				interestInitialBalance += (initialBalance.getValue() * interestRate * coef) / 24;
+			if (entry.getKey() > 0) {
+				if (entry.getValue().getDate() <= 15) {
+					coef = (24 - (entry.getValue().getMonth() * 2)) - previousCoef;
+					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
+					previousCoef = (24 - (entry.getValue().getMonth() * 2));
+				} else {
+					coef = (24 - (entry.getValue().getMonth() * 2) - 1) - previousCoef;
+					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
+					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
+					;
+				}
 			}
 		}
-		double totalInterest = interestInitialBalance + interestTransaction;
-		return String.format(Locale.US, "%.2f", totalInterest);
+
+		return String.format(Locale.US, "%.2f", this.interestTransaction);
+
 	}
 
 	public String getAgioAccountPerYear() {
 
 		double agioRate = this.getAgioRate() / 100;
 		double agioTotal = 0;
+		long numOfDayPerAgio = 1;
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-
 		int numOfDays = cal.getActualMaximum(Calendar.DAY_OF_YEAR);
 
-		agioTransaction = agioTransaction();
+		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
 
-		if (this.getInitialBalance() < 0) {
-			Transaction initialBalance = new Transaction("initial balance", this.getInitialBalance(),
-					this.getCreationDate(), new TransactionType("initial Balance"));
-			agioTotal += initialBalance.getValue() * agioRate;
+		for (Entry<Double, Date> entry : balanceHistory) {
+
+			if (balanceHistory.indexOf(entry)+1 < balanceHistory.size()) {
+				Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
+
+				numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime())/(1000*60*60*24);
+			} else {
+
+				numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime())/(1000*60*60*24);
+				
+			}
+			System.out.println(numOfDayPerAgio);
+			if (entry.getKey() < 0) {
+
+				agioTotal += entry.getKey() * agioRate * numOfDayPerAgio;
+			}
 		}
-
-		agioTotal += agioTransaction * agioRate;
+		System.out.println(agioTotal);
 		agioTotal /= numOfDays;
 
 		return String.format(Locale.US, "%.2f", agioTotal);
