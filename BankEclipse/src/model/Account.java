@@ -49,8 +49,8 @@ public class Account implements Serializable {
 	private List<Transaction> transactions;
 	private List<Owner> owners;
 
-	private double interestTransaction = 0;
-	private double agioTransaction = 0;
+	private double interestTransaction;
+	private double agioTransaction;
 
 	public static final Comparator<Account> ALPHABETICAL_COMPARATOR = new Comparator<Account>() {
 
@@ -387,14 +387,17 @@ public class Account implements Serializable {
 		double interestRate = this.getInterestRate() / 100;
 
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
-		double previousEntryGetKey = 0;
+		
 		int coef = 0;
 		int previousCoef = 0;
 
 		this.interestTransaction = 0;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		
 		for (Entry<Double, Date> entry : balanceHistory) {
-
-			if (entry.getKey() > 0) {
+			if (entry.getKey() > 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
 				if (entry.getValue().getDate() <= 15) {
 					coef = (24 - (entry.getValue().getMonth() * 2)) - previousCoef;
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
@@ -425,24 +428,28 @@ public class Account implements Serializable {
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
 
 		for (Entry<Double, Date> entry : balanceHistory) {
-
-			if (balanceHistory.indexOf(entry)+1 < balanceHistory.size()) {
-				Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
-
-				numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime())/(1000*60*60*24);
-			} else {
-
-				numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime())/(1000*60*60*24);
+			
+			if (entry.getKey() < 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
+				if (balanceHistory.indexOf(entry)+1 < balanceHistory.size()) {
+					Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
+	
+					numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime())/(1000*60*60*24);
+				} else {
+	
+					numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime())/(1000*60*60*24);
+					
+				}
+				System.out.println(numOfDayPerAgio);
 				
-			}
-			System.out.println(numOfDayPerAgio);
-			if (entry.getKey() < 0) {
-
 				agioTotal += entry.getKey() * agioRate * numOfDayPerAgio;
 			}
 		}
-		System.out.println(agioTotal);
+
 		agioTotal /= numOfDays;
+		
+		if (agioTotal!=0){
+			agioTotal*=-1;
+		}
 
 		return String.format(Locale.US, "%.2f", agioTotal);
 	}
