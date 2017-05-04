@@ -338,6 +338,15 @@ public class Account implements Serializable {
 			balance += t.getValue();
 			result.add(new SimpleImmutableEntry<Double, Date>(balance, t.getDate()));
 		}
+		
+		//to sort the balanceHystory by date !
+		result.sort(new Comparator<Entry<Double, Date>>() {
+
+			@Override
+			public int compare(Entry<Double, Date> o1, Entry<Double, Date> o2) {
+				return o1.getValue().compareTo(o2.getValue());
+			}
+		});
 		return result;
 	}
 
@@ -382,10 +391,9 @@ public class Account implements Serializable {
 		double previousEntryGetKey = 0 ;
 		int coef = 0;
 		int previousCoef = 0;
-				
-		System.out.println(balanceHistory);
-		//to sort the balanceHystory by date !
 		
+		System.out.println(balanceHistory);
+
 			for (Entry<Double, Date> entry : balanceHistory) {
 				if (entry.getKey()>0){
 					if (entry.getValue().getDate()<=15) {
