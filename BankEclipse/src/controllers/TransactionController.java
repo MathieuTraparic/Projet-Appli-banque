@@ -1,5 +1,8 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,12 +28,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import model.Account;
+import model.AccountType;
+import model.Agency;
 import model.Category;
+import model.CountryCode;
 import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
@@ -57,7 +65,7 @@ public class TransactionController extends AccountSelector {
 	public TableColumn<Transaction, Category> categoryCol;
 
 	@FXML
-	private Button addTransaction;
+	private Button addTransaction, importButton, exportButton;
 
 	@FXML
 	private Button editTransaction;
@@ -66,7 +74,7 @@ public class TransactionController extends AccountSelector {
 	private Button removeTransaction;
 	
 	@FXML
-	private Label balanceLabel, balanceNumberLabel, alertLabel, interestLabel;
+	private Label balanceLabel, balanceNumberLabel, alertLabel;
 
 	private ObservableList<Transaction> dataTransactionRow = null;
 	
@@ -81,7 +89,6 @@ public class TransactionController extends AccountSelector {
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
-		interestLabel.setVisible(false);
 		
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 
@@ -170,11 +177,12 @@ public class TransactionController extends AccountSelector {
 	void accountCombo(ActionEvent event) throws IOException {
 
 		this.addTransaction.setDisable(this.accountCombo.getValue() == null);
+		this.importButton.setDisable(this.accountCombo.getValue() == null);
+		this.exportButton.setDisable(this.accountCombo.getValue() == null);
 		
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
-		interestLabel.setVisible(false);
 		
 		if (this.accountCombo.getValue() != null) {
 			
@@ -389,5 +397,40 @@ public class TransactionController extends AccountSelector {
 		}
 
 	}
+	
 
+	@FXML
+	void handleImport(ActionEvent event) throws IOException {
+	
+	}
+	
+	//TODO nullpointerExecption when the window to choose 
+	@FXML
+	void handleExport(ActionEvent event) throws IOException {
+	
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File selectedDirectory = 
+				directoryChooser.showDialog((Stage) exportButton.getScene().getWindow());
+		List<Transaction> transactions = accountCombo.getValue().getTransactions();
+		transactions.size();
+		
+		try {
+			FileWriter fw = new FileWriter(new File(selectedDirectory.getAbsolutePath(), 
+					accountCombo.getValue().getDescription() + ".csv"));
+			for(Transaction l : transactions){
+				//oos.writeChars(l.formatString());
+				fw.write(l.formatString());
+				fw.flush();
+			}
+			fw.close();
+		} catch (FileNotFoundException e) {
+
+		} catch (IOException e) {
+
+		}
+
+		
+		
+	
+	}
 }

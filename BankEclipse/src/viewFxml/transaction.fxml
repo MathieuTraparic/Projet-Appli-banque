@@ -59,7 +59,7 @@
 						</TableColumn>
 					</columns>
 				</TableView>
-				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0"   onAction="#accountCombo" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />
+				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0" onAction="#accountCombo" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />
 				<ComboBox fx:id="bankCombo" layoutX="16.0" layoutY="37.0" onMouseClicked="#bankComboClicked" prefHeight="25.0" prefWidth="157.0" promptText="Choose your bank" AnchorPane.leftAnchor="16.0" />
 				<ScrollBar layoutX="780.0" layoutY="88.0" orientation="VERTICAL" prefHeight="333.0" prefWidth="14.0" />
 				<Button fx:id="addTransaction" disable="true" layoutX="670.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleAddTransaction" text="Add a transaction" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0" />
@@ -75,11 +75,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="interestLabel" layoutX="571.0" layoutY="38.0" text="0.00">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
+            <Button fx:id="exportButton" disable="true" layoutX="544.0" layoutY="37.0" mnemonicParsing="false" onAction="#handleExport" text="Export all" />
+            <Button fx:id="importButton" disable="true" layoutX="386.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleImport" text="Import" />
 			</children>
 		</AnchorPane>
       <Label fx:id="alertLabel" alignment="CENTER" layoutX="260.0" layoutY="445.0" text="The balance is below the threshold !" textAlignment="CENTER" textFill="RED">

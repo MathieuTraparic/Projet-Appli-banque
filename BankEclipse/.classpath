@@ -41,5 +41,8 @@
 	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.5.jar"/>
+	<classpathentry kind="lib" path="lib/opencsv-3.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
