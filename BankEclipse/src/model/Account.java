@@ -383,6 +383,10 @@ public class Account implements Serializable {
 			 * return result; }
 			 */
 
+	/**
+	 * @return go through the balance history and select if the balance is positive and of the current year, 
+	 * calculate the interest (every 15 days)	
+	 */
 	public String getInterestAccountPerYear() {
 		double interestRate = this.getInterestRate() / 100;
 
@@ -395,16 +399,20 @@ public class Account implements Serializable {
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		
+
 		for (Entry<Double, Date> entry : balanceHistory) {
 			if (entry.getKey() > 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
 				if (entry.getValue().getDate() <= 15) {
 					coef = (24 - (entry.getValue().getMonth() * 2)) - previousCoef;
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
+					
+					//keep in memory the previous coef to know the next one 
 					previousCoef = (24 - (entry.getValue().getMonth() * 2));
 				} else {
 					coef = (24 - (entry.getValue().getMonth() * 2) - 1) - previousCoef;
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
+					
+					//keep in memory the previous coef to know the next one 
 					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
 					;
 				}
@@ -415,6 +423,10 @@ public class Account implements Serializable {
 
 	}
 
+	/**
+	 * @return	go through the balance history and select if the balance is negative
+	 * and of the current year, calculate the agios
+	 */
 	public String getAgioAccountPerYear() {
 
 		double agioRate = this.getAgioRate() / 100;
@@ -426,11 +438,14 @@ public class Account implements Serializable {
 		int numOfDays = cal.getActualMaximum(Calendar.DAY_OF_YEAR);
 
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
+		
 
 		for (Entry<Double, Date> entry : balanceHistory) {
 			
 			if (entry.getKey() < 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
+				
 				if (balanceHistory.indexOf(entry)+1 < balanceHistory.size()) {
+					//date of the next entry in balanceHistory
 					Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
 	
 					numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime())/(1000*60*60*24);
@@ -439,14 +454,14 @@ public class Account implements Serializable {
 					numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime())/(1000*60*60*24);
 					
 				}
-				System.out.println(numOfDayPerAgio);
-				
+
 				agioTotal += entry.getKey() * agioRate * numOfDayPerAgio;
 			}
 		}
 
 		agioTotal /= numOfDays;
 		
+		//agioTotal as positive number
 		if (agioTotal!=0){
 			agioTotal*=-1;
 		}
