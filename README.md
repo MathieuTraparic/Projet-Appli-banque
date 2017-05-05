@@ -27,7 +27,9 @@ Fonctionalités manquantes :
 - filtrer les opérations affichés
 - tests à étoffer, utilisation de mockups
 - utilisation d'interfaces
-Design pattern à rajouter ? 
+
+Design pattern à rajouter ?
+ 
 - wrapper sur BankSelector et AccountSelector
 - mediator au lieu d'un singleton VistaNavigator
 
