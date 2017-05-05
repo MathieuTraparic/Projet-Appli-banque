@@ -1,4 +1,4 @@
-# Projet-Appli-banque
+﻿# Projet-Appli-banque
 
 Fonctionnalités implémentés :
 - afficher les comptes avec leur solde actuel
@@ -25,11 +25,12 @@ Fonctionalités manquantes :
 - gestion des transactions périodiques
 - importer des données
 - filtrer les opérations affichés
-- design pattern à rajouter ? 
-	-wrapper sur BankSelector et AccountSelector
-	-mediator au lieu d'un singleton VistaNavigator
--tests à étoffer, utilisation de mockups
--utilisation d'interfaces
+- tests à étoffer, utilisation de mockups
+- utilisation d'interfaces
+Design pattern à rajouter ? 
+- wrapper sur BankSelector et AccountSelector
+- mediator au lieu d'un singleton VistaNavigator
+
 
 	
 
