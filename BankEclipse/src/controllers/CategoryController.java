@@ -111,7 +111,7 @@ public class CategoryController implements Initializable, Refreshable {
 		this.pieChart.setData(pieChartData);
 		
 		for (PieChart.Data data : pieChartData) {
-			data.setName(data.getName()+" "+ String.valueOf(data.getPieValue()) + "%");
+			data.setName(data.getName()+" "+ String.format("%.2f",data.getPieValue())+ "%");
 		    data.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED,
 		        new EventHandler<MouseEvent>() {
 		            @Override public void handle(MouseEvent e) {
