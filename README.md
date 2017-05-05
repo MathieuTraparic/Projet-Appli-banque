@@ -1,4 +1,4 @@
-# Projet-Appli-banque
+﻿# Projet-Appli-banque
 
 Fonctionnalités implémentés :
 - afficher les comptes avec leur solde actuel
@@ -16,20 +16,23 @@ Fonctionnalités implémentés :
 - listeners, callback
 - passage de données entre fenêtres (popup/view)
 - javadoc
-
-Fonctionalités manquantes :
 - gestion des intérets 
 - gestion des alertes
 - gestion des agios
+
+Fonctionalités manquantes :
+
 - gestion des transactions périodiques
 - importer des données
 - filtrer les opérations affichés
-- les données des comboBox ne se raffraichissent qu'après logout/login
-- design pattern à rajouter ? 
-	-wrapper sur BankSelector et AccountSelector
-	-mediator au lieu d'un singleton VistaNavigator
--tests à étoffer, utilisation de mockups
--utilisation d'interfaces
+- tests à étoffer, utilisation de mockups
+- utilisation d'interfaces
+
+Design pattern à rajouter ?
+ 
+- wrapper sur BankSelector et AccountSelector
+- mediator au lieu d'un singleton VistaNavigator
+
 
 	
 
