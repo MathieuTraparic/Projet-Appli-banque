@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +14,11 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.apache.commons.beanutils.converters.DoubleConverter;
+
+import com.opencsv.CSVReader;
 
 import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
@@ -29,16 +35,14 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
-import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import model.Account;
-import model.AccountType;
-import model.Agency;
 import model.Category;
-import model.CountryCode;
+import model.Owner;
 import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
@@ -72,24 +76,24 @@ public class TransactionController extends AccountSelector {
 
 	@FXML
 	private Button removeTransaction;
-	
+
 	@FXML
 	private Label balanceLabel, balanceNumberLabel, alertLabel;
 
 	private ObservableList<Transaction> dataTransactionRow = null;
-	
+
 	private String overAndTresholdAlert = "The balance is below the overdraft limit \n and the threshold! Carefull!";
 	private String overAlert = "The balance is below the overdraft limit! \n U gonna pay!";
-	private String thresholdAlert ="The balance is below the threshold!";
+	private String thresholdAlert = "The balance is below the threshold!";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
-		
+
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
-		
+
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -97,7 +101,7 @@ public class TransactionController extends AccountSelector {
 		List<TargetTransaction> targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		List<Category> categoryList = em.createNamedQuery("Category.findAll").getResultList();
 		em.close();
-		
+
 		/*
 		 * Necessary because target and category can be null in the db
 		 */
@@ -111,13 +115,11 @@ public class TransactionController extends AccountSelector {
 		this.addTransaction.setDisable(true);
 
 		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		
+
 		typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
 		targetCol.setCellFactory(ComboBoxTableCell.forTableColumn(targetStringList));
 		categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
 
-		
-		
 		/*
 		 * AUTHOR :
 		 * http://blog.physalix.com/javafx8-render-a-datepicker-cell-in-a-
@@ -129,9 +131,9 @@ public class TransactionController extends AccountSelector {
 		 * case, the date picker will be changed to just a string column
 		 */
 		dataTransactionRow = dateCol.getTableView().getItems();
-		
+
 		dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
-		
+
 		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
 			@Override
 			public TableCell call(TableColumn p) {
@@ -139,17 +141,18 @@ public class TransactionController extends AccountSelector {
 				return datePick;
 			}
 		});
-		
+
 		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
 			editTransaction.setDisable(obschanged == null);
 			removeTransaction.setDisable(obschanged == null);
-			
-//			if ( obschanged != null){
-//				String interest = tableTransaction.getSelectionModel().getSelectedItem().interestTransaction();
-//				
-//				interestLabel.setText(interest);
-//				interestLabel.setVisible(true);
-//			}
+
+			// if ( obschanged != null){
+			// String interest =
+			// tableTransaction.getSelectionModel().getSelectedItem().interestTransaction();
+			//
+			// interestLabel.setText(interest);
+			// interestLabel.setVisible(true);
+			// }
 		});
 
 		// Getting the new date value is still problematic
@@ -167,9 +170,9 @@ public class TransactionController extends AccountSelector {
 
 		targetCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
 				.setTargetTransaction(t.getNewValue()));
-		
-		categoryCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setCategory(t.getNewValue()));
+
+		categoryCol.setOnEditCommit(
+				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setCategory(t.getNewValue()));
 
 	}
 
@@ -179,49 +182,46 @@ public class TransactionController extends AccountSelector {
 		this.addTransaction.setDisable(this.accountCombo.getValue() == null);
 		this.importButton.setDisable(this.accountCombo.getValue() == null);
 		this.exportButton.setDisable(this.accountCombo.getValue() == null);
-		
+
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
-		
+
 		if (this.accountCombo.getValue() != null) {
-			
+
 			balanceLabel.setVisible(true);
 			balanceNumberLabel.setVisible(true);
-			
-			
+
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
-			
-			Double balance = this.accountCombo.getValue().getBalance();			
+
+			Double balance = this.accountCombo.getValue().getBalance();
 			balanceNumberLabel.setText(balance.toString());
-			
+
 			Double alert = this.accountCombo.getValue().getAlertThreshold();
-			
+
 			Double overdraft = this.accountCombo.getValue().getOverdraft();
-			
 
 			if (alert != null && balance <= alert) {
 				alertLabel.setText(thresholdAlert);
 				alertLabel.setVisible(true);
 			}
-			if (overdraft != null  && balance <= overdraft){
+			if (overdraft != null && balance <= overdraft) {
 				alertLabel.setText(overAlert);
 				alertLabel.setVisible(true);
 			}
-			if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+			if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
 				alertLabel.setText(overAndTresholdAlert);
 				alertLabel.setVisible(true);
 			}
 
 		}
-		
 
 	}
 
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
-		
+
 		alertLabel.setVisible(false);
 
 		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
@@ -240,7 +240,6 @@ public class TransactionController extends AccountSelector {
 
 							transaction.setPeriodicTransaction(null);
 
-
 							EntityManager em = VistaNavigator.getEmf().createEntityManager();
 							em.getTransaction().begin();
 							em.persist(transaction);
@@ -254,27 +253,25 @@ public class TransactionController extends AccountSelector {
 							tableTransaction.getColumns().forEach(col -> {
 								col.setVisible(false);
 								col.setVisible(true);
-								
-								
+
 							});
 
-							Double balance = accountCombo.getValue().getBalance();			
+							Double balance = accountCombo.getValue().getBalance();
 							balanceNumberLabel.setText(balance.toString());
-							
+
 							Double alert = accountCombo.getValue().getAlertThreshold();
-							
+
 							Double overdraft = accountCombo.getValue().getOverdraft();
-							
 
 							if (alert != null && balance <= alert) {
 								alertLabel.setText(thresholdAlert);
 								alertLabel.setVisible(true);
 							}
-							if (overdraft != null  && balance <= overdraft){
+							if (overdraft != null && balance <= overdraft) {
 								alertLabel.setText(overAlert);
 								alertLabel.setVisible(true);
 							}
-							if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+							if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
 								alertLabel.setText(overAndTresholdAlert);
 								alertLabel.setVisible(true);
 							}
@@ -288,7 +285,7 @@ public class TransactionController extends AccountSelector {
 
 	@FXML
 	void removeTransaction(ActionEvent event) {
-		
+
 		alertLabel.setVisible(false);
 
 		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
@@ -314,24 +311,23 @@ public class TransactionController extends AccountSelector {
 
 		removeTransaction.setDisable(true);
 		editTransaction.setDisable(true);
-		
-		Double balance = this.accountCombo.getValue().getBalance();			
+
+		Double balance = this.accountCombo.getValue().getBalance();
 		balanceNumberLabel.setText(balance.toString());
-		
+
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
-		
+
 		Double overdraft = this.accountCombo.getValue().getOverdraft();
-		
 
 		if (alert != null && balance <= alert) {
 			alertLabel.setText(thresholdAlert);
 			alertLabel.setVisible(true);
 		}
-		if (overdraft != null  && balance <= overdraft){
+		if (overdraft != null && balance <= overdraft) {
 			alertLabel.setText(overAlert);
 			alertLabel.setVisible(true);
 		}
-		if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+		if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
 			alertLabel.setText(overAndTresholdAlert);
 			alertLabel.setVisible(true);
 		}
@@ -340,7 +336,7 @@ public class TransactionController extends AccountSelector {
 
 	@FXML
 	void editTransaction(ActionEvent event) {
-		
+
 		alertLabel.setVisible(false);
 
 		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
@@ -349,7 +345,7 @@ public class TransactionController extends AccountSelector {
 
 		Query q = em.createQuery("UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
 				+ "a.transactionType=:transactionType, a.category=:category, a.targetTransaction=:targetTransaction WHERE a.id=:id");
-		
+
 		em.getTransaction().begin();
 
 		q.setParameter("id", transactionUpdate.getId());
@@ -374,51 +370,114 @@ public class TransactionController extends AccountSelector {
 		});
 
 		editTransaction.setDisable(true);
-		
-		Double balance = this.accountCombo.getValue().getBalance();			
+
+		Double balance = this.accountCombo.getValue().getBalance();
 		balanceNumberLabel.setText(balance.toString());
-		
+
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
-		
+
 		Double overdraft = this.accountCombo.getValue().getOverdraft();
-		
 
 		if (alert != null && balance <= alert) {
 			alertLabel.setText(thresholdAlert);
 			alertLabel.setVisible(true);
 		}
-		if (overdraft != null  && balance <= overdraft){
+		if (overdraft != null && balance <= overdraft) {
 			alertLabel.setText(overAlert);
 			alertLabel.setVisible(true);
 		}
-		if (alert != null  && overdraft != null  && balance <= overdraft && balance <= alert){
+		if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
 			alertLabel.setText(overAndTresholdAlert);
 			alertLabel.setVisible(true);
 		}
 
 	}
-	
 
+	/**
+	 * @result Import data from LA BANQUE POSTALE transaction detail with CSV file
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	void handleImport(ActionEvent event) throws IOException {
-	
+
+		FileChooser fileChooser = new FileChooser();
+		File selectedCSV = fileChooser.showOpenDialog((Stage) importButton.getScene().getWindow());
+		List<Transaction> transactions;
+
+		try {
+			// ; is the separator, ' ' is the quote and 8 means that the first 8 lines are not read
+			CSVReader reader = new CSVReader(new FileReader(selectedCSV.toString()), ';');
+			
+			
+			//List list = reader.readAll();
+			
+			String[] nextLine;
+			
+			for (int i = 0; i < 8; i++) {
+				nextLine = reader.readNext();
+			}
+			
+			
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+							
+			
+			while ((nextLine = reader.readNext()) != null) {
+				// nextLine[] is an array of values from the line
+				
+				String val = nextLine[2];
+				
+				val = val.replaceAll(",", ".");
+				double value = Double.parseDouble(val);
+				
+				Transaction transaction  = new Transaction(nextLine[1], value, 
+				Calendar.getInstance().getTime(), new TransactionType("to define"));
+			
+				List<TransactionType> transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
+				
+				for (TransactionType transactionT : transactionType) {
+					if (transactionT.getDescription().equals("to define")){
+						transaction.setTransactionType(transactionT);
+					}
+				}
+				transaction.setAccount(accountCombo.getValue());
+				transaction.setPeriodicTransaction(null);
+				transaction.setCategory(null);
+				transaction.setTargetTransaction(null);	
+				
+				em.getTransaction().begin();
+
+				em.persist(transaction);
+				em.getTransaction().commit();
+				
+				
+			}
+			
+			em.close();
+			
+		} catch (FileNotFoundException e) {
+
+		} catch (IOException e) {
+
+		} catch (NullPointerException e) {
+
+		}
+		
 	}
-	
-	//TODO nullpointerExecption when the window to choose 
+
+	// TODO nullpointerExecption when the window to choose
 	@FXML
 	void handleExport(ActionEvent event) throws IOException {
-	
+
 		DirectoryChooser directoryChooser = new DirectoryChooser();
-		File selectedDirectory = 
-				directoryChooser.showDialog((Stage) exportButton.getScene().getWindow());
+		File selectedDirectory = directoryChooser.showDialog((Stage) exportButton.getScene().getWindow());
 		List<Transaction> transactions = accountCombo.getValue().getTransactions();
-		transactions.size();
-		
+
 		try {
-			FileWriter fw = new FileWriter(new File(selectedDirectory.getAbsolutePath(), 
-					accountCombo.getValue().getDescription() + ".csv"));
-			for(Transaction l : transactions){
-				//oos.writeChars(l.formatString());
+			FileWriter fw = new FileWriter(
+					new File(selectedDirectory.getAbsolutePath(), accountCombo.getValue().getDescription() + ".csv"));
+			for (Transaction l : transactions) {
+				// oos.writeChars(l.formatString());
 				fw.write(l.formatString());
 				fw.flush();
 			}
@@ -427,10 +486,10 @@ public class TransactionController extends AccountSelector {
 
 		} catch (IOException e) {
 
+		} catch (NullPointerException e) {
+
 		}
 
-		
-		
-	
 	}
+
 }

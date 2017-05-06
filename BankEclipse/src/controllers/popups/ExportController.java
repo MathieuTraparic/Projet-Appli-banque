@@ -64,6 +64,8 @@ public class ExportController extends PopupController<Account> implements Initia
 
 		} catch (IOException e) {
 
+		} catch (NullPointerException e) {
+
 		}
 		Stage stage = (Stage) exportCancel.getScene().getWindow();
 		stage.close();
