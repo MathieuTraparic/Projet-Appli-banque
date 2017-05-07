@@ -6,10 +6,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
@@ -47,6 +51,7 @@ import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
+import sun.security.jca.GetInstance;
 import util.DatePickerCell;
 
 public class TransactionController extends AccountSelector {
@@ -85,6 +90,7 @@ public class TransactionController extends AccountSelector {
 	private String overAndTresholdAlert = "The balance is below the overdraft limit \n and the threshold! Carefull!";
 	private String overAlert = "The balance is below the overdraft limit! \n U gonna pay!";
 	private String thresholdAlert = "The balance is below the threshold!";
+	private DecimalFormat formatter = new DecimalFormat("%.2f");
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -196,7 +202,8 @@ public class TransactionController extends AccountSelector {
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
 
 			Double balance = this.accountCombo.getValue().getBalance();
-			balanceNumberLabel.setText(balance.toString());
+			
+			balanceNumberLabel.setText(formatter.format(balance));
 
 			Double alert = this.accountCombo.getValue().getAlertThreshold();
 
@@ -257,7 +264,8 @@ public class TransactionController extends AccountSelector {
 							});
 
 							Double balance = accountCombo.getValue().getBalance();
-							balanceNumberLabel.setText(balance.toString());
+							
+							balanceNumberLabel.setText(formatter.format(balance));
 
 							Double alert = accountCombo.getValue().getAlertThreshold();
 
@@ -313,7 +321,8 @@ public class TransactionController extends AccountSelector {
 		editTransaction.setDisable(true);
 
 		Double balance = this.accountCombo.getValue().getBalance();
-		balanceNumberLabel.setText(balance.toString());
+
+		balanceNumberLabel.setText(formatter.format(balance));
 
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
 
@@ -372,7 +381,8 @@ public class TransactionController extends AccountSelector {
 		editTransaction.setDisable(true);
 
 		Double balance = this.accountCombo.getValue().getBalance();
-		balanceNumberLabel.setText(balance.toString());
+		
+		balanceNumberLabel.setText(formatter.format(balance));
 
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
 
@@ -418,6 +428,7 @@ public class TransactionController extends AccountSelector {
 				nextLine = reader.readNext();
 			}
 			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
 							
@@ -425,13 +436,22 @@ public class TransactionController extends AccountSelector {
 			while ((nextLine = reader.readNext()) != null) {
 				// nextLine[] is an array of values from the line
 				
-				String val = nextLine[2];
-				
+				String val = nextLine[2];				
 				val = val.replaceAll(",", ".");
 				double value = Double.parseDouble(val);
 				
+				Date dateT = Calendar.getInstance().getTime();
+				try {
+					dateT = formatter.parse(nextLine[0]);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println(dateT);
+				
 				Transaction transaction  = new Transaction(nextLine[1], value, 
-				Calendar.getInstance().getTime(), new TransactionType("to define"));
+				dateT , new TransactionType("to define"));
 			
 				List<TransactionType> transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
 				
