@@ -103,8 +103,24 @@ public class TemplateController implements Initializable {
 	}
 
 	@FXML
-	void handleChangePassword(ActionEvent event) {
-		// TODO
+	void handleChangePassword(ActionEvent event) throws IOException {
+		Owner owner = VistaNavigator.getInstance().getLoggedOwner();
+		PopupController<Owner> controller = PopupController.load(VistaNavigator.NEW_PSWD, false);
+		controller.show(owner, new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Owner o = controller.getValidatedData();
+				if (o != null) {
+					String newPswd = o.getPswd();
+					owner.setLogin(newPswd);
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+					em.getTransaction().begin();
+					em.merge(owner);
+					em.getTransaction().commit();
+					em.close();
+				}
+			}
+		});
 	}
 
 	@FXML

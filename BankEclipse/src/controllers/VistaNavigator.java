@@ -31,6 +31,7 @@ public class VistaNavigator {
 	public static final String NEW_USER_GUIDE = "/viewFxml/newUserGuide.fxml";
 	public static final String EXPORT = "/viewFxml/ExportTransaction.fxml";
 	public static final String NEW_LOGIN = "/viewFxml/newLogin.fxml";
+	public static final String NEW_PSWD = "/viewFxml/newPswd.fxml";
 
 	/** The main application layout controller. */
 	private static MainController mainController;
