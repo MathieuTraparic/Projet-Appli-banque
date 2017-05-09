@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="styles/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+</head>
+
+<body>
+    <header>
+        <img src="images/icon2.png" alt="image">
+        <h2>Home</h2>
+    </header>
+    <nav>
+        <a href="home.html">accueuil</a>
+        <a href="page1.html">page1</a>
+        <a href="page2.html">page2</a>
+    </nav>
+    <h3>saisie d'opération</h3>
+    <!-- method = POST ou GET(in adress bar), action = page that'll proccess the data' -->
+    <form method="POST" action="">
+        <div>
+            <p>type d'operation</p>
+            Debit :<input type="radio" name "rdType" checked="checked"> Crédit :<input type="radio" name "rdType"/>
+        </div>
+        <div>
+            <p>libellé d'operation</p>
+            <input type="text" name="label" placeholder="label" />
+        </div>
+        <div>
+            <p>Description</p>
+            <textarea name="description" id="" cols="30" rows="5">description du compte</textarea>
+        </div>
+        <div>
+            <!-- multiple="multiple" size="10" -->
+            Compte :<select name="" id="">
+                <option value="idcompte1">compte1</option>
+                <option value="idcompte2">compte2</option>
+            </select>
+        </div>
+        <div>
+            Montant :<input type="number" name "ammount" step="0.01" min="0"/> euros
+        </div>
+        <div>
+            Date : <select name="day" id="">
+                <option value="">1</option>
+                <option value="">2</option>
+                </select><select name="month" id=""></select><select name="year" id=""></select>
+        </div>
+        <fieldset>
+            <legend>Periodique :<input type="checkbox" name="checkP"></legend>
+            Mensuel :<input type="radio" name="rdPeriod"/> Trimestriel :<input type="radio" name="rdPeriod"/> Annuel :<input
+                type="radio" name="rdPeriod"/>
+        </fieldset>
+        <div class="buttonDiv">
+            <input type="submit" value="submit" />
+            <input type="reset" value="cancel">
+        </div>
+
+    </form>
+</body>
+
+</html>

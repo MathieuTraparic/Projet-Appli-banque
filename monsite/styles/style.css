@@ -1,0 +1,112 @@
+/**
+selecteur de balise
+selecteur de classe
+selecteur d'id
+*/
+
+/** all ellement in doc */
+/* @font to use a custom font that'll be downloaded to enduser*/
+html,body,*{
+    /* try each font until one is found on the end user machine*/
+    font-family: Verdana, Geneva, Tahoma, sans-serif, Courier New;
+    font-size: 1em;
+    /*1em = system default size*/
+    font-style: italic;
+    color: black;
+    text-transform:capitalize;
+    text-decoration : yellow;
+}
+
+header{
+    text-align: center;
+    font-size: 24px;
+    border: solid 1px grey;
+    height: 200px;
+}
+
+/* > = enfant direct
+    espace = dans la descendance*/
+article>header{
+    border: none;
+    font-size: 18px;
+    color: white;
+    background-color: maroon;
+}
+
+header>img{
+    width: 120px;
+    height: 120px; 
+    /*top right bottom left*/
+    margin: 40px 0 40px 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+header>h2{
+    width: 120px;
+    display: inline-block;
+}
+
+nav {
+    width: 800px;
+    text-align: center;
+    margin: 10px auto;
+}
+
+nav a{
+    margin: 0 10px;
+    color: #0FCCAA;
+}
+/*: = pseudo selecteur, état d'éléments*/
+a:link,a:visited,a:active{
+    text-decoration: none;
+}
+
+#div1{
+    width: 200px;
+    display: inline-block;
+}
+
+#div2{
+    width: 600px;
+    display: inline-block;
+    vertical-align: top;/*top, middle, bottom*/
+}
+
+td,th{
+  border: 1px solid black;
+
+}
+table{
+    border-collapse: collapse;
+}
+table img{
+    height: 30px;
+}
+
+#total{
+    border :2px dotted red;
+}
+#tdVide{
+    border-left: none;
+    border-bottom : none;
+}
+
+form {
+    width: 400px;
+    border: 1px solid grey;
+    padding-left: 20px;
+    margin: 0 auto;
+}
+
+div.buttonDiv{
+    text-align: center;
+}
+
+form>div, form>fieldset{
+    margin: 20px;
+}
+
+form textarea, input[type="text"]{
+    width :100%;
+}
