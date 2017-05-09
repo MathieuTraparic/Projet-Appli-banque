@@ -387,6 +387,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				EntityManager em = VistaNavigator.getEmf().createEntityManager();
 				
 				//TODO calculate the number of repetition
+				//TODO add columm on transaction controller to see the end date of the periodic transaction
 				
 				PeriodicTransaction periodicTransaction = new PeriodicTransaction(
 						DateConverter.LocalDate2Date(endDatePicker.getValue()), 3, frequencyComboBox.getValue());
@@ -411,7 +412,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				this.getData().setValue(val);
 				this.getData().setDescription(des);
 				this.getData().setTransactionType(transactionType);
-				this.getData().setPeriodicTransaction(null);
+
 				this.setAsValidated();
 				Stage stage = (Stage) transactionCancel.getScene().getWindow();
 				stage.close();
