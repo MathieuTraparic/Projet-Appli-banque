@@ -2,7 +2,9 @@ package controllers.popups;
 
 import java.net.URL;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,11 +17,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import model.Account;
 import model.Category;
+import model.Owner;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
@@ -146,6 +152,28 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			newCatgoryTextField.setDisable(b);
 			categoryParentCombo.setDisable(b);
 		});
+		
+		/*
+		 * modify the date picker in a way that all date in the previous to the account creation date are disable and with a red background
+		 */
+		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+			
+			@Override
+			public DateCell call(final DatePicker datePicker) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+
+						if (item.isBefore(DateConverter.DateToLocalDate(getData().getAccount().getCreationDate()))) {
+							setDisable(true);
+							setStyle("-fx-background-color: #ffc0cb;");
+						}
+					}
+				};
+			}
+		};
+		datePicker.setDayCellFactory(dayCellFactory);
 	}
 
 	@Override
