@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -25,7 +26,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Account;
 import model.Category;
+import model.Frequency;
 import model.Owner;
+import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
@@ -33,8 +36,7 @@ import util.DateConverter;
 import util.Validator;
 
 /**
- * @author Group
- * This controller allow to create a new Transaction
+ * @author Group This controller allow to create a new Transaction
  */
 public class AddTransactionController extends PopupController<Transaction> implements Initializable {
 
@@ -44,10 +46,11 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public TextField descriptionTextField, valueTextField, newTargetIBANTextField, newTargetSummaryTextField,
 			newCatgoryTextField;
 	@FXML
-	public DatePicker datePicker;
+	public DatePicker datePicker, effectiveDatePicker, endDatePicker;
 	@FXML
 	public Label descriptionError, typeError, valueError, categoryOther, targetOther, dateError, IBANTargetError,
-			descriptionTargetError, categoryNameError;
+			descriptionTargetError, categoryNameError, effectiveLabel, endDateLabel, effectiveDateError, endDateError,
+			frequencyError;
 	@FXML
 	public ComboBox<TransactionType> typeCombo;
 	@FXML
@@ -56,10 +59,15 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	public ComboBox<Category> categoryParentCombo;
 	@FXML
 	public ComboBox<TargetTransaction> targetCombo;
+	@FXML
+	public ComboBox<Frequency> frequencyComboBox;
+	@FXML
+	public CheckBox periodicTransactionCheckBox;
 
 	private List<TransactionType> transactionType;
 	private List<Category> categoryList;
 	private List<TargetTransaction> targetList;
+	private List<Frequency> frequencyList;
 	private List<Label> errorLabels;
 	private List<TextField> newTextfields;
 
@@ -67,6 +75,24 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	private static final String NEW_CATEGORY = "New category";
 	private static final String NEW_TYPE = "New type";
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
+	 * java.util.ResourceBundle)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -75,8 +101,9 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
 		categoryList = em.createNamedQuery("Category.findAll").getResultList();
 		targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
+		frequencyList = em.createNamedQuery("Frequency.findAll").getResultList();
 		em.close();
-		
+
 		TransactionType otherType = new TransactionType(NEW_TYPE);
 		Category otherCategory = new Category(NEW_CATEGORY);
 		TargetTransaction otherTarget = new TargetTransaction(NEW_TARGET);
@@ -99,9 +126,10 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		}
 		targetCombo.getItems().add(otherTarget);
 
-		for (Category t : categoryList) {
-			categoryParentCombo.getItems().add(t);
+		for (Frequency t : frequencyList) {
+			frequencyComboBox.getItems().add(t);
 		}
+
 		/*
 		 * Setting all the errorLabels and the items to create a new target or
 		 * category to non-visible
@@ -115,9 +143,13 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				add(IBANTargetError);
 				add(descriptionTargetError);
 				add(categoryNameError);
+				add(frequencyError);
+				add(effectiveDateError);
+				add(endDateError);
 			}
 		};
 		errorLabels.forEach(label -> label.setVisible(false));
+
 		targetOther.setVisible(false);
 		categoryOther.setVisible(false);
 
@@ -130,10 +162,21 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		};
 		newTextfields.forEach(textfield -> textfield.setDisable(true));
 		categoryParentCombo.setDisable(true);
+
 		/*
 		 * Listener on the combo box to know if a new category or target or type
 		 * should be added
 		 */
+
+		periodicTransactionCheckBox.selectedProperty().addListener((obs, oldV, newV) -> {
+			boolean b = !newV;
+			effectiveDatePicker.setDisable(b);
+			effectiveLabel.setDisable(b);
+			frequencyComboBox.setDisable(b);
+			endDatePicker.setDisable(true);
+			endDateLabel.setDisable(true);
+			datePicker.setDisable(!b);
+		});
 
 		typeCombo.valueProperty().addListener((obs, oldV, newV) -> {
 			boolean b = !newV.getDescription().equals(NEW_TYPE);
@@ -152,12 +195,13 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			newCatgoryTextField.setDisable(b);
 			categoryParentCombo.setDisable(b);
 		});
-		
+
 		/*
-		 * modify the date picker in a way that all date in the previous to the account creation date are disable and with a red background
+		 * modify the date picker in a way that all date in the previous to the
+		 * account creation date are disable and with a red background
 		 */
 		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
-			
+
 			@Override
 			public DateCell call(final DatePicker datePicker) {
 				return new DateCell() {
@@ -173,7 +217,41 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				};
 			}
 		};
+
 		datePicker.setDayCellFactory(dayCellFactory);
+		effectiveDatePicker.setDayCellFactory(dayCellFactory);
+
+		/*
+		 * check that the first datepicker as a selected date and set the second
+		 * datepicker with the previous dates to the one firstly selected
+		 * disabled
+		 */
+		effectiveDatePicker.valueProperty().addListener((obs, oldV, newV) -> {
+
+			final Callback<DatePicker, DateCell> dayCellFactory2 = new Callback<DatePicker, DateCell>() {
+
+				@Override
+				public DateCell call(final DatePicker datePicker) {
+					return new DateCell() {
+						@Override
+						public void updateItem(LocalDate item, boolean empty) {
+							super.updateItem(item, empty);
+
+							if (item.isBefore(effectiveDatePicker.getValue())) {
+								setDisable(true);
+								setStyle("-fx-background-color: #ffc0cb;");
+							}
+						}
+					};
+				}
+			};
+
+			endDatePicker.setDayCellFactory(dayCellFactory2);
+			endDatePicker.setDisable(false);
+			endDateLabel.setDisable(false);
+
+		});
+		endDatePicker.setDayCellFactory(dayCellFactory);
 	}
 
 	@Override
@@ -182,7 +260,8 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	}
 
 	/**
-	 * @param event : close the popup on cancel
+	 * @param event
+	 *            : close the popup on cancel
 	 */
 	@FXML
 	void handleTransactionCancel(ActionEvent event) {
@@ -190,7 +269,6 @@ public class AddTransactionController extends PopupController<Transaction> imple
 		stage.close();
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	@FXML
 	void handleTransactionSubmit(ActionEvent event) throws ParseException {
@@ -206,7 +284,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			valueError.setVisible(true);
 		}
 
-		if (datePicker.getValue() == null) {
+		if (!datePicker.isDisable() && datePicker.getValue() == null) {
 			dateError.setVisible(true);
 		}
 
@@ -214,9 +292,21 @@ public class AddTransactionController extends PopupController<Transaction> imple
 			typeError.setVisible(true);
 		}
 
+		if (periodicTransactionCheckBox.isSelected()) {
+			if (effectiveDatePicker.getValue() == null) {
+				effectiveDateError.setVisible(true);
+			}
+			if (endDatePicker.getValue() == null) {
+				endDateError.setVisible(true);
+			}
+			if (frequencyComboBox.getValue() == null) {
+				frequencyError.setVisible(true);
+			}
+		}
+
 		if (errorLabels.stream().allMatch(label -> !label.isVisible())) {
 			// Get data from the fields
-			Date date = DateConverter.LocalDate2Date(datePicker.getValue());
+			
 			Double val = Double.parseDouble(valueTextField.getText());
 			String des = descriptionTextField.getText();
 			TransactionType transactionType = typeCombo.getValue();
@@ -265,7 +355,7 @@ public class AddTransactionController extends PopupController<Transaction> imple
 							|| !Validator.isValidIban(newTargetIBANTextField.getText())) {
 						IBANTargetError.setVisible(true);
 					}
-					
+
 					if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible()) {
 						TargetTransaction newTar = new TargetTransaction(newTargetSummaryTextField.getText(),
 								newTargetIBANTextField.getText());
@@ -292,12 +382,36 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				}
 			}
 
+			if (periodicTransactionCheckBox.isSelected()) {
+
+				EntityManager em = VistaNavigator.getEmf().createEntityManager();
+				
+				//TODO calculate the number of repetition
+				
+				PeriodicTransaction periodicTransaction = new PeriodicTransaction(
+						DateConverter.LocalDate2Date(endDatePicker.getValue()), 3, frequencyComboBox.getValue());
+				
+				em.getTransaction().begin();
+				em.persist(periodicTransaction);
+				em.getTransaction().commit();
+				em.close();
+
+				this.getData().setPeriodicTransaction(periodicTransaction);
+				this.getData().setDate(DateConverter.LocalDate2Date(effectiveDatePicker.getValue()));
+			}
+			else{
+				
+				this.getData().setPeriodicTransaction(null);
+				this.getData().setDate(DateConverter.LocalDate2Date(datePicker.getValue()));
+			}
+
 			if (!descriptionTargetError.isVisible() && !IBANTargetError.isVisible() && !categoryNameError.isVisible()) {
 				// Saving for the commit in the HomeController
-				this.getData().setDate(date);
+
 				this.getData().setValue(val);
 				this.getData().setDescription(des);
 				this.getData().setTransactionType(transactionType);
+				this.getData().setPeriodicTransaction(null);
 				this.setAsValidated();
 				Stage stage = (Stage) transactionCancel.getScene().getWindow();
 				stage.close();

@@ -249,7 +249,6 @@ public class TransactionController extends AccountSelector {
 
 							transaction.setAccount(account);
 
-							transaction.setPeriodicTransaction(null);
 
 							EntityManager em = VistaNavigator.getEmf().createEntityManager();
 							em.getTransaction().begin();
