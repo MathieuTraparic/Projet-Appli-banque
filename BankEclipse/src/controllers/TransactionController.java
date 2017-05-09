@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,9 +19,6 @@ import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
-import org.apache.commons.beanutils.converters.DoubleConverter;
 
 import com.opencsv.CSVReader;
 
@@ -46,12 +44,10 @@ import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 import model.Account;
 import model.Category;
-import model.Owner;
 import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
-import sun.security.jca.GetInstance;
 import util.DatePickerCell;
 
 public class TransactionController extends AccountSelector {
@@ -90,8 +86,13 @@ public class TransactionController extends AccountSelector {
 	private String overAndTresholdAlert = "The balance is below the overdraft limit \n and the threshold! Carefull!";
 	private String overAlert = "The balance is below the overdraft limit! \n U gonna pay!";
 	private String thresholdAlert = "The balance is below the threshold!";
-	private DecimalFormat formatter = new DecimalFormat("%.2f");
 
+	
+	private Locale locale  = new Locale("en", "UK");
+	private String pattern = "###.##";
+
+	private DecimalFormat formatter = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
@@ -99,7 +100,10 @@ public class TransactionController extends AccountSelector {
 		balanceLabel.setVisible(false);
 		balanceNumberLabel.setVisible(false);
 		alertLabel.setVisible(false);
-
+		
+		formatter.applyPattern(pattern);
+		
+		
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -202,7 +206,7 @@ public class TransactionController extends AccountSelector {
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
 
 			Double balance = this.accountCombo.getValue().getBalance();
-			
+
 			balanceNumberLabel.setText(formatter.format(balance));
 
 			Double alert = this.accountCombo.getValue().getAlertThreshold();
@@ -264,7 +268,7 @@ public class TransactionController extends AccountSelector {
 							});
 
 							Double balance = accountCombo.getValue().getBalance();
-							
+
 							balanceNumberLabel.setText(formatter.format(balance));
 
 							Double alert = accountCombo.getValue().getAlertThreshold();
@@ -381,7 +385,7 @@ public class TransactionController extends AccountSelector {
 		editTransaction.setDisable(true);
 
 		Double balance = this.accountCombo.getValue().getBalance();
-		
+
 		balanceNumberLabel.setText(formatter.format(balance));
 
 		Double alert = this.accountCombo.getValue().getAlertThreshold();
@@ -404,7 +408,8 @@ public class TransactionController extends AccountSelector {
 	}
 
 	/**
-	 * @result Import data from LA BANQUE POSTALE transaction detail with CSV file
+	 * @result Import data from LA BANQUE POSTALE transaction detail with CSV
+	 *         file
 	 * @param event
 	 * @throws IOException
 	 */
@@ -416,30 +421,29 @@ public class TransactionController extends AccountSelector {
 		List<Transaction> transactions;
 
 		try {
-			// ; is the separator, ' ' is the quote and 8 means that the first 8 lines are not read
+			// ; is the separator, ' ' is the quote and 8 means that the first 8
+			// lines are not read
 			CSVReader reader = new CSVReader(new FileReader(selectedCSV.toString()), ';');
-			
-			
-			//List list = reader.readAll();
-			
+
+			// List list = reader.readAll();
+
 			String[] nextLine;
-			
+
 			for (int i = 0; i < 8; i++) {
 				nextLine = reader.readNext();
 			}
-			
+
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			
+
 			EntityManager em = VistaNavigator.getEmf().createEntityManager();
-							
-			
+
 			while ((nextLine = reader.readNext()) != null) {
 				// nextLine[] is an array of values from the line
-				
-				String val = nextLine[2];				
+
+				String val = nextLine[2];
 				val = val.replaceAll(",", ".");
 				double value = Double.parseDouble(val);
-				
+
 				Date dateT = Calendar.getInstance().getTime();
 				try {
 					dateT = formatter.parse(nextLine[0]);
@@ -447,34 +451,30 @@ public class TransactionController extends AccountSelector {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				System.out.println(dateT);
-				
-				Transaction transaction  = new Transaction(nextLine[1], value, 
-				dateT , new TransactionType("to define"));
-			
+
+				Transaction transaction = new Transaction(nextLine[1], value, dateT, new TransactionType("to define"));
+
 				List<TransactionType> transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
-				
+
 				for (TransactionType transactionT : transactionType) {
-					if (transactionT.getDescription().equals("to define")){
+					if (transactionT.getDescription().equals("to define")) {
 						transaction.setTransactionType(transactionT);
 					}
 				}
 				transaction.setAccount(accountCombo.getValue());
 				transaction.setPeriodicTransaction(null);
 				transaction.setCategory(null);
-				transaction.setTargetTransaction(null);	
-				
+				transaction.setTargetTransaction(null);
+
 				em.getTransaction().begin();
 
 				em.persist(transaction);
 				em.getTransaction().commit();
-				
-				
+
 			}
-			
+
 			em.close();
-			
+
 		} catch (FileNotFoundException e) {
 
 		} catch (IOException e) {
@@ -482,7 +482,7 @@ public class TransactionController extends AccountSelector {
 		} catch (NullPointerException e) {
 
 		}
-		
+
 	}
 
 	// TODO nullpointerExecption when the window to choose
