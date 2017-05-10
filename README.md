@@ -9,7 +9,9 @@ Fonctionnalités implémentés :
 - afficher un graph de l'évolution d'un compte
 - exporter les transaction d'un compte format csv
 - générer un code IBAN avec sa clé
+- générer un RIB au format PDF 
 - gerer la connection/creation d'utilisateurs avec stockage de mot de passe hashé et salé
+	-gérer la modification login/mdp
 - vérifier la validité des inputs de l'utilisateur
 - virements internes de comptes à comptes
 - traitements par lambda expressions
@@ -19,13 +21,13 @@ Fonctionnalités implémentés :
 - gestion des intérets 
 - gestion des alertes
 - gestion des agios
+- importer des données en CSV (format Banque postale)
 
 Fonctionalités manquantes :
 
-- gestion des transactions périodiques
-- importer des données
+- gestion des transactions périodiques à finir
 - filtrer les opérations affichés
-- tests à étoffer, utilisation de mockups
+- tests et commentaires à étoffer, utilisation de mockups
 - utilisation d'interfaces
 
 Design pattern à rajouter ?
