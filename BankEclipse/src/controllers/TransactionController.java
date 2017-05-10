@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +30,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -48,6 +51,7 @@ import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
+import util.DateConverter;
 import util.DatePickerCell;
 
 public class TransactionController extends AccountSelector {
@@ -68,6 +72,8 @@ public class TransactionController extends AccountSelector {
 	public TableColumn<Transaction, TargetTransaction> targetCol;
 	@FXML
 	public TableColumn<Transaction, Category> categoryCol;
+	@FXML
+	public TableColumn<Transaction, Date> endDateCol;
 
 	@FXML
 	private Button addTransaction, importButton, exportButton;
@@ -82,7 +88,7 @@ public class TransactionController extends AccountSelector {
 	private Label balanceLabel, balanceNumberLabel, alertLabel;
 
 	private ObservableList<Transaction> dataTransactionRow = null;
-
+	private ObservableList<Transaction> endDateTransactionRow = null;
 	private String overAndTresholdAlert = "The balance is below the overdraft limit \n and the threshold! Carefull!";
 	private String overAlert = "The balance is below the overdraft limit! \n U gonna pay!";
 	private String thresholdAlert = "The balance is below the threshold!";
@@ -143,7 +149,7 @@ public class TransactionController extends AccountSelector {
 		dataTransactionRow = dateCol.getTableView().getItems();
 
 		dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
-
+		
 		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
 			@Override
 			public TableCell call(TableColumn p) {
@@ -151,7 +157,39 @@ public class TransactionController extends AccountSelector {
 				return datePick;
 			}
 		});
-
+		
+		endDateTransactionRow = endDateCol.getTableView().getItems();
+//		
+//		endDateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
+//
+//		endDateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+//			@Override
+//			public TableCell call(TableColumn d) {
+//				DatePickerCell datePick2 = new DatePickerCell(endDateTransactionRow);
+//				return datePick2;
+//			}
+//		});
+		
+//		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+//
+//			@Override
+//			public DateCell call(final DatePicker datePicker) {
+//				return new DateCell() {
+//					@Override
+//					public void updateItem(LocalDate item, boolean empty) {
+//						super.updateItem(item, empty);
+//
+//						if (item.isBefore(DateConverter.DateToLocalDate(accountCombo.getValue().getCreationDate()))) {
+//							setDisable(true);
+//							setStyle("-fx-background-color: #ffc0cb;");
+//						}
+//					}
+//				};
+//			}
+//		};
+//		
+//		endDateCol.setDayCellFactory(dayCellFactory);
+		
 		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
 			editTransaction.setDisable(obschanged == null);
 			removeTransaction.setDisable(obschanged == null);
