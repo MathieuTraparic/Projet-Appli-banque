@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,52 +23,48 @@ import model.Owner;
  * @author Beltharion
  *
  */
-public class ChangeLoginController extends PopupController<Owner> implements Initializable{
+public class ChangeLoginController extends PopupController<Owner> implements Initializable {
 
 	@FXML
-	public Button changeCancel, changeLogin;
+	private Button cancelButton, submitButton;
 	@FXML
 	public TextField newLogin, confirmLogin;
 	@FXML
-	public Label loginError, confirmError;
-	private List<Label> errorLabels = null;
+	public Label confirmError;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		this.errorLabels = new ArrayList<Label>() {
-			{
-				add(loginError);
-				add(confirmError);
+		ChangeListener<? super String> onChange = (observable, oldValue, newValue) -> {
+			boolean fieldsEquals = this.newLogin.getText().equals(this.confirmLogin.getText());
+			this.submitButton.setDisable(
+					this.newLogin.getText().isEmpty() || this.confirmLogin.getText().isEmpty() || !fieldsEquals);
+			if (newValue != null) {
+				this.confirmError.setVisible(!fieldsEquals);
 			}
 		};
-		errorLabels.forEach(label -> label.setVisible(false));
+		
+		newLogin.textProperty().addListener(onChange);
+		confirmLogin.textProperty().addListener(onChange);
 	}
 
 	@Override
 	protected void initializePopupFields(Owner data) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 	}
 
 	@FXML
-	void handleChangeCancel(ActionEvent event){
-		Stage stage = (Stage) changeCancel.getScene().getWindow();
+	void handleChangeCancel(ActionEvent event) {
+		Stage stage = (Stage) cancelButton.getScene().getWindow();
 		stage.close();
 	}
-	
+
 	@FXML
-	void handleChangeLogin(ActionEvent event){
-		if(newLogin.getText().isEmpty()){
-			loginError.setVisible(false);
-		}
-		if(!confirmLogin.getText().equals(newLogin.getText())){
-			confirmError.setVisible(false);
-		}
+	void handleChangeLogin(ActionEvent event) {
+
 		String login = newLogin.getText();
-		if (errorLabels.stream().allMatch(label -> label.isVisible() == false)) {
-			this.getData().setLogin(login);
-			this.setAsValidated();
-			Stage stage = (Stage) changeLogin.getScene().getWindow();
-			stage.close();
-		}
+		this.getData().setLogin(login);
+		this.setAsValidated();
+		Stage stage = (Stage) submitButton.getScene().getWindow();
+		stage.close();
 	}
 }
