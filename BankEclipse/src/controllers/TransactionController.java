@@ -1,15 +1,27 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.opencsv.CSVReader;
 
 import controllers.popups.PopupController;
 import javafx.collections.FXCollections;
@@ -18,29 +30,28 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
-import javafx.util.converter.DateStringConverter;
-import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
 import model.Account;
 import model.Category;
 import model.PeriodicTransaction;
 import model.TargetTransaction;
 import model.Transaction;
 import model.TransactionType;
+import util.DateConverter;
 import util.DatePickerCell;
 
 public class TransactionController extends AccountSelector {
@@ -61,9 +72,11 @@ public class TransactionController extends AccountSelector {
 	public TableColumn<Transaction, TargetTransaction> targetCol;
 	@FXML
 	public TableColumn<Transaction, Category> categoryCol;
+	@FXML
+	public TableColumn<Transaction, Date> endDateCol;
 
 	@FXML
-	private Button addTransaction;
+	private Button addTransaction, importButton, exportButton;
 
 	@FXML
 	private Button editTransaction;
@@ -71,11 +84,32 @@ public class TransactionController extends AccountSelector {
 	@FXML
 	private Button removeTransaction;
 
-	private ObservableList<Transaction> dataTransactionRow = null;
+	@FXML
+	private Label balanceLabel, balanceNumberLabel, alertLabel;
 
+	private ObservableList<Transaction> dataTransactionRow = null;
+	private ObservableList<Transaction> endDateTransactionRow = null;
+	private String overAndTresholdAlert = "The balance is below the overdraft limit \n and the threshold! Carefull!";
+	private String overAlert = "The balance is below the overdraft limit! \n U gonna pay!";
+	private String thresholdAlert = "The balance is below the threshold!";
+
+	
+	private Locale locale  = new Locale("en", "UK");
+	private String pattern = "###.##";
+
+	private DecimalFormat formatter = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
+
+		this.balanceLabel.setVisible(false);
+		this.balanceNumberLabel.setVisible(false);
+		this.alertLabel.setVisible(false);
+		
+		this.formatter.applyPattern(pattern);
+		
+		
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -83,7 +117,10 @@ public class TransactionController extends AccountSelector {
 		List<TargetTransaction> targetList = em.createNamedQuery("TargetTransaction.findAll").getResultList();
 		List<Category> categoryList = em.createNamedQuery("Category.findAll").getResultList();
 		em.close();
-		
+
+		/*
+		 * Necessary because target and category can be null in the db
+		 */
 		targetList.add(null);
 		categoryList.add(null);
 
@@ -93,13 +130,11 @@ public class TransactionController extends AccountSelector {
 
 		this.addTransaction.setDisable(true);
 
-		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-		dateCol.setCellFactory(TextFieldTableCell.forTableColumn(new DateStringConverter()));
-		typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
-		targetCol.setCellFactory(ComboBoxTableCell.forTableColumn(targetStringList));
-		categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
+		this.valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 
-		dataTransactionRow = FXCollections.observableArrayList();
+		this.typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
+		this.targetCol.setCellFactory(ComboBoxTableCell.forTableColumn(targetStringList));
+		this.categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
 
 		/*
 		 * AUTHOR :
@@ -107,52 +142,153 @@ public class TransactionController extends AccountSelector {
 		 * tableview/
 		 */
 
-		/*
-		 * There still problem with the DatePickerCell class to fix // in worst
-		 * case, the date picker will be changed to just a string column
-		 */
-		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+		this.dataTransactionRow = this.tableTransaction.getItems();
+
+		
+		this.dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
 			@Override
 			public TableCell call(TableColumn p) {
 				DatePickerCell datePick = new DatePickerCell(dataTransactionRow);
 				return datePick;
+				
+			}
+			
+		});
+
+		this.endDateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+			@Override
+			public TableCell call(TableColumn d) {
+				DatePickerCell datePick2 = new DatePickerCell(dataTransactionRow);
+				return datePick2;
 			}
 		});
-
-		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
-			editTransaction.setDisable(obschanged == null);
-			removeTransaction.setDisable(obschanged == null);
+		
+		this.tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
+			this.editTransaction.setDisable(obschanged == null);
+			this.removeTransaction.setDisable(obschanged == null);
 		});
 
-		// Getting the new date value is still problematic
-		dateCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
+		this.dateCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setDate(t.getNewValue());
+					System.out.println(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();			
+				});
 
-		typeCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setTransactionType(t.getNewValue()));
+		this.typeCol.setOnEditCommit(t -> {
+			EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+			Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+			tr.setTransactionType(t.getNewValue());
+			emam.getTransaction().begin();
+			emam.merge(tr);
+			emam.getTransaction().commit();
+			emam.close();
+			});
 
-		valueCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
+		this.valueCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setValue(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
 
-		descriptionCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDescription(t.getNewValue()));
-
-		targetCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setTargetTransaction(t.getNewValue()));
+		this.descriptionCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setDescription(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
 		
-		categoryCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setCategory(t.getNewValue()));
+		this.targetCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setTargetTransaction(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
 
-		tableTransaction.setItems(dataTransactionRow);
+
+		this.categoryCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setCategory(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
+		
+		this.endDateCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					PeriodicTransaction Pt = tr.getPeriodicTransaction();
+					Pt.setEndDate(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(Pt);
+					emam.getTransaction().commit();
+					emam.close();
+					});
+				
 	}
 
 	@FXML
 	void accountCombo(ActionEvent event) throws IOException {
 
 		this.addTransaction.setDisable(this.accountCombo.getValue() == null);
+		this.importButton.setDisable(this.accountCombo.getValue() == null);
+		this.exportButton.setDisable(this.accountCombo.getValue() == null);
+
+		balanceLabel.setVisible(false);
+		balanceNumberLabel.setVisible(false);
+		alertLabel.setVisible(false);
+
 		if (this.accountCombo.getValue() != null) {
+
+			balanceLabel.setVisible(true);
+			balanceNumberLabel.setVisible(true);
+
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
+			this.dataTransactionRow = this.tableTransaction.getItems();
+			
+			Double balance = this.accountCombo.getValue().getBalance();
+
+			balanceNumberLabel.setText(formatter.format(balance));
+
+			Double alert = this.accountCombo.getValue().getAlertThreshold();
+
+			Double overdraft = this.accountCombo.getValue().getOverdraft();
+
+			if (alert != null && balance <= alert) {
+				alertLabel.setText(thresholdAlert);
+				alertLabel.setVisible(true);
+			}
+			if (overdraft != null && balance <= overdraft) {
+				alertLabel.setText(overAlert);
+				alertLabel.setVisible(true);
+			}
+			if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
+				alertLabel.setText(overAndTresholdAlert);
+				alertLabel.setVisible(true);
+			}
 
 		}
 
@@ -161,10 +297,12 @@ public class TransactionController extends AccountSelector {
 	@FXML
 	void handleAddTransaction(ActionEvent event) throws IOException {
 
-		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
+		alertLabel.setVisible(false);
 
+		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
+		
 		controller.show(new Transaction("Nouvelle transaction", 0.01, Calendar.getInstance().getTime(),
-				new TransactionType("sd")), new EventHandler<WindowEvent>() {
+				new TransactionType("sd"), this.accountCombo.getValue()), new EventHandler<WindowEvent>() {
 					@Override
 					public void handle(WindowEvent event) {
 						Transaction transaction = controller.getValidatedData();
@@ -174,8 +312,6 @@ public class TransactionController extends AccountSelector {
 							Account account = accountCombo.getValue();
 
 							transaction.setAccount(account);
-
-							transaction.setPeriodicTransaction(null);
 
 
 							EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -191,7 +327,29 @@ public class TransactionController extends AccountSelector {
 							tableTransaction.getColumns().forEach(col -> {
 								col.setVisible(false);
 								col.setVisible(true);
+
 							});
+
+							Double balance = accountCombo.getValue().getBalance();
+
+							balanceNumberLabel.setText(formatter.format(balance));
+
+							Double alert = accountCombo.getValue().getAlertThreshold();
+
+							Double overdraft = accountCombo.getValue().getOverdraft();
+
+							if (alert != null && balance <= alert) {
+								alertLabel.setText(thresholdAlert);
+								alertLabel.setVisible(true);
+							}
+							if (overdraft != null && balance <= overdraft) {
+								alertLabel.setText(overAlert);
+								alertLabel.setVisible(true);
+							}
+							if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
+								alertLabel.setText(overAndTresholdAlert);
+								alertLabel.setVisible(true);
+							}
 
 						}
 
@@ -202,6 +360,8 @@ public class TransactionController extends AccountSelector {
 
 	@FXML
 	void removeTransaction(ActionEvent event) {
+
+		alertLabel.setVisible(false);
 
 		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
 
@@ -227,19 +387,63 @@ public class TransactionController extends AccountSelector {
 		removeTransaction.setDisable(true);
 		editTransaction.setDisable(true);
 
+		Double balance = this.accountCombo.getValue().getBalance();
+
+		balanceNumberLabel.setText(formatter.format(balance));
+
+		Double alert = this.accountCombo.getValue().getAlertThreshold();
+
+		Double overdraft = this.accountCombo.getValue().getOverdraft();
+
+		if (alert != null && balance <= alert) {
+			alertLabel.setText(thresholdAlert);
+			alertLabel.setVisible(true);
+		}
+		if (overdraft != null && balance <= overdraft) {
+			alertLabel.setText(overAlert);
+			alertLabel.setVisible(true);
+		}
+		if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
+			alertLabel.setText(overAndTresholdAlert);
+			alertLabel.setVisible(true);
+		}
+
 	}
 
 	@FXML
 	void editTransaction(ActionEvent event) {
 
-		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
+		alertLabel.setVisible(false);
 
+		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
+		
+		PeriodicTransaction periodicTransactionUpdate = tableTransaction.getSelectionModel().getSelectedItem().getPeriodicTransaction();
+		
+		System.out.println(periodicTransactionUpdate.getEndDate());
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
+//
+//		if (periodicTransactionUpdate != null){
+//			Query p = em.createQuery("UPDATE PeriodicTransaction a SET a.endDate=:endDate"
+//					+ " WHERE a.id=:id");
+//			
+//			em.getTransaction().begin();
+//
+//			p.setParameter("id", periodicTransactionUpdate.getId());
+//			p.setParameter("endDate", periodicTransactionUpdate.getEndDate());
+//			//p.setParameter("numberDefiningPeriodicity", periodicTransactionUpdate.getNumberDefiningPeriodicity());
+//			//p.setParameter("frequency", periodicTransactionUpdate.getFrequency().getId());
+//			
+//			p.executeUpdate();
+//			em.getTransaction().commit();
+//			
+//
+//		}
+		
+		Query q = em.createQuery("UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
+				+ "a.transactionType=:transactionType, a.category=:category, a.targetTransaction=:targetTransaction WHERE a.id=:id");
 
 		em.getTransaction().begin();
 
-		Query q = em.createQuery("UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
-				+ "a.transactionType=:transactionType, a.category=:category, a.targetTransaction=:targetTransaction WHERE a.id=:id");
 		q.setParameter("id", transactionUpdate.getId());
 		q.setParameter("description", transactionUpdate.getDescription());
 		q.setParameter("value", transactionUpdate.getValue());
@@ -263,5 +467,132 @@ public class TransactionController extends AccountSelector {
 
 		editTransaction.setDisable(true);
 
+		Double balance = this.accountCombo.getValue().getBalance();
+
+		balanceNumberLabel.setText(formatter.format(balance));
+
+		Double alert = this.accountCombo.getValue().getAlertThreshold();
+
+		Double overdraft = this.accountCombo.getValue().getOverdraft();
+
+		if (alert != null && balance <= alert) {
+			alertLabel.setText(thresholdAlert);
+			alertLabel.setVisible(true);
+		}
+		if (overdraft != null && balance <= overdraft) {
+			alertLabel.setText(overAlert);
+			alertLabel.setVisible(true);
+		}
+		if (alert != null && overdraft != null && balance <= overdraft && balance <= alert) {
+			alertLabel.setText(overAndTresholdAlert);
+			alertLabel.setVisible(true);
+		}
+
 	}
+
+	/**
+	 * @result Import data from LA BANQUE POSTALE transaction detail with CSV
+	 *         file
+	 * @param event
+	 * @throws IOException
+	 */
+	@FXML
+	void handleImport(ActionEvent event) throws IOException {
+
+		FileChooser fileChooser = new FileChooser();
+		File selectedCSV = fileChooser.showOpenDialog((Stage) importButton.getScene().getWindow());
+		List<Transaction> transactions;
+
+		try {
+			// ; is the separator, ' ' is the quote and 8 means that the first 8
+			// lines are not read
+			CSVReader reader = new CSVReader(new FileReader(selectedCSV.toString()), ';');
+
+			// List list = reader.readAll();
+
+			String[] nextLine;
+
+			for (int i = 0; i < 8; i++) {
+				nextLine = reader.readNext();
+			}
+
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+			EntityManager em = VistaNavigator.getEmf().createEntityManager();
+
+			while ((nextLine = reader.readNext()) != null) {
+				// nextLine[] is an array of values from the line
+
+				String val = nextLine[2];
+				val = val.replaceAll(",", ".");
+				double value = Double.parseDouble(val);
+
+				Date dateT = Calendar.getInstance().getTime();
+				try {
+					dateT = formatter.parse(nextLine[0]);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				Transaction transaction = new Transaction(nextLine[1], value, dateT, new TransactionType("to define"));
+
+				List<TransactionType> transactionType = em.createNamedQuery("TransactionType.findAll").getResultList();
+
+				for (TransactionType transactionT : transactionType) {
+					if (transactionT.getDescription().equals("to define")) {
+						transaction.setTransactionType(transactionT);
+					}
+				}
+				transaction.setAccount(accountCombo.getValue());
+				transaction.setPeriodicTransaction(null);
+				transaction.setCategory(null);
+				transaction.setTargetTransaction(null);
+
+				em.getTransaction().begin();
+
+				em.persist(transaction);
+				em.getTransaction().commit();
+
+			}
+
+			em.close();
+
+		} catch (FileNotFoundException e) {
+
+		} catch (IOException e) {
+
+		} catch (NullPointerException e) {
+
+		}
+
+	}
+
+	// TODO nullpointerExecption when the window to choose
+	@FXML
+	void handleExport(ActionEvent event) throws IOException {
+
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File selectedDirectory = directoryChooser.showDialog((Stage) exportButton.getScene().getWindow());
+		List<Transaction> transactions = accountCombo.getValue().getTransactions();
+
+		try {
+			FileWriter fw = new FileWriter(
+					new File(selectedDirectory.getAbsolutePath(), accountCombo.getValue().getDescription() + ".csv"));
+			for (Transaction l : transactions) {
+				// oos.writeChars(l.formatString());
+				fw.write(l.formatString());
+				fw.flush();
+			}
+			fw.close();
+		} catch (FileNotFoundException e) {
+
+		} catch (IOException e) {
+
+		} catch (NullPointerException e) {
+
+		}
+
+	}
+
 }

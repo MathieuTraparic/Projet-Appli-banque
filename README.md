@@ -9,27 +9,32 @@ Fonctionnalités implémentés :
 - afficher un graph de l'évolution d'un compte
 - exporter les transaction d'un compte format csv
 - générer un code IBAN avec sa clé
+- générer un RIB au format PDF 
 - gerer la connection/creation d'utilisateurs avec stockage de mot de passe hashé et salé
+	-gérer la modification login/mdp
 - vérifier la validité des inputs de l'utilisateur
 - virements internes de comptes à comptes
 - traitements par lambda expressions
 - listeners, callback
 - passage de données entre fenêtres (popup/view)
 - javadoc
+- gestion partielle des intérets 
+- gestion des alertes
+- gestion partielle des agios
+- importer des données en CSV (format Banque postale)
 
 Fonctionalités manquantes :
-- gestion des intérets 
-- gestion des alertes
-- gestion des agios
-- gestion des transactions périodiques
-- importer des données
+
+- gestion des transactions périodiques à finir
 - filtrer les opérations affichés
-- les données des comboBox ne se raffraichissent qu'après logout/login
-- design pattern à rajouter ? 
-	-wrapper sur BankSelector et AccountSelector
-	-mediator au lieu d'un singleton VistaNavigator
--tests à étoffer, utilisation de mockups
--utilisation d'interfaces
+- tests et commentaires à étoffer, utilisation de mockups
+- utilisation d'interfaces
+
+Design pattern à rajouter ?
+ 
+- wrapper sur BankSelector et AccountSelector
+- mediator au lieu d'un singleton VistaNavigator
+
 
 	
 

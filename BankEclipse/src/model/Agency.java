@@ -18,6 +18,14 @@ import util.Formater;
 @NamedQuery(name = "Agency.findAll", query = "SELECT t FROM Agency t")
 public class Agency implements Serializable {
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
 	private static final long serialVersionUID = 458612991376198713L;
 	private int id;
 	private String name;

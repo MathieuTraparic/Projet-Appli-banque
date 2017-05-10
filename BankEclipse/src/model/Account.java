@@ -2,8 +2,13 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleImmutableEntry;
 
@@ -23,7 +28,6 @@ import javax.persistence.TemporalType;
 
 import util.Formater;
 
-
 @Entity
 @Table(name = "Account")
 @NamedQuery(name = "Account.findAll", query = "SELECT t FROM Account t")
@@ -35,35 +39,48 @@ public class Account implements Serializable {
 	private String description;
 	private double initialBalance;
 	private double overdraft;
-	//unused
 	private double interestRate;
-	private Double alertThreshold;	
+	private double agioRate;
+	private double alertThreshold;
 	private CountryCode countryCode;
 	private Date creationDate;
 	private Agency agency;
 	private AccountType accountType;
 	private List<Transaction> transactions;
 	private List<Owner> owners;
-	
-	//for ORM use
+
+	private double interestTransaction;
+	private double agioTransaction;
+
+	public static final Comparator<Account> ALPHABETICAL_COMPARATOR = new Comparator<Account>() {
+
+		@Override
+		public int compare(Account o1, Account o2) {
+			return o1.getDescription().compareTo(o2.getDescription());
+		}
+	};
+
+	// for ORM use
 	@SuppressWarnings("unused")
-	private Account(){
+	private Account() {
 	}
-	
-	
+
 	/**
-	 * @param number the account Number ex: 1234 1234 1234
+	 * @param number
+	 *            the account Number ex: 1234 1234 1234
 	 * @param description
 	 * @param initialBalance
-	 * @param overdraft the balance value under which penalties are due
-	 * @param alertThreshold the balance value under which an alert is sent to the owner
+	 * @param overdraft
+	 *            the balance value under which penalties are due
+	 * @param alertThreshold
+	 *            the balance value under which an alert is sent to the owner
 	 * 
-	 * This constructor doesn't initialize all required members since we connected the Database
+	 *            This constructor doesn't initialize all required members since
+	 *            we connected the Database
 	 */
 	@Deprecated
-	public Account(String number, String description, double initialBalance,
-			 double overdraft, Double alertThreshold){
-		
+	public Account(String number, String description, double initialBalance, double overdraft, double alertThreshold) {
+
 		this.setNumber(Formater.removeUsualSeparators(number));
 		this.setDescription(description);
 		this.setInitialBalance(initialBalance);
@@ -71,22 +88,25 @@ public class Account implements Serializable {
 		this.setAlertThreshold(alertThreshold);
 
 	}
-	
+
 	/**
-	 * @param number the account Number ex: 1234 1234 1234
+	 * @param number
+	 *            the account Number ex: 1234 1234 1234
 	 * @param description
 	 * @param initialBalance
-	 * @param overdraft the balance value under which penalties are due
-	 * @param interestRate 
-	 * @param alertThreshold the balance value under which an alert is sent to the owner
+	 * @param overdraft
+	 *            the balance value under which penalties are due
+	 * @param interestRate
+	 * @param alertThreshold
+	 *            the balance value under which an alert is sent to the owner
 	 * @param countryCode
 	 * @param creationDate
 	 * @param agency
 	 * @param accountType
 	 */
 	public Account(String number, String description, double initialBalance, double overdraft, double interestRate,
-			Double alertThreshold, CountryCode countryCode, Date creationDate, Agency agency, AccountType accountType) {
-		
+			double alertThreshold, CountryCode countryCode, Date creationDate, Agency agency, AccountType accountType) {
+
 		this.setNumber(Formater.removeUsualSeparators(number));
 		this.setDescription(description);
 		this.setInitialBalance(initialBalance);
@@ -98,49 +118,44 @@ public class Account implements Serializable {
 		this.setAgency(agency);
 		this.setAccountType(accountType);
 	}
-	
-	
-	public double getInitialBalance(){
+
+	public double getInitialBalance() {
 		return this.initialBalance;
 	}
-	
-	public double getOverdraft(){
+
+	public double getOverdraft() {
 		return this.overdraft;
 	}
-	
-	public double getAlertThreshold(){
-		return this.alertThreshold.doubleValue();
+
+	public double getAlertThreshold() {
+		return this.alertThreshold;
 	}
-	
-	
+
 	private static void check_number(String number) throws IllegalArgumentException {
-		if(number.isEmpty()){
+		if (number.isEmpty()) {
 			throw new IllegalArgumentException("The account number cannot be empty");
 		}
 	}
-	
-	private static void check_description(String description) throws IllegalArgumentException {
-		if(description.isEmpty()){
-			throw new IllegalArgumentException ("The account description can't be empty");
-		}
-	}
-	
-	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
-		if(!isValidOverdraft(overdraft)){
-			throw new IllegalArgumentException ("Authorised overdraft cannot be positive");
-		}
-	}
-	
 
-	
+	private static void check_description(String description) throws IllegalArgumentException {
+		if (description.isEmpty()) {
+			throw new IllegalArgumentException("The account description can't be empty");
+		}
+	}
+
+	private static void check_overdraft(double overdraft) throws IllegalArgumentException {
+		if (!isValidOverdraft(overdraft)) {
+			throw new IllegalArgumentException("Authorised overdraft cannot be positive");
+		}
+	}
+
 	/**
 	 * @param overdraft
 	 * @return false if the overdraft is negative
 	 */
-	public static boolean isValidOverdraft(double overdraft){
-		return overdraft<=0;
+	public static boolean isValidOverdraft(double overdraft) {
+		return overdraft <= 0;
 	}
-	
 
 	/**
 	 * @return the primary key ID from the Database
@@ -151,12 +166,11 @@ public class Account implements Serializable {
 		return this.id;
 	}
 
-	//for ORM use
+	// for ORM use
 	@SuppressWarnings("unused")
 	private void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	/**
 	 * @return the account number
@@ -165,39 +179,33 @@ public class Account implements Serializable {
 		return this.number;
 	}
 
-
 	public void setNumber(String number) {
 		check_number(number);
 		this.number = number;
 	}
 
-
 	public String getDescription() {
 		return this.description;
 	}
-
 
 	public void setDescription(String description) {
 		check_description(description);
 		this.description = description;
 	}
 
-
-
 	public void setInitialBalance(double initialBalance) {
 		this.initialBalance = initialBalance;
 	}
-
 
 	public void setOverdraft(double overdraft) {
 		check_overdraft(overdraft);
 		this.overdraft = overdraft;
 	}
 
-
-	public void setAlertThreshold(Double alertThreshold) {
+	public void setAlertThreshold(double alertThreshold) {
 		this.alertThreshold = alertThreshold;
 	}
+
 	@Temporal(TemporalType.DATE)
 	public Date getCreationDate() {
 		return this.creationDate;
@@ -214,40 +222,41 @@ public class Account implements Serializable {
 	public void setInterestRate(double interestRate) {
 		this.interestRate = interestRate;
 	}
+
 	@ManyToOne
-	@JoinColumn(name ="idCountryCode")
+	@JoinColumn(name = "idCountryCode")
 	public CountryCode getCountryCode() {
 		return countryCode;
 	}
 
 	public void setCountryCode(CountryCode countryCode) {
-		if(countryCode==null){
+		if (countryCode == null) {
 			throw new NullPointerException("The countryCode cannot be null");
 		}
 		this.countryCode = countryCode;
 	}
+
 	@ManyToOne
-	@JoinColumn(name ="idAgency")
+	@JoinColumn(name = "idAgency")
 	public Agency getAgency() {
 		return this.agency;
 	}
 
 	public void setAgency(Agency agency) {
-		if(agency==null){
+		if (agency == null) {
 			throw new NullPointerException("The agency cannot be null");
 		}
 		this.agency = agency;
 	}
 
-	
 	@ManyToOne
-	@JoinColumn(name ="idAccountType")
+	@JoinColumn(name = "idAccountType")
 	public AccountType getAccountType() {
 		return this.accountType;
 	}
 
 	public void setAccountType(AccountType accountType) {
-		if(accountType==null){
+		if (accountType == null) {
 			throw new NullPointerException("The accountType cannot be null");
 		}
 		this.accountType = accountType;
@@ -257,71 +266,219 @@ public class Account implements Serializable {
 	public String toString() {
 		return this.description;
 	}
-	
-	//bi-directional many-to-one association to transaction
-	@OneToMany(mappedBy="Account")
+
+	// bi-directional many-to-one association to transaction
+	@OneToMany(mappedBy = "Account")
 	public List<Transaction> getTransactions() {
 		return this.transactions;
 	}
-	//for ORM use
+
+	// for ORM use
 	@SuppressWarnings("unused")
 	private void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
 	}
-	
-	//@ManyToMany(mappedBy="accounts")
+
+	// @ManyToMany(mappedBy="accounts")
 	@ManyToMany
 	@JoinTable(name = "Assign", joinColumns = { @JoinColumn(name = "idAccount") }, inverseJoinColumns = {
 			@JoinColumn(name = "idOwner") })
 	public List<Owner> getOwners() {
 		return this.owners;
 	}
-	
-	public void setOwners(List<Owner> owners){
+
+	public void setOwners(List<Owner> owners) {
 		this.owners = owners;
 	}
-	
-	public void addOwner(Owner owner){
+
+	public void addOwner(Owner owner) {
 		this.owners.add(owner);
 	}
 
 	/**
-	 * @return the current balance calculated from the initial
-	 * and all transaction values
-	 * TODO cache the value calculated
+	 * @return the agioRate
+	 */
+	public double getAgioRate() {
+		return agioRate;
+	}
+
+	/**
+	 * @param agioRate
+	 *            the agioRate to set
+	 */
+	public void setAgioRate(double agioRate) {
+		this.agioRate = agioRate;
+	}
+
+	/**
+	 * @return the current balance calculated from the initial and all
+	 *         transaction values TODO cache the value calculated and consider
+	 *         interestRate
 	 */
 	public double getBalance() {
-		double balance = this.initialBalance ;
+		double balance = this.initialBalance;
 		for (Transaction t : this.transactions) {
-			balance+=t.getValue();
+			balance += t.getValue();
 		}
 		return balance;
 	}
-	
+
 	/**
-	 * @return a list of couples logging the balance evolution at 
-	 * every transaction date
+	 * @return a list of couples logging the balance evolution at every
+	 *         transaction date
 	 * 
 	 */
-	public List<Entry<Double,Date>> getBalanceHistory() {
-		double balance = this.initialBalance ;
+	public List<Entry<Double, Date>> getBalanceHistory() {
+		double balance = this.initialBalance;
 		ArrayList<Transaction> sortedTransactions = new ArrayList<>(this.transactions);
-		//sort transaction by chronological order ?
-		//sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
-		 List<Entry<Double,Date>> result = new ArrayList<>();
-		 //add a first entry at account creation
-		 result.add(new SimpleImmutableEntry<Double, Date>(balance, this.creationDate));
-		 
-		 //add all balance evolutions
-		 for (Transaction t : sortedTransactions) {
-			 balance+=t.getValue();
-			result.add(new SimpleImmutableEntry<Double, Date>(balance,t.getDate()));
+		// sort transaction by chronological order ?
+		// sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
+		List<Entry<Double, Date>> result = new ArrayList<>();
+		// add a first entry at account creation
+		result.add(new SimpleImmutableEntry<Double, Date>(balance, this.creationDate));
+
+		// add all balance evolutions
+		for (Transaction t : sortedTransactions) {
+			balance += t.getValue();
+			result.add(new SimpleImmutableEntry<Double, Date>(balance, t.getDate()));
 		}
+
+		// to sort the balanceHystory by date !
+		result.sort(new Comparator<Entry<Double, Date>>() {
+
+			@Override
+			public int compare(Entry<Double, Date> o1, Entry<Double, Date> o2) {
+				return o1.getValue().compareTo(o2.getValue());
+			}
+		});
 		return result;
 	}
 
+	/*	
+		*//**
+			 * 
+			 * @return a list of couples logging the balance evolution at each
+			 *         day since the account creation until today
+			 * 
+			 *//*
+			 * public List<Entry<Double,Date>> getDailyBalanceHistory() { double
+			 * balance = this.initialBalance; Calendar currentCal = new
+			 * GregorianCalendar(this.creationDate.getYear(),
+			 * this.creationDate.getMonth(), this.creationDate.getDate());
+			 * 
+			 * ArrayList<Transaction> sortedTransactions = new
+			 * ArrayList<>(this.transactions); //sort transaction by
+			 * chronological order ?
+			 * sortedTransactions.sort(Transaction.CHRONOLOGICAL_COMPARATOR);
+			 * List<Entry<Double,Date>> result = new ArrayList<>(); //add a
+			 * first entry at account creation result.add(new
+			 * SimpleImmutableEntry<Double, Date>(balance,
+			 * currentCal.getTime()));
+			 * 
+			 * while(!currentDate.equals()){ for (Transaction t :
+			 * sortedTransactions) { if(t.getDate().ge==currentDate){
+			 * currentDate. } } } //add all balance evolutions for (Transaction
+			 * t : sortedTransactions) { balance+=t.getValue(); result.add(new
+			 * SimpleImmutableEntry<Double, Date>(balance,t.getDate())); }
+			 * return result; }
+			 */
 
+	/**
+	 * @return go through the balance history and select if the balance is positive and of the current year, 
+	 * calculate the interest (every 15 days)	
+	 */
+	public String getInterestAccountPerYear() {
+		double interestRate = this.getInterestRate() / 100;
+
+		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
+		
+		int coef = 0;
+		int previousCoef = 0;
+
+		this.interestTransaction = 0;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+
+		for (Entry<Double, Date> entry : balanceHistory) {
+			if (entry.getKey() > 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
+				if (entry.getValue().getDate() <= 15) {
+					coef = (24 - (entry.getValue().getMonth() * 2)) - previousCoef;
+					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
+					
+					//keep in memory the previous coef to know the next one 
+					previousCoef = (24 - (entry.getValue().getMonth() * 2));
+				} else {
+					coef = (24 - (entry.getValue().getMonth() * 2) - 1) - previousCoef;
+					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
+					
+					//keep in memory the previous coef to know the next one 
+					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
+					;
+				}
+			}
+			//TODO to finish
+			else if (entry.getKey() < 0 && balanceHistory.indexOf(entry)+1 < balanceHistory.size()){
+				if (balanceHistory.get(balanceHistory.indexOf(entry)+1).getValue().getDate() <= 15) {
+
+					//keep in memory the previous coef to know the next one 
+					previousCoef = (24 - (entry.getValue().getMonth() * 2));
+				} else {
+
+					//keep in memory the previous coef to know the next one 
+					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
+					;
+				}
+			}
+		}
+
+		return String.format(Locale.US, "%.2f", this.interestTransaction);
+
+	}
+
+	/**
+	 * @return	go through the balance history and select if the balance is negative
+	 * and of the current year, calculate the agios
+	 */
+	public String getAgioAccountPerYear() {
+
+		double agioRate = this.getAgioRate() / 100;
+		double agioTotal = 0;
+		long numOfDayPerAgio = 1;
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		int numOfDays = cal.getActualMaximum(Calendar.DAY_OF_YEAR);
+
+		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
+		
+		//TODO to finish
+		for (Entry<Double, Date> entry : balanceHistory) {
+			
+			if (entry.getKey() < 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
+				
+				if (balanceHistory.indexOf(entry)+1 < balanceHistory.size()) {
+					//date of the next entry in balanceHistory
+					Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
 	
+					numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime())/(1000*60*60*24);
+				} else {
 	
-	
+					numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime())/(1000*60*60*24);
+					
+				}
+
+				agioTotal += entry.getKey() * agioRate * numOfDayPerAgio;
+			}
+		}
+
+		agioTotal /= numOfDays;
+		
+		//agioTotal as positive number
+		if (agioTotal!=0){
+			agioTotal*=-1;
+		}
+
+		return String.format(Locale.US, "%.2f", agioTotal);
+	}
 }

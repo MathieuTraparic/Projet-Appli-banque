@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -18,6 +19,8 @@ import javafx.stage.WindowEvent;
  * So every popup must extends PopupController
  */
 public abstract class PopupController<T> {
+	
+	Image icon = new Image("file:..\\ressource\\images\\icon2.png");
 
 	public PopupController() {
 		// TODO Auto-generated constructor stub
@@ -47,6 +50,8 @@ public abstract class PopupController<T> {
 	protected void setAsValidated() {
 		this.validated = true;
 	}
+	
+	
 	
 	/**
 	 * @param fxmlLocation name of the fxml define in the class VistaNavigator
@@ -79,6 +84,7 @@ public abstract class PopupController<T> {
 		
 		this.initData(data);
 		stage.setScene(new Scene(this.root));
+		stage.getIcons().add(icon);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
 		stage.setOnHidden(handler);

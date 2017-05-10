@@ -23,6 +23,7 @@ import javafx.util.Callback;
 import model.Address;
 import model.CpVille;
 import model.Owner;
+import util.SendEmail;
 
 public class CreateUserController2 implements Initializable{
 	
@@ -217,6 +218,7 @@ public class CreateUserController2 implements Initializable{
 			this.owner.setPhoneNumber(phoneNumber.getText());
 			this.owner.setBirthday(birth.getTime());
 			this.owner.setAddress(address);
+			this.owner.setNewUser(true);
 			
 			
 			em.getTransaction().begin();
@@ -226,7 +228,14 @@ public class CreateUserController2 implements Initializable{
 			em.getTransaction().commit();
 
 			em.close();
+			VistaNavigator.getInstance().setLoggedOwner(owner);
 			VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
+			String textMail = "Dear "+VistaNavigator.getInstance().getLoggedOwner().getFirstName()+", \n"
+					+ "You succesfully created a new account !\n"
+					+ " Enjoy ! \n"
+					+ "Admin team ";
+			
+			SendEmail.SendEmails(textMail);
 		}
 		else {
 			signIn.setDisable(true);

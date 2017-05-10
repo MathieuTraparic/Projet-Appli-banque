@@ -35,7 +35,7 @@ public class AddAccountController extends PopupController<Account> implements In
 	@FXML
 	public TextField addAccountNumber, addAccountDescription;
 	@FXML
-	public TextField addAccountInitBalance, addAccountOverdraft;
+	public TextField addAccountInitBalance, addAccountOverdraft, addAccountInterestRate, addAccountAgioRate;
 	@FXML
 	public TextField addAccountThreshold;
 	@FXML
@@ -67,6 +67,7 @@ public class AddAccountController extends PopupController<Account> implements In
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+
 		// Disable by default this two textfield. Theese are enable on event
 		this.createCountryCode.setDisable(true);
 		this.createAccountType.setDisable(true);
@@ -145,6 +146,8 @@ public class AddAccountController extends PopupController<Account> implements In
 		String accountType = addAccountType.getValue();
 		String countryCode = addAccountCountryCode.getValue();
 		String linkedAgency = addAgency.getValue();
+		String agio = addAccountAgioRate.getText();
+		String interest = addAccountInterestRate.getText();
 		
 		// Tests to verify if the fields are filled
 		if (number.isEmpty()) {
@@ -232,6 +235,8 @@ public class AddAccountController extends PopupController<Account> implements In
 				this.getData().setAlertThreshold(Double.parseDouble(threshold));
 				this.getData().setAgency(currentAgency);
 				this.getData().setCreationDate(date);
+				this.getData().setAgioRate(Double.parseDouble(agio));
+				this.getData().setInterestRate(Double.parseDouble(interest));
 				this.setAsValidated();
 
 				Stage stage = (Stage) addAccountSubmit.getScene().getWindow();

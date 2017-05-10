@@ -19,6 +19,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.Owner;
 import util.PasswordHandler;
+import util.SendEmail;
 import javafx.scene.input.InputMethodEvent;
 
 public class LoginController implements Initializable {
@@ -50,10 +51,8 @@ public class LoginController implements Initializable {
 				VistaNavigator.loadVista(VistaNavigator.TEMPLATE);
 			}
 
-
 		}
 		loginError.setVisible(true);
-		
 
 	}
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="210.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.popups.NewUserGuideController">
+	<children>
+		<Label fx:id="welcomeMessage" alignment="CENTER" layoutX="57.0" layoutY="21.0" prefHeight="41.0" prefWidth="320.0" text="Welcome to your personnal manager account" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="21.0">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Label>
+		<Button fx:id="okButton" layoutX="187.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleOkButton" text="Ok ! " AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="40.0" />
+      <Label alignment="CENTER" layoutX="74.0" layoutY="85.0" prefHeight="51.0" prefWidth="287.0" text="Tips : Before adding a new account, please register its bank and its bank agency" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="messageCheckBox" layoutX="29.0" layoutY="169.0" mnemonicParsing="false" text="Don't show this message next time" />
+	</children>
+</AnchorPane>

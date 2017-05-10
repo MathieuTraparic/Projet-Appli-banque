@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -9,11 +10,6 @@ import java.util.ResourceBundle;
 import javax.persistence.EntityManager;
 
 import controllers.popups.PopupController;
-
-import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,10 +18,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TabPane;
 import javafx.stage.WindowEvent;
 import model.Account;
+import model.AccountType;
+import model.Agency;
+import model.CountryCode;
+import model.Owner;
 import model.Transaction;
-import javafx.scene.control.TabPane;
 
 public class TemplateController implements Initializable {
 
@@ -60,12 +60,14 @@ public class TemplateController implements Initializable {
 	@FXML
 	void handleMenuFileExport(ActionEvent event) throws IOException {
 		PopupController<Account> controller = PopupController.load(VistaNavigator.EXPORT, true);
-		controller.show(new Account("0000", "description", 0d, 0d, 0d), new EventHandler<WindowEvent>() {
-			@Override
-			public void handle(WindowEvent event) {
-				Account a = controller.getValidatedData();
-			}
-		});
+		controller.show(new Account("0000", "description", 0d, 0d, 0d, 0d, new CountryCode("FR"),
+				Calendar.getInstance().getTime(), new Agency("Name", "CounterCode"), new AccountType("AccountType")),
+				new EventHandler<WindowEvent>() {
+					@Override
+					public void handle(WindowEvent event) {
+						Account a = controller.getValidatedData();
+					}
+				});
 	}
 
 	@FXML
@@ -80,8 +82,45 @@ public class TemplateController implements Initializable {
 	}
 
 	@FXML
-	void handleMenuWindowPreference(ActionEvent event) {
-		// TODO
+	void handleChangeLogin(ActionEvent event) throws IOException {
+		Owner owner = VistaNavigator.getInstance().getLoggedOwner();
+		PopupController<Owner> controller = PopupController.load(VistaNavigator.NEW_LOGIN, false);
+		controller.show(owner, new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Owner o = controller.getValidatedData();
+				if (o != null) {
+					String newLogin = o.getLogin();
+					owner.setLogin(newLogin);
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+					em.getTransaction().begin();
+					em.merge(owner);
+					em.getTransaction().commit();
+					em.close();
+				}
+			}
+		});
+	}
+
+	@FXML
+	void handleChangePassword(ActionEvent event) throws IOException {
+		Owner owner = VistaNavigator.getInstance().getLoggedOwner();
+		PopupController<Owner> controller = PopupController.load(VistaNavigator.NEW_PSWD, false);
+		controller.show(owner, new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				Owner o = controller.getValidatedData();
+				if (o != null) {
+					String newPswd = o.getPswd();
+					owner.setPswd(newPswd);
+					EntityManager em = VistaNavigator.getEmf().createEntityManager();
+					em.getTransaction().begin();
+					em.merge(owner);
+					em.getTransaction().commit();
+					em.close();
+				}
+			}
+		});
 	}
 
 	@FXML
@@ -89,16 +128,35 @@ public class TemplateController implements Initializable {
 		// TODO
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
 		this.account = em.createNamedQuery("Account.findAll").getResultList();
 		this.transaction = em.createNamedQuery("Transaction.findAll").getResultList();
 		em.close();
-		VistaNavigator.getEmf().getCache().evictAll();
-		
-		this.tabPane.getSelectionModel().selectedItemProperty().addListener((obs,oldTabl,newTab)->{
-			//do a thing on every tab change
+
+		PopupController<Owner> controller;
+		try {
+			if (VistaNavigator.getInstance().getLoggedOwner().getNewUser() == true) {
+				controller = PopupController.load(VistaNavigator.NEW_USER_GUIDE, false);
+				controller.show(VistaNavigator.getInstance().getLoggedOwner(), new EventHandler<WindowEvent>() {
+					@Override
+					public void handle(WindowEvent event) {
+
+					}
+				});
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		this.tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTabl, newTab) -> {
+			// do a thing on every tab change
+			VistaNavigator.getEmf().getCache().evictAll();
+
+			// System.out.println("tabchanged");
 		});
 	}
 }

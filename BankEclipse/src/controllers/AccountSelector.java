@@ -6,21 +6,13 @@
 package controllers;
 
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import model.Account;
-import model.Agency;
-import model.Bank;
-import model.Owner;
 
 
 /**
@@ -39,7 +31,16 @@ public abstract class AccountSelector extends BankSelector {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		super.initialize(location, resources);
+		this.refresh();
+
+	}
+
+
+
+	@Override
+	public void refresh() {
+		super.refresh();
+		this.accountCombo.getItems().clear();
 		this.accountCombo.setDisable(true);
 
 		this.bankCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -54,9 +55,15 @@ public abstract class AccountSelector extends BankSelector {
 			//update the account comboBox and reset its current value
 			this.accountCombo.setDisable(false);
 			this.accountCombo.getItems().setAll(accountFromCurrentBank);
+			this.accountCombo.getItems().sort(Account.ALPHABETICAL_COMPARATOR);
 			this.accountCombo.setValue(null);
 		});
-
 	}
+	
+	@FXML public void accountComboClicked(MouseEvent event) {
+		this.refresh();
+	}
+	
+	
 
 }

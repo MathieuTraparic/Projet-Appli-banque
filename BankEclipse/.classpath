@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="legacy"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.41-bin.jar"/>
@@ -9,5 +10,40 @@
 			<attribute name="owner.project.facets" value="jpt.jpa"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-barcodes-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-barcodes-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-barcodes-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-font-asian-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-font-asian-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-forms-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-forms-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-forms-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-hyph-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-hyph-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-io-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-io-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-io-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-kernel-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-kernel-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-kernel-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-layout-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-layout-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-layout-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-pdfa-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-pdfa-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-pdfa-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-pdftest-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-pdftest-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-pdftest-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/itext7-sign-7.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.7.25.jar"/>
+	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.5.jar"/>
+	<classpathentry kind="lib" path="lib/opencsv-3.9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

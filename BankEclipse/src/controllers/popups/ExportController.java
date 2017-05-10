@@ -1,5 +1,6 @@
 package controllers.popups;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.Account;
 import model.Agency;
@@ -45,19 +47,24 @@ public class ExportController extends PopupController<Account> implements Initia
 
 	@FXML
 	void handleExport(ActionEvent event) {
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		File selectedDirectory = 
+				directoryChooser.showDialog((Stage) export.getScene().getWindow());
 		transactions = selectedAccount.getValue().getTransactions();
 		transactions.size();
 		try {
-			FileWriter fw = new FileWriter(selectedAccount.getValue().getDescription() + ".csv");
+			FileWriter fw = new FileWriter(new File(selectedDirectory.getAbsolutePath(), selectedAccount.getValue().getDescription() + ".csv"));
 			for(Transaction l : transactions){
 				//oos.writeChars(l.formatString());
 				fw.write(l.formatString());
-				System.out.println(l.formatString());
+				fw.flush();
 			}
 			fw.close();
 		} catch (FileNotFoundException e) {
 
 		} catch (IOException e) {
+
+		} catch (NullPointerException e) {
 
 		}
 		Stage stage = (Stage) exportCancel.getScene().getWindow();

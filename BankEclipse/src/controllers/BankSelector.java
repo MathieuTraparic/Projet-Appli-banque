@@ -17,6 +17,7 @@ import javax.persistence.TypedQuery;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import model.Account;
 import model.Agency;
 import model.Bank;
@@ -25,14 +26,22 @@ import model.Owner;
 /**
  *	Handle the initializing of a bank ComboBox specific to the logged Owner
  */
-public abstract class BankSelector implements Initializable{
+public abstract class BankSelector implements Initializable, Refreshable{
 	@FXML
 	ComboBox<Bank> bankCombo;
 	protected HashSet<Bank> banksOwned;
 	protected HashSet<Account> accountsOwned;
+	protected HashSet<Agency> agencyOwned;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.refresh();
+		
+	}
+
+	@Override
+	public void refresh() {
+		this.bankCombo.getItems().clear();
 		Owner loggedOwner = VistaNavigator.getInstance().getLoggedOwner();
 
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
@@ -47,18 +56,24 @@ public abstract class BankSelector implements Initializable{
 			accountsOwned.clear();
 		}
 		//get a set of agencies from the accounts
-		HashSet<Agency> agencies = new HashSet<>();
+		this.agencyOwned = new HashSet<>();
 		//accountsOwned.forEach(account -> agencies.add(account.getAgency()));
 		for (Account account: accountsOwned) {
-			agencies.add(account.getAgency());
+			this.agencyOwned.add(account.getAgency());
 		}
 		
 		//get a set of banks from the agencies
 		this.banksOwned = new HashSet<>();
-		agencies.forEach(agency -> banksOwned.add(agency.getBank()));
+		this.agencyOwned.forEach(agency -> banksOwned.add(agency.getBank()));
 
 		this.bankCombo.getItems().addAll(banksOwned);
+		this.bankCombo.getItems().sort(Bank.ALPHABETICAL_COMPARATOR);
 		
 	}
+	
+	@FXML public void bankComboClicked(MouseEvent event) {
+		this.refresh();
+	}
+	
 
 }
