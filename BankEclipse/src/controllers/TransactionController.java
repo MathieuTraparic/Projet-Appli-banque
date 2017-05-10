@@ -169,23 +169,84 @@ public class TransactionController extends AccountSelector {
 		});
 
 		this.dateCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setDate(t.getNewValue());
+					System.out.println(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();			
+				});
 
-		this.typeCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setTransactionType(t.getNewValue()));
+		this.typeCol.setOnEditCommit(t -> {
+			EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+			Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+			tr.setTransactionType(t.getNewValue());
+			emam.getTransaction().begin();
+			emam.merge(tr);
+			emam.getTransaction().commit();
+			emam.close();
+			});
 
 		this.valueCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setValue(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
 
 		this.descriptionCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDescription(t.getNewValue()));
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setDescription(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
+		
+		this.targetCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setTargetTransaction(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
 
-		this.targetCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
-				.setTargetTransaction(t.getNewValue()));
 
 		this.categoryCol.setOnEditCommit(
-				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setCategory(t.getNewValue()));
-
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					tr.setCategory(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(tr);
+					emam.getTransaction().commit();
+					emam.close();
+					});
+		
+		this.endDateCol.setOnEditCommit(
+				t -> {
+					EntityManager emam = VistaNavigator.getEmf().createEntityManager();
+					Transaction tr = t.getTableView().getItems().get(t.getTablePosition().getRow());
+					PeriodicTransaction Pt = tr.getPeriodicTransaction();
+					Pt.setEndDate(t.getNewValue());
+					emam.getTransaction().begin();
+					emam.merge(Pt);
+					emam.getTransaction().commit();
+					emam.close();
+					});
+				
 	}
 
 	@FXML
@@ -355,9 +416,29 @@ public class TransactionController extends AccountSelector {
 		alertLabel.setVisible(false);
 
 		Transaction transactionUpdate = tableTransaction.getSelectionModel().getSelectedItem();
-
+		
+		PeriodicTransaction periodicTransactionUpdate = tableTransaction.getSelectionModel().getSelectedItem().getPeriodicTransaction();
+		
+		System.out.println(periodicTransactionUpdate.getEndDate());
 		EntityManager em = VistaNavigator.getEmf().createEntityManager();
-
+//
+//		if (periodicTransactionUpdate != null){
+//			Query p = em.createQuery("UPDATE PeriodicTransaction a SET a.endDate=:endDate"
+//					+ " WHERE a.id=:id");
+//			
+//			em.getTransaction().begin();
+//
+//			p.setParameter("id", periodicTransactionUpdate.getId());
+//			p.setParameter("endDate", periodicTransactionUpdate.getEndDate());
+//			//p.setParameter("numberDefiningPeriodicity", periodicTransactionUpdate.getNumberDefiningPeriodicity());
+//			//p.setParameter("frequency", periodicTransactionUpdate.getFrequency().getId());
+//			
+//			p.executeUpdate();
+//			em.getTransaction().commit();
+//			
+//
+//		}
+		
 		Query q = em.createQuery("UPDATE Transaction a SET a.description=:description, a.value=:value, a.date=:date, "
 				+ "a.transactionType=:transactionType, a.category=:category, a.targetTransaction=:targetTransaction WHERE a.id=:id");
 
