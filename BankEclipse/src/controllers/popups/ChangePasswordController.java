@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import model.Owner;
+import util.PasswordHandler;
 
 /**
  * @author Beltharion
@@ -64,6 +65,8 @@ public class ChangePasswordController extends PopupController<Owner> implements 
 		if(!confirm.equals(password)){
 			confirmError.setDisable(false);
 		}
+		String salt = PasswordHandler.getNewSalt();
+		password = PasswordHandler.hash(salt+confirm);
 		this.getData().setLogin(password);
 		this.setAsValidated();
 		Stage stage = (Stage) changePswd.getScene().getWindow();
