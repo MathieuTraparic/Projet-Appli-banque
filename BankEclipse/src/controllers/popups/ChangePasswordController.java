@@ -26,11 +26,11 @@ import util.PasswordHandler;
 public class ChangePasswordController extends PopupController<Owner> implements Initializable{
 
 	@FXML
-	public Button changeCancel, changePswd;
+	private Button changeCancel, changePswd;
 	@FXML 
-	PasswordField newPswd, confirmPswd;
+	private PasswordField newPswd, confirmPswd;
 	@FXML
-	public Label pswdError, confirmError;
+	private Label pswdError, confirmError;
 	private List<Label> errorLabels = null;
 	
 	@Override
@@ -57,19 +57,22 @@ public class ChangePasswordController extends PopupController<Owner> implements 
 	
 	@FXML
 	void handleChangePswd(ActionEvent event){
-		String password = newPswd.getText();
-		String confirm = confirmPswd.getText();
-		if(password.equals(null)){
-			pswdError.setDisable(false);
+		if(newPswd.getText().isEmpty()){
+			pswdError.setVisible(true);
 		}
-		if(!confirm.equals(password)){
-			confirmError.setDisable(false);
+		if(!confirmPswd.getText().equals(newPswd.getText())){
+			confirmError.setVisible(true);
 		}
-		String salt = PasswordHandler.getNewSalt();
-		password = PasswordHandler.hash(salt+confirm);
-		this.getData().setLogin(password);
-		this.setAsValidated();
-		Stage stage = (Stage) changePswd.getScene().getWindow();
-		stage.close();
+		if (errorLabels.stream().allMatch(label -> label.isVisible() == false)) {
+			String password = newPswd.getText();
+			String confirm = confirmPswd.getText();
+			String salt = PasswordHandler.getNewSalt();
+			password = PasswordHandler.hash(salt+confirm);
+			this.getData().setSalt(salt);
+			this.getData().setPswd(password);
+			this.setAsValidated();
+			Stage stage = (Stage) changePswd.getScene().getWindow();
+			stage.close();
+		}
 	}
 }

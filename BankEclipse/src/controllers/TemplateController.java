@@ -112,7 +112,7 @@ public class TemplateController implements Initializable {
 				Owner o = controller.getValidatedData();
 				if (o != null) {
 					String newPswd = o.getPswd();
-					owner.setLogin(newPswd);
+					owner.setPswd(newPswd);
 					EntityManager em = VistaNavigator.getEmf().createEntityManager();
 					em.getTransaction().begin();
 					em.merge(owner);

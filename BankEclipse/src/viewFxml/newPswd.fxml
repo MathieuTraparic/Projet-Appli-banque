@@ -34,8 +34,8 @@
 				<Label text="New password" />
             <Label fx:id="pswdError" text="The password can't be empty" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label fx:id="confirmError" text="The two fields must be equals" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <PasswordField GridPane.columnIndex="1" />
-            <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <PasswordField fx:id="newPswd" GridPane.columnIndex="1" />
+            <PasswordField fx:id="confirmPswd" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 			</children>
 		</GridPane>
 	</children>
