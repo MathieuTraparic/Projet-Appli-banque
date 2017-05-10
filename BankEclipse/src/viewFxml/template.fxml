@@ -11,7 +11,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="437.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TemplateController">
+<AnchorPane prefHeight="437.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TemplateController">
 	<children>
 		<MenuBar prefHeight="32.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<menus>
@@ -57,7 +57,7 @@
 				</Menu>
 			</menus>
 		</MenuBar>
-		<TabPane fx:id="tabPane" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="648.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinHeight="70.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
+		<TabPane fx:id="tabPane" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" tabMinHeight="70.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="32.0">
 			<tabs>
 				<Tab>
 					<graphic>
@@ -77,17 +77,6 @@
 					<content>
 						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
 							<fx:include source="transaction.fxml" />
-						</AnchorPane>
-					</content>
-
-				</Tab>
-				<Tab>
-					<graphic>
-						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Periodic" />
-					</graphic>
-					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
-							<fx:include source="periodic.fxml" />
 						</AnchorPane>
 					</content>
 
@@ -116,12 +105,10 @@
 				</Tab>
 				<Tab>
 					<graphic>
-						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0"
-							rotate="90.0" text="Category" />
+						<Label graphicTextGap="0.0" minHeight="50.0" minWidth="20.0" rotate="90.0" text="Category" />
 					</graphic>
 					<content>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0"
-							prefWidth="600.0">
+						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="600.0">
 							<fx:include source="category.fxml" />
 						</AnchorPane>
 					</content>
