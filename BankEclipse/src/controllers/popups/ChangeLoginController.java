@@ -56,17 +56,18 @@ public class ChangeLoginController extends PopupController<Owner> implements Ini
 	
 	@FXML
 	void handleChangeLogin(ActionEvent event){
+		if(newLogin.getText().isEmpty()){
+			loginError.setVisible(false);
+		}
+		if(!confirmLogin.getText().equals(newLogin.getText())){
+			confirmError.setVisible(false);
+		}
 		String login = newLogin.getText();
-		String confirm = confirmLogin.getText();
-		if(login.equals(null)){
-			loginError.setDisable(false);
+		if (errorLabels.stream().allMatch(label -> label.isVisible() == false)) {
+			this.getData().setLogin(login);
+			this.setAsValidated();
+			Stage stage = (Stage) changeLogin.getScene().getWindow();
+			stage.close();
 		}
-		if(!confirm.equals(login)){
-			confirmError.setDisable(false);
-		}
-		this.getData().setLogin(login);
-		this.setAsValidated();
-		Stage stage = (Stage) changeLogin.getScene().getWindow();
-		stage.close();
 	}
 }
