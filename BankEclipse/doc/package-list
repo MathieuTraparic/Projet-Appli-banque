@@ -1,6 +1,7 @@
 application
 controllers
 controllers.popups
+legacy
 model
 testModel
 testUtil
