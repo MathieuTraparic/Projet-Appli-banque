@@ -29,6 +29,15 @@ public class CreatePDF {
 	private String agencyName;
 	private String savePath;
 
+	/**
+	 * @param pdfName : name of the output pdf. The name is set by default. The
+	 * user can't modify it during the export
+	 * @param iban
+	 * @param bankName
+	 * @param agencyName
+	 * @param ownerName
+	 * @param savePath : saving path choosen by the user.
+	 */
 	public CreatePDF(String pdfName, String iban, String bankName, String agencyName
 			, String ownerName, String savePath) {
 		checkPdfName(pdfName);
@@ -36,6 +45,7 @@ public class CreatePDF {
 		checkBankName(bankName);
 		checkAgencyName(agencyName);
 		checkOwnerName(ownerName);
+		checkSavePath(savePath);
 		
 		this.pdfName = pdfName;
 		this.iban = iban;
@@ -60,6 +70,15 @@ public class CreatePDF {
 		}
 	}
 	
+	/**
+	 * This method is used to add items to the generated pdf.
+	 * @param document
+	 * @param iban
+	 * @param font
+	 * @param bankName
+	 * @param agencyName
+	 * @param ownerName
+	 */
 	private static void addDataToPDF(Document document, String iban, PdfFont font,
 			String bankName, String agencyName, String ownerName) {
 		document.add(new Paragraph(String.format("Name of the bank : %s", bankName))).setFont(font);
@@ -68,10 +87,13 @@ public class CreatePDF {
 		document.add(new Paragraph("Iban Number :")).setFont(font);
 		List list = new List()
 			    .setSymbolIndent(12)
-			    .setListSymbol("\u2190")
 			    .setFont(font);
 		list.add(new ListItem(iban));
 		document.add(list);
+	}
+	
+	public String getPdfName(){
+		return this.pdfName;
 	}
 	
 	private void checkPdfName(String pdfName) throws NullPointerException{
@@ -89,27 +111,43 @@ public class CreatePDF {
 		}
 	}
 	
-	private void checkIban(String iban) throws NullPointerException{
+	private void checkIban(String iban){
 		if(iban.equals(null)){
 			throw new NullPointerException("The name of the document can't be null");
+		} else if(iban.isEmpty()){
+			throw new IllegalArgumentException("iban can't be empty");
 		}
 	}
 	
-	private void checkBankName(String bankName) throws NullPointerException{
+	private void checkBankName(String bankName){
 		if(bankName.equals(null)){
 			throw new NullPointerException("The name of the document can't be null");
+		}else if(bankName.isEmpty()){
+			throw new IllegalArgumentException("bankname can't be empty");
 		}
 	}
 	
-	private void checkAgencyName(String agencyName) throws NullPointerException{
+	private void checkAgencyName(String agencyName){
 		if(agencyName.equals(null)){
 			throw new NullPointerException("The name of the agency can't be null");
+		}else if(agencyName.isEmpty()){
+			throw new IllegalArgumentException("agencyname can't be empty");
 		}
 	}
 	
 	private void checkOwnerName(String ownerName){
 		if(ownerName.equals(null)){
 			throw new NullPointerException("The Owner name can't be null");
+		}else if(ownerName.isEmpty()){
+			throw new IllegalArgumentException("ownername can't be empty");
+		}
+	}
+	
+	private void checkSavePath(String savePath){
+		if(savePath.equals(null)){
+			throw new NullPointerException("The savePath can't be null");
+		}else if(savePath.isEmpty()){
+			throw new IllegalArgumentException("savepath can't be empty");
 		}
 	}
 }
