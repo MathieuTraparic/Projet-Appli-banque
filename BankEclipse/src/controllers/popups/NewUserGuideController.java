@@ -62,7 +62,7 @@ public class NewUserGuideController extends PopupController<Owner> implements In
 			Query q = em.createQuery(
 					"UPDATE Owner a SET a.newUser=:newUser WHERE a.id=:id");
 			q.setParameter("id", VistaNavigator.getInstance().getLoggedOwner().getId());
-			q.setParameter("newUser", 0);
+			q.setParameter("newUser", false);
 			q.executeUpdate();
 
 			em.getTransaction().commit();

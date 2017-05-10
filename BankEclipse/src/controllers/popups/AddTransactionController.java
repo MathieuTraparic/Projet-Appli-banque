@@ -81,18 +81,6 @@ public class AddTransactionController extends PopupController<Transaction> imple
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
 	 * java.util.ResourceBundle)
 	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
-	 * java.util.ResourceBundle)
-	 */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javafx.fxml.Initializable#initialize(java.net.URL,
-	 * java.util.ResourceBundle)
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
@@ -387,10 +375,16 @@ public class AddTransactionController extends PopupController<Transaction> imple
 				EntityManager em = VistaNavigator.getEmf().createEntityManager();
 				
 				//TODO calculate the number of repetition
-				//TODO add columm on transaction controller to see the end date of the periodic transaction
+				Date perDate = DateConverter.LocalDate2Date(endDatePicker.getValue());
+				Frequency freq = frequencyComboBox.getValue();
+				int numberDefiningPeriodicity=0;
+				
+				if (freq.getUnit().equals("hebdomadaire")) {
+					//TODO
+				}
 				
 				PeriodicTransaction periodicTransaction = new PeriodicTransaction(
-						DateConverter.LocalDate2Date(endDatePicker.getValue()), 3, frequencyComboBox.getValue());
+						perDate, numberDefiningPeriodicity, freq);
 				
 				em.getTransaction().begin();
 				em.persist(periodicTransaction);
