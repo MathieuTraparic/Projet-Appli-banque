@@ -51,6 +51,8 @@ public abstract class PopupController<T> {
 		this.validated = true;
 	}
 	
+	
+	
 	/**
 	 * @param fxmlLocation name of the fxml define in the class VistaNavigator
 	 * @param combo : boolean the set the presence of a combobox in the popup this syntaxe is no ideal

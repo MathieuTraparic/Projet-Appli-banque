@@ -236,9 +236,9 @@ public class TransactionController extends AccountSelector {
 		alertLabel.setVisible(false);
 
 		PopupController<Transaction> controller = PopupController.load("/viewFxml/addTransaction.fxml", true);
-
+		
 		controller.show(new Transaction("Nouvelle transaction", 0.01, Calendar.getInstance().getTime(),
-				new TransactionType("sd")), new EventHandler<WindowEvent>() {
+				new TransactionType("sd"), this.accountCombo.getValue()), new EventHandler<WindowEvent>() {
 					@Override
 					public void handle(WindowEvent event) {
 						Transaction transaction = controller.getValidatedData();
@@ -249,7 +249,6 @@ public class TransactionController extends AccountSelector {
 
 							transaction.setAccount(account);
 
-							transaction.setPeriodicTransaction(null);
 
 							EntityManager em = VistaNavigator.getEmf().createEntityManager();
 							em.getTransaction().begin();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -11,119 +12,82 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="716.0" prefWidth="742.0"
-	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="controllers.popups.AddTransactionController">
+<AnchorPane prefHeight="716.0" prefWidth="673.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.popups.AddTransactionController">
 	<children>
-		<Label layoutX="290.0" layoutY="14.0" prefHeight="31.0"
-			prefWidth="172.0" text="Add a transaction" AnchorPane.leftAnchor="290.0"
-			AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="14.0">
+		<Label layoutX="290.0" layoutY="14.0" prefHeight="31.0" prefWidth="172.0" text="Add a transaction" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="280.0" AnchorPane.topAnchor="14.0">
 			<font>
 				<Font size="21.0" />
 			</font>
 		</Label>
-		<GridPane layoutX="83.0" layoutY="67.0" prefHeight="598.0"
-			prefWidth="587.0" AnchorPane.bottomAnchor="51.0"
-			AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="72.0"
-			AnchorPane.topAnchor="67.0">
+		<GridPane layoutX="37.0" layoutY="67.0" prefHeight="598.0" prefWidth="612.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="67.0">
 			<columnConstraints>
-				<ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0"
-					minWidth="0.0" prefWidth="174.0" />
-				<ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0"
-					minWidth="0.0" prefWidth="413.0" />
+				<ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="0.0" prefWidth="174.0" />
+				<ColumnConstraints hgrow="SOMETIMES" maxWidth="500.0" minWidth="0.0" prefWidth="413.0" />
 			</columnConstraints>
 			<rowConstraints>
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
-				<RowConstraints minHeight="10.0" prefHeight="30.0"
-					vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="30.0" minHeight="10.0"
-					prefHeight="26.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="44.0" minHeight="10.0"
-					prefHeight="44.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="31.0" minHeight="10.0"
-					prefHeight="31.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="61.0" minHeight="2.0"
-					prefHeight="50.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="64.0" minHeight="10.0"
-					prefHeight="56.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="54.0" minHeight="4.0"
-					prefHeight="22.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="69.0" minHeight="10.0"
-					prefHeight="44.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="80.0" minHeight="10.0"
-					prefHeight="26.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="94.0" minHeight="10.0"
-					prefHeight="47.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="101.0" minHeight="10.0"
-					prefHeight="45.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="87.0" minHeight="10.0"
-					prefHeight="24.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="129.0" minHeight="10.0"
-					prefHeight="58.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="71.0" minHeight="5.0"
-					prefHeight="9.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="23.0" minHeight="10.0" prefHeight="18.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="38.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="23.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="17.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="19.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="65.0" minHeight="2.0" prefHeight="37.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="65.0" minHeight="4.0" prefHeight="18.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="87.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="94.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="111.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="132.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="132.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="106.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
 
 			</rowConstraints>
 			<children>
 				<Label text="Description" />
 				<Label text="Type" GridPane.rowIndex="2" />
-				<TextField fx:id="descriptionTextField"
-					GridPane.columnIndex="1" />
-				<Label fx:id="descriptionError" text="A description is recquired"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" />
-				<Label fx:id="typeError" text="Choose a transaction type"
-					GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<TextField fx:id="descriptionTextField" GridPane.columnIndex="1" />
+				<Label fx:id="descriptionError" text="A description is recquired" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<Label fx:id="typeError" text="Choose a transaction type" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<Label text="Value" GridPane.rowIndex="4" />
-				<Label fx:id="valueError" prefHeight="21.0" prefWidth="268.0"
-					text="Value cannot be zero or empty" GridPane.columnIndex="1"
-					GridPane.rowIndex="5" />
+				<Label fx:id="valueError" prefHeight="21.0" prefWidth="268.0" text="Value cannot be zero or empty" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 				<Label text="Date" GridPane.rowIndex="6" />
-				<Label fx:id="dateError" text="Choose a date "
-					GridPane.columnIndex="1" GridPane.rowIndex="7" />
-				<TextField fx:id="valueTextField" GridPane.columnIndex="1"
-					GridPane.rowIndex="4" />
-				<ComboBox fx:id="typeCombo" GridPane.columnIndex="1"
-					GridPane.rowIndex="2" />
-				<DatePicker fx:id="datePicker" GridPane.columnIndex="1"
-					GridPane.rowIndex="6" />
+				<Label fx:id="dateError" text="Choose a date " GridPane.columnIndex="1" GridPane.rowIndex="7" />
+				<TextField fx:id="valueTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+				<ComboBox fx:id="typeCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 				<Label text="Target" GridPane.rowIndex="8" />
 				<Label text="Category" GridPane.rowIndex="13" />
-				<ComboBox fx:id="targetCombo" GridPane.columnIndex="1"
-					GridPane.rowIndex="8" />
-				<ComboBox fx:id="categoryCombo" GridPane.columnIndex="1"
-					GridPane.rowIndex="13" />
-				<Label fx:id="targetOther" text="Create a new target"
-					GridPane.rowIndex="9" />
-				<TextField fx:id="newTargetIBANTextField" promptText="IBAN"
-					GridPane.columnIndex="1" GridPane.rowIndex="11" />
-				<TextField fx:id="newTargetSummaryTextField" promptText="Target description"
-					GridPane.columnIndex="1" GridPane.rowIndex="9" />
-				<TextField fx:id="newCatgoryTextField" promptText="Name of the new category"
-					GridPane.columnIndex="1" GridPane.rowIndex="14" />
-				<Label fx:id="categoryOther" text="Create a new category"
-					GridPane.rowIndex="14" />
-				<ComboBox fx:id="categoryParentCombo" promptText="Category parent"
-					GridPane.columnIndex="1" GridPane.rowIndex="16" />
-				<Label fx:id="IBANTargetError" text="IBAN must be valid and not already registered"
-					GridPane.columnIndex="1" GridPane.rowIndex="12" />
-				<Label fx:id="descriptionTargetError" text="A description is recquired"
-					GridPane.columnIndex="1" GridPane.rowIndex="10" />
-				<Label fx:id="categoryNameError" text="An unused category name is recquired"
-					GridPane.columnIndex="1" GridPane.rowIndex="15" />
+				<ComboBox fx:id="targetCombo" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+				<ComboBox fx:id="categoryCombo" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+				<Label fx:id="targetOther" text="Create a new target" GridPane.rowIndex="9" />
+				<TextField fx:id="newTargetIBANTextField" promptText="IBAN" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+				<TextField fx:id="newTargetSummaryTextField" promptText="Target description" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+				<TextField fx:id="newCatgoryTextField" promptText="Name of the new category" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+				<Label fx:id="categoryOther" text="Create a new category" GridPane.rowIndex="14" />
+				<ComboBox fx:id="categoryParentCombo" promptText="Category parent" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+				<Label fx:id="IBANTargetError" text="IBAN must be valid and not already registered" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+				<Label fx:id="descriptionTargetError" text="A description is recquired" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+				<Label fx:id="categoryNameError" text="An unused category name is recquired" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+            <CheckBox fx:id="periodicTransactionCheckBox" mnemonicParsing="false" text="Periodic transaction" GridPane.rowIndex="17" />
+            <Label fx:id="effectiveLabel" disable="true" text="Effective date" GridPane.rowIndex="18" />
+            <DatePicker fx:id="effectiveDatePicker" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+            <Label fx:id="endDateLabel" disable="true" text="End date" GridPane.rowIndex="20" />
+            <DatePicker fx:id="endDatePicker" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+            <ComboBox fx:id="frequencyComboBox" disable="true" prefWidth="150.0" promptText="Frequency" GridPane.columnIndex="1" GridPane.rowIndex="22" />
+            <Label fx:id="effectiveDateError" text="The effective date must be chosen" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+            <Label fx:id="endDateError" text="The end date must be chosen" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="21" />
+            <Label fx:id="frequencyError" text="Please choose the frequency" visible="false" GridPane.rowIndex="22" />
 			</children>
 		</GridPane>
-		<Button fx:id="transactionCancel" cancelButton="true" layoutX="41.0"
-			layoutY="213.0" mnemonicParsing="false" onAction="#handleTransactionCancel"
-			text="Cancel" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="41.0" />
-		<Button fx:id="transactionSubmit" layoutX="196.0" layoutY="213.0"
-			mnemonicParsing="false" onAction="#handleTransactionSubmit" text="Submit"
-			AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="31.0" />
+		<Button fx:id="transactionCancel" cancelButton="true" layoutX="26.0" layoutY="681.0" mnemonicParsing="false" onAction="#handleTransactionCancel" text="Cancel" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="26.0" />
+		<Button fx:id="transactionSubmit" layoutX="585.0" layoutY="681.0" mnemonicParsing="false" onAction="#handleTransactionSubmit" text="Submit" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="34.0" />
 	</children>
 </AnchorPane>

@@ -82,6 +82,20 @@ public class Transaction implements Serializable {
 	 * @param value
 	 * @param date
 	 * @param transactionType
+	 */
+	public Transaction(String description, double value, Date date, TransactionType transactionType, Account account) {
+		this.setDescription(description);
+		this.setValue(value);
+		this.setDate(date);
+		this.setTransactionType(transactionType);
+		this.setAccount(account);
+	}
+	
+	/**
+	 * @param description
+	 * @param value
+	 * @param date
+	 * @param transactionType
 	 * @param periodicTransaction
 	 */
 	public Transaction(String description, double value, Date date, TransactionType transactionType, PeriodicTransaction periodicTransaction ) {
@@ -183,7 +197,7 @@ public class Transaction implements Serializable {
 	
 	public String getTextPeriodicTransaction(){
 		if (this.periodicTransaction!=null){
-			return "Yes";
+			return this.periodicTransaction.getFrequency().getUnit();
 		}
 		else{
 			return "nope";
