@@ -417,6 +417,19 @@ public class Account implements Serializable {
 					;
 				}
 			}
+			//TODO to finish
+			else if (entry.getKey() < 0 && balanceHistory.indexOf(entry)+1 < balanceHistory.size()){
+				if (balanceHistory.get(balanceHistory.indexOf(entry)+1).getValue().getDate() <= 15) {
+
+					//keep in memory the previous coef to know the next one 
+					previousCoef = (24 - (entry.getValue().getMonth() * 2));
+				} else {
+
+					//keep in memory the previous coef to know the next one 
+					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
+					;
+				}
+			}
 		}
 
 		return String.format(Locale.US, "%.2f", this.interestTransaction);
@@ -439,7 +452,7 @@ public class Account implements Serializable {
 
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
 		
-
+		//TODO to finish
 		for (Entry<Double, Date> entry : balanceHistory) {
 			
 			if (entry.getKey() < 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
