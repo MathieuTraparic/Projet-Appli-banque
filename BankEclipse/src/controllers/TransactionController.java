@@ -103,11 +103,11 @@ public class TransactionController extends AccountSelector {
 	public void initialize(URL location, ResourceBundle resources) {
 		super.initialize(location, resources);
 
-		balanceLabel.setVisible(false);
-		balanceNumberLabel.setVisible(false);
-		alertLabel.setVisible(false);
+		this.balanceLabel.setVisible(false);
+		this.balanceNumberLabel.setVisible(false);
+		this.alertLabel.setVisible(false);
 		
-		formatter.applyPattern(pattern);
+		this.formatter.applyPattern(pattern);
 		
 		
 		tableTransaction.setItems(FXCollections.observableList(new ArrayList<Transaction>()));
@@ -130,11 +130,11 @@ public class TransactionController extends AccountSelector {
 
 		this.addTransaction.setDisable(true);
 
-		valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+		this.valueCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 
-		typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
-		targetCol.setCellFactory(ComboBoxTableCell.forTableColumn(targetStringList));
-		categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
+		this.typeCol.setCellFactory(ComboBoxTableCell.forTableColumn(typeStringList));
+		this.targetCol.setCellFactory(ComboBoxTableCell.forTableColumn(targetStringList));
+		this.categoryCol.setCellFactory(ComboBoxTableCell.forTableColumn(categoryStringList));
 
 		/*
 		 * AUTHOR :
@@ -142,63 +142,48 @@ public class TransactionController extends AccountSelector {
 		 * tableview/
 		 */
 
-		/*
-		 * There still problem with the DatePickerCell class to fix // in worst
-		 * case, the date picker will be changed to just a string column
-		 */
-		dataTransactionRow = dateCol.getTableView().getItems();
+		this.dataTransactionRow = this.tableTransaction.getItems();
 
-		dateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
 		
-		dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+		this.dateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
 			@Override
 			public TableCell call(TableColumn p) {
 				DatePickerCell datePick = new DatePickerCell(dataTransactionRow);
 				return datePick;
+				
 			}
+			
 		});
-		
-		endDateTransactionRow = endDateCol.getTableView().getItems();
-		
-		endDateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
 
-		endDateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+		this.endDateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
 			@Override
 			public TableCell call(TableColumn d) {
-				DatePickerCell datePick2 = new DatePickerCell(endDateTransactionRow);
+				DatePickerCell datePick2 = new DatePickerCell(dataTransactionRow);
 				return datePick2;
 			}
 		});
 		
-		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
-			editTransaction.setDisable(obschanged == null);
-			removeTransaction.setDisable(obschanged == null);
-
-			// if ( obschanged != null){
-			// String interest =
-			// tableTransaction.getSelectionModel().getSelectedItem().interestTransaction();
-			//
-			// interestLabel.setText(interest);
-			// interestLabel.setVisible(true);
-			// }
+		this.tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
+			this.editTransaction.setDisable(obschanged == null);
+			this.removeTransaction.setDisable(obschanged == null);
 		});
 
-		dateCol.setOnEditCommit(
+		this.dateCol.setOnEditCommit(
 				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
 
-		typeCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
+		this.typeCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
 				.setTransactionType(t.getNewValue()));
 
-		valueCol.setOnEditCommit(
+		this.valueCol.setOnEditCommit(
 				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setValue(t.getNewValue()));
 
-		descriptionCol.setOnEditCommit(
+		this.descriptionCol.setOnEditCommit(
 				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDescription(t.getNewValue()));
 
-		targetCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
+		this.targetCol.setOnEditCommit(t -> t.getTableView().getItems().get(t.getTablePosition().getRow())
 				.setTargetTransaction(t.getNewValue()));
 
-		categoryCol.setOnEditCommit(
+		this.categoryCol.setOnEditCommit(
 				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setCategory(t.getNewValue()));
 
 	}
@@ -222,8 +207,7 @@ public class TransactionController extends AccountSelector {
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
 			this.dataTransactionRow = this.tableTransaction.getItems();
-			this.endDateTransactionRow = this.tableTransaction.getItems();
-
+			
 			Double balance = this.accountCombo.getValue().getBalance();
 
 			balanceNumberLabel.setText(formatter.format(balance));
