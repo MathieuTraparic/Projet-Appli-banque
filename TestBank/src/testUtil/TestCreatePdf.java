@@ -10,7 +10,7 @@ import util.CreatePDF;
 
 public class TestCreatePdf {
 	
-	@Before
+	@Before 
 	public void setUp(){
 		CreatePDF pdfTest = new CreatePDF("name.pdf","iban","bankname", "agencyName",
 					"ownername","C:/Users/Beltharion/Desktop/name.pdf");
