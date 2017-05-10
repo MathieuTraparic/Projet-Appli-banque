@@ -18,9 +18,9 @@ Fonctionnalités implémentés :
 - listeners, callback
 - passage de données entre fenêtres (popup/view)
 - javadoc
-- gestion des intérets 
+- gestion partielle des intérets 
 - gestion des alertes
-- gestion des agios
+- gestion partielle des agios
 - importer des données en CSV (format Banque postale)
 
 Fonctionalités manquantes :
