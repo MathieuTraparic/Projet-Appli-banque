@@ -159,36 +159,16 @@ public class TransactionController extends AccountSelector {
 		});
 		
 		endDateTransactionRow = endDateCol.getTableView().getItems();
-//		
-//		endDateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
-//
-//		endDateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
-//			@Override
-//			public TableCell call(TableColumn d) {
-//				DatePickerCell datePick2 = new DatePickerCell(endDateTransactionRow);
-//				return datePick2;
-//			}
-//		});
 		
-//		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
-//
-//			@Override
-//			public DateCell call(final DatePicker datePicker) {
-//				return new DateCell() {
-//					@Override
-//					public void updateItem(LocalDate item, boolean empty) {
-//						super.updateItem(item, empty);
-//
-//						if (item.isBefore(DateConverter.DateToLocalDate(accountCombo.getValue().getCreationDate()))) {
-//							setDisable(true);
-//							setStyle("-fx-background-color: #ffc0cb;");
-//						}
-//					}
-//				};
-//			}
-//		};
-//		
-//		endDateCol.setDayCellFactory(dayCellFactory);
+		endDateCol.setCellValueFactory(new PropertyValueFactory<Transaction, Date>("date"));
+
+		endDateCol.setCellFactory(new Callback<TableColumn<Transaction, Date>, TableCell<Transaction, Date>>() {
+			@Override
+			public TableCell call(TableColumn d) {
+				DatePickerCell datePick2 = new DatePickerCell(endDateTransactionRow);
+				return datePick2;
+			}
+		});
 		
 		tableTransaction.getSelectionModel().selectedItemProperty().addListener((obs, old, obschanged) -> {
 			editTransaction.setDisable(obschanged == null);
@@ -203,7 +183,6 @@ public class TransactionController extends AccountSelector {
 			// }
 		});
 
-		// Getting the new date value is still problematic
 		dateCol.setOnEditCommit(
 				t -> t.getTableView().getItems().get(t.getTablePosition().getRow()).setDate(t.getNewValue()));
 
@@ -242,6 +221,8 @@ public class TransactionController extends AccountSelector {
 
 			this.tableTransaction
 					.setItems(FXCollections.observableList(this.accountCombo.getValue().getTransactions()));
+			this.dataTransactionRow = this.tableTransaction.getItems();
+			this.endDateTransactionRow = this.tableTransaction.getItems();
 
 			Double balance = this.accountCombo.getValue().getBalance();
 
