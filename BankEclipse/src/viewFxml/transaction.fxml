@@ -57,6 +57,11 @@
 								<PropertyValueFactory property="Category" />
 							</cellValueFactory>
 						</TableColumn>
+						<TableColumn fx:id="endDateCol" editable="true" prefWidth="86.0" text="End date">
+							<cellValueFactory>
+								<PropertyValueFactory property="EndDatePeriodicTransaction" />
+							</cellValueFactory>
+						</TableColumn>
 					</columns>
 				</TableView>
 				<ComboBox fx:id="accountCombo" layoutX="205.0" layoutY="37.0" onAction="#accountCombo" prefHeight="25.0" prefWidth="157.0" promptText="Choose your account" AnchorPane.topAnchor="37.0" />

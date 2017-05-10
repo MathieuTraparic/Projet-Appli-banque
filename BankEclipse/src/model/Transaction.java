@@ -203,6 +203,15 @@ public class Transaction implements Serializable {
 			return "nope";
 		}
 	}
+	
+	public Date getEndDatePeriodicTransaction(){
+		if (this.periodicTransaction!=null){
+			return this.periodicTransaction.getEndDate();
+		}
+		else{
+			return this.getDate();
+		}
+	}
 
 	public void setPeriodicTransaction(PeriodicTransaction periodicTransaction) {
 		if (periodicTransaction != null){
