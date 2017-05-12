@@ -18,9 +18,9 @@ Fonctionnalités implémentés :
 - listeners, callback
 - passage de données entre fenêtres (popup/view)
 - javadoc
-- gestion partielle des intérets 
+- gestion des intérets 
 - gestion des alertes
-- gestion partielle des agios
+- gestion des agios
 - importer des données en CSV (format Banque postale)
 
 Fonctionalités manquantes :
@@ -29,6 +29,7 @@ Fonctionalités manquantes :
 - filtrer les opérations affichés
 - tests et commentaires à étoffer, utilisation de mockups
 - utilisation d'interfaces
+- datepickers dans les tableviews à améliorer
 
 Design pattern à rajouter ?
  
