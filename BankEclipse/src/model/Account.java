@@ -384,52 +384,75 @@ public class Account implements Serializable {
 			 */
 
 	/**
-	 * @return go through the balance history and select if the balance is positive and of the current year, 
-	 * calculate the interest (every 15 days)	
+	 * @return go through the balance history and select if the balance is
+	 *         positive and of the current year, calculate the interest (every
+	 *         15 days)
 	 */
 	public String getInterestAccountPerYear() {
 		double interestRate = this.getInterestRate() / 100;
 
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
-		
+
 		int coef = 0;
-		int previousCoef = 0;
+		int nextCoef = 0;
 
 		this.interestTransaction = 0;
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 
 		for (Entry<Double, Date> entry : balanceHistory) {
+			// initializing the variable because of the if
+			Entry<Double, Date> nextEntry = null;
+
+			// get the next entry
+			if (balanceHistory.indexOf(entry) + 1 < balanceHistory.size()) {
+				nextEntry = balanceHistory.get(balanceHistory.indexOf(entry) + 1);
+			}
+
 			if (entry.getKey() > 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
+
+				if (nextEntry != null && nextEntry.getValue().getYear() == cal.getTime().getYear()) {
+					if (nextEntry.getValue().getDate() <= 15) {
+						nextCoef = (24 - (nextEntry.getValue().getMonth() * 2));
+					} else {
+						nextCoef = (24 - (nextEntry.getValue().getMonth() * 2) - 1);
+					}
+				}
 				if (entry.getValue().getDate() <= 15) {
-					coef = (24 - (entry.getValue().getMonth() * 2)) - previousCoef;
+					coef = (24 - (entry.getValue().getMonth() * 2)) - nextCoef;
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
-					
-					//keep in memory the previous coef to know the next one 
-					previousCoef = (24 - (entry.getValue().getMonth() * 2));
+
 				} else {
-					coef = (24 - (entry.getValue().getMonth() * 2) - 1) - previousCoef;
+					coef = (24 - (entry.getValue().getMonth() * 2) - 1) - nextCoef;
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
-					
-					//keep in memory the previous coef to know the next one 
-					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
-					;
 				}
-			}
-			//TODO to finish
-			else if (entry.getKey() < 0 && balanceHistory.indexOf(entry)+1 < balanceHistory.size()){
-				if (balanceHistory.get(balanceHistory.indexOf(entry)+1).getValue().getDate() <= 15) {
 
-					//keep in memory the previous coef to know the next one 
-					previousCoef = (24 - (entry.getValue().getMonth() * 2));
-				} else {
-
-					//keep in memory the previous coef to know the next one 
-					previousCoef = (24 - (entry.getValue().getMonth() * 2) - 1);
-					;
-				}
 			}
+
+			// if (nextEntry != null && nextEntry.getKey() < 0){
+			//
+			// System.out.println(getDescription() +" the next entry "
+			// +nextEntry);
+			//
+			// if (nextEntry.getValue().getDate() <= 15) {
+			//
+			// coef = (24 - (nextEntry.getValue().getMonth() * 2)) -
+			// previousCoef;
+			// this.interestTransaction += ((entry.getKey()) * interestRate *
+			// coef) / 24;
+			// //keep in memory the previous coef to know the next one
+			// previousCoef = (24 - (nextEntry.getValue().getMonth() * 2));
+			// } else {
+			//
+			// coef = (24 - (nextEntry.getValue().getMonth() * 2)-1) -
+			// previousCoef;
+			// this.interestTransaction += ((entry.getKey()) * interestRate *
+			// coef) / 24;
+			// //keep in memory the previous coef to know the next one
+			// previousCoef = (24 - (nextEntry.getValue().getMonth() * 2));
+			// }
+			// }
 		}
 
 		return String.format(Locale.US, "%.2f", this.interestTransaction);
@@ -437,8 +460,8 @@ public class Account implements Serializable {
 	}
 
 	/**
-	 * @return	go through the balance history and select if the balance is negative
-	 * and of the current year, calculate the agios
+	 * @return go through the balance history and select if the balance is
+	 *         negative and of the current year, calculate the agios
 	 */
 	public String getAgioAccountPerYear() {
 
@@ -451,21 +474,21 @@ public class Account implements Serializable {
 		int numOfDays = cal.getActualMaximum(Calendar.DAY_OF_YEAR);
 
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
-		
-		//TODO to finish
+
+		// TODO to finish
 		for (Entry<Double, Date> entry : balanceHistory) {
-			
+
 			if (entry.getKey() < 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
-				
-				if (balanceHistory.indexOf(entry)+1 < balanceHistory.size()) {
-					//date of the next entry in balanceHistory
+
+				if (balanceHistory.indexOf(entry) + 1 < balanceHistory.size()) {
+					// date of the next entry in balanceHistory
 					Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
-	
-					numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime())/(1000*60*60*24);
+
+					numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime()) / (1000 * 60 * 60 * 24);
 				} else {
-	
-					numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime())/(1000*60*60*24);
-					
+
+					numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime()) / (1000 * 60 * 60 * 24);
+
 				}
 
 				agioTotal += entry.getKey() * agioRate * numOfDayPerAgio;
@@ -473,10 +496,10 @@ public class Account implements Serializable {
 		}
 
 		agioTotal /= numOfDays;
-		
-		//agioTotal as positive number
-		if (agioTotal!=0){
-			agioTotal*=-1;
+
+		// agioTotal as positive number
+		if (agioTotal != 0) {
+			agioTotal *= -1;
 		}
 
 		return String.format(Locale.US, "%.2f", agioTotal);
