@@ -22,6 +22,7 @@ Fonctionnalités implémentés :
 - gestion des alertes
 - gestion des agios
 - importer des données en CSV (format Banque postale)
+- envoie d'email (validation de la création d'un nouveau compte utilisateur)
 
 Fonctionalités manquantes :
 
