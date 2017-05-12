@@ -394,7 +394,7 @@ public class Account implements Serializable {
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
 
 		int coef = 0;
-		int nextCoef = 0;
+		
 
 		this.interestTransaction = 0;
 
@@ -404,7 +404,7 @@ public class Account implements Serializable {
 		for (Entry<Double, Date> entry : balanceHistory) {
 			// initializing the variable because of the if
 			Entry<Double, Date> nextEntry = null;
-
+			int nextCoef = 0;
 			// get the next entry
 			if (balanceHistory.indexOf(entry) + 1 < balanceHistory.size()) {
 				nextEntry = balanceHistory.get(balanceHistory.indexOf(entry) + 1);
@@ -430,29 +430,6 @@ public class Account implements Serializable {
 
 			}
 
-			// if (nextEntry != null && nextEntry.getKey() < 0){
-			//
-			// System.out.println(getDescription() +" the next entry "
-			// +nextEntry);
-			//
-			// if (nextEntry.getValue().getDate() <= 15) {
-			//
-			// coef = (24 - (nextEntry.getValue().getMonth() * 2)) -
-			// previousCoef;
-			// this.interestTransaction += ((entry.getKey()) * interestRate *
-			// coef) / 24;
-			// //keep in memory the previous coef to know the next one
-			// previousCoef = (24 - (nextEntry.getValue().getMonth() * 2));
-			// } else {
-			//
-			// coef = (24 - (nextEntry.getValue().getMonth() * 2)-1) -
-			// previousCoef;
-			// this.interestTransaction += ((entry.getKey()) * interestRate *
-			// coef) / 24;
-			// //keep in memory the previous coef to know the next one
-			// previousCoef = (24 - (nextEntry.getValue().getMonth() * 2));
-			// }
-			// }
 		}
 
 		return String.format(Locale.US, "%.2f", this.interestTransaction);
