@@ -385,8 +385,8 @@ public class Account implements Serializable {
 
 	/**
 	 * @return go through the balance history and select if the balance is
-	 *         positive and of the current year, calculate the interest (every
-	 *         15 days)
+	 *         positive and of the current year, and calculates the interest depending of this positive 
+	 *         balance (every 15 days)
 	 */
 	public String getInterestAccountPerYear() {
 		double interestRate = this.getInterestRate() / 100;
@@ -409,22 +409,31 @@ public class Account implements Serializable {
 			if (balanceHistory.indexOf(entry) + 1 < balanceHistory.size()) {
 				nextEntry = balanceHistory.get(balanceHistory.indexOf(entry) + 1);
 			}
-
+			//test if the balance is positive and of the current year
 			if (entry.getKey() > 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
-
+				//test if the next change of the balance is of the current year
 				if (nextEntry != null && nextEntry.getValue().getYear() == cal.getTime().getYear()) {
 					if (nextEntry.getValue().getDate() <= 15) {
+						//assign the coef of the next balance change to calcul latter the coef 
+						//depending of the time interval between the two balance changes
 						nextCoef = (24 - (nextEntry.getValue().getMonth() * 2));
 					} else {
+						//assign the coef of the next balance change to calcul latter the coef 
+						//depending of the time interval between the two balance changes
 						nextCoef = (24 - (nextEntry.getValue().getMonth() * 2) - 1);
 					}
 				}
 				if (entry.getValue().getDate() <= 15) {
+					//coef depending of the interval time between the two balance changes
 					coef = (24 - (entry.getValue().getMonth() * 2)) - nextCoef;
+					//update the interest total
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
 
 				} else {
+					//coef depending of the interval time between the two balance changes
 					coef = (24 - (entry.getValue().getMonth() * 2) - 1) - nextCoef;
+					//update the interest total
+
 					this.interestTransaction += ((entry.getKey()) * interestRate * coef) / 24;
 				}
 
@@ -445,37 +454,49 @@ public class Account implements Serializable {
 		double agioRate = this.getAgioRate() / 100;
 		double agioTotal = 0;
 		long numOfDayPerAgio = 1;
-
+		
+		//used to now how much agios depending of the actual date and a negative balance
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		int numOfDays = cal.getActualMaximum(Calendar.DAY_OF_YEAR);
 
 		List<Entry<Double, Date>> balanceHistory = getBalanceHistory();
 
-		// TODO to finish
 		for (Entry<Double, Date> entry : balanceHistory) {
-
+			
+			// initializing the variable because of the if
+			Date nextBalanceDate = null;
+			Entry<Double, Date> nextEntry = null;
+			int nextCoef = 0;
+			
+			// get the next entry to calculate the interval time between two balance changes
+			if (balanceHistory.indexOf(entry) + 1 < balanceHistory.size()) {
+				nextEntry = balanceHistory.get(balanceHistory.indexOf(entry) + 1);
+			}
+			//if the balance is negative and of the current year
 			if (entry.getKey() < 0 && entry.getValue().getYear() == cal.getTime().getYear()) {
+				//calculate the time interval with the next balance modification
+				if (nextEntry != null && nextEntry.getValue().getYear() == cal.getTime().getYear()) {
+					nextBalanceDate = nextEntry.getValue();
 
-				if (balanceHistory.indexOf(entry) + 1 < balanceHistory.size()) {
-					// date of the next entry in balanceHistory
-					Date newBalanceDate = balanceHistory.get(balanceHistory.indexOf(entry) + 1).getValue();
-
-					numOfDayPerAgio = (newBalanceDate.getTime() - entry.getValue().getTime()) / (1000 * 60 * 60 * 24);
+					numOfDayPerAgio = (nextBalanceDate.getTime() - entry.getValue().getTime()) / (1000 * 60 * 60 * 24);
+					
+					
 				} else {
-
+					//if the entry is the last balace modification, we calculate if the current date
 					numOfDayPerAgio = (cal.getTimeInMillis() - entry.getValue().getTime()) / (1000 * 60 * 60 * 24);
-
 				}
 
 				agioTotal += entry.getKey() * agioRate * numOfDayPerAgio;
 			}
 		}
 
-		agioTotal /= numOfDays;
-
+		
 		// agioTotal as positive number
 		if (agioTotal != 0) {
+			
+			agioTotal /= numOfDays;
+
 			agioTotal *= -1;
 		}
 
